@@ -1,3 +1,5 @@
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,9 +21,17 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+      name: "Admin", pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}/{name?}");
 
+});
 app.MapControllerRoute(
-    //name: "default",
-    //pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
