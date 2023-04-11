@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Pspcl.DBConnect;
 using Pspcl.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DBConnectionString");
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<PspclDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Add services to the container.
