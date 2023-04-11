@@ -8,6 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>
