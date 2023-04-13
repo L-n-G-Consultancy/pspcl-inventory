@@ -1,6 +1,8 @@
 using Lamar.Microsoft.DependencyInjection;
 using Pspcl.Web.Lamar;
 
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
