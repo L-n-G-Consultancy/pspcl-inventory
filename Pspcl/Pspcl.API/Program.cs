@@ -1,5 +1,7 @@
+using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.VisualBasic;
+using Pspcl.API.Lamar;
 
 namespace Pspcl.API
 {
@@ -9,8 +11,15 @@ namespace Pspcl.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+            builder.Host.UseLamar((context, registry) =>
+            {
+                registry.IncludeRegistry<ApplicationRegistry>();
+                registry.AddControllers();
+            });
+
             // Add services to the container.
-           
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
