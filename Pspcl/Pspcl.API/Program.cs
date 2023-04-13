@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
-
-
+using Microsoft.VisualBasic;
 
 namespace Pspcl.API
 {
@@ -23,7 +22,12 @@ namespace Pspcl.API
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options=>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = string.Empty;
+                    options.DocumentTitle = "My Swagger";
+                });
             }
 
             app.UseHttpsRedirection();
