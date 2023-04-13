@@ -26,7 +26,7 @@ namespace Pspcl.API
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                     options.RoutePrefix = string.Empty;
-                    options.DocumentTitle = "My Swagger";
+                    options.DocumentTitle = "PSPCL API";
                 });
             }
 
