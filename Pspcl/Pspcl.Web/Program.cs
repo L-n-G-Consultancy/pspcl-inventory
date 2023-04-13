@@ -1,3 +1,5 @@
+using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+
 using Microsoft.EntityFrameworkCore;
 using Pspcl.DBConnect;
 using Pspcl.Web;
@@ -29,8 +31,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    //name: "default",
-    //pattern: "{controller=Home}/{action=Index}/{id?}"
-    );
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

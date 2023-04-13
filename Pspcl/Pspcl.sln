@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.Services", "Pspcl.Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.DBConnect", "Pspcl.DBConnect\Pspcl.DBConnect.csproj", "{97219C2D-B6E9-4DEB-BBCB-316E660C0FA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pspcl.API", "Pspcl.API\Pspcl.API.csproj", "{AA4FC790-334A-4855-86F2-4989F227F43C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{97219C2D-B6E9-4DEB-BBCB-316E660C0FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97219C2D-B6E9-4DEB-BBCB-316E660C0FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97219C2D-B6E9-4DEB-BBCB-316E660C0FA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA4FC790-334A-4855-86F2-4989F227F43C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA4FC790-334A-4855-86F2-4989F227F43C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA4FC790-334A-4855-86F2-4989F227F43C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA4FC790-334A-4855-86F2-4989F227F43C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
