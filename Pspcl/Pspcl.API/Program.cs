@@ -1,6 +1,8 @@
 using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using Pspcl.DBConnect;
 using Pspcl.API.Lamar;
 
 namespace Pspcl.API
@@ -17,6 +19,11 @@ namespace Pspcl.API
                 registry.IncludeRegistry<ApplicationRegistry>();
                 registry.AddControllers();
             });
+
+            var connectionString = builder.Configuration.GetConnectionString("DBConnectionString");
+            builder.Services.AddDbContext<PspclDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            builder.Services.AddMvc().AddSessionStateTempDataProvider();
 
             // Add services to the container.
 
@@ -44,7 +51,9 @@ namespace Pspcl.API
             app.UseAuthorization();
 
 
-            app.MapControllers();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

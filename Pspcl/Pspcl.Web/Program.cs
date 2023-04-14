@@ -3,7 +3,15 @@ using Pspcl.Web.Lamar;
 
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 
+using Microsoft.EntityFrameworkCore;
+using Pspcl.DBConnect;
+using Pspcl.Web;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DBConnectionString");
+builder.Services.AddDbContext<PspclDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
