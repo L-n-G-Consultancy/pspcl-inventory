@@ -11,8 +11,6 @@ namespace Pspcl.Models
 {
     public class LoginModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter your username")]
