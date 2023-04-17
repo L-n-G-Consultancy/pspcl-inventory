@@ -11,7 +11,6 @@ namespace Pspcl.Models
 {
     public class LoginModel
     {
-        public int Id { get; set; }
 
         [Required(ErrorMessage = "Please enter your username")]
         [DisplayName("UserName")]
