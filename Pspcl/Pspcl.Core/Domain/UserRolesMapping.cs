@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Pspcl.Core.Domain
 {
-    public class UserRolesMapping
+    public class UserRolesMapping:IdentityUserRole<string>
     {
-        public int Id { get; set; } // Primary key
-        public int UserId { get; set; } // Foreign key to User
-        public int RoleId { get; set; } // Foreign key to Roles
         public User User { get; set; }
-
+        public Role Role { get; set; }
     }
 }

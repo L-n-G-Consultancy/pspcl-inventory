@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pspcl.DBConnect\Pspcl.DBConnect.csproj" />
-    <ProjectReference Include="..\Pspcl.Models\Pspcl.Models.csproj" />
     <ProjectReference Include="..\Pspcl.Web\Pspcl.Web.csproj" />
   </ItemGroup>
 

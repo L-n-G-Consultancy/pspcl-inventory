@@ -21,7 +21,7 @@ namespace Pspcl.API
             });
 
             var connectionString = builder.Configuration.GetConnectionString("DBConnectionString");
-            builder.Services.AddDbContext<PspclDbContext>(options =>
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddMvc().AddSessionStateTempDataProvider();
 

@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Web;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Pspcl.Web.Controllers
 {
-   
     public class AccountController : Controller
     {
         public IActionResult Login()

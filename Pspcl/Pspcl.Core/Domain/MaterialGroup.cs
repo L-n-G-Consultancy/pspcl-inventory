@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Pspcl.Core.Domain
 {
     public class MaterialGroup 
     {
+        [Key]
         public int Id { get; set; } //primary key
 
         public string Name { get; set; }
