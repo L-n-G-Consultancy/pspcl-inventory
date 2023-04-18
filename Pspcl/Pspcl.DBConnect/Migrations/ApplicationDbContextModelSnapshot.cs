@@ -664,6 +664,25 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasDiscriminator().HasValue("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b74ddd14-6340-4840-95c2-db12554843e5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "612ff8cd-701c-4385-af46-eef4d7a5607f",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            PasswordHash = "AQAAAAEAACcQAAAAEPszxuBnGnSZX1vCIVQWpN7Mal/6rLjV8Nw4hfbSEOyEIktRiw4i6ORZI//EaSSIPQ==",
+                            PhoneNumber = "1234567890",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d2db5aac-d799-4a4f-9ced-5c2b0656b743",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@gmail.com",
+                            IsActive = false,
+                            IsDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

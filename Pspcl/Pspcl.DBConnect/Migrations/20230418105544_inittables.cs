@@ -445,6 +445,11 @@ namespace Pspcl.DBConnect.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "Discriminator", "Email", "EmailConfirmed", "IsActive", "IsDeleted", "LastLoginTime", "LockoutEnabled", "LockoutEnd", "ModifiedOn", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "612ff8cd-701c-4385-af46-eef4d7a5607f", null, "User", "admin@gmail.com", false, false, false, null, false, null, null, null, null, "AQAAAAEAACcQAAAAEPszxuBnGnSZX1vCIVQWpN7Mal/6rLjV8Nw4hfbSEOyEIktRiw4i6ORZI//EaSSIPQ==", "1234567890", false, "d2db5aac-d799-4a4f-9ced-5c2b0656b743", false, "admin@gmail.com" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",

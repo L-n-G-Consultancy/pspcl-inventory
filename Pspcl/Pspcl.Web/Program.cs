@@ -3,6 +3,7 @@ using Pspcl.Web.Lamar;
 using Microsoft.EntityFrameworkCore;
 using Pspcl.DBConnect;
 using Pspcl.Core.Domain;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<Role>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+//builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -20,16 +21,6 @@ builder.Host.UseLamar((context, registry) =>
 {
     registry.IncludeRegistry<ApplicationRegistry>();
     registry.AddControllers();
-});
-
-//builder.Services.AddMvc().AddViewOptions(options =>
-//{
-//    options.ViewEngines.Clear();
-//    options.ViewEngines.Add(typeof())
-//});
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Identity/Account/Login";
 });
 
 var app = builder.Build();
@@ -51,21 +42,22 @@ app.UseRouting();
 app.UseAuthentication(); ;
 
 app.UseAuthorization();
+//app.UseEndpoints(endpoints =>
+//{
+//    app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Account}/{action=Login}/{id?}");
+//    endpoints.MapAreaControllerRoute(
+//      name: "Identity",
+//      areaName: "Identity",
+//      pattern: "Identity/{controller=Account}/{action=Login}/{id?}"
+//    );
+//});
 
-app.UseEndpoints(endpoints =>
-{
-    app.MapControllerRoute(
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
-    endpoints.MapAreaControllerRoute(
-      name: "Identity",
-      areaName: "Identity",
-      pattern: "Identity/{controller=Account}/{action=Login}/{id?}"
-    );
-    endpoints.MapRazorPages();
-    endpoints.MapControllers();
-});
 
 
-
+app.MapRazorPages();
 app.Run();

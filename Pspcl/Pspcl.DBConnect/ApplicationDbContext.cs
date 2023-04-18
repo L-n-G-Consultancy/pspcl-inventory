@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Pspcl.Core.Domain;
 
@@ -25,6 +26,32 @@ namespace Pspcl.DBConnect
         public DbSet<SubDivision> SubDivision { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            SeedUsers(builder);
+        }
+
+        private void SeedUsers(ModelBuilder builder)
+        {
+            User user = new User()
+            {
+                Id = "b74ddd14-6340-4840-95c2-db12554843e5",
+                UserName = "admin@gmail.com",
+                Email = "admin@gmail.com",
+                LockoutEnabled = false,
+                PhoneNumber = "1234567890",
+
+            };
+
+            PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
+            user.PasswordHash = passwordHasher.HashPassword(user,"1234567890");
+
+            builder.Entity<User>().HasData(user);
+        }
 
     }
 }
