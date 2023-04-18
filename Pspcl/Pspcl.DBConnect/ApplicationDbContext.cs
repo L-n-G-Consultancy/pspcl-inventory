@@ -44,11 +44,14 @@ namespace Pspcl.DBConnect
                 Email = "admin@gmail.com",
                 LockoutEnabled = false,
                 PhoneNumber = "1234567890",
+                IsActive = true,
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
 
             };
 
             PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
-            user.PasswordHash = passwordHasher.HashPassword(user,"1234567890");
+            user.PasswordHash = passwordHasher.HashPassword(user,"test@123");
 
             builder.Entity<User>().HasData(user);
         }

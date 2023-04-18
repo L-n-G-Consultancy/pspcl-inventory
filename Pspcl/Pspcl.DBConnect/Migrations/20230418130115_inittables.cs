@@ -175,8 +175,8 @@ namespace Pspcl.DBConnect.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -220,8 +220,8 @@ namespace Pspcl.DBConnect.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -448,7 +448,7 @@ namespace Pspcl.DBConnect.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "Discriminator", "Email", "EmailConfirmed", "IsActive", "IsDeleted", "LastLoginTime", "LockoutEnabled", "LockoutEnd", "ModifiedOn", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "612ff8cd-701c-4385-af46-eef4d7a5607f", null, "User", "admin@gmail.com", false, false, false, null, false, null, null, null, null, "AQAAAAEAACcQAAAAEPszxuBnGnSZX1vCIVQWpN7Mal/6rLjV8Nw4hfbSEOyEIktRiw4i6ORZI//EaSSIPQ==", "1234567890", false, "d2db5aac-d799-4a4f-9ced-5c2b0656b743", false, "admin@gmail.com" });
+                values: new object[] { "b74ddd14-6340-4840-95c2-db12554843e5", 0, "a6b800c9-21e5-4441-8bf3-3acec055c342", null, "User", "admin@gmail.com", true, true, false, null, false, null, null, null, null, "AQAAAAEAACcQAAAAEA7YhO8Glyk/F4fWp/fGKbMeHSI7ABx7nWqOY+L0DSi1tCIKJfIjNYURhGrBb7D/cQ==", "1234567890", true, "ba346c83-cbe1-43e5-b716-25e7f5d229a2", false, "admin@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

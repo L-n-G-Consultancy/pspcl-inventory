@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Pspcl.DBConnect;
 using Pspcl.Core.Domain;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +12,13 @@ var connectionString = builder.Configuration.GetConnectionString("DBConnectionSt
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<Role>()
+//builder.Services.AddIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<Role>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddIdentity<User,Role>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 //builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+builder.Services.AddRazorPages();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -42,17 +47,6 @@ app.UseRouting();
 app.UseAuthentication(); ;
 
 app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Account}/{action=Login}/{id?}");
-//    endpoints.MapAreaControllerRoute(
-//      name: "Identity",
-//      areaName: "Identity",
-//      pattern: "Identity/{controller=Account}/{action=Login}/{id?}"
-//    );
-//});
 
 app.MapControllerRoute(
     name: "default",

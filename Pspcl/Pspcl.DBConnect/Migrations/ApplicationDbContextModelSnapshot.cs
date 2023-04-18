@@ -183,12 +183,10 @@ namespace Pspcl.DBConnect.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -225,12 +223,10 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -670,17 +666,17 @@ namespace Pspcl.DBConnect.Migrations
                         {
                             Id = "b74ddd14-6340-4840-95c2-db12554843e5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "612ff8cd-701c-4385-af46-eef4d7a5607f",
+                            ConcurrencyStamp = "a6b800c9-21e5-4441-8bf3-3acec055c342",
                             Email = "admin@gmail.com",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEPszxuBnGnSZX1vCIVQWpN7Mal/6rLjV8Nw4hfbSEOyEIktRiw4i6ORZI//EaSSIPQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA7YhO8Glyk/F4fWp/fGKbMeHSI7ABx7nWqOY+L0DSi1tCIKJfIjNYURhGrBb7D/cQ==",
                             PhoneNumber = "1234567890",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "d2db5aac-d799-4a4f-9ced-5c2b0656b743",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "ba346c83-cbe1-43e5-b716-25e7f5d229a2",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com",
-                            IsActive = false,
+                            IsActive = true,
                             IsDeleted = false
                         });
                 });
