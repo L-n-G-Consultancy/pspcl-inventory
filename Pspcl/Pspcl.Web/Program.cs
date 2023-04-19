@@ -52,10 +52,10 @@ var logger = new LoggerConfiguration()
 Log.Logger = logger;
 builder.Host.UseSerilog();
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/Identity/Account/Login";
-});
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+//    options.LoginPath = "/Account/Login";
+//});
 var app = builder.Build();
 
 
@@ -80,16 +80,15 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=Login}");
+                    pattern: "{controller=Home}/{action=Index}");
 
-    
-    endpoints.MapAreaControllerRoute(
-      name: "Identity",
-      areaName: "Identity",
-      pattern: "Identity/{controller=Account}/{action=Login}/{id?}"
-    );
+    //endpoints.MapFallbackToController(
+    //  pattern: "{controller=Account}/{action=Login}/{returnUrl?}",
+    //  action: "Login",
+    //  controller: "Account"
+    //);
 
-    endpoints.MapRazorPages();
+    //endpoints.MapRazorPages();
     endpoints.MapControllers();
 });
 
