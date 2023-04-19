@@ -25,3 +25,11 @@ body {
 .bg {
     background-color: #e3e4e5;
 }
+
+.right {
+    height: auto;
+}
+
+.right > div {
+    height: 100%;
+}
