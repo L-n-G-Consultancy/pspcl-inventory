@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Pspcl.Core.Domain
 {
     public class Stock
     {
+        [Key]
         public int Id { get; set; } // primary key
         public string TransactionId { get; set; }
         public DateTime? GrnDate { get; set; }

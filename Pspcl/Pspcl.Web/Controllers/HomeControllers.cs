@@ -1,23 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Pspcl.Web.Models;
-using System.Diagnostics;
-using System.Text.Json;
-using RestSharp;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 namespace Pspcl.Web.Controllers
-
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        
-        public HomeController(ILogger<HomeController> logger )
+
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            
         }
-        public IActionResult  Index()
+        public async Task<IActionResult> Index()
         {
-           
+            _logger.LogInformation($"Logged In Success");
             return View();
         }
     }

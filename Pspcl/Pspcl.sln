@@ -5,15 +5,13 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.Web", "Pspcl.Web\Pspcl.Web.csproj", "{D9F6AA1E-70E9-45CE-B6FA-D4C1EE278AB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.Models", "Pspcl.Models\Pspcl.Models.csproj", "{AF46A54D-CF8F-4140-8819-73C06057423C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.Services", "Pspcl.Services\Pspcl.Services.csproj", "{42DC6FD0-DF23-4228-92CD-81334D569FB7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.DBConnect", "Pspcl.DBConnect\Pspcl.DBConnect.csproj", "{97219C2D-B6E9-4DEB-BBCB-316E660C0FA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.API", "Pspcl.API\Pspcl.API.csproj", "{AA4FC790-334A-4855-86F2-4989F227F43C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pspcl.Core", "Pspcl.Core\Pspcl.Core.csproj", "{EA96314E-D2AB-4649-AA5B-1B314D4D6689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pspcl.Core", "Pspcl.Core\Pspcl.Core.csproj", "{EA96314E-D2AB-4649-AA5B-1B314D4D6689}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{D9F6AA1E-70E9-45CE-B6FA-D4C1EE278AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9F6AA1E-70E9-45CE-B6FA-D4C1EE278AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9F6AA1E-70E9-45CE-B6FA-D4C1EE278AB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF46A54D-CF8F-4140-8819-73C06057423C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF46A54D-CF8F-4140-8819-73C06057423C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF46A54D-CF8F-4140-8819-73C06057423C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF46A54D-CF8F-4140-8819-73C06057423C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42DC6FD0-DF23-4228-92CD-81334D569FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42DC6FD0-DF23-4228-92CD-81334D569FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42DC6FD0-DF23-4228-92CD-81334D569FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU

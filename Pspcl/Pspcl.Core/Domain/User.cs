@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Pspcl.Core.Domain
 {
-    public class User
+    public class User : IdentityUser<int>
     {
-        // primary key
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
+        public User()
+        {
+            UserRoles = new List<UserRole>();
+        }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public DateTime? LastLoginTime { get; set; }
         public bool IsDeleted { get; set; }
+
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public virtual ICollection<UserRole> UserRoles { get; set; }
 
     }
 }
