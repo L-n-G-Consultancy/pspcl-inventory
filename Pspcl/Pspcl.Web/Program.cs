@@ -47,7 +47,7 @@ var path = configuration["LogFilePath"];
 var logger = new LoggerConfiguration()
     .ReadFrom
     .Configuration(configuration)
-    .WriteTo.Map("UtcDateTime", DateTime.UtcNow.ToString("yyyyMMddHHmm"), (UtcDateTime, wt) => wt.File($"{configuration["LogFilePath"]}\\log-{UtcDateTime}.log"))
+    .WriteTo.Map("DateTime", DateTime.Now.ToString("ddMMyyyy"), (DateTime, wt) => wt.File($"{configuration["LogFilePath"]}\\Log_{DateTime}.txt"))
     .CreateLogger();
 Log.Logger = logger;
 builder.Host.UseSerilog();
