@@ -7,7 +7,7 @@ namespace Pspcl.Core.Domain
         [Key]
         public int Id { get; set; } // primary key
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -16,7 +16,7 @@ namespace Pspcl.Core.Domain
         public DateTime? CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
-        public SubDivision SubDivision { get; set; }
+        public SubDivision? SubDivision { get; set; }
 
         public int SubDivisionId { get; set; } // Foreign key to SubDivision
 

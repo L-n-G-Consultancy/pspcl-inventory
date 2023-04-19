@@ -1,9 +1,11 @@
 ﻿using Lamar.Microsoft.DependencyInjection;
-using Pspcl.Web.Lamar;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Pspcl.DBConnect;
 using Pspcl.Core.Domain;
-using Microsoft.AspNetCore.Builder;
+using Pspcl.DBConnect;
+using Pspcl.DBConnect.Install;
+using Pspcl.Web.Lamar;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +13,25 @@ var connectionString = builder.Configuration.GetConnectionString("DBConnectionSt
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<Role>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
-// Add services to the container.
+builder.Services.AddIdentity<User, Role>(cfg =>
+{
+    cfg.User.RequireUniqueEmail = true;
+    cfg.Password.RequiredUniqueChars = 0;
+    cfg.Password.RequireNonAlphanumeric = false;
+    cfg.Password.RequireDigit = false;
+    cfg.Password.RequireLowercase = false;
+    cfg.Password.RequireUppercase = false;
+    cfg.Password.RequiredLength = 4;
+    cfg.Password.RequireUppercase = false;
+}).AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+
+builder.Services.AddMvc(options =>
+{
+    options.EnableEndpointRouting = true;
+}).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 builder.Host.UseLamar((context, registry) =>
 {
@@ -23,6 +39,23 @@ builder.Host.UseLamar((context, registry) =>
     registry.AddControllers();
 });
 
+var configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+var path = configuration["LogFilePath"];
+var logger = new LoggerConfiguration()
+    .ReadFrom
+    .Configuration(configuration)
+    .WriteTo.Map("UtcDateTime", DateTime.UtcNow.ToString("yyyyMMddHHmm"), (UtcDateTime, wt) => wt.File($"{configuration["LogFilePath"]}\\log-{UtcDateTime}.log"))
+    .CreateLogger();
+Log.Logger = logger;
+builder.Host.UseSerilog();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+});
 var app = builder.Build();
 
 
@@ -39,25 +72,25 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication(); ;
-
+app.UseAuthentication();
+app.Services.GetService<IDbInitializer>().Initialize().Wait();
 app.UseAuthorization();
-//app.UseEndpoints(endpoints =>
-//{
-//    app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Account}/{action=Login}/{id?}");
-//    endpoints.MapAreaControllerRoute(
-//      name: "Identity",
-//      areaName: "Identity",
-//      pattern: "Identity/{controller=Account}/{action=Login}/{id?}"
-//    );
-//});
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Account}/{action=Login}");
 
+    
+    endpoints.MapAreaControllerRoute(
+      name: "Identity",
+      areaName: "Identity",
+      pattern: "Identity/{controller=Account}/{action=Login}/{id?}"
+    );
 
-app.MapRazorPages();
+    endpoints.MapRazorPages();
+    endpoints.MapControllers();
+});
+
 app.Run();
