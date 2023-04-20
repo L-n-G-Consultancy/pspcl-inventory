@@ -6,8 +6,9 @@ namespace Pspcl.Models
     public class LoginModel
     {
 
-        [Required(ErrorMessage = "Please enter your username")]
+        [Required(ErrorMessage = "Please enter your username" )]
         [DisplayName("UserName")]
+        
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Please enter your password")]

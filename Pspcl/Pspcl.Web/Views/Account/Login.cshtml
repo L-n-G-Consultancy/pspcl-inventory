@@ -5,7 +5,7 @@
 <div class="container">
     <form class="rounded-3 pt-5 pb-5" asp-action="Login" asp-controller="Account" method="post">
         @Html.AntiForgeryToken()
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"  ></div>
         <div class="row d-flex justify-content-center ">
             <div class="col-md-8 col-lg-7 ">
                 <div class="card d-flex justify-content-center p-5 rounded-3 bg">
@@ -17,12 +17,13 @@
                     <div class="form-group input-group-lg mt-3">
                         <label asp-for="UserName" class="mb-2"><strong>Username</strong> </label>
                         <input asp-for="UserName" placeholder="Enter Username" class="form-control" />
-                        <span asp-validation-for="UserName"></span>
+                        <span asp-validation-for="UserName" class="text-danger fs-6"></span>
                     </div>
                     <div class="form-group input-group-lg mt-4 pb-5">
                         <label asp-for="Password" class="mb-2"><strong>Password</strong> </label>
-                        <input type="password" asp-for="Password" placeholder="Enter Password" class="form-control" />
-                        <span asp-validation-for="Password"></span>
+                        <input type="password" asp-for="Password" placeholder="Enter Password" class="form-control"  />
+                        <span asp-validation-for="Password" class="text-danger fs-6" ></span>
+                        
                     </div>
                     <div class="d-grid gap-2 mt-5">
                         <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
