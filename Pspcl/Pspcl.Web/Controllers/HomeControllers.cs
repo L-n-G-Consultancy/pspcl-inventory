@@ -19,5 +19,10 @@ namespace Pspcl.Web.Controllers
             _logger.LogInformation($"Logged In Success");
             return View();
         }
+
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
     }
 }

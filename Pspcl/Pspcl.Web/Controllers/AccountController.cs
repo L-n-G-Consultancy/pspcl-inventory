@@ -53,7 +53,7 @@ namespace Pspcl.Web.Controllers
                     await _userManager.UpdateAsync(user);
 
                     _logger.LogInformation($"User '{user.Email}' logged in.");
-                    return RedirectToAction("Index", "Dashboard");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
