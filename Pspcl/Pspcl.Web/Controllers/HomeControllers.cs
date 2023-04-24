@@ -14,10 +14,13 @@ namespace Pspcl.Web.Controllers
         {
             _logger = logger;
         }
+
+        //Dashboard View Binding
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation($"Logged In Success");
             return View();
         }
+
     }
 }
