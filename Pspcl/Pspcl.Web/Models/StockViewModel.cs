@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 
 namespace Pspcl.Web.Models
 {
-    public class AddStockModel
+    public class StockViewModel
     {
-        public AddStockModel()
+        public StockViewModel()
         {
             AvailableMaterialGroups = new List<SelectListItem>();
             AvailableMaterialTypes = new List<SelectListItem>();
             AvailableRatings = new List<SelectListItem>();
             AvailableMaterialCodes = new List<SelectListItem>();
         }
+        [DisplayName("Grn Date")]
         public DateTime? GrnDate { get; set; }
         public long GrnNumber { get; set; }
         public String TestReportReference { get; set; }
