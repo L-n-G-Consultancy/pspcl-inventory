@@ -16,6 +16,6 @@ namespace Pspcl.Core.Domain
 
         public DateTime? ModifiedOn { get; set; }
 
-        public int Rating { get; set; }
+        public int Rating { get; set; } 
     }
 }
