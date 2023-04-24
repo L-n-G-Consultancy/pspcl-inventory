@@ -67,11 +67,6 @@
     <None Include="wwwroot\fonts\fontawesome\fa-regular-400.woff2" />
     <None Include="wwwroot\fonts\fontawesome\fa-solid-900.svg" />
     <None Include="wwwroot\fonts\fontawesome\fa-solid-900.woff2" />
-    <None Include="wwwroot\login-bg.jpg" />
-    <None Include="wwwroot\login.png" />
-    <None Include="wwwroot\logo.png" />
-    <None Include="wwwroot\my-profile-pic1.jpg" />
-    <None Include="wwwroot\transparent-logo.png" />
   </ItemGroup>
 
 </Project>
