@@ -1,5 +1,205 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_TwoColumn.cshtml";
 }
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-md-12 ">
+                    <!-- <div class="hld-left m-0 mt-md-3"> -->
+                    <div class="m-0 mt-md-3">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                <h1 class="heading text-uppercase">Electricity Meter Management</h1>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <h2 class="h2-heading">Stock Preview</h2>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                    </div>
+                                </div>
+
+
+                                <form class="mt-4">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="txnId">Txn Id</label>
+                                            <input type="text" readOnly class="form-control" value="TXN123456">
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputState">Material Group</label>
+                                            <input type="text" readOnly class="form-control" value="MTC12547100023321211240">
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="date">Select GRN Date</label>
+                                            <input type="text" readOnly class="form-control" value="INV-1254412">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputState">Material Type</label>
+                                            <input type="text" readOnly class="form-control" value="SN:1254145214455">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="date">GRN No</label>
+                                            <input type="text" readOnly class="form-control" value="Copper Meter">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Rating</label>
+                                            <input type="text" readOnly class="form-control" value="10">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Test Report Reference</label>
+                                            <input type="text" readOnly class="form-control" value="G776578777yf98f9f99">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Make</label>
+                                            <input type="text" readOnly class="form-control" value="Rs. 18000/Unit">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Invoice Date</label>
+                                            <input type="text" readOnly class="form-control" value="Copper">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Rate</label>
+                                            <input type="text" readOnly class="form-control" value="23/03/2023">
+
+                                            <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Invoice No.</label>
+                                            <input type="text" readOnly class="form-control" value="Huawei">
+                                            <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Prefix-Qty S.No.</label>
+                                            <input type="text" readOnly class="form-control" value="TRN908876789">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="">Material code</label>
+                                            <input type="text" readOnly class="form-control" value="SNT: 001254175852212">
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </form>
+
+                                <div class="mt-3 mb-5 border-black-top pt-4">
+                                    <table class="table table-responsive custom-table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">Sr. No From</th>
+                                                <th scope="col">Sr. No To</th>
+                                                <th scope="col">QTY</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2000</td>
+                                                <td>2050</td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2000</td>
+                                                <td>2050</td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2000</td>
+                                                <td>2050</td>
+                                                <td>50</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2000</td>
+                                                <td>2050</td>
+                                                <td>50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-sm">Save</button>
+                                        <button type="button" class="btn btn btn-outline-dark px-4 mt-3">Modify</button>
+                                    </div>
+
+
+                                    <!-- Modal-->
+
+                                    <div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-sm-6">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="mySmallModalLabel"></h5>
+                                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <p class="mx-auto my-5 font-weight-normal">
+                                                    Stock Saved Successfully!
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

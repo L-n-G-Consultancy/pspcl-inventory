@@ -4,7 +4,7 @@ namespace Pspcl.Web.Controllers
 {
 	public class PreviewController : Controller
 	{
-		public IActionResult Index()
+		public IActionResult Preview()
 		{
 			return View();
 		}
