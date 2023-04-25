@@ -12,8 +12,10 @@ namespace Pspcl.Web.Models
             AvailableRatings = new List<SelectListItem>();
             AvailableMaterialCodes = new List<SelectListItem>();
         }
-        [DisplayName("Grn Date")]
+       
         public DateTime? GrnDate { get; set; }
+
+  
         public long GrnNumber { get; set; }
         public String TestReportReference { get; set; }
         public DateTime? InvoiceDate { get; set; }
@@ -28,6 +30,10 @@ namespace Pspcl.Web.Models
         public int SelectedRatingId { get; set; }
         public decimal EnterRate { get; set; }
         public string PrefixNumber { get; set; }
+
+        public int SerialNumberFrom { get; set; }
+        public int SerialNumberTo { get; set; }
+        public int Quantity { get; set; }
         
 
     }
