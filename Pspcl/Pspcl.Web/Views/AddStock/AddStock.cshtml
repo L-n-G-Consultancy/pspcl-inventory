@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
-
+@model Pspcl.Web.Models.AddStockModel
 <div class="main-content">
 	<div class="page-content">
 		<div class="container-fluid">
@@ -36,10 +36,7 @@
 
 										<div class="form-group col-md-6">
 											<label for="inputState">Material Group</label>
-											<select id="inputState" class="form-control">
-												<option selected>Material Group</option>
-												<option>...</option>
-											</select>
+											@Html.DropDownListFor(model => model.MaterialGroups,ViewBag.MaterialGroup as SelectList,"--Select Material Group--",new {@class="form-control"})
 											<div class="valid-feedback">
 												Looks good!
 											</div>
@@ -55,10 +52,7 @@
 
 										<div class="form-group col-md-6">
 											<label for="inputState">Material Type</label>
-											<select id="inputState" class="form-control">
-												<option selected>Material Type</option>
-												<option>...</option>
-											</select>
+											@Html.DropDownListFor(model => model.MaterialTypes,ViewBag.MaterialType as SelectList,"--Select Material Type--",new {@class="form-control"})
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>

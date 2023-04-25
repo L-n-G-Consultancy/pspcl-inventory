@@ -5,7 +5,7 @@ namespace Pspcl.Core.Domain
     public class MaterialType
     {
         [Key]
-        public int Id { get; set; } // primary key
+        public int Id { get; set; } //primary key
         public string Name { get; set; }
 
         public bool IsActive { get; set; }
