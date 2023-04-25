@@ -22,5 +22,10 @@ namespace Pspcl.DBConnect.Install
         /// </summary>
         /// <returns></returns>
         Task<User> CreateDefaultAdminUser();
+
+        //for Seeding MasterData?
+        Task CreateDefaultMaterialGroup();
+        Task CreateDefaultMaterialType();
+
     }
 }
