@@ -16,19 +16,3 @@ html {
 body {
   margin-bottom: 60px;
 }
-
-#electricMeter {
-    height: 400px;
-    width: 400px;
-}
-
-.bg {
-    background-color: #e3e4e5;
-}
-.right {
-    height: auto;
-}
-
-.right > div {
-    height: 100%;
-}
