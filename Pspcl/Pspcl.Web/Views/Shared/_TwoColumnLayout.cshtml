@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!DOCTYPE html>
+<html>
 
 <head>
-    <title>@ViewData["Title"] - Login</title>
+    <title>@ViewData["Title"]</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
@@ -31,39 +32,34 @@
 
 </head>
 
-<body class="login-body">
+<body class="">
 
     <!-- HTML Start -->
-    <div>
-        <section>
-            <div class="container">
-                <div class="mx-auto ">
-                    <div class=" mt-5 mb-4 text-center">
-                        <a class="navbar-brand" href="#">
-                            <img src="~/images/transparent-logo.png" alt="Punjab State Power Corporation Limited" height="54">
-                        </a>
-                        <div class="company-title1 font-weight-bold">
-                            Punjab State Power Corporation Limited
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 mx-3 p-5 rounded form-background">
-                            <div class="mb-3">
-                                <h3>Login</h3>
-                            </div>
-                            @RenderBody()
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div id="layout-wrapper">
+
+        <header id="page-topbar">
+            <!-- Navbar partial view -->
+            @Html.Partial("_Navbar")
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        @Html.Partial("_LeftSidebar")
+        <!-- Left Sidebar End -->
+
+        @RenderBody()
+
+
+        <!-- Footer partial view -->
+        @Html.Partial("_Footer")
+
     </div>
+
     <!-- JS Start -->
-    <script src="js/main.min.js"></script>
-    <script src="js/simplebar.min.js"></script>
-    <script src="js/metisMenu.min.js"></script>
-    <script src="js/common.ui.js"></script>
-    <!-- Footable JS Start-->
+    <script src="~/js/main.min.js"></script>
+    <script src="~/js/simplebar.min.js"></script>
+    <script src="~/js/metisMenu.min.js"></script>
+    <script src="~/js/common.ui.js"></script>
+
     <!-- JS End -->
 </body>
 
