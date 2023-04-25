@@ -1,6 +1,7 @@
 ﻿using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.DBConnect.Install;
@@ -70,6 +71,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(
+//        Path.Combine(Directory.GetCurrentDirectory(), "images")),
+//    RequestPath = "/images"
+//});
 
 app.UseRouting();
 app.UseAuthentication();

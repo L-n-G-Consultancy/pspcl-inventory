@@ -1,20 +1,43 @@
-﻿<div class="main-content">
-    <div class="page-content">
-        <div class="container-fluid">
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-md-12 ">
-                    <!-- <div class="hld-left m-0 mt-md-3"> -->
-                    <div class="m-0 mt-md-3">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12">
-                                <h1 class="heading text-uppercase">Electricity Meter Management</h1>
-                                <h2 class="h2-heading">Welcome, User</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+﻿<div class="navbar-header">
+    <div class="d-flex">
+        <!-- Hamburger  menu-->
+        <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect"
+                id="vertical-menu-btn">
+            <i class="fa fa-fw fa-bars"></i>
+        </button>
+        <!-- Logo -->
+        <div class="navbar-brand-box">
+            <a href="#" class="logo">
+                <span>
+                    <img src="~/images/logo.png" alt="Punjab State Power Corporation Limited" height="54">
+                </span>
+            </a>
         </div>
     </div>
+
+    <div class="d-flex heading-right-hld">
+        <!-- Company Title Start-->
+        <div class="company-title">
+            Punjab State Power Corporation Limited
+        </div>
+        <!-- Company Title End-->
+        <!-- My Profile Hld Start-->
+        <div class="dropdown  ml-2 ml-md-3">
+            <button type="button" class="btn header-item dropdown-toggle profile-dd" id="dropdownMyProfile"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="rounded-circle header-profile-user" src="~/images/profile-user.png"
+                     alt="Header Avatar">
+                <span class="d-none d-sm-inline-block ms-1">Manpreet</span>
+                <i class="fas fa-angle-down d-none d-sm-inline-block"></i>
+            </button>
+
+            <div class="dropdown-menu dropdown-menu-end profile-ddmenu" aria-labelledby="dropdownMyProfile">
+                <!-- item-->
+                <a class="dropdown-item" href="#"><span>Profile</span></a>
+                <a class="dropdown-item" href="#"><span>Logout</span></a>
+            </div>
+        </div>
+        <!-- My Profile Hld End-->
+    </div>
+
 </div>
