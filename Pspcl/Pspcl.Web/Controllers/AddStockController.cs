@@ -18,7 +18,8 @@ namespace Pspcl.Web.Controllers
 		{
 			var materialGroup = _dbcontext.MaterialGroup.ToList();
 			var materialType = _dbcontext.MaterialType.ToList();
-			ViewBag.materialType = new SelectList(materialType,"Id","Name");
+			ViewBag.materialType = new SelectList(materialType, "Id", "Name");
+			ViewBag.rating=new SelectList(materialType,"Id","Rating");
 			ViewBag.materialGroup = new SelectList(materialGroup,"Id","Name");
 			return View();
 		}

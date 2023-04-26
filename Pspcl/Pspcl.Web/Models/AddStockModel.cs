@@ -6,5 +6,6 @@ namespace Pspcl.Web.Models
 	{
 		public List<MaterialGroup> MaterialGroups { get; set; }
 		public List<MaterialType> MaterialTypes { get; set; }
+
 	}
 }

@@ -69,10 +69,7 @@
 
 										<div class="form-group col-md-6">
 											<label for="">Rating</label>
-											<select id="inputState" class="form-control">
-												<option selected>Select Rating</option>
-												<option>...</option>
-											</select>
+											@Html.DropDownListFor(model => model.MaterialTypes,ViewBag.Rating as SelectList,"--Select Rating--",new {@class="form-control"})
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
