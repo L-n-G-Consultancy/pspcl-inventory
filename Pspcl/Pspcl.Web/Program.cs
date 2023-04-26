@@ -1,4 +1,4 @@
-﻿using Lamar.Microsoft.DependencyInjection;
+﻿ using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -6,6 +6,7 @@ using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.DBConnect.Install;
 using Pspcl.Web.Lamar;
+using Pspcl.Web.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +29,6 @@ builder.Services.AddIdentity<User, Role>(cfg =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
-
 builder.Services.AddMvc(options =>
 {
     options.EnableEndpointRouting = true;

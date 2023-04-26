@@ -17,7 +17,7 @@ namespace Pspcl.DBConnect
         public DbSet<Material> Material { get; set; }
         public DbSet<MaterialGroup> MaterialGroup { get; set; }
         public DbSet<MaterialType> MaterialType { get; set; }
-        public DbSet<Stock> Stock { get; set; }
+        public DbSet<Entity> Stock { get; set; }
         public DbSet<StockBookMaterial> StockBookMaterial { get; set; }
         public DbSet<StockIssueBook> StockIssueBook { get; set; }
         public DbSet<StockMaterial> StockMaterial { get; set; }
@@ -72,7 +72,7 @@ namespace Pspcl.DBConnect
                 b.ToTable("User_Role_Mapping");
             });
 
-            builder.Entity<Stock>(b =>
+            builder.Entity<Entity>(b =>
             {
                 b.ToTable("Stock");
 

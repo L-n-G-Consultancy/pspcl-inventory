@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Areas\**" />
+    <Compile Remove="Helpers\**" />
     <Content Remove="Areas\**" />
+    <Content Remove="Helpers\**" />
     <EmbeddedResource Remove="Areas\**" />
+    <EmbeddedResource Remove="Helpers\**" />
     <None Remove="Areas\**" />
+    <None Remove="Helpers\**" />
   </ItemGroup>
 
   <ItemGroup>
