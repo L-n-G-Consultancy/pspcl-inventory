@@ -8,12 +8,25 @@
 
   <ItemGroup>
     <Compile Remove="Areas\**" />
+    <Compile Remove="Helpers\**" />
+    <Compile Remove="MapperService\**" />
     <Content Remove="Areas\**" />
+    <Content Remove="Helpers\**" />
+    <Content Remove="MapperService\**" />
     <EmbeddedResource Remove="Areas\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <EmbeddedResource Remove="MapperService\**" />
     <None Remove="Areas\**" />
+    <None Remove="Helpers\**" />
+    <None Remove="MapperService\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="libman.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
