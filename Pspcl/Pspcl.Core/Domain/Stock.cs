@@ -2,7 +2,7 @@
 
 namespace Pspcl.Core.Domain
 {
-    public class Entity
+    public class Stock
     {
         [Key]
         public int Id { get; set; } // primary key

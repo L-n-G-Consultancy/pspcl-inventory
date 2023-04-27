@@ -5,7 +5,10 @@ using Microsoft.Extensions.FileProviders;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.DBConnect.Install;
+using Pspcl.Services;
 using Pspcl.Web.Lamar;
+using Pspcl.Web.MapperService;
+using Pspcl.Web.Mapping;
 using Pspcl.Web.Models;
 using Serilog;
 
@@ -29,6 +32,9 @@ builder.Services.AddIdentity<User, Role>(cfg =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(cfg=>cfg.AddProfile<StockMappingProfilecs>());
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+
 builder.Services.AddMvc(options =>
 {
     options.EnableEndpointRouting = true;

@@ -7,6 +7,8 @@ namespace Pspcl.DBConnect
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
+        
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -17,7 +19,7 @@ namespace Pspcl.DBConnect
         public DbSet<Material> Material { get; set; }
         public DbSet<MaterialGroup> MaterialGroup { get; set; }
         public DbSet<MaterialType> MaterialType { get; set; }
-        public DbSet<Entity> Stock { get; set; }
+        public DbSet<Stock> Stock { get; set; }
         public DbSet<StockBookMaterial> StockBookMaterial { get; set; }
         public DbSet<StockIssueBook> StockIssueBook { get; set; }
         public DbSet<StockMaterial> StockMaterial { get; set; }
@@ -72,7 +74,7 @@ namespace Pspcl.DBConnect
                 b.ToTable("User_Role_Mapping");
             });
 
-            builder.Entity<Entity>(b =>
+            builder.Entity<Stock>(b =>
             {
                 b.ToTable("Stock");
 

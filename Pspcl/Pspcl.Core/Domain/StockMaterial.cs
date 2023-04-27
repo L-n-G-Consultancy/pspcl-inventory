@@ -13,7 +13,7 @@ namespace Pspcl.Core.Domain
         public int Quantity { get; set; }
         public int SerialNumberFrom { get; set; }
         public int SerialNumberTo { get; set; }
-        public Entity Stock { get; set; }
+        public  Stock Stock { get; set; }
         public int StockId { get; set; } // Foreign key
         public int DisplayOrder { get; set; }
     }
