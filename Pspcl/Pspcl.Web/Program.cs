@@ -33,7 +33,7 @@ builder.Services.AddIdentity<User, Role>(cfg =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(cfg=>cfg.AddProfile<StockMappingProfilecs>());
-builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
 
 builder.Services.AddMvc(options =>
 {

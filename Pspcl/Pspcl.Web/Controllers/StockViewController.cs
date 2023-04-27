@@ -12,19 +12,14 @@ namespace Pspcl.Web.Controllers
     public class StockViewController: Controller
     {
         
-        private readonly StockMappingservice _stockMappingService;
-
-        public StockViewController(StockMappingservice stockMappingServices)
-        {
-           
-            _stockMappingService = stockMappingServices;
-
-        }
+        private readonly IStockService _stockService;
+        private readonly IMapper _mapper;
+        
         [HttpGet]
         public IActionResult AddStock ()
         {
-           var models= _stockMappingService.GetAll();
-            return View(models);
+         
+            return View("~/Views/StockView/AddStock.cshtml");
         }
 
 

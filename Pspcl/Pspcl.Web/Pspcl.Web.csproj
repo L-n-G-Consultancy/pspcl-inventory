@@ -9,12 +9,20 @@
   <ItemGroup>
     <Compile Remove="Areas\**" />
     <Compile Remove="Helpers\**" />
+    <Compile Remove="MapperService\**" />
     <Content Remove="Areas\**" />
     <Content Remove="Helpers\**" />
+    <Content Remove="MapperService\**" />
     <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Helpers\**" />
+    <EmbeddedResource Remove="MapperService\**" />
     <None Remove="Areas\**" />
     <None Remove="Helpers\**" />
+    <None Remove="MapperService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="libman.json" />
   </ItemGroup>
 
   <ItemGroup>
