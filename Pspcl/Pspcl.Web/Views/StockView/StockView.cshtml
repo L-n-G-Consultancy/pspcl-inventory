@@ -5,10 +5,8 @@
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
-            <!-- start page title -->
             <div class="row">
                 <div class="col-md-12 ">
-                    <!-- <div class="hld-left m-0 mt-md-3"> -->
                     <div class="m-0 mt-md-3">
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
@@ -201,7 +199,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript">
+<script>
+
 
     $(document).on('input', '.from-input, .to-input', calculateQty);
 
@@ -269,12 +268,13 @@
             $("#materialTypeId").empty();
             if (materialGroupId) {
                 $.ajax({
-                    url: "/AddStock/getMaterialTypes",
+                    url: "/StockView/getMaterialTypes",
                     type: "GET",
                     data: { materialGroupId: materialGroupId },
                     success: function (result) {
                         $("#materialTypeId").append($('<option>').text("--Select material Type--").val(""));
                         $.each(result, function (i, response) {
+                            console.log(response);
                             $("#materialTypeId").append($('<option>').text(response.text).val(response.value));
                         });
                     }
@@ -292,7 +292,7 @@
             $("#ratingId").empty();
             if (materialTypeId) {
                 $.ajax({
-                    url: "/AddStock/GetRating",
+                    url: "/StockView/GetRating",
                     type: "GET",
                     data: { materialTypeId: materialTypeId },
                     success: function (result) {
@@ -308,4 +308,6 @@
             }
         });
     });
+
+    
 </script>

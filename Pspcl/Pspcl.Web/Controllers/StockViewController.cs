@@ -1,19 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Pspcl.Services.Interfaces;
 using Pspcl.Web.Models;
 
 namespace Pspcl.Web.Controllers
 {
-	public class AddStockController : Controller
+	public class StockViewController : Controller
 	{
 		private readonly IStockService _StockService;
-		public AddStockController(IStockService addStockService)
+        private readonly IMapper _mapper;
+        public StockViewController(IStockService addStockService)
 		{
 			_StockService = addStockService;
 		}
 
-		public IActionResult AddStock()
+		public IActionResult StockView()
 		{
 			var materialGroup = _StockService.GetAllMaterialGroups();
 			StockViewModel viewModel = new StockViewModel();

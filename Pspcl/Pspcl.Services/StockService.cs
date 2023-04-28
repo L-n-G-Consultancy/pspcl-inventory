@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
@@ -33,7 +33,7 @@ namespace Pspcl.Services
 
 
 
-        public List<MaterialType> GetAllMaterialTypes(int? materialGroupId, bool? onlyActive=false)
+        public List<MaterialType> GetAllMaterialTypes(int? materialGroupId, bool? onlyActive = false)
         {
             List<MaterialType> materialTypes = null;
             if (!materialGroupId.HasValue && !onlyActive.HasValue)
@@ -41,6 +41,7 @@ namespace Pspcl.Services
                 materialTypes = _dbcontext.MaterialType.ToList();
             }
             else if (!onlyActive.HasValue && materialGroupId.HasValue)
+
             {
                 materialTypes = _dbcontext.MaterialType.Where(x => x.MaterialGroupId == materialGroupId).ToList();
             }
@@ -61,7 +62,7 @@ namespace Pspcl.Services
 
 
 
-        public List<MaterialType> GetAllMaterialRatings(int? materialTypeId, bool? onlyActive=false)
+        public List<MaterialType> GetAllMaterialRatings(int? materialTypeId, bool? onlyActive = false)
         {
             List<MaterialType> materialTypes = null;
             if (!materialTypeId.HasValue && !onlyActive.HasValue)
