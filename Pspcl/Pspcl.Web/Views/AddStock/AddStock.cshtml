@@ -45,7 +45,6 @@
                                                 }
                                             </select>
 
-                                            @*@Html.DropDownListFor(model => model.SelectedMaterialGroupId, Model.AvailableMaterialGroups,"--Select Material Group--",new {@class="form-control", onchange = "getMaterialType();" })*@
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -69,7 +68,6 @@
 
                                                 }
                                             </select>
-                                            @*@Html.DropDownListFor(model => model.SelectedMaterialTypeId,Model.AvailableMaterialTypes,"--Select Material Type--",new {@class="form-control"})*@
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
@@ -94,7 +92,6 @@
 
                                                 }
                                             </select>
-                                            @*@Html.DropDownListFor(model => model.SelectedRatingId,ViewBag.Rating as SelectList,"--Select Rating--",new {@class="form-control"})*@
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
@@ -266,21 +263,19 @@
     }
 
 
-</script>
-<script>
     $(function () {
         $("#materialGroupId").on("change", function () {
             var materialGroupId = $(this).val();
             $("#materialTypeId").empty();
             if (materialGroupId) {
                 $.ajax({
-                    url: "/AddStock/GetResult",
+                    url: "/AddStock/getMaterialTypes",
                     type: "GET",
                     data: { materialGroupId: materialGroupId },
                     success: function (result) {
                         $("#materialTypeId").append($('<option>').text("--Select material Type--").val(""));
-                        $.each(result, function (i, city) {
-                            $("#materialTypeId").append($('<option>').text(city.text).val(city.value));
+                        $.each(result, function (i, response) {
+                            $("#materialTypeId").append($('<option>').text(response.text).val(response.value));
                         });
                     }
                 });
@@ -290,8 +285,7 @@
             }
         });
     });
-</script>
-<script>
+
     $(function () {
         $("#materialTypeId").on("change", function () {
             var materialTypeId = $(this).val();
@@ -303,9 +297,8 @@
                     data: { materialTypeId: materialTypeId },
                     success: function (result) {
                         $("#ratingId").append($('<option>').text("--Select Rating--").val(""));
-                        $.each(result, function (i, city) {
-                            console.log(city);
-                            $("#ratingId").append($('<option>').text(city.text).val(city.Value));
+                        $.each(result, function (i, response) {
+                            $("#ratingId").append($('<option>').text(response.text).val(response.Value));
                         });
                     }
                 });
@@ -316,11 +309,3 @@
         });
     });
 </script>
-
-
-
-
-
-
-
-

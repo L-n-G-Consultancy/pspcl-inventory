@@ -15,17 +15,16 @@ namespace Pspcl.Web.Controllers
 
 		public IActionResult AddStock()
 		{
-			var materialGroup = _StockService.GetAllMaterialGroups(true);
-			//var rating = _StockService.GetAllMaterialRatings(null,null, true);
+			var materialGroup = _StockService.GetAllMaterialGroups();
 			StockViewModel viewModel = new StockViewModel();
 			viewModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 			return View(viewModel);
 		}
 
-		public JsonResult getResult(int materialGroupId)
+		public JsonResult getMaterialTypes(int materialGroupId)
 		{
 			StockViewModel viewModel = new StockViewModel();
-			var materialType = _StockService.GetAllMaterialTypes(materialGroupId, true);
+			var materialType = _StockService.GetAllMaterialTypes(materialGroupId);
 			viewModel.AvailableMaterialTypes = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 			return Json(viewModel.AvailableMaterialTypes);
 		}
@@ -33,7 +32,7 @@ namespace Pspcl.Web.Controllers
         public JsonResult getRating(int materialTypeId)
         {
             StockViewModel viewModel = new StockViewModel();
-            var materialType = _StockService.GetAllMaterialRatings(materialTypeId, true);
+            var materialType = _StockService.GetAllMaterialRatings(materialTypeId);
             viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
             return Json(viewModel.AvailableRatings);
         }
