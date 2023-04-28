@@ -16,6 +16,7 @@ namespace Pspcl.Core.Domain
 
         public DateTime? ModifiedOn { get; set; }
         public string? Rating { get; set; }
+		public int MaterialGroupId { get; set; }
 
-    }
+	}
 }

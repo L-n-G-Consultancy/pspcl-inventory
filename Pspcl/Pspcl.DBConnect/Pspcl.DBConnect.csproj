@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Pspcl.Core\Pspcl.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
