@@ -28,6 +28,25 @@ namespace Pspcl.Web.Controllers
 		{
 			var model = new Pspcl.Web.Models.StockViewModel();
 
+			// Initialize AvailableMaterialTypes list
+			model.AvailableMaterialTypes.Add(new SelectListItem { Value = "1", Text = "Type 1" });
+			model.AvailableMaterialTypes.Add(new SelectListItem { Value = "2", Text = "Type 2" });
+			model.AvailableMaterialTypes.Add(new SelectListItem { Value = "3", Text = "Type 3" });
+
+
+			// Initialize AvailableMaterialCodes list
+			model.AvailableMaterialCodes.Add(new SelectListItem { Value = "A", Text = "Code A" });
+			model.AvailableMaterialCodes.Add(new SelectListItem { Value = "B", Text = "Code B" });
+			model.AvailableMaterialCodes.Add(new SelectListItem { Value = "C", Text = "Code C" });
+			// Initialize AvailableMaterialCodes list
+
+			model.AvailableMaterialGroups.Add(new SelectListItem { Value = "A", Text = "Group A" });
+			model.AvailableMaterialGroups.Add(new SelectListItem { Value = "B", Text = "Group B" });
+			model.AvailableMaterialGroups.Add(new SelectListItem { Value = "C", Text = "Group C" });
+
+			model.AvailableRatings.Add(new SelectListItem { Value = "1", Text = "rating 1" });
+			model.AvailableRatings.Add(new SelectListItem { Value = "2", Text = "rating 2" });
+
 			return View(model);
 		}
 		[HttpPost]
@@ -37,7 +56,7 @@ namespace Pspcl.Web.Controllers
 
 			//var s = formCollection;
 			model.SelectedMaterialCode = formCollection["selectedMaterialCode"];
-			
+
 			DateTime date = DateTime.Parse(formCollection["GRNDate"]);
 
 			model.GrnDate = date;
@@ -52,7 +71,7 @@ namespace Pspcl.Web.Controllers
 			model.SelectedRating = formCollection["rating"];
 			model.EnterRate = long.Parse(formCollection["GrnNO"]);
 			model.PrefixNumber = formCollection["PrefixNumber"];
-			
+
 
 
 			List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
