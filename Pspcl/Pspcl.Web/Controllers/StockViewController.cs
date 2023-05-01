@@ -28,34 +28,11 @@ namespace Pspcl.Web.Controllers
 		{
 			var model = new Pspcl.Web.Models.StockViewModel();
 
-			// Initialize AvailableMaterialTypes list
-			model.AvailableMaterialTypes.Add(new SelectListItem { Value = "1", Text = "Type 1" });
-			model.AvailableMaterialTypes.Add(new SelectListItem { Value = "2", Text = "Type 2" });
-			model.AvailableMaterialTypes.Add(new SelectListItem { Value = "3", Text = "Type 3" });
-
-
-			// Initialize AvailableMaterialCodes list
-			model.AvailableMaterialCodes.Add(new SelectListItem { Value = "A", Text = "Code A" });
-			model.AvailableMaterialCodes.Add(new SelectListItem { Value = "B", Text = "Code B" });
-			model.AvailableMaterialCodes.Add(new SelectListItem { Value = "C", Text = "Code C" });
-			// Initialize AvailableMaterialCodes list
-
-			model.AvailableMaterialGroups.Add(new SelectListItem { Value = "A", Text = "Group A" });
-			model.AvailableMaterialGroups.Add(new SelectListItem { Value = "B", Text = "Group B" });
-			model.AvailableMaterialGroups.Add(new SelectListItem { Value = "C", Text = "Group C" });
-
-			model.AvailableRatings.Add(new SelectListItem { Value = "1", Text = "rating 1" });
-			model.AvailableRatings.Add(new SelectListItem { Value = "2", Text = "rating 2" });
-
 			return View(model);
 		}
 		[HttpPost]
 		public IActionResult AddStock(StockViewModel model, IFormCollection formCollection)
 		{
-			//TempData["stock"] = formCollection;
-
-
-			// Get the form values from the HTTP POST request
 			var formValues = HttpContext.Request.Form;
 
 			// Convert the FormCollection to a dictionary
@@ -82,7 +59,6 @@ namespace Pspcl.Web.Controllers
 			model.PrefixNumber = formCollection["PrefixNumber"];
 
 
-
 			List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
 
 			for (int i = 12; i < formCollection.Count - 1; i = i + 3)
@@ -101,8 +77,6 @@ namespace Pspcl.Web.Controllers
 			}
 
 			model.stockMaterialLList = stockMaterialsList;
-
-
 
 			return RedirectToAction("AddStock");
 		}
