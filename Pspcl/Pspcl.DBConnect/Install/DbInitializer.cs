@@ -157,74 +157,74 @@ namespace Pspcl.DBConnect.Install
             }
 
         }
-        public async Task CreateDefaultMaterialType()
-        {
-            try
-            {
-                if (!_identityContext.MaterialType.Any())
-                {
-                    var MaterialTypeData = new List<MaterialType>()
-                    {
-                        new MaterialType() {Name="SP SMART METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60"},
-                        new MaterialType() {Name="SP BI-DIR METERS",IsActive=true,IsDeleted=false,Rating="10-60"},
-                        new MaterialType() {Name="SP METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60"},
-                        new MaterialType() {Name="PLASTIC SEAL",IsActive=true,IsDeleted=false, Rating = "10-60"},
-                        new MaterialType() {Name="POWER PACK UNIT WITH BATTERY",IsActive=true,IsDeleted=false, Rating = "10-60"},
-                        new MaterialType() {Name="SMART METERS (P/P)",IsActive=true,IsDeleted=false, Rating = "3* 10-60"},
-                        new MaterialType() {Name="PP BI-DIR METER (3*10-60)",IsActive=true,IsDeleted=false, Rating = "3* 10-60"},
-                        new MaterialType() {Name="PP METER (3*10-60)",IsActive=true,IsDeleted=false,Rating="3* 10-60"},
-                        new MaterialType() {Name="COMPACT STATICS ON LINE METER TESTING EQUIPMENT (SECURE) FOR S/P METERS",IsActive =true,IsDeleted=false},
-                        new MaterialType() {Name="SP MCB",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="PP MCB",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="MCB 20 IN 1",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="MCB 6 IN 1",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="MCB (4 IN 1)",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="LTCT MCB",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="MCB (IPDS)",IsActive=true,IsDeleted=false},
-                        new MaterialType() {Name="LTCT (DT) SET 100/5",IsActive=true,IsDeleted=false,Rating="100/5"},
-                        new MaterialType() {Name="LTCT (DT) SET 200/5",IsActive=true,IsDeleted=false,Rating="200/5"},
-                        new MaterialType() {Name="LTCT (DT) SET 400/5",IsActive=true,IsDeleted=false,Rating="400/5"},
-                        new MaterialType() {Name="LTCT SET (100/5)",IsActive=true,IsDeleted=false,Rating="100/5"},
-                        new MaterialType() {Name="LTCT SET (200/5)",IsActive=true,IsDeleted=false,Rating="200/5"},
-                        new MaterialType() {Name="LTCT SET (400/5)",IsActive=true,IsDeleted=false,Rating="400/5"},
-                        new MaterialType() {Name="LTCT METER (100/5)",IsActive=true,IsDeleted=false,Rating="100/5"},
-                        new MaterialType() {Name="LTCT METER (200/5)",IsActive = true,IsDeleted=false,Rating="200/5"},
-                        new MaterialType() {Name="LT IN BUILT METER (40-200 A)",IsActive=true,IsDeleted = false,Rating="40-200"},
-                        new MaterialType() {Name="LTCT (DT) METERS -/5",IsActive=true,IsDeleted = false,Rating="-5"},
-                        new MaterialType() {Name="HT METER (-/5)",IsActive=true,IsDeleted = false,Rating="-5"},
-                        new MaterialType() {Name="HT METER (S/STN.)",IsActive=true,IsDeleted = false,Rating="-5"},
-                        new MaterialType() {Name="DIGITAL GAUSS METER",IsActive=true,IsDeleted = false},
-                        new MaterialType() {Name="ELECTRONIC TESTING SET & BENCH",IsActive=true,IsDeleted = false},
-                        new MaterialType() {Name="DT METER 800/5",IsActive=true,IsDeleted = false,Rating="800/5"},
-                        new MaterialType() {Name="DT SET 800/5",IsActive=true,IsDeleted = false,Rating="800/5"},
-                        new MaterialType() {Name="DT BOX",IsActive=true,IsDeleted = false},
-                        new MaterialType() {Name="CTPT UNIT 10/5",IsActive=true,IsDeleted = false,Rating="10/5"},
-                        new MaterialType() {Name="CTPT UNIT 20/5",IsActive=true,IsDeleted = false,Rating="20/5"},
-                        new MaterialType() {Name="CTPT UNIT 30/5",IsActive=true,IsDeleted = false,Rating="30/5"},
-                        new MaterialType() {Name="CTPT UNIT 50/5",IsActive=true,IsDeleted = false,Rating="50/5"},
-                        new MaterialType() {Name="CTPT UNIT 75/5",IsActive=true,IsDeleted = false,Rating="75/5"},
-                        new MaterialType() {Name="CTPT UNIT 100/5",IsActive=true,IsDeleted = false,Rating="100/5"},
-                        new MaterialType() {Name="CTPT UNIT 150/5",IsActive=true,IsDeleted = false,Rating="150/5"},
-                        new MaterialType() {Name="CTPT UNIT 200/5",IsActive=true,IsDeleted = false,Rating="200/5"},
-                        new MaterialType() {Name="CTPT UNIT 300/5",IsActive=true,IsDeleted = false,Rating="300/5"},
-                        new MaterialType() {Name="CTPT UNIT 400/5",IsActive=true,IsDeleted = false,Rating="400/5"},
-                        new MaterialType() {Name="CMRI (DMRI)",IsActive=true,IsDeleted = false},
-                        new MaterialType() {Name="ALUMINIUM CABLE",IsActive=true,IsDeleted = false},
+		public async Task CreateDefaultMaterialType()
+		{
+			try
+			{
+				if (!_identityContext.MaterialType.Any())
+				{
+					var MaterialTypeData = new List<MaterialType>()
+					{
+						new MaterialType() {Name="SP SMART METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=1},
+						new MaterialType() {Name="SP BI-DIR METERS",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=2},
+						new MaterialType() {Name="SP METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=3},
+						new MaterialType() {Name="PLASTIC SEAL",IsActive=true,IsDeleted=false, Rating = "10-60",MaterialGroupId=4},
+						new MaterialType() {Name="POWER PACK UNIT WITH BATTERY",IsActive=true,IsDeleted=false, Rating = "10-60",MaterialGroupId=5},
+						new MaterialType() {Name="SMART METERS (P/P)",IsActive=true,IsDeleted=false, Rating = "3* 10-60",MaterialGroupId=6},
+						new MaterialType() {Name="PP BI-DIR METER (3*10-60)",IsActive=true,IsDeleted=false, Rating = "3* 10-60",MaterialGroupId=7},
+						new MaterialType() {Name="PP METER (3*10-60)",IsActive=true,IsDeleted=false,Rating="3* 10-60",MaterialGroupId=8},
+						new MaterialType() {Name="COMPACT STATICS ON LINE METER TESTING EQUIPMENT (SECURE) FOR S/P METERS",IsActive =true,IsDeleted=false,MaterialGroupId=9},
+						new MaterialType() {Name="SP MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="PP MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="MCB 20 IN 1",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="MCB 6 IN 1",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="MCB (4 IN 1)",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="LTCT MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="MCB (IPDS)",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+						new MaterialType() {Name="LTCT (DT) SET 100/5",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=11},
+						new MaterialType() {Name="LTCT (DT) SET 200/5",IsActive=true,IsDeleted=false,Rating="200/5",MaterialGroupId=11},
+						new MaterialType() {Name="LTCT (DT) SET 400/5",IsActive=true,IsDeleted=false,Rating="400/5",MaterialGroupId=11},
+						new MaterialType() {Name="LTCT SET (100/5)",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=12},
+						new MaterialType() {Name="LTCT SET (200/5)",IsActive=true,IsDeleted=false,Rating="200/5",MaterialGroupId=12},
+						new MaterialType() {Name="LTCT SET (400/5)",IsActive=true,IsDeleted=false,Rating="400/5",MaterialGroupId=12},
+						new MaterialType() {Name="LTCT METER (100/5)",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=13},
+						new MaterialType() {Name="LTCT METER (200/5)",IsActive = true,IsDeleted=false,Rating="200/5",MaterialGroupId=13},
+						new MaterialType() {Name="LT IN BUILT METER (40-200 A)",IsActive=true,IsDeleted = false,Rating="40-200",MaterialGroupId=13},
+						new MaterialType() {Name="LTCT (DT) METERS -/5",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=14},
+						new MaterialType() {Name="HT METER (-/5)",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=15},
+						new MaterialType() {Name="HT METER (S/STN.)",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=15},
+						new MaterialType() {Name="DIGITAL GAUSS METER",IsActive=true,IsDeleted = false,MaterialGroupId=16},
+						new MaterialType() {Name="ELECTRONIC TESTING SET & BENCH",IsActive=true,IsDeleted = false,MaterialGroupId=17},
+						new MaterialType() {Name="DT METER 800/5",IsActive=true,IsDeleted = false,Rating="800/5",MaterialGroupId=18},
+						new MaterialType() {Name="DT SET 800/5",IsActive=true,IsDeleted = false,Rating="800/5",MaterialGroupId=18},
+						new MaterialType() {Name="DT BOX",IsActive=true,IsDeleted = false,MaterialGroupId=19},
+						new MaterialType() {Name="CTPT UNIT 10/5",IsActive=true,IsDeleted = false,Rating="10/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 20/5",IsActive=true,IsDeleted = false,Rating="20/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 30/5",IsActive=true,IsDeleted = false,Rating="30/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 50/5",IsActive=true,IsDeleted = false,Rating="50/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 75/5",IsActive=true,IsDeleted = false,Rating="75/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 100/5",IsActive=true,IsDeleted = false,Rating="100/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 150/5",IsActive=true,IsDeleted = false,Rating="150/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 200/5",IsActive=true,IsDeleted = false,Rating="200/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 300/5",IsActive=true,IsDeleted = false,Rating="300/5",MaterialGroupId=20},
+						new MaterialType() {Name="CTPT UNIT 400/5",IsActive=true,IsDeleted = false,Rating="400/5",MaterialGroupId=20},
+						new MaterialType() {Name="CMRI (DMRI)",IsActive=true,IsDeleted = false,MaterialGroupId=21},
+						new MaterialType() {Name="ALUMINIUM CABLE",IsActive=true,IsDeleted = false,MaterialGroupId=22},
 
 
-                    };
+					};
 
-                    _identityContext.MaterialType.AddRange(MaterialTypeData);
-                    await _identityContext.SaveChangesAsync();
-                    _logger.LogInformation("Material Type data inserted : {@MaterialTypeData}", MaterialTypeData);
+					_identityContext.MaterialType.AddRange(MaterialTypeData);
+					await _identityContext.SaveChangesAsync();
+					_logger.LogInformation("Material Type data inserted : {@MaterialTypeData}", MaterialTypeData);
 
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception");
-            }
-        }
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Exception");
+			}
+		}
 		public async Task CreateDefaultMaterial()
         {
             try
