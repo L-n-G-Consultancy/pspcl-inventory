@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Pspcl.Core.Domain;
 namespace Pspcl.Web.Models
 {
-	//[DataContract]
-	//[Serializable]
+	[DataContract]
+	[Serializable]
 	public class StockViewModel
 	{
 		public StockViewModel()
@@ -17,35 +17,35 @@ namespace Pspcl.Web.Models
 			AvailableRatings = new List<SelectListItem>();
 			AvailableMaterialCodes = new List<SelectListItem>();
 		}
-		//[DataMember]
+		[DataMember]
 		public DateTime? GrnDate { get; set; }
-		//[DataMember]
+		[DataMember]
 		public long? GrnNumber { get; set; }
-		//[DataMember]
+		[DataMember]
 		public String? TestReportReference { get; set; }
-		//[DataMember]
+		[DataMember]
 		public DateTime? InvoiceDate { get; set; }
-		//[DataMember]
+		[DataMember]
 		public string? InvoiceNumber { get; set; }
-		//[DataMember]
+		[DataMember]
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
-		//[DataMember]
+		[DataMember]
 		public string? SelectedMaterialCode { get; set; }
-		//[DataMember]
+		[DataMember]
 		public IList<SelectListItem>? AvailableMaterialGroups { get; set; }
-		//[DataMember]
+		[DataMember]
 		public string? SelectedMaterialGroup { get; set; }
-		//[DataMember]
+		[DataMember]
 		public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
-		//[DataMember]
+		[DataMember]
 		public string? SelectedMaterialType { get; set; }
-		//[DataMember]
+		[DataMember]
 		public IList<SelectListItem>? AvailableRatings { get; set; }
-		//[DataMember]
+		[DataMember]
 		public string? SelectedRating { get; set; }
-		//[DataMember]
+		[DataMember]
 		public decimal? EnterRate { get; set; }
-		//[DataMember]
+		[DataMember]
 		public string? PrefixNumber { get; set; }
 		public List<StockMaterial> stockMaterialLList { get; set; }
 	}

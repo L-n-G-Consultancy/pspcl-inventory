@@ -52,9 +52,18 @@ namespace Pspcl.Web.Controllers
 		[HttpPost]
 		public IActionResult AddStock(StockViewModel model, IFormCollection formCollection)
 		{
-			TempData["stock"] = formCollection;
+			//TempData["stock"] = formCollection;
 
-			//var s = formCollection;
+
+			// Get the form values from the HTTP POST request
+			var formValues = HttpContext.Request.Form;
+
+			// Convert the FormCollection to a dictionary
+			var formData = formValues.ToDictionary(x => x.Key, x => x.Value.ToString());
+
+			// Store the serialized dictionary in the temp data
+			TempData["FormData"] = JsonConvert.SerializeObject(formData);
+
 			model.SelectedMaterialCode = formCollection["selectedMaterialCode"];
 
 			DateTime date = DateTime.Parse(formCollection["GRNDate"]);
@@ -94,7 +103,6 @@ namespace Pspcl.Web.Controllers
 			model.stockMaterialLList = stockMaterialsList;
 
 
-			model.stockMaterialLList = stockMaterialsList;
 
 			return RedirectToAction("AddStock");
 		}

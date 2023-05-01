@@ -31,17 +31,8 @@
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="inputState">Material Code:</label>
-											@*<select id="inputState" name="materialCode" class="form-control">
-										@foreach (var item in Model.AvailableMaterialCodes)
-										{
-										<option value="@item.Value">@item.Text</option>
-										}
-										</select>*@
-
 											<input type="text" class="form-control" id="matCode" name="selectedMaterialcode"
 												   placeholder="Enter Material code">
-
-
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -49,22 +40,13 @@
 
 										<div class="form-group col-md-6">
 											<label for="inputState">Material Group:</label>
-											@*<select id="inputState" name="materialGroups" class="form-control">
-										@foreach (var item in Model.AvailableMaterialGroups)
-										{
-										<option value="@item.Value">@item.Text</option>
-										}
-										</select>*@
-
 											<select id="inputState" name="materialGroups" class="form-control">
 												<option selected>Material Group</option>
 												<option>Group1</option>
 												<option>Group2</option>
 												<option>Group3</option>
 												<option>Group4</option>
-
 											</select>
-
 											<div class="valid-feedback">
 												Looks good!
 											</div>
@@ -80,22 +62,13 @@
 
 										<div class="form-group col-md-6">
 											<label for="inputState">Material Type:</label>
-											@*<select id="inputState" name="materialType" class="form-control">
-										@foreach (var item in Model.AvailableMaterialTypes)
-										{
-										<option value="@item.Value">@item.Text</option>
-										}
-										</select>*@
-
 											<select id="inputState" name="materialType" class="form-control">
 												<option selected>Material Type</option>
-												<option>Group1</option>
-												<option>Group2</option>
-												<option>Group3</option>
-												<option>Group4</option>
-
+												<option>Type1</option>
+												<option>type2</option>
+												<option>Type3</option>
+												<option>Type4</option>
 											</select>
-
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -103,7 +76,7 @@
 
 										<div class="form-group col-md-6">
 											<label for="date">GRN No</label>
-											<input type="text" name="GrnNO" class="form-control" id="grnNumber" name="GrnNO"
+											<input type="text" name="GrnNO" class="form-control" id="grnNumber"
 												   placeholder="Enter GRN No">
 											<div class="invalid-feedback">
 												Please provide a valid state.
@@ -112,22 +85,13 @@
 
 										<div class="form-group col-md-6">
 											<label for="">Rating</label>
-											@*<select id="inputState" name="rating" class="form-control">
-										@foreach (var item in Model.AvailableRatings)
-										{
-										<option value="@item.Value">@item.Text</option>
-										}
-										</select>*@
-
 											<select id="inputState" name="rating" class="form-control">
 												<option selected>Enter rating</option>
-												<option>Group1</option>
-												<option>Group2</option>
-												<option>Group3</option>
-												<option>Group4</option>
-
+												<option>rating1</option>
+												<option>rating2</option>
+												<option>rating3</option>
+												<option>rating4</option>
 											</select>
-
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -233,3 +197,4 @@
 		</div>
 	</div>
 </div>
+
