@@ -17,9 +17,6 @@ namespace Pspcl.Web.Controllers
 
 	public class StockViewController : Controller
 	{
-
-
-
 		[HttpGet]
 		public IActionResult AddStock()
 		{
