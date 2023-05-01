@@ -26,6 +26,7 @@ namespace Pspcl.DBConnect.Install
         //for Seeding MasterData?
         Task CreateDefaultMaterialGroup();
         Task CreateDefaultMaterialType();
+        Task CreateDefaultMaterial();
 
     }
 }

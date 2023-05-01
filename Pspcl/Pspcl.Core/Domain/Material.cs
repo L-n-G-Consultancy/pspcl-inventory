@@ -8,7 +8,7 @@ namespace Pspcl.Core.Domain
         public int Id { get; set; } // primary key
         public string Name { get; set; }
 
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
         public MaterialType MaterialType { get; set; }
 

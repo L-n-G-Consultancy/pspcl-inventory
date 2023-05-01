@@ -66,7 +66,7 @@ namespace Pspcl.Web.Controllers
             return View(model);
         }
         
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
@@ -74,7 +74,8 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddUser()
+        [Authorize]
+		public IActionResult AddUser()
         {
             return View();
         }

@@ -7,7 +7,7 @@
         </button>
         <!-- Logo -->
         <div class="navbar-brand-box">
-            <a href="#" class="logo">
+            <a href="@Url.Action("Index","Home")" class="logo" >
                 <span>
                     <img src="~/images/logo.png" alt="Punjab State Power Corporation Limited" height="54">
                 </span>
@@ -27,14 +27,14 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img class="rounded-circle header-profile-user" src="~/images/profile-user.png"
                      alt="Header Avatar">
-                <span class="d-none d-sm-inline-block ms-1">Manpreet</span>
+                <span class="d-none d-sm-inline-block ms-1">@User.Identity.Name </span>
                 <i class="fas fa-angle-down d-none d-sm-inline-block"></i>
             </button>
 
             <div class="dropdown-menu dropdown-menu-end profile-ddmenu" aria-labelledby="dropdownMyProfile">
                 <!-- item-->
                 <a class="dropdown-item" href="#"><span>Profile</span></a>
-                <a class="dropdown-item" href="#"><span>Logout</span></a>
+                <a class="dropdown-item" href="@Url.Action("LogOut", "Account")"><span>Logout</span></a>
                 <a class="dropdown-item" href="@Url.Action("AddUser", "Account")"><span>Add User</span></a>
             </div>
         </div>

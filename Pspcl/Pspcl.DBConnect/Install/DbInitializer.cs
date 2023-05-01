@@ -45,9 +45,11 @@ namespace Pspcl.DBConnect.Install
                 await CreateDefaultAdminUser();
                 await CreateDefaultMaterialGroup();
                 await CreateDefaultMaterialType();
-
-            }
-        }
+                await CreateDefaultMaterial();
+				
+			}
+			
+		}
 
         /// <summary>
         /// 
@@ -223,5 +225,127 @@ namespace Pspcl.DBConnect.Install
                 _logger.LogError(ex, "Exception");
             }
         }
-    }
+		public async Task CreateDefaultMaterial()
+        {
+            try
+            {
+                var MaterialData = new List<Material>()
+                {
+                    new Material() {Name="SP SMART METER (10-60)",Code="SPSM/M-185",MaterialTypeId=1,IsActive=true,IsDeleted=false},
+                    new Material() {Name="SP SMART METER (10-60)",Code="SPSM/M-190",MaterialTypeId=1,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="SP BI-DIR METERS",Code="SPN/M159",MaterialTypeId=2,IsActive=true,IsDeleted=false},
+                    new Material() {Name="SP BI-DIR METERS",Code="SPN/M160",MaterialTypeId=2,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="SP METER (10-60)",Code="SPL/M139",MaterialTypeId=3,IsActive=true,IsDeleted=false},
+                    new Material() {Name="SP METER (10-60)",Code="SPL/M173",MaterialTypeId=3,IsActive=true,IsDeleted=false},
+                    new Material() {Name="SP METER (10-60)",Code="SPG/M172",MaterialTypeId=3,IsActive=true,IsDeleted=false},
+                    new Material() {Name="SP METER (10-60)",Code="SPL/M171",MaterialTypeId=3,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="PLASTIC SEAL",Code="PSPFT",MaterialTypeId=4,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="POWER PACK UNIT WITH BATTERY",MaterialTypeId=5,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="SMART METERS (P/P)",Code="PPSM/M148",MaterialTypeId=6,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="PP BI-DIR METER (3*10-60)",Code="PPN/M151",MaterialTypeId=7,IsActive=true,IsDeleted=false},
+                    new Material() {Name="PP BI-DIR METER (3*10-60)",Code="PPN/M177",MaterialTypeId=7,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="PP METER (3*10-60)",Code="PPF/M153",MaterialTypeId=8,IsActive=true,IsDeleted=false},
+                    new Material() {Name="PP METER (3*10-60)",Code="PPG/M135",MaterialTypeId=8,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="COMPACT STATICS ON LINE METER TESTING EQUIPMENT (SECURE) FOR S/P METERS",Code="E 6500",MaterialTypeId=9 ,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="SP MCB",Code="SPB",MaterialTypeId=10,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="PP MCB",Code="PPB/M169",MaterialTypeId=11,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="MCB 20 IN 1",Code="MPB20",MaterialTypeId=12,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="MCB 6 IN 1",Code="MPB6",MaterialTypeId=13,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="MCB (4 IN 1)",Code="MPB4",MaterialTypeId=14,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="LTCT MCB",Code="LTB",MaterialTypeId=15,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="MCB (IPDS)",Code="LTB/M136",MaterialTypeId=16,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="LTCT (DT) SET 100/5",Code="DTS100/M133",MaterialTypeId=17,IsActive=true,IsDeleted=false },
+                    new Material() {Name="LTCT (DT) SET 200/5",Code="DTS200/M133",MaterialTypeId=18,IsActive=true,IsDeleted=false },
+                    new Material() {Name="LTCT (DT) SET 400/5",Code="DTS400/M133",MaterialTypeId=19,IsActive=true,IsDeleted=false },
+
+                    new Material() {Name="LTCT SET (100/5)",Code="LTS100",MaterialTypeId=20,IsActive=true,IsDeleted=false},
+                    new Material() {Name="LTCT SET (200/5)",Code="LTS200",MaterialTypeId=21,IsActive=true,IsDeleted=false},
+                    new Material() {Name="LTCT SET (400/5)",Code="LTS400",MaterialTypeId=22,IsActive=true,IsDeleted=false},
+
+                    new Material() {Name="LTCT METER (100/5)",Code="LTM100",MaterialTypeId=23,IsActive=true,IsDeleted=false },
+                    new Material() {Name="LTCT METER (200/5)",Code="LTM200",MaterialTypeId=24,IsActive=true,IsDeleted=false },
+
+                    new Material() {Name="LT IN BUILT METER (40-200 A)",Code="LTIM/M137",MaterialTypeId=25,IsActive=true,IsDeleted=false },
+
+                    new Material() {Name="LTCT (DT) METERS -/5",Code="DTM/M146",MaterialTypeId=26,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="HT METER (-/5)",Code="HTM/M123",MaterialTypeId=27,IsActive=true,IsDeleted = false },
+                    new Material() {Name="HT METER (-/5)",Code="HTM/M192",MaterialTypeId=27,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="HT METER (S/STN.)", Code = "HTMSS", MaterialTypeId = 28, IsActive =true,IsDeleted = false },
+
+                    new Material() {Name="DIGITAL GAUSS METER",Code="E 7005",MaterialTypeId=29,IsActive=true,IsDeleted =false },
+                    new Material() {Name="DIGITAL GAUSS METER",Code="E6488 A66",MaterialTypeId=29,IsActive=true,IsDeleted =false },
+
+                    new Material() {Name="ELECTRONIC TESTING SET & BENCH",Code="M 174",MaterialTypeId=30,IsActive=true,IsDeleted=false },
+
+                    new Material() {Name="DT METER 800/5",Code="DTM 800",MaterialTypeId=31,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="DT SET 800/5",Code="DTC 800",MaterialTypeId=32,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="DT BOX",Code="DTB/M41",MaterialTypeId=33,IsActive=true,IsDeleted = false},
+
+                    new Material() {Name="CTPT UNIT 10/5",Code="CTPT10/M189",MaterialTypeId=34,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 10/5",Code="CTPT10/M187",MaterialTypeId=34,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 10/5",Code="CTPT10/M188",MaterialTypeId=34,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 20/5",Code="CTPT20/M188",MaterialTypeId=35,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 20/5",Code="CTPT20/M187",MaterialTypeId=35,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 20/5",Code="CTPT20/M189",MaterialTypeId=35,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 30/5",Code="CTPT30/M187",MaterialTypeId=36,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 30/5",Code="CTPT30/M189",MaterialTypeId=36,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 30/5",Code="CTPT30/M188",MaterialTypeId=36,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 50/5",Code="CTPT50/M189",MaterialTypeId=37,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 75/5",Code="CTPT75/M189",MaterialTypeId=38,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 100/5",Code="CTPT100/M189",MaterialTypeId=39,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 100/5",Code="CTPT100/M161",MaterialTypeId=39,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 150/5",Code="CTPT150/M144",MaterialTypeId=40,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 150/5",Code="CTPT150/M188",MaterialTypeId=40,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 200/5",Code="CTPT200/M188",MaterialTypeId=41,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 200/5",Code="CTPT200/M189",MaterialTypeId=41,IsActive=true,IsDeleted = false },
+
+                    new Material() {Name="CTPT UNIT 300/5",Code="CTPT300/M189",MaterialTypeId=42,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 300/5",Code="CTPT300/M187",MaterialTypeId=42,IsActive=true,IsDeleted = false },
+                    new Material() {Name="CTPT UNIT 300/5",Code="CTPT300/M188",MaterialTypeId=42,IsActive=true,IsDeleted = false },
+
+                    new Material() { Name = "CTPT UNIT 400/5",Code="CTPT400/M189",MaterialTypeId=43, IsActive = true, IsDeleted = false },
+
+                    new Material() {Name="CMRI (DMRI)",Code="CMRI/ENF",MaterialTypeId=44,IsActive=true,IsDeleted = false},
+                    new Material() {Name="ALUMINIUM CABLE",Code="LTAC",MaterialTypeId=45,IsActive=true,IsDeleted = false}
+                };
+				_identityContext.Material.AddRange(MaterialData);
+				await _identityContext.SaveChangesAsync();
+				_logger.LogInformation("Material data inserted : {@MaterialData}", MaterialData);
+
+			}
+			catch (Exception ex)
+            {
+				_logger.LogError(ex, "Exception");
+			}
+
+        }
+
+	}
 }
