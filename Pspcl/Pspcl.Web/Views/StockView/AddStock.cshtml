@@ -25,14 +25,14 @@
 								</div>
 
 
-								@using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class" }))
+								@using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class" , id="StockForm"}))
 
 								{
 									<div class="row">
 										<div class="form-group col-md-6">
 											<label for="inputState">Material Code:</label>
 											<input type="text" class="form-control" id="matCode" name="selectedMaterialcode"
-												   placeholder="Enter Material code">
+												   placeholder="Enter Material code" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -54,7 +54,7 @@
 
 										<div class="form-group col-md-6">
 											<label for="date">Select GRN Date</label>
-											<input type="date" class="form-control" id="date" placeholder="Select GRN Date" name="GRNDate">
+											<input type="date" class="form-control" id="date" placeholder="Select GRN Date" name="GRNDate" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -77,7 +77,7 @@
 										<div class="form-group col-md-6">
 											<label for="date">GRN No</label>
 											<input type="text" name="GrnNO" class="form-control" id="grnNumber"
-												   placeholder="Enter GRN No">
+												   placeholder="Enter GRN No" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -100,7 +100,7 @@
 										<div class="form-group col-md-6">
 											<label for="">Test Report Reference</label>
 											<input type="text" name="TestReportReference" class="form-control" id="reportRef"
-												   placeholder="Enter Test Report Reference">
+												   placeholder="Enter Test Report Reference" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -109,7 +109,7 @@
 										<div class="form-group col-md-6">
 											<label for="">Make</label>
 											<input type="text" class="form-control" id="lookupTable" name="make"
-												   placeholder="Make">
+												   placeholder="Make" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -118,7 +118,7 @@
 										<div class="form-group col-md-6">
 											<label for="">Invoice Date</label>
 											<input type="date" name="InvoiceDate" class="form-control" id="invoiceDate"
-												   placeholder="Select GRN Date">
+												   placeholder="Select GRN Date" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -127,7 +127,7 @@
 										<div class="form-group col-md-6">
 											<label for="">Rate</label>
 											<input type="number" name="rate" class="form-control" id="rate"
-												   placeholder="Enter Rate">
+												   placeholder="Enter Rate" required>
 											<small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
 											<div class="invalid-feedback">
 												Please provide a valid state.
@@ -137,7 +137,7 @@
 										<div class="form-group col-md-6">
 											<label for="">Invoice No.</label>
 											<input type="number" name="invoiceNo" class="form-control" id="invoiceNo"
-												   placeholder="Enter Invoice Number">
+												   placeholder="Enter Invoice Number" required>
 											<small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
 											<div class="invalid-feedback">
 												Please provide a valid state.
@@ -147,7 +147,7 @@
 										<div class="form-group col-md-6">
 											<label for="">Prefix</label>
 											<input type="number" name="PrefixNumber" class="form-control" id="prefix"
-												   placeholder="Enter Prefix">
+												   placeholder="Enter Prefix" required>
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -171,8 +171,8 @@
 											</thead>
 											<tbody id="myTableBody">
 												<tr id="row_1">
-													<td><input name="row_1_from" type="text" class="from-input" placeholder="From"></td>
-													<td><input name="row_1_to" type="text" class="to-input" placeholder="To"></td>
+													<td><input name="row_1_from" type="text" class="from-input" placeholder="From" required></td>
+													<td><input name="row_1_to" type="text" class="to-input" placeholder="To" required></td>
 													<td><input name="row_1_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>
 													<td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>
 													<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>
