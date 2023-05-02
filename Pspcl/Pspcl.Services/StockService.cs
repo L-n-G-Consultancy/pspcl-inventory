@@ -20,70 +20,43 @@ namespace Pspcl.Services
             {
                 return _dbcontext.MaterialGroup.ToList();
             }
-            else
-            {
-                if (onlyActive.HasValue)
-                {
-                    return _dbcontext.MaterialGroup.Where(x => onlyActive.Value && x.IsActive || (!onlyActive.Value)).ToList();
-                }
-            }
-            return _dbcontext.MaterialGroup.Where(x => !onlyActive.HasValue || (onlyActive.Value && x.IsActive) || (!onlyActive.Value && !x.IsActive)).ToList();
+
+            return _dbcontext.MaterialGroup.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
+
         }
 
 
 
 
-        public List<MaterialType> GetAllMaterialTypes(int? materialGroupId, bool? onlyActive = false)
+        public List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false)
         {
-            List<MaterialType> materialTypes = null;
-            if (!materialGroupId.HasValue && !onlyActive.HasValue)
+            if (!onlyActive.HasValue)
             {
-                materialTypes = _dbcontext.MaterialType.ToList();
+                return _dbcontext.MaterialType.Where(x => x.MaterialGroupId == materialGroupId).ToList();
             }
-            else if (!onlyActive.HasValue && materialGroupId.HasValue)
+            var materialTypes = _dbcontext.MaterialType.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
+            return materialTypes.Where(x => x.MaterialGroupId == materialGroupId).ToList();
 
-            {
-                materialTypes = _dbcontext.MaterialType.Where(x => x.MaterialGroupId == materialGroupId).ToList();
-            }
-            else if (onlyActive.HasValue && !materialGroupId.HasValue)
-            {
-                materialTypes = _dbcontext.MaterialType.Where(x => onlyActive.Value && x.IsActive || (!onlyActive.Value)).ToList();
-            }
-            else if (onlyActive.HasValue && materialGroupId.HasValue)
-            {
-                var response = _dbcontext.MaterialType.Where(x => onlyActive.Value && x.IsActive || (!onlyActive.Value)).ToList();
-                materialTypes = response.Where(x => x.MaterialGroupId == materialGroupId).ToList();
-            }
-
-            return materialTypes;
         }
 
-
-
-
-
-        public List<MaterialType> GetAllMaterialRatings(int? materialTypeId, bool? onlyActive = false)
+        public List<MaterialType> GetAllMaterialRatings(int materialTypeId, bool? onlyActive = false)
         {
-            List<MaterialType> materialTypes = null;
-            if (!materialTypeId.HasValue && !onlyActive.HasValue)
+            if (!onlyActive.HasValue)
             {
-                materialTypes = _dbcontext.MaterialType.ToList();
+                return _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).ToList();
             }
-            else if (!onlyActive.HasValue && materialTypeId.HasValue)
-            {
-                materialTypes = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).ToList();
-            }
-            else if (onlyActive.HasValue && !materialTypeId.HasValue)
-            {
-                materialTypes = _dbcontext.MaterialType.Where(x => onlyActive.Value && x.IsActive || (!onlyActive.Value)).ToList();
-            }
-            else if (onlyActive.HasValue && materialTypeId.HasValue)
-            {
-                var response = _dbcontext.MaterialType.Where(x => onlyActive.Value && x.IsActive || (!onlyActive.Value)).ToList();
-                materialTypes = response.Where(x => x.Id == materialTypeId).ToList();
-            }
+            var rating = _dbcontext.MaterialType.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
+            return rating.Where(x => x.Id == materialTypeId).ToList();
+        }
 
-            return materialTypes;
+        public List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false)
+        {
+            if (!onlyActive.HasValue)
+            {
+                return _dbcontext.Material.Where(x => x.MaterialTypeId == materialTypeId).ToList();
+            }
+            var materialCodes = _dbcontext.Material.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
+            return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
     }
 }

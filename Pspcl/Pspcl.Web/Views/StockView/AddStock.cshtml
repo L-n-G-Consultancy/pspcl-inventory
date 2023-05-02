@@ -24,9 +24,14 @@
                                 <form class="mt-4">
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="">Material code</label>
-                                            <input type="text" class="form-control" id="matCode"
-                                                   placeholder="Enter Material code">
+                                            <label for="materialId">Material code</label>
+                                            <select id="materialId" name="materialId" class="form-control">
+                                                <option selected disabled>--Select Material Code--</option>
+                                                @foreach (var data in Model.AvailableMaterialCodes)
+                                                {
+                                                    <option value="@data.Value">@data.Text</option>
+                                                }
+                                            </select>
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
@@ -39,7 +44,6 @@
                                                 @foreach (var data in Model.AvailableMaterialGroups)
                                                 {
                                                     <option value="@data.Value">@data.Text</option>
-
                                                 }
                                             </select>
 
@@ -86,8 +90,7 @@
                                                 <option selected disabled>--Select Rating--</option>
                                                 @foreach (var data in Model.AvailableRatings)
                                                 {
-                                                    <option value="@data.Value">@data.Text</option>
-
+                                                    <option selected value="@data.Value">@data.Text</option>
                                                 }
                                             </select>
                                             <div class="invalid-feedback">
@@ -274,7 +277,6 @@
                     success: function (result) {
                         $("#materialTypeId").append($('<option>').text("--Select material Type--").val(""));
                         $.each(result, function (i, response) {
-                            console.log(response);
                             $("#materialTypeId").append($('<option>').text(response.text).val(response.value));
                         });
                     }
@@ -298,7 +300,11 @@
                     success: function (result) {
                         $("#ratingId").append($('<option>').text("--Select Rating--").val(""));
                         $.each(result, function (i, response) {
-                            $("#ratingId").append($('<option>').text(response.text).val(response.Value));
+                            if (response.text == null) {
+                                $("#ratingId").append($('<option>').text("None").val(response.Value));
+                            } else {
+                                $("#ratingId").append($('<option>').text(response.text).val(response.Value));
+                            }
                         });
                     }
                 });
@@ -309,5 +315,32 @@
         });
     });
 
-    
+    $(function () {
+        $("#materialTypeId").on("change", function () {
+            var materialTypeId = $(this).val();
+            $("#materialId").empty();
+            if (materialTypeId) {
+                $.ajax({
+                    url: "/StockView/getMaterialCodes",
+                    type: "GET",
+                    data: { materialTypeId: materialTypeId },
+                    success: function (result) {
+                        $("#materialId").append($('<option>').text("--Select Material Code--").val(""));
+                        $.each(result, function (i, response) {
+                            if (response.text == null) {
+                                $("#materialId").append($('<option>').text("None").val(response.Value));
+                            } else {
+                                $("#materialId").append($('<option>').text(response.text).val(response.Value));
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $("#materialId").append($('<option>').text("--Select Material Code--").val(""));
+            }
+        });
+    });
+
+
 </script>
