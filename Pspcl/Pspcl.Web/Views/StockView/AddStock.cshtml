@@ -8,15 +8,22 @@
 
         {
             <div class="row">
+
+
                 <div class="form-group col-md-6">
-                    <label for="materialId">Material Code:</label>
-                    <select id="materialId" name="materialCode" class="form-control" required>
-                        <option  disabled>--Select Material Code--</option>
-                        @foreach (var item in Model.AvailableMaterialCodes)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
+                    <label for="">Invoice No.</label>
+                    <input type="number" name="invoiceNo" class="form-control" id="invoiceNo"
+                           placeholder="Enter Invoice Number" required>
+                    <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="">Invoice Date</label>
+                    <input type="date" name="InvoiceDate" class="form-control" id="invoiceDate"
+                           placeholder="Select GRN Date" required>
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -37,13 +44,6 @@
                     </div>
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label for="date">Select GRN Date</label>
-                    <input type="date" class="form-control" id="date" name="GRNDate" placeholder="Select GRN Date" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
 
                 <div class="form-group col-md-6">
                     <label for="materialTypeId">Material Type</label>
@@ -61,23 +61,45 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="date">GRN No</label>
-                    <input type="text" name="GrnNO" class="form-control" id="grnNumber"
-                           placeholder="Enter GRN No" required>
+                    <label for="">Rating</label>
+                    <select id="ratingId" name="rating" class="form-control" required>
+                        <option disabled>--Select Rating--</option>
+                        @foreach (var data in Model.AvailableRatings)
+                        {
+                            <option value="@data.Value">@data.Text</option>
+                        }
+                    </select>
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="">Rating</label>
-                    <select id="ratingId" name="rating" class="form-control" required>
-                        <option  disabled>--Select Rating--</option>
-                        @foreach (var data in Model.AvailableRatings)
+                    <label for="materialId">Material Code:</label>
+                    <select id="materialId" name="materialCode" class="form-control" required>
+                        <option disabled>--Select Material Code--</option>
+                        @foreach (var item in Model.AvailableMaterialCodes)
                         {
-                            <option  value="@data.Value">@data.Text</option>
+                            <option value="@item.Value">@item.Text</option>
                         }
                     </select>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="date">Select GRN Date</label>
+                    <input type="date" class="form-control" id="date" name="GRNDate" placeholder="Select GRN Date" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="date">GRN No</label>
+                    <input type="text" name="GrnNO" class="form-control" id="grnNumber"
+                           placeholder="Enter GRN No" required>
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -102,29 +124,10 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="">Invoice Date</label>
-                    <input type="date" name="InvoiceDate" class="form-control" id="invoiceDate"
-                           placeholder="Select GRN Date" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
                     <label for="">Rate</label>
                     <input type="number" name="rate" class="form-control" id="rate"
                            placeholder="Enter Rate" required>
                     <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="">Invoice No.</label>
-                    <input type="number" name="invoiceNo" class="form-control" id="invoiceNo"
-                           placeholder="Enter Invoice Number" required>
-                    <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -138,8 +141,6 @@
                         Please provide a valid state.
                     </div>
                 </div>
-
-
 
                 <div class="form-group offset-md-5">
                     <label for="">&nbsp;</label>
@@ -168,12 +169,14 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="form-group offset-md-5">
+                    <label for="">&nbsp;</label>
+                    <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Save</button>
+                </div>
             </div>
 
-            <div class="form-group offset-md-5">
-                <label for="">&nbsp;</label>
-                <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Save</button>
-            </div>
+            
 
         }
 

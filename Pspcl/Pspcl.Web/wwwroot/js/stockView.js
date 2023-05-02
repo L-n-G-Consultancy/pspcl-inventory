@@ -92,9 +92,9 @@ $(function () {
                     $("#ratingId").append($('<option>').text("--Select Rating--").val(""));
                     $.each(result, function (i, response) {
                         if (response.text == null) {
-                            $("#ratingId").append($('<option>').text("None").val(response.Value));
+                            $("#ratingId").append($('<option>').text("None").val(response.value));
                         } else {
-                            $("#ratingId").append($('<option>').text(response.text).val(response.Value));
+                            $("#ratingId").append($('<option>').text(response.text).val(response.value));
                         }
                     });
                 }
@@ -119,9 +119,9 @@ $(function () {
                     $("#materialId").append($('<option>').text("--Select Material Code--").val(""));
                     $.each(result, function (i, response) {
                         if (response.text == null) {
-                            $("#materialId").append($('<option>').text("None").val(response.Value));
+                            $("#materialId").append($('<option>').text("None").val(response.value));
                         } else {
-                            $("#materialId").append($('<option>').text(response.text).val(response.Value));
+                            $("#materialId").append($('<option>').text(response.text).val(response.value));
                         }
                     });
                 }
