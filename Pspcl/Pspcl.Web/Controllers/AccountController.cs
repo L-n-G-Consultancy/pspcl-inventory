@@ -66,12 +66,65 @@ namespace Pspcl.Web.Controllers
             return View(model);
         }
         
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
+
+        [HttpGet]
+        [Authorize]
+		public IActionResult AddUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task< IActionResult> AddUser(User user, string password, string confirmPassword)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check that password and confirmPassword match
+                if (password != confirmPassword)
+                {
+                    ModelState.AddModelError("", "The password and confirm password fields do not match.");
+                    return View(user);
+                }
+
+                // Create the new user object
+                var newUser = new User
+                {
+                    UserName = user.Email,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,                    
+                    IsActive = true,
+                    EmailConfirmed = true,                    
+                    AccessFailedCount = 0,
+                    IsDeleted = false,
+
+                };
+
+                // Add the user to the database
+                var result = await _userManager.CreateAsync(newUser, password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+
+            return View(user);
+        }
+
 
     }
 }

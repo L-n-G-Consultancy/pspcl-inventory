@@ -15,5 +15,6 @@ namespace Pspcl.Core.Domain
         public DateTime? CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+        public int DivisionId { get; set; }
     }
 }

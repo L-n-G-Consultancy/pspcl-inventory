@@ -210,7 +210,9 @@ img{max-width:100%;}
 .mm-active > i {
     color: #fff !important;
 }
-.vertical-menu.mm-active { background:#fff; }
+.vertical-menu.mm-active {
+    background: #016c9a;
+}
 @media (max-width: 992px) {
     .vertical-menu {
         display: none;
@@ -219,7 +221,8 @@ img{max-width:100%;}
         margin-left: 0 !important;
     }
     body.sidebar-enable .vertical-menu {
-        display: block; background:#fff;
+        display: block;
+        background: #016c9a;
     }
 }
 .vertical-collpsed .main-content {

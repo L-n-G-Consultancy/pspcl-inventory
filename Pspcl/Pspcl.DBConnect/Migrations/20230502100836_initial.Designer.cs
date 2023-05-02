@@ -12,7 +12,7 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230427073309_initial")]
+    [Migration("20230502100836_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -137,12 +137,7 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubDivisionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubDivisionId");
 
                     b.ToTable("Circle");
                 });
@@ -154,6 +149,9 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CircleId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -170,12 +168,7 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubDivisionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubDivisionId");
 
                     b.ToTable("Division");
                 });
@@ -212,7 +205,6 @@ namespace Pspcl.DBConnect.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
@@ -519,6 +511,9 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DivisionId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -679,28 +674,6 @@ namespace Pspcl.DBConnect.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Pspcl.Core.Domain.Circle", b =>
-                {
-                    b.HasOne("Pspcl.Core.Domain.SubDivision", "SubDivision")
-                        .WithMany()
-                        .HasForeignKey("SubDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubDivision");
-                });
-
-            modelBuilder.Entity("Pspcl.Core.Domain.Division", b =>
-                {
-                    b.HasOne("Pspcl.Core.Domain.SubDivision", "SubDivision")
-                        .WithMany()
-                        .HasForeignKey("SubDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubDivision");
                 });
 
             modelBuilder.Entity("Pspcl.Core.Domain.Material", b =>
