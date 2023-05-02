@@ -55,3 +55,41 @@ $(document).ready(() => {
 		$('tbody tr:first-child .remove-row').hide();
 	});
 });
+
+
+
+	$('#StockForm').on('submit', function (event) {
+		event.preventDefault();
+
+		if (validateInputs()) {
+			// submit the form
+			this.submit();
+		} else {
+			// show an error message or handle the invalid input
+			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
+		}
+	});
+
+
+
+
+
+function validateInputs() {
+	var isValid = true;
+
+	$('.to-input').each(function () {
+		var $this = $(this);
+		var $row = $this.closest('tr');
+		var fromVal = $row.find('.from-input').val();
+		var toVal = $this.val();
+
+		if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
+			isValid = false;
+			$this.addClass('is-invalid');
+		} else {
+			$this.removeClass('is-invalid');
+		}
+	});
+
+	return isValid;
+}
