@@ -124,7 +124,7 @@ namespace Pspcl.DBConnect.Install
                 {
                     var MaterialGroupData = new List<MaterialGroup>()
                     {
-                        new MaterialGroup() {Name="SP SMART METER",IsActive=true,IsDeleted=false },
+                        new MaterialGroup() {Name="SP SMART METER",IsActive=true,IsDeleted=false},
                         new MaterialGroup() {Name="SP NET METER",IsActive=true,IsDeleted=false},
                         new MaterialGroup() {Name="SP METER",IsActive=true,IsDeleted=false},
                         new MaterialGroup() {Name="SEAL",IsActive=true,IsDeleted=false},

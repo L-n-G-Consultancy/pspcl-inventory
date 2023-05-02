@@ -81,6 +81,7 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task< IActionResult> AddUser(User user, string password, string confirmPassword)
         {
             if (ModelState.IsValid)

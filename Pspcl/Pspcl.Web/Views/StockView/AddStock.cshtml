@@ -1,8 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
-
-
+@model Pspcl.Web.Models.StockViewModel
 <div class="main-content">
     <div class="page-content">
         @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class" }))
@@ -10,8 +9,9 @@
         {
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label for="inputState">Material Code:</label>
-                    <select id="inputState" name="materialCode" class="form-control">
+                    <label for="materialId">Material Code:</label>
+                    <select id="materialId" name="materialCode" class="form-control">
+                        <option selected disabled>--Select Material Code--</option>
                         @foreach (var item in Model.AvailableMaterialCodes)
                         {
                             <option value="@item.Value">@item.Text</option>
@@ -23,13 +23,15 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="inputState">Material Group:</label>
-                    <select id="inputState" name="materialGroups" class="form-control">
-                        @foreach (var item in Model.AvailableMaterialGroups)
+                    <label for="materialGroupId">Material Group</label>
+                    <select id="materialGroupId" name="materialGroupId" class="form-control">
+                        <option selected disabled>--Select Material Group--</option>
+                        @foreach (var data in Model.AvailableMaterialGroups)
                         {
-                            <option value="@item.Value">@item.Text</option>
+                            <option value="@data.Value">@data.Text</option>
                         }
                     </select>
+
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -37,18 +39,20 @@
 
                 <div class="form-group col-md-6">
                     <label for="date">Select GRN Date</label>
-                    <input type="date" class="form-control" id="date" placeholder="Select GRN Date" name="GRNDate">
+                    <input type="date" class="form-control" id="date" placeholder="Select GRN Date">
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="inputState">Material Type:</label>
-                    <select id="inputState" name="materialType" class="form-control">
-                        @foreach (var item in Model.AvailableMaterialTypes)
+                    <label for="materialTypeId">Material Type</label>
+                    <select id="materialTypeId" name="materialTypeId" class="form-control">
+                        <option selected disabled>--Select Material Type--</option>
+                        @foreach (var data in Model.AvailableMaterialTypes)
                         {
-                            <option value="@item.Value">@item.Text</option>
+                            <option value="@data.Value">@data.Text</option>
+
                         }
                     </select>
                     <div class="invalid-feedback">
@@ -67,10 +71,11 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Rating</label>
-                    <select id="inputState" name="rating" class="form-control">
-                        @foreach (var item in Model.AvailableRatings)
+                    <select id="ratingId" name="ratingId" class="form-control">
+                        <option selected disabled>--Select Rating--</option>
+                        @foreach (var data in Model.AvailableRatings)
                         {
-                            <option value="@item.Value">@item.Text</option>
+                            <option selected value="@data.Value">@data.Text</option>
                         }
                     </select>
                     <div class="invalid-feedback">
@@ -173,5 +178,4 @@
         }
     </div>
 </div>
-
 

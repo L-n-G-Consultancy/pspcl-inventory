@@ -1,15 +1,11 @@
-﻿ using Lamar.Microsoft.DependencyInjection;
+﻿using Lamar.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.DBConnect.Install;
-using Pspcl.Services;
 using Pspcl.Web.Lamar;
-using Pspcl.Web.MapperService;
 using Pspcl.Web.Mapping;
-using Pspcl.Web.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +29,6 @@ builder.Services.AddIdentity<User, Role>(cfg =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(cfg=>cfg.AddProfile<StockMappingProfilecs>());
-builder.Services.AddScoped<IStockService, StockService>();
 
 builder.Services.AddMvc(options =>
 {
@@ -59,10 +54,6 @@ var logger = new LoggerConfiguration()
 Log.Logger = logger;
 builder.Host.UseSerilog();
 
-//builder.Services.ConfigureApplicationCookie(options =>
-//{
-//    options.LoginPath = "/Account/Login";
-//});
 var app = builder.Build();
 
 
@@ -77,13 +68,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-//app.UseStaticFiles(new StaticFileOptions
-//{
-//    FileProvider = new PhysicalFileProvider(
-//        Path.Combine(Directory.GetCurrentDirectory(), "images")),
-//    RequestPath = "/images"
-//});
-
 app.UseRouting();
 app.UseAuthentication();
 app.Services.GetService<IDbInitializer>().Initialize().Wait();
@@ -95,13 +79,6 @@ app.UseEndpoints(endpoints =>
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}");
 
-    //endpoints.MapFallbackToController(
-    //  pattern: "{controller=Account}/{action=Login}/{returnUrl?}",
-    //  action: "Login",
-    //  controller: "Account"
-    //);
-
-    //endpoints.MapRazorPages();
     endpoints.MapControllers();
 });
 

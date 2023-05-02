@@ -1,25 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Pspcl.Core.Domain;
-using Pspcl.DBConnect;
-using Pspcl.Services;
+using Pspcl.Services.Interfaces;
 using Pspcl.Web.Models;
-using Pspcl.Core.Domain;
-using Microsoft.AspNetCore.Http;
-using JasperFx.Core;
-using System.Web;
-using NuGet.Protocol;
-using JasperFx.CodeGeneration.Frames;
 
 namespace Pspcl.Web.Controllers
+
 {
-    
-	public class StockViewController : Controller
-	{
-		private readonly IStockService _stockService;
-		private readonly IMapper _mapper;
+    [Authorize]
+    public class StockViewController : Controller
+    {
+        private readonly IStockService _stockService;
+        private readonly IMapper _mapper;
 
         public StockViewController(IStockService stockService, IMapper mapper)
         {
@@ -28,20 +21,42 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpGet]
-		public IActionResult AddStock()
-		{
-        
-
-			return View();
-		}        
-        
-		[HttpPost]
-		public IActionResult AddStock(StockViewModel model, IFormCollection formCollection)
+        public IActionResult AddStock()
         {
-         
-			return RedirectToAction("AddStock");
+            var materialGroup = _stockService.GetAllMaterialGroups();
+            StockViewModel viewModel = new StockViewModel();
+            viewModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            return View(viewModel);
         }
 
+        public JsonResult getMaterialTypes(int materialGroupId)
+        {
+            StockViewModel viewModel = new StockViewModel();
+            var materialType = _stockService.GetAllMaterialTypes(materialGroupId);
+            viewModel.AvailableMaterialTypes = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+            return Json(viewModel.AvailableMaterialTypes);
+        }
 
+        public JsonResult getRating(int materialTypeId)
+        {
+            StockViewModel viewModel = new StockViewModel();
+            var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
+            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+            return Json(viewModel.AvailableRatings);
+        }
+
+        public JsonResult getMaterialCodes(int materialTypeId)
+        {
+            StockViewModel viewModel = new StockViewModel();
+            var materialCodes = _stockService.GetAllMaterialCodes(materialTypeId);
+            viewModel.AvailableMaterialCodes = materialCodes.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Code }).ToList();
+            return Json(viewModel.AvailableMaterialCodes);
+        }
+
+        [HttpPost]
+        public IActionResult AddStock(StockViewModel model, IFormCollection formCollection)
+        {
+            return RedirectToAction("AddStock");
+        }
     }
 }
