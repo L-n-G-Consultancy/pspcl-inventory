@@ -54,8 +54,10 @@
         @Html.Partial("_Footer")
 
     </div>
+   
 
     <!-- JS Start -->
+    @await RenderSectionAsync("Scripts", required: false)
     <script src="~/js/main.min.js"></script>
     <script src="~/js/simplebar.min.js"></script>
     <script src="~/js/metisMenu.min.js"></script>
