@@ -56,6 +56,83 @@ $(document).ready(() => {
 	});
 });
 
+$(function () {
+    $("#materialGroupId").on("change", function () {
+        var materialGroupId = $(this).val();
+        $("#materialTypeId").empty();
+        if (materialGroupId) {
+            $.ajax({
+                url: "/StockView/getMaterialTypes",
+                type: "GET",
+                data: { materialGroupId: materialGroupId },
+                success: function (result) {
+                    $("#materialTypeId").append($('<option> ').text("--Select material Type--").val(""));
+                    $.each(result, function (i, response) {
+                        $("#materialTypeId").append($('<option>').text(response.text).val(response.value));
+                    });
+                }
+            });
+        }
+        else {
+            $("#materialTypeId").append($('<option>').text("--Select material Type--").val(""));
+        }
+    });
+});
+
+$(function () {
+    $("#materialTypeId").on("change", function () {
+        var materialTypeId = $(this).val();
+        $("#ratingId").empty();
+        if (materialTypeId) {
+            $.ajax({
+                url: "/StockView/GetRating",
+                type: "GET",
+                data: { materialTypeId: materialTypeId },
+                success: function (result) {
+                    $("#ratingId").append($('<option>').text("--Select Rating--").val(""));
+                    $.each(result, function (i, response) {
+                        if (response.text == null) {
+                            $("#ratingId").append($('<option>').text("None").val(response.Value));
+                        } else {
+                            $("#ratingId").append($('<option>').text(response.text).val(response.Value));
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            $("#ratingId").append($('<option>').text("--Select Rating--").val(""));
+        }
+    });
+});
+
+$(function () {
+    $("#materialTypeId").on("change", function () {
+        var materialTypeId = $(this).val();
+        $("#materialId").empty();
+        if (materialTypeId) {
+            $.ajax({
+                url: "/StockView/getMaterialCodes",
+                type: "GET",
+                data: { materialTypeId: materialTypeId },
+                success: function (result) {
+                    $("#materialId").append($('<option>').text("--Select Material Code--").val(""));
+                    $.each(result, function (i, response) {
+                        if (response.text == null) {
+                            $("#materialId").append($('<option>').text("None").val(response.Value));
+                        } else {
+                            $("#materialId").append($('<option>').text(response.text).val(response.Value));
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            $("#materialId").append($('<option>').text("--Select Material Code--").val(""));
+        }
+    });
+});
+
 
 
 	$('#StockForm').on('submit', function (event) {

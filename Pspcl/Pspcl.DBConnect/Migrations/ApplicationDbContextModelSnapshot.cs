@@ -134,12 +134,7 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubDivisionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubDivisionId");
 
                     b.ToTable("Circle");
                 });
@@ -151,6 +146,9 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CircleId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -167,12 +165,7 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubDivisionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SubDivisionId");
 
                     b.ToTable("Division");
                 });
@@ -209,7 +202,6 @@ namespace Pspcl.DBConnect.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedOn")
@@ -283,6 +275,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("MaterialGroupId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -457,12 +452,6 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaterialGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaterialId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -476,10 +465,6 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MaterialGroupId");
-
-                    b.HasIndex("MaterialId");
 
                     b.HasIndex("StockId");
 
@@ -512,6 +497,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DivisionId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -675,28 +663,6 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Pspcl.Core.Domain.Circle", b =>
-                {
-                    b.HasOne("Pspcl.Core.Domain.SubDivision", "SubDivision")
-                        .WithMany()
-                        .HasForeignKey("SubDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubDivision");
-                });
-
-            modelBuilder.Entity("Pspcl.Core.Domain.Division", b =>
-                {
-                    b.HasOne("Pspcl.Core.Domain.SubDivision", "SubDivision")
-                        .WithMany()
-                        .HasForeignKey("SubDivisionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SubDivision");
-                });
-
             modelBuilder.Entity("Pspcl.Core.Domain.Material", b =>
                 {
                     b.HasOne("Pspcl.Core.Domain.MaterialType", "MaterialType")
@@ -748,27 +714,11 @@ namespace Pspcl.DBConnect.Migrations
 
             modelBuilder.Entity("Pspcl.Core.Domain.StockMaterial", b =>
                 {
-                    b.HasOne("Pspcl.Core.Domain.MaterialGroup", "MaterialGroup")
-                        .WithMany()
-                        .HasForeignKey("MaterialGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pspcl.Core.Domain.Material", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Pspcl.Core.Domain.Stock", "Stock")
                         .WithMany()
                         .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Material");
-
-                    b.Navigation("MaterialGroup");
 
                     b.Navigation("Stock");
                 });
