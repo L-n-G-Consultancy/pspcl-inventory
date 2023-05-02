@@ -18,15 +18,22 @@ namespace Pspcl.Web.Controllers
     
 	public class StockViewController : Controller
 	{
-		[HttpGet]
+		private readonly IStockService _stockService;
+		private readonly IMapper _mapper;
+
+        public StockViewController(IStockService stockService, IMapper mapper)
+        {
+            _stockService = stockService;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
 		public IActionResult AddStock()
-    {
+		{
         
 
 			return View();
-		}
-        private readonly IStockService _stockService;
-        private readonly IMapper _mapper;
+		}        
         
 		[HttpPost]
 		public IActionResult AddStock(StockViewModel model, IFormCollection formCollection)

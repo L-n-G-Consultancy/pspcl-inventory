@@ -4,239 +4,174 @@
 
 
 <div class="main-content">
-	<div class="page-content">
-		@using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class" }))
+    <div class="page-content">
+        @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class" }))
 
-		{
-									<div class="row">
-										<div class="form-group col-md-6">
-					<label for="inputState">Material Code:</label>
-					<select id="inputState" name="materialCode" class="form-control">
-						@foreach (var item in Model.AvailableMaterialCodes)
-						{
-							<option value="@item.Value">@item.Text</option>
-						}
-					</select>
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+        {
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="inputState">Material Code:</label>
+                    <select id="inputState" name="materialCode" class="form-control">
+                        @foreach (var item in Model.AvailableMaterialCodes)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-					<label for="inputState">Material Group:</label>
-					<select id="inputState" name="materialGroups" class="form-control">
-						@foreach (var item in Model.AvailableMaterialGroups)
-						{
-							<option value="@item.Value">@item.Text</option>
-						}
-											</select>
-											<div class="valid-feedback">
-												Looks good!
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="inputState">Material Group:</label>
+                    <select id="inputState" name="materialGroups" class="form-control">
+                        @foreach (var item in Model.AvailableMaterialGroups)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="date">Select GRN Date</label>
-					<input type="date" class="form-control" id="date" placeholder="Select GRN Date" name="GRNDate">
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="date">Select GRN Date</label>
+                    <input type="date" class="form-control" id="date" placeholder="Select GRN Date" name="GRNDate">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-					<label for="inputState">Material Type:</label>
-					<select id="inputState" name="materialType" class="form-control">
-						@foreach (var item in Model.AvailableMaterialTypes)
-						{
-							<option value="@item.Value">@item.Text</option>
-						}
-											</select>
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="inputState">Material Type:</label>
+                    <select id="inputState" name="materialType" class="form-control">
+                        @foreach (var item in Model.AvailableMaterialTypes)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="date">GRN No</label>
-					<input type="text" name="GrnNO" class="form-control" id="grnNumber" name="GrnNO"
-												   placeholder="Enter GRN No">
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="date">GRN No</label>
+                    <input type="text" name="GrnNO" class="form-control" id="grnNumber" name="GrnNO"
+                           placeholder="Enter GRN No">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Rating</label>
-					<select id="inputState" name="rating" class="form-control">
-						@foreach (var item in Model.AvailableRatings)
-						{
-							<option value="@item.Value">@item.Text</option>
-						}
-											</select>
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Rating</label>
+                    <select id="inputState" name="rating" class="form-control">
+                        @foreach (var item in Model.AvailableRatings)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Test Report Reference</label>
-					<input type="text" name="TestReportReference" class="form-control" id="reportRef"
-												   placeholder="Enter Test Report Reference">
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Test Report Reference</label>
+                    <input type="text" name="TestReportReference" class="form-control" id="reportRef"
+                           placeholder="Enter Test Report Reference">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Make</label>
-					<input type="text" class="form-control" id="lookupTable" name="make"
-												   placeholder="Make">
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Make</label>
+                    <input type="text" class="form-control" id="lookupTable" name="make"
+                           placeholder="Make">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Invoice Date</label>
-					<input type="date" name="InvoiceDate" class="form-control" id="invoiceDate"
-												   placeholder="Select GRN Date">
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Invoice Date</label>
+                    <input type="date" name="InvoiceDate" class="form-control" id="invoiceDate"
+                           placeholder="Select GRN Date">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Rate</label>
-					<input type="number" name="rate" class="form-control" id="rate"
-												   placeholder="Enter Rate">
-											<small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Rate</label>
+                    <input type="number" name="rate" class="form-control" id="rate"
+                           placeholder="Enter Rate">
+                    <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Invoice No.</label>
-					<input type="number" name="invoiceNo" class="form-control" id="invoiceNo"
-						   placeholder="Enter Invoice Number">
-											<small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Invoice No.</label>
+                    <input type="number" name="invoiceNo" class="form-control" id="invoiceNo"
+                           placeholder="Enter Invoice Number">
+                    <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										<div class="form-group col-md-6">
-											<label for="">Prefix</label>
-					<input type="number" name="PrefixNumber" class="form-control" id="prefix"
-						   placeholder="Enter Prefix">
-											<div class="invalid-feedback">
-												Please provide a valid state.
-											</div>
-										</div>
+                <div class="form-group col-md-6">
+                    <label for="">Prefix</label>
+                    <input type="number" name="PrefixNumber" class="form-control" id="prefix"
+                           placeholder="Enter Prefix">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-										
 
-										<div class="form-group offset-md-5">
-											<label for="">&nbsp;</label>
-											<button id="addMaterialButton" type="button" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Add Material</button>
-										</div>
-									</div>
-								</form>
 
-								<div id="materialTable" class="mt-3 mb-5 border-black-top pt-4" style="display:none">
-				<table id="stockTable" class="table table-responsive custom-table">
-										<thead class="thead-dark">
-											<tr>
-												<th scope="col">Sr. No From</th>
-												<th scope="col">Sr. No To</th>
-												<th scope="col">QTY</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-											</tr>
-										</thead>
-					<tbody id="myTableBody" name="tableData">
-						<tr name="row_1">
-							<td><input name="row_1_from" type="text" class="from-input" placeholder="From"></td>
-							<td><input name="row_1_to" type="text" class="to-input" placeholder="To"></td>
-							<td><input name="row_1_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>
-												<td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>
-												<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>
-											</tr>
-										</tbody>
-									</table>
-			</div>
+                <div class="form-group offset-md-5">
+                    <label for="">&nbsp;</label>
+                    <button id="addMaterialButton" type="button" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Add Material</button>
+                </div>
+            </div>
 
-			<div class="form-group offset-md-5">
-				<label for="">&nbsp;</label>
-				<button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Save</button>
-								</div>
+            <div id="materialTable" class="mt-3 mb-5 border-black-top pt-4" style="display:none">
+                <table id="stockTable" class="table table-responsive custom-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Sr. No From</th>
+                            <th scope="col">Sr. No To</th>
+                            <th scope="col">QTY</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableBody" name="tableData">
+                        <tr name="row_1">
+                            <td><input name="row_1_from" type="text" class="from-input" placeholder="From"></td>
+                            <td><input name="row_1_to" type="text" class="to-input" placeholder="To"></td>
+                            <td><input name="row_1_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>
+                            <td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>
+                            <td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-		}
-					</div>
-				</div>
+            <div class="form-group offset-md-5">
+                <label for="">&nbsp;</label>
+                <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Save</button>
+            </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        }
+    </div>
+</div>
 
-<script>
-
-	$(document).on('input', '.from-input, .to-input', calculateQty);
-
-	$(document).on('click', '.add-row', addRow);
-
-	$(document).on('click', '.remove-row', removeRow);
-
-	$("#addMaterialButton").click(function (event) {
-		event.preventDefault();
-		$("#materialTable").show();
-	});
-
-	$('tbody tr:first-child .remove-row').hide();
-	function calculateQty() {
-		var fromVal = $(this).closest('tr').find('.from-input').val();
-		var toVal = $(this).closest('tr').find('.to-input').val();
-
-		if (fromVal && toVal) {
-			var qtyVal = toVal - fromVal;
-			$(this).closest('tr').find('.qty-input').val(qtyVal);
-		}
-		else {
-			$(this).closest('tr').find('.qty-input').val('');
-		}
-	}
-
-	function addRow() {
-		var rowCount = $("#myTableBody tr").length;
-		var newRow = $('<tr>');
-		var cols = '';
-
-		cols += '<td><input type="text" class="from-input" placeholder="From"></td>';
-		cols += '<td><input type="text" class="to-input" placeholder="To"></td>';
-		cols += '<td><input type="text" class="qty-input" placeholder="Quantity" readonly></td>';
-
-		if (rowCount > 1) {
-			cols += '<td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>';
-			cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-		}
-		else {
-			cols += '<td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>';
-			cols += '<td><button style="display:none" type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-		}
-
-		newRow.append(cols);
-		$('tbody').append(newRow);
-
-		if (rowCount > 0) {
-			$("#myTableBody tr:last-child .remove-row").show();
-		}
-	}
-
-	function removeRow() {
-		var rowCount = $("#myTableBody tr").length;
-		if( rowCount>1){
-			$(this).closest('tr').remove();
-		}
-		
-	}
-
-</script>
 

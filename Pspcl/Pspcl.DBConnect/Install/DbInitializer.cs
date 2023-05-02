@@ -46,10 +46,13 @@ namespace Pspcl.DBConnect.Install
                 await CreateDefaultMaterialGroup();
                 await CreateDefaultMaterialType();
                 await CreateDefaultMaterial();
-				
-			}
-			
-		}
+                await CreateDefaultCircle();
+                await CreateDefaultDivision();
+                await CreateDefaultSubDivision();
+
+            }
+
+        }
 
         /// <summary>
         /// 
@@ -157,75 +160,75 @@ namespace Pspcl.DBConnect.Install
             }
 
         }
-		public async Task CreateDefaultMaterialType()
-		{
-			try
-			{
-				if (!_identityContext.MaterialType.Any())
-				{
-					var MaterialTypeData = new List<MaterialType>()
-					{
-						new MaterialType() {Name="SP SMART METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=1},
-						new MaterialType() {Name="SP BI-DIR METERS",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=2},
-						new MaterialType() {Name="SP METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=3},
-						new MaterialType() {Name="PLASTIC SEAL",IsActive=true,IsDeleted=false, Rating = "10-60",MaterialGroupId=4},
-						new MaterialType() {Name="POWER PACK UNIT WITH BATTERY",IsActive=true,IsDeleted=false, Rating = "10-60",MaterialGroupId=5},
-						new MaterialType() {Name="SMART METERS (P/P)",IsActive=true,IsDeleted=false, Rating = "3* 10-60",MaterialGroupId=6},
-						new MaterialType() {Name="PP BI-DIR METER (3*10-60)",IsActive=true,IsDeleted=false, Rating = "3* 10-60",MaterialGroupId=7},
-						new MaterialType() {Name="PP METER (3*10-60)",IsActive=true,IsDeleted=false,Rating="3* 10-60",MaterialGroupId=8},
-						new MaterialType() {Name="COMPACT STATICS ON LINE METER TESTING EQUIPMENT (SECURE) FOR S/P METERS",IsActive =true,IsDeleted=false,MaterialGroupId=9},
-						new MaterialType() {Name="SP MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="PP MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="MCB 20 IN 1",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="MCB 6 IN 1",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="MCB (4 IN 1)",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="LTCT MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="MCB (IPDS)",IsActive=true,IsDeleted=false,MaterialGroupId=10},
-						new MaterialType() {Name="LTCT (DT) SET 100/5",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=11},
-						new MaterialType() {Name="LTCT (DT) SET 200/5",IsActive=true,IsDeleted=false,Rating="200/5",MaterialGroupId=11},
-						new MaterialType() {Name="LTCT (DT) SET 400/5",IsActive=true,IsDeleted=false,Rating="400/5",MaterialGroupId=11},
-						new MaterialType() {Name="LTCT SET (100/5)",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=12},
-						new MaterialType() {Name="LTCT SET (200/5)",IsActive=true,IsDeleted=false,Rating="200/5",MaterialGroupId=12},
-						new MaterialType() {Name="LTCT SET (400/5)",IsActive=true,IsDeleted=false,Rating="400/5",MaterialGroupId=12},
-						new MaterialType() {Name="LTCT METER (100/5)",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=13},
-						new MaterialType() {Name="LTCT METER (200/5)",IsActive = true,IsDeleted=false,Rating="200/5",MaterialGroupId=13},
-						new MaterialType() {Name="LT IN BUILT METER (40-200 A)",IsActive=true,IsDeleted = false,Rating="40-200",MaterialGroupId=13},
-						new MaterialType() {Name="LTCT (DT) METERS -/5",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=14},
-						new MaterialType() {Name="HT METER (-/5)",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=15},
-						new MaterialType() {Name="HT METER (S/STN.)",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=15},
-						new MaterialType() {Name="DIGITAL GAUSS METER",IsActive=true,IsDeleted = false,MaterialGroupId=16},
-						new MaterialType() {Name="ELECTRONIC TESTING SET & BENCH",IsActive=true,IsDeleted = false,MaterialGroupId=17},
-						new MaterialType() {Name="DT METER 800/5",IsActive=true,IsDeleted = false,Rating="800/5",MaterialGroupId=18},
-						new MaterialType() {Name="DT SET 800/5",IsActive=true,IsDeleted = false,Rating="800/5",MaterialGroupId=18},
-						new MaterialType() {Name="DT BOX",IsActive=true,IsDeleted = false,MaterialGroupId=19},
-						new MaterialType() {Name="CTPT UNIT 10/5",IsActive=true,IsDeleted = false,Rating="10/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 20/5",IsActive=true,IsDeleted = false,Rating="20/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 30/5",IsActive=true,IsDeleted = false,Rating="30/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 50/5",IsActive=true,IsDeleted = false,Rating="50/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 75/5",IsActive=true,IsDeleted = false,Rating="75/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 100/5",IsActive=true,IsDeleted = false,Rating="100/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 150/5",IsActive=true,IsDeleted = false,Rating="150/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 200/5",IsActive=true,IsDeleted = false,Rating="200/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 300/5",IsActive=true,IsDeleted = false,Rating="300/5",MaterialGroupId=20},
-						new MaterialType() {Name="CTPT UNIT 400/5",IsActive=true,IsDeleted = false,Rating="400/5",MaterialGroupId=20},
-						new MaterialType() {Name="CMRI (DMRI)",IsActive=true,IsDeleted = false,MaterialGroupId=21},
-						new MaterialType() {Name="ALUMINIUM CABLE",IsActive=true,IsDeleted = false,MaterialGroupId=22},
+        public async Task CreateDefaultMaterialType()
+        {
+            try
+            {
+                if (!_identityContext.MaterialType.Any())
+                {
+                    var MaterialTypeData = new List<MaterialType>()
+                    {
+                        new MaterialType() {Name="SP SMART METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=1},
+                        new MaterialType() {Name="SP BI-DIR METERS",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=2},
+                        new MaterialType() {Name="SP METER (10-60)",IsActive=true,IsDeleted=false,Rating="10-60",MaterialGroupId=3},
+                        new MaterialType() {Name="PLASTIC SEAL",IsActive=true,IsDeleted=false, Rating = "10-60",MaterialGroupId=4},
+                        new MaterialType() {Name="POWER PACK UNIT WITH BATTERY",IsActive=true,IsDeleted=false, Rating = "10-60",MaterialGroupId=5},
+                        new MaterialType() {Name="SMART METERS (P/P)",IsActive=true,IsDeleted=false, Rating = "3* 10-60",MaterialGroupId=6},
+                        new MaterialType() {Name="PP BI-DIR METER (3*10-60)",IsActive=true,IsDeleted=false, Rating = "3* 10-60",MaterialGroupId=7},
+                        new MaterialType() {Name="PP METER (3*10-60)",IsActive=true,IsDeleted=false,Rating="3* 10-60",MaterialGroupId=8},
+                        new MaterialType() {Name="COMPACT STATICS ON LINE METER TESTING EQUIPMENT (SECURE) FOR S/P METERS",IsActive =true,IsDeleted=false,MaterialGroupId=9},
+                        new MaterialType() {Name="SP MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="PP MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="MCB 20 IN 1",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="MCB 6 IN 1",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="MCB (4 IN 1)",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="LTCT MCB",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="MCB (IPDS)",IsActive=true,IsDeleted=false,MaterialGroupId=10},
+                        new MaterialType() {Name="LTCT (DT) SET 100/5",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=11},
+                        new MaterialType() {Name="LTCT (DT) SET 200/5",IsActive=true,IsDeleted=false,Rating="200/5",MaterialGroupId=11},
+                        new MaterialType() {Name="LTCT (DT) SET 400/5",IsActive=true,IsDeleted=false,Rating="400/5",MaterialGroupId=11},
+                        new MaterialType() {Name="LTCT SET (100/5)",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=12},
+                        new MaterialType() {Name="LTCT SET (200/5)",IsActive=true,IsDeleted=false,Rating="200/5",MaterialGroupId=12},
+                        new MaterialType() {Name="LTCT SET (400/5)",IsActive=true,IsDeleted=false,Rating="400/5",MaterialGroupId=12},
+                        new MaterialType() {Name="LTCT METER (100/5)",IsActive=true,IsDeleted=false,Rating="100/5",MaterialGroupId=13},
+                        new MaterialType() {Name="LTCT METER (200/5)",IsActive = true,IsDeleted=false,Rating="200/5",MaterialGroupId=13},
+                        new MaterialType() {Name="LT IN BUILT METER (40-200 A)",IsActive=true,IsDeleted = false,Rating="40-200",MaterialGroupId=13},
+                        new MaterialType() {Name="LTCT (DT) METERS -/5",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=14},
+                        new MaterialType() {Name="HT METER (-/5)",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=15},
+                        new MaterialType() {Name="HT METER (S/STN.)",IsActive=true,IsDeleted = false,Rating="-5",MaterialGroupId=15},
+                        new MaterialType() {Name="DIGITAL GAUSS METER",IsActive=true,IsDeleted = false,MaterialGroupId=16},
+                        new MaterialType() {Name="ELECTRONIC TESTING SET & BENCH",IsActive=true,IsDeleted = false,MaterialGroupId=17},
+                        new MaterialType() {Name="DT METER 800/5",IsActive=true,IsDeleted = false,Rating="800/5",MaterialGroupId=18},
+                        new MaterialType() {Name="DT SET 800/5",IsActive=true,IsDeleted = false,Rating="800/5",MaterialGroupId=18},
+                        new MaterialType() {Name="DT BOX",IsActive=true,IsDeleted = false,MaterialGroupId=19},
+                        new MaterialType() {Name="CTPT UNIT 10/5",IsActive=true,IsDeleted = false,Rating="10/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 20/5",IsActive=true,IsDeleted = false,Rating="20/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 30/5",IsActive=true,IsDeleted = false,Rating="30/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 50/5",IsActive=true,IsDeleted = false,Rating="50/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 75/5",IsActive=true,IsDeleted = false,Rating="75/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 100/5",IsActive=true,IsDeleted = false,Rating="100/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 150/5",IsActive=true,IsDeleted = false,Rating="150/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 200/5",IsActive=true,IsDeleted = false,Rating="200/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 300/5",IsActive=true,IsDeleted = false,Rating="300/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CTPT UNIT 400/5",IsActive=true,IsDeleted = false,Rating="400/5",MaterialGroupId=20},
+                        new MaterialType() {Name="CMRI (DMRI)",IsActive=true,IsDeleted = false,MaterialGroupId=21},
+                        new MaterialType() {Name="ALUMINIUM CABLE",IsActive=true,IsDeleted = false,MaterialGroupId=22},
 
 
-					};
+                    };
 
-					_identityContext.MaterialType.AddRange(MaterialTypeData);
-					await _identityContext.SaveChangesAsync();
-					_logger.LogInformation("Material Type data inserted : {@MaterialTypeData}", MaterialTypeData);
+                    _identityContext.MaterialType.AddRange(MaterialTypeData);
+                    await _identityContext.SaveChangesAsync();
+                    _logger.LogInformation("Material Type data inserted : {@MaterialTypeData}", MaterialTypeData);
 
-				}
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Exception");
-			}
-		}
-		public async Task CreateDefaultMaterial()
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+        }
+        public async Task CreateDefaultMaterial()
         {
             try
             {
@@ -335,17 +338,224 @@ namespace Pspcl.DBConnect.Install
                     new Material() {Name="CMRI (DMRI)",Code="CMRI/ENF",MaterialTypeId=44,IsActive=true,IsDeleted = false},
                     new Material() {Name="ALUMINIUM CABLE",Code="LTAC",MaterialTypeId=45,IsActive=true,IsDeleted = false}
                 };
-				_identityContext.Material.AddRange(MaterialData);
-				await _identityContext.SaveChangesAsync();
-				_logger.LogInformation("Material data inserted : {@MaterialData}", MaterialData);
+                _identityContext.Material.AddRange(MaterialData);
+                await _identityContext.SaveChangesAsync();
+                _logger.LogInformation("Material data inserted : {@MaterialData}", MaterialData);
 
-			}
-			catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-				_logger.LogError(ex, "Exception");
-			}
+                _logger.LogError(ex, "Exception");
+            }
 
         }
+        public async Task CreateDefaultCircle()
+        {
+            try
+            {
+                var CircleData = new List<Circle>()
+                {
+                    new Circle(){Name="GURDASPUR",IsActive=true,IsDeleted=false},
+                    new Circle(){Name="SUB-URBAN AMRITSAR",IsActive=true,IsDeleted=false},
+                    new Circle(){Name="CITY AMRITSAR",IsActive=true,IsDeleted=false},
+                    new Circle(){Name="TARN-TARAN",IsActive=true,IsDeleted=false},
+                    new Circle(){Name="APDRP",IsActive=true,IsDeleted=false}
+                };
+                _identityContext.Circle.AddRange(CircleData);
+                await _identityContext.SaveChangesAsync();
+                _logger.LogInformation("Circle Data inserted : {@CircleData}", CircleData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+        }
+        public async Task CreateDefaultDivision()
+        {
+            try
+            {
+                var DivisionData = new List<Division>()
+                {
+                    new Division(){Name="CITY BATALA",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="SUB BATALA",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="DHARIWAL",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="GURDASPUR",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="CITY PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="SUB PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="QADIAN",IsActive=true,IsDeleted=false,CircleId=1},
 
-	}
+                    new Division(){Name="EAST",IsActive=true,IsDeleted=false,CircleId=2},
+                    new Division(){Name="WEST",IsActive=true,IsDeleted=false,CircleId=2},
+                    new Division(){Name="SUB ASR",IsActive=true,IsDeleted=false,CircleId=2},
+                    new Division(){Name="AJNALA",IsActive=true,IsDeleted=false,CircleId=2},
+                    new Division(){Name="JANDIALA",IsActive=true,IsDeleted=false,CircleId=2},
+
+                    new Division(){Name="INDUSTRIAL",IsActive=true,IsDeleted=false,CircleId=3},
+                    new Division(){Name="CIVIL LINE",IsActive=true,IsDeleted=false,CircleId=3},
+                    new Division(){Name="CITY CENTRE",IsActive=true,IsDeleted=false,CircleId=3},
+                    new Division(){Name="HAKIMA GATE",IsActive=true,IsDeleted=false,CircleId=3},
+
+                    new Division(){Name="RAYYA",IsActive=true,IsDeleted=false,CircleId=4},
+                    new Division(){Name="CITY TT",IsActive=true,IsDeleted=false,CircleId=4},
+                    new Division(){Name="SUB TT",IsActive=true,IsDeleted=false,CircleId=4},
+                    new Division(){Name="PATTI",IsActive=true,IsDeleted=false,CircleId=4},
+                    new Division(){Name="BHIKHIWIND",IsActive=true,IsDeleted=false,CircleId=4},
+
+                    new Division(){Name="APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5},
+                    new Division(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5},
+                    new Division(){Name="APDRP GSP",IsActive=true,IsDeleted=false,CircleId=5},
+                };
+                _identityContext.Division.AddRange(DivisionData);
+                await _identityContext.SaveChangesAsync();
+                _logger.LogInformation("Division Data inserted : {@DivisionData}", DivisionData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+        }
+        public async Task CreateDefaultSubDivision()
+        {
+            try
+            {
+                var SubDivisionData = new List<SubDivision>()
+                {
+                    new SubDivision(){Name="CITY BATALA",IsActive=true,IsDeleted=false,DivisionId=1},
+                    new SubDivision(){Name="SOUTH BATALA",IsActive=true,IsDeleted=false,DivisionId=1},
+                    new SubDivision(){Name="EAST BATALA",IsActive=true,IsDeleted=false,DivisionId=1},
+                    new SubDivision(){Name="WEST BATALA",IsActive=true,IsDeleted=false,DivisionId=1},
+                    new SubDivision(){Name="UDHONWAL",IsActive=true,IsDeleted=false,DivisionId=1},
+                    new SubDivision(){Name="PANJ GARAHIAYAN",IsActive=true,IsDeleted=false,DivisionId=1},
+
+                    new SubDivision(){Name="NORTH BATALA",IsActive=true,IsDeleted=false,DivisionId=2},
+                    new SubDivision(){Name="MODEL TOWN BATALA",IsActive=true,IsDeleted=false,DivisionId=2},
+                    new SubDivision(){Name="K.S MALHI",IsActive=true,IsDeleted=false,DivisionId=2},
+                    new SubDivision(){Name="F.G CHURIYAAN CITY",IsActive=true,IsDeleted=false,DivisionId=2},
+                    new SubDivision(){Name="ALIWAL",IsActive=true,IsDeleted=false,DivisionId=2},
+                    new SubDivision(){Name="D.B NANAK",IsActive=true,IsDeleted=false,DivisionId=2},
+
+                    new SubDivision(){Name="DHARIWAL",IsActive=true,IsDeleted=false,DivisionId=3},
+                    new SubDivision(){Name="KALANAUR",IsActive=true,IsDeleted=false,DivisionId=3},
+                    new SubDivision(){Name="DEHRIWAL",IsActive=true,IsDeleted=false,DivisionId=3},
+                    new SubDivision(){Name="N.M SINGH",IsActive=true,IsDeleted=false,DivisionId=3},
+
+                    new SubDivision(){Name="CITY GSP",IsActive=true,IsDeleted=false,DivisionId=4},
+                    new SubDivision(){Name="SUB URBAN GSP",IsActive=true,IsDeleted=false,DivisionId=4},
+                    new SubDivision(){Name="JAURA CHHITRAN",IsActive=true,IsDeleted=false,DivisionId=4},
+                    new SubDivision(){Name="DURANGLA",IsActive=true,IsDeleted=false,DivisionId=4},
+                    new SubDivision(){Name="PURANA CHALLA",IsActive=true,IsDeleted=false,DivisionId=4},
+                    new SubDivision(){Name="BEHRAMPUR",IsActive=true,IsDeleted=false,DivisionId=4},
+                    new SubDivision(){Name="TIBBER",IsActive=true,IsDeleted=false,DivisionId=4},
+
+                    new SubDivision(){Name="NORTH PTK",IsActive=true,IsDeleted=false,DivisionId=5},
+                    new SubDivision(){Name="SOUTH PTK",IsActive=true,IsDeleted=false,DivisionId=5},
+                    new SubDivision(){Name="MIRTHAL",IsActive=true,IsDeleted=false,DivisionId=5},
+                    new SubDivision(){Name="SARNA",IsActive=true,IsDeleted=false,DivisionId=5},
+                    new SubDivision(){Name="SUJANPUR",IsActive=true,IsDeleted=false,DivisionId=5},
+                    new SubDivision(){Name="NAROT JAIMAL SINGH",IsActive=true,IsDeleted=false,DivisionId=5},
+
+                    new SubDivision(){Name="EAST PTK",IsActive=true,IsDeleted=false,DivisionId=6},
+                    new SubDivision(){Name="DINANAGAR",IsActive=true,IsDeleted=false,DivisionId=6},
+                    new SubDivision(){Name="DHAR",IsActive=true,IsDeleted=false,DivisionId=6},
+                    new SubDivision(){Name="PANDORI",IsActive=true,IsDeleted=false,DivisionId=6},
+
+                    new SubDivision(){Name="HARCHOWAL",IsActive=true,IsDeleted=false,DivisionId=7},
+                    new SubDivision(){Name="KAHNUWAL",IsActive=true,IsDeleted=false,DivisionId=7},
+                    new SubDivision(){Name="QADIAN",IsActive=true,IsDeleted=false,DivisionId=7},
+                    new SubDivision(){Name="SHRI HARGOBINDPUR",IsActive=true,IsDeleted=false,DivisionId=7},
+                    new SubDivision(){Name="GHUMAAN",IsActive=true,IsDeleted=false,DivisionId=7},
+
+                    new SubDivision(){Name="EAST",IsActive=true,IsDeleted=false,DivisionId=8},
+                    new SubDivision(){Name="GOPAL NAGAR",IsActive=true,IsDeleted=false,DivisionId=8},
+                    new SubDivision(){Name="SOUTH",IsActive=true,IsDeleted=false,DivisionId=8},
+                    new SubDivision(){Name="WEST",IsActive=true,IsDeleted=false,DivisionId=8},
+                    new SubDivision(){Name="CHHEHARTA",IsActive=true,IsDeleted=false,DivisionId=8},
+
+                    new SubDivision(){Name="CHOGAWAN",IsActive=true,IsDeleted=false,DivisionId=9},
+                    new SubDivision(){Name="LOPOKE",IsActive=true,IsDeleted=false,DivisionId=9},
+                    new SubDivision(){Name="KHASSA",IsActive=true,IsDeleted=false,DivisionId=9},
+                    new SubDivision(){Name="ATTARI",IsActive=true,IsDeleted=false,DivisionId=9},
+
+                    new SubDivision(){Name="HARCHACHINA",IsActive=true,IsDeleted=false,DivisionId=10},
+                    new SubDivision(){Name="MAJITHA-1",IsActive=true,IsDeleted=false,DivisionId=10},
+                    new SubDivision(){Name="UDHOKE",IsActive=true,IsDeleted=false,DivisionId=10},
+                    new SubDivision(){Name="MAJITHA-2",IsActive=true,IsDeleted=false,DivisionId=10},
+                    new SubDivision(){Name="KATHUNANGAL",IsActive=true,IsDeleted=false,DivisionId=10},
+
+                    new SubDivision(){Name="AJNALA",IsActive=true,IsDeleted=false,DivisionId=11},
+                    new SubDivision(){Name="JASTERWAL",IsActive=true,IsDeleted=false,DivisionId=11},
+                    new SubDivision(){Name="RAMDASS",IsActive=true,IsDeleted=false,DivisionId=11},
+                    new SubDivision(){Name="FG CHURIYAAN SUB",IsActive=true,IsDeleted=false,DivisionId=11},
+
+                    new SubDivision(){Name="JANDIALA",IsActive=true,IsDeleted=false,DivisionId=12},
+                    new SubDivision(){Name="BANDALA",IsActive=true,IsDeleted=false,DivisionId=12},
+                    new SubDivision(){Name="TANGRA",IsActive=true,IsDeleted=false,DivisionId=12},
+                    new SubDivision(){Name="FATEHPUR-RAJPUTAN",IsActive=true,IsDeleted=false,DivisionId=12},
+                    new SubDivision(){Name="KOT MIT SINGH",IsActive=true,IsDeleted=false,DivisionId=12},
+
+                    new SubDivision(){Name="SULTANWIND GATE",IsActive=true,IsDeleted=false,DivisionId=13},
+                    new SubDivision(){Name="CHATTIWIND GATE",IsActive=true,IsDeleted=false,DivisionId=13},
+                    new SubDivision(){Name="GOLDEN TEMPLE",IsActive=true,IsDeleted=false,DivisionId=13},
+
+                    new SubDivision(){Name="CIVIL LINES",IsActive=true,IsDeleted=false,DivisionId=14},
+                    new SubDivision(){Name="LAWRENCE ROAD",IsActive=true,IsDeleted=false,DivisionId=14},
+                    new SubDivision(){Name="ISLAMABAAD",IsActive=true,IsDeleted=false,DivisionId=14},
+
+                    new SubDivision(){Name="HUSSAINPURA",IsActive=true,IsDeleted=false,DivisionId=15},
+                    new SubDivision(){Name="GHEE MANDI",IsActive=true,IsDeleted=false,DivisionId=15},
+                    new SubDivision(){Name="MAAL MANDI",IsActive=true,IsDeleted=false,DivisionId=16},
+
+                    new SubDivision(){Name="HAKIMA GATE",IsActive=true,IsDeleted=false,DivisionId=16},
+                    new SubDivision(){Name="TUNDA TALAB",IsActive=true,IsDeleted=false,DivisionId=16},
+                    new SubDivision(){Name="DURGIANA MANDIR",IsActive=true,IsDeleted=false,DivisionId=16},
+
+                    new SubDivision(){Name="RAYYA",IsActive=true,IsDeleted=false,DivisionId=17},
+                    new SubDivision(){Name="BEAS",IsActive=true,IsDeleted=false,DivisionId=17},
+                    new SubDivision(){Name="MEHTA",IsActive=true,IsDeleted=false,DivisionId=17},
+                    new SubDivision(){Name="BUTAARI",IsActive=true,IsDeleted=false,DivisionId=17},
+                    new SubDivision(){Name="NAGOKE",IsActive=true,IsDeleted=false,DivisionId=17},
+                    new SubDivision(){Name="BABA BAKALA",IsActive=true,IsDeleted=false,DivisionId=17},
+
+                    new SubDivision(){Name="SUR SINGH",IsActive=true,IsDeleted=false,DivisionId=18},
+                    new SubDivision(){Name="MANOCHAHAL",IsActive=true,IsDeleted=false,DivisionId=18},
+                    new SubDivision(){Name="GOHALWAR",IsActive=true,IsDeleted=false,DivisionId=18},
+                    new SubDivision(){Name="TAN-TARAN CITY",IsActive=true,IsDeleted=false,DivisionId=18},
+                    new SubDivision(){Name="SARAI AMANT KHAN",IsActive=true,IsDeleted=false,DivisionId=18},
+                    new SubDivision(){Name="CHUBHAL",IsActive=true,IsDeleted=false,DivisionId=18},
+
+                    new SubDivision(){Name="FATEHABAD",IsActive=true,IsDeleted=false,DivisionId=19},
+                    new SubDivision(){Name="TARN TARAN SUB",IsActive=true,IsDeleted=false,DivisionId=19},
+                    new SubDivision(){Name="KHADOOR SAHIB",IsActive=true,IsDeleted=false,DivisionId=19},
+                    new SubDivision(){Name="NAUSHERA PANUAAN",IsActive=true,IsDeleted=false,DivisionId=19},
+
+                    new SubDivision(){Name="PATTI CITY",IsActive=true,IsDeleted=false,DivisionId=20},
+                    new SubDivision(){Name="PATTI SUB",IsActive=true,IsDeleted=false,DivisionId=20},
+                    new SubDivision(){Name="SARHALI",IsActive=true,IsDeleted=false,DivisionId=20},
+                    new SubDivision(){Name="HARIKE",IsActive=true,IsDeleted=false,DivisionId=20},
+                    new SubDivision(){Name="KAIRON",IsActive=true,IsDeleted=false,DivisionId=20},
+
+                    new SubDivision(){Name="BHIKHIWIND",IsActive=true,IsDeleted=false,DivisionId=21},
+                    new SubDivision(){Name="KHALRA",IsActive=true,IsDeleted=false,DivisionId=21},
+                    new SubDivision(){Name="AMARKOT",IsActive=true,IsDeleted=false,DivisionId=21},
+                    new SubDivision(){Name="KHEMKARAN",IsActive=true,IsDeleted=false,DivisionId=21},
+
+                    new SubDivision(){Name="APDRP ASR",IsActive=true,IsDeleted=false,DivisionId=22},
+
+                    new SubDivision(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,DivisionId=23},
+
+                    new SubDivision(){Name="APDRP GSP",IsActive=true,IsDeleted=false,DivisionId=24},
+                   
+                };
+                _identityContext.SubDivision.AddRange(SubDivisionData);
+                await _identityContext.SaveChangesAsync();
+                _logger.LogInformation("SubDivision Data inserted : {@SubDivisionData}", SubDivisionData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+        }
+
+
+    }
 }
