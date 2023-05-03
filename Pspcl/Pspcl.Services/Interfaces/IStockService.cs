@@ -10,6 +10,6 @@ namespace Pspcl.Services.Interfaces
         List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false);
 		int AddStock(Stock stock);
 		void AddStockMaterial(StockMaterial stockMaterial);
-		int GetMaterialByType(int typeId, string materialCode);
+		int GetMaterialByType(int? typeId, string materialCode);
 	}
 }
