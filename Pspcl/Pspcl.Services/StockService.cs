@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
@@ -58,5 +59,27 @@ namespace Pspcl.Services
             var materialCodes = _dbcontext.Material.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
-    }
+
+		public int AddStock(Stock stock)
+		{
+			_dbcontext.Set<Stock>().Add(stock);
+			_dbcontext.SaveChanges();
+			return stock.Id;
+		}
+
+		public void AddStockMaterial(StockMaterial stockMaterial)
+		{
+			_dbcontext.Set<StockMaterial>().Add(stockMaterial);
+			_dbcontext.SaveChanges();
+		}
+
+		public int GetMaterialByType(int? typeId, string materialCode)
+		{
+			var material = _dbcontext.Set<Material>()
+				.FirstOrDefault(m => m.MaterialTypeId == typeId);
+
+			return material.Id;
+		}
+
+	}
 }

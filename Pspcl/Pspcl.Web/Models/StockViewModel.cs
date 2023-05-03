@@ -2,11 +2,7 @@
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Pspcl.Core.Domain;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pspcl.Web.Models
 {
@@ -38,19 +34,19 @@ namespace Pspcl.Web.Models
 		//[DataMember]
 		public IList<SelectListItem>? AvailableMaterialGroups { get; set; }
 		//[DataMember]
-		public string? SelectedMaterialGroup { get; set; }
+		public int? MaterialGroupId { get; set; }
 		//[DataMember]
 		public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
 		//[DataMember]
-		public string? SelectedMaterialType { get; set; }
+		public int? MaterialTypeId { get; set; }
 		//[DataMember]
 		public IList<SelectListItem>? AvailableRatings { get; set; }
 		//[DataMember]
-		public string? SelectedRating { get; set; }
+		public string? Rating { get; set; }
 		//[DataMember]
 		public decimal? EnterRate { get; set; }
 		//[DataMember]
 		public string? PrefixNumber { get; set; }
-		public List<StockMaterial> stockMaterialLList { get; set; }
+		public List<StockMaterial> stockMaterialList { get; set; }
 	}
 }
