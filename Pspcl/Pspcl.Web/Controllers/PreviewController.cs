@@ -8,7 +8,8 @@ namespace Pspcl.Web.Controllers
 	{
 		public IActionResult Preview()
 		{
-			return View();
-		}
+           // return RedirectToAction("AddStock", "StockView");
+		   return View();
+        }
 	}
 }
