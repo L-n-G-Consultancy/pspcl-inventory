@@ -1,10 +1,198 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
+@model Pspcl.Web.Models.IssueStockModel
+
 
 <div class="main-content">
     <div class="page-content">
-        <h2>View For Issue Stock</h2>
-    </div>
 
+		<div class="row mt-3">
+			<div class="col-md-6">
+				<h2 class="h2-heading">Issue Stock</h2>
+			</div>
+			<div class="col-md-6 text-md-right text-left">
+				<button type="button" class="btn sr-btn mr-2 border-8">Reject SR</button>
+				<button type="button" class="btn sr-btn">Print/Save SR</button>
+			</div>
+		</div>
+
+		@using (Html.BeginForm("IssueStock", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm" }))
+		{	
+		<div class="row">
+				<div class="form-group col-md-6">
+					<label for="txoDo">TXO DD </label>
+					<input type="text" class="form-control" id="TxoDo" placeholder="Enter TXO DD">
+					<div class="valid-feedback"> Looks good! </div>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="date">Select Current Date</label>
+					<input type="date" class="form-control" id="CurrentDate" placeholder="Select current Date">
+					<div class="invalid-feedback"> Please provide a valid state. </div>
+				</div>
+
+				
+
+				<div class="form-group col-md-6">
+					<label for="srNo">Sr No</label>
+					<input type="text" class="form-control" id="SrNo" placeholder="Enter Sr No">
+					<div class="invalid-feedback"> Please provide a valid state. </div>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="date"> Date</label>
+					<input type="date" class="form-control" id="Date" placeholder="Select GRN Date">
+					<div class="invalid-feedback">
+						Please provide a valid state.
+					</div>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="subDivId">Sub Division Name</label>
+					<select id="SelectedSubDivId" class="form-control">
+						<option disabled>--Select Material Group--</option>
+						@foreach (var data in Model.SubDivisionList)
+							{
+								<option value="@data.Value">@data.Text</option>
+							}
+					</select>
+					<div class="invalid-feedback">
+						Please provide a valid state.
+					</div>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="divName">Div Name</label>
+					<input type="text" class="form-control" id="divName" value="         " readonly>
+					<div class="invalid-feedback"> Please provide a valid state. </div>
+				</div>
+
+				
+
+				<div class="form-group col-md-6">
+					<label for="cicleName">Circle Name</label>
+			<input type="text" class="form-control" id="cicleName" value="           " readonly>
+					<div class="invalid-feedback"> Please provide a valid state. </div>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="jeName">Je Name</label>
+					<input type="text" class="form-control" id="JeName" placeholder="Enter Je Name">
+					<div class="invalid-feedback"> Please provide a valid state. </div>
+				</div>
+
+				<div class="col-md-12 text-center">
+					<label for="">&nbsp;</label>
+					<button type="button" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-lg">Add Material</button>
+					<button type="button" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
+				</div>
+			</div>
+}
+
+		<!-- Add Material Modal -->
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-white" id="mySmallModalLabel">Add Material</h5>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="mx-auto px-4  font-weight-normal">
+						<form class="mt-4">
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label for="matGroup">Material Group</label>
+									<select id="matGroup" class="form-control">
+										<option disabled>--Select Material Group--</option>
+										@*@foreach (var data in Model.AvailableMaterialGroups)
+										{
+											<option value="@data.Value">@data.Text</option>
+										}*@
+									</select>
+									<div class="valid-feedback"> Looks good! </div>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label for="matType">Material Type</label>
+									<select id="matType" class="form-control">
+										<option disabled>--Select Material Type--</option>
+										@*@foreach (var data in Model.AvailableMaterialTypes)
+										{
+											<option value="@data.Value">@data.Text</option>
+
+										}*@
+									</select>
+									<div class="invalid-feedback"> Please provide a valid state. </div>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label for="matCode">Material Code</label>
+									<select id="matCode" class="form-control">
+										<option disabled>--Select Material Code--</option>
+										@*@foreach (var item in Model.AvailableMaterialCodes)
+										{
+											<option value="@item.Value">@item.Text</option>
+										}*@
+									</select>
+									<div class="invalid-feedback"> Please provide a valid state.</div>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label for="quantity">Quantity</label>
+									<input type="text" class="form-control" id="Quantity" placeholder="Enter Quantity">
+									<div class="valid-feedback"> Looks good! </div>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label for="srNoFrom">Sr. No From</label>
+									<input type="text" class="form-control" id="SrNoFrom" placeholder="Enter Sr No From">
+									<div class="valid-feedback"> Looks good!</div>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label for="srNoTo">Sr. No To</label>
+									<input type="text" class="form-control" id="SrNoTo" placeholder="Enter Sr No To">
+									<div class="valid-feedback"> Looks good!</div>
+								</div>
+
+								@*<div class="form-group col-md-6">
+									<label for="materialCode">Material Code</label>
+									<input type="text" class="form-control" id="materialCode" placeholder="Enter Material Cod">
+									<div class="valid-feedback"> Looks good!</div>
+								</div>
+								*@
+								
+
+							</div>
+							<div class="text-center mb-5 ">
+								<button type="button" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-sm">Issue Stock</button>
+								<button type="button" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-sm-6">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-white" id="mySmallModalLabel"> Stock Issuance</h5>
+						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<p class="mx-auto my-5 font-weight-normal">
+						Stock has been issued Successfully!
+					</p>
+				</div>
+			</div>
+		</div>
+
+
+    </div>
 </div>

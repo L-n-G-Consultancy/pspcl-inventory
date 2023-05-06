@@ -60,6 +60,15 @@ namespace Pspcl.Services
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
 
+		public List<SubDivision> GetAllSubDivisions(bool? onlyActive = false)
+		{
+			if (!onlyActive.HasValue)
+			{
+				return _dbcontext.SubDivision.ToList();
+			}
+			return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
+		}
+
 		public int AddStock(Stock stock)
 		{
 			_dbcontext.Set<Stock>().Add(stock);
