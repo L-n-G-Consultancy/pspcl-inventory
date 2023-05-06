@@ -2,7 +2,8 @@
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
 @model Pspcl.Web.Models.IssueStockModel
-
+@*@model Pspcl.Web.Models.StockViewModel
+*@
 
 <div class="main-content">
     <div class="page-content">
@@ -103,41 +104,47 @@
 					<div class="mx-auto px-4  font-weight-normal">
 						<form class="mt-4">
 							<div class="row">
+							
 								<div class="form-group col-md-6">
-									<label for="matGroup">Material Group</label>
-									<select id="matGroup" class="form-control">
+									<label for="materialGroupId">Material Group</label>
+									<select id="materialGroupId" name="materialGroup" class="form-control" required>
 										<option disabled>--Select Material Group--</option>
-										@*@foreach (var data in Model.AvailableMaterialGroups)
+										@foreach (var data in Model.AvailableMaterialGroups)
 										{
 											<option value="@data.Value">@data.Text</option>
-										}*@
+										}
 									</select>
-									<div class="valid-feedback"> Looks good! </div>
+									<div class="valid-feedback">
+										Looks good!
+									</div>
 								</div>
 
 								<div class="form-group col-md-6">
-									<label for="matType">Material Type</label>
-									<select id="matType" class="form-control">
+									<label for="materialTypeId">Material Type</label>
+									<select id="materialTypeId" name="materialType" class="form-control" required>
 										<option disabled>--Select Material Type--</option>
-										@*@foreach (var data in Model.AvailableMaterialTypes)
+										@foreach (var data in Model.AvailableMaterialTypes)
 										{
 											<option value="@data.Value">@data.Text</option>
-
-										}*@
+										}
 									</select>
-									<div class="invalid-feedback"> Please provide a valid state. </div>
+									<div class="invalid-feedback">
+										Please provide a valid state.
+									</div>
 								</div>
 
 								<div class="form-group col-md-6">
-									<label for="matCode">Material Code</label>
-									<select id="matCode" class="form-control">
+									<label for="materialId">Material Code:</label>
+									<select id="materialId" name="materialCode" class="form-control" required>
 										<option disabled>--Select Material Code--</option>
-										@*@foreach (var item in Model.AvailableMaterialCodes)
+										@foreach (var item in Model.AvailableMaterialCodes)
 										{
 											<option value="@item.Value">@item.Text</option>
-										}*@
+										}
 									</select>
-									<div class="invalid-feedback"> Please provide a valid state.</div>
+									<div class="invalid-feedback">
+										Please provide a valid state.
+									</div>
 								</div>
 
 								<div class="form-group col-md-6">
@@ -162,8 +169,8 @@
 									<label for="materialCode">Material Code</label>
 									<input type="text" class="form-control" id="materialCode" placeholder="Enter Material Cod">
 									<div class="valid-feedback"> Looks good!</div>
-								</div>
-								*@
+								</div>*@
+								
 								
 
 							</div>

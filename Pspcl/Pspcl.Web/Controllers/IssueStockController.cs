@@ -20,19 +20,14 @@ namespace Pspcl.Web.Controllers
 		public IActionResult IssueStockView()
         {
 			var subDivisions = _stockService.GetAllSubDivisions();
+			var materialGroup = _stockService.GetAllMaterialGroups();
+
 			IssueStockModel issueStockModel = new IssueStockModel();
+
 			issueStockModel.SubDivisionList = subDivisions.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+			issueStockModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 			return View(issueStockModel);
-			
-        }
 
-
-		//public JsonResult getDivision(int subDivisionId)
-		//{
-		//	StockViewModel viewModel = new StockViewModel();
-		//	var materialType = _stockService.GetAllMaterialTypes(subDivisionId);
-		//	viewModel.AvailableMaterialTypes = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-		//	return Json(viewModel.AvailableMaterialTypes);
-		//}
+		}
 	}
 }
