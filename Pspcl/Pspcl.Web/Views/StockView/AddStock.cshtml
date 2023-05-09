@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
-@model Pspcl.Web.Models.StockViewModel
+@model Pspcl.Web.ViewModels.StockViewModel
 <div class="main-content">
     <div class="page-content">
         @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class", id= "StockForm" }))

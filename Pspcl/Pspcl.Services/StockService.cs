@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
+using Pspcl.Services.Models;
 
 namespace Pspcl.Services
 {
@@ -60,26 +61,41 @@ namespace Pspcl.Services
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
 
-		public int AddStock(Stock stock)
-		{
-			_dbcontext.Set<Stock>().Add(stock);
-			_dbcontext.SaveChanges();
-			return stock.Id;
-		}
+        public int AddStock(Stock stock)
+        {
+            _dbcontext.Set<Stock>().Add(stock);
+            _dbcontext.SaveChanges();
+            return stock.Id;
+        }
 
-		public void AddStockMaterial(StockMaterial stockMaterial)
-		{
-			_dbcontext.Set<StockMaterial>().Add(stockMaterial);
-			_dbcontext.SaveChanges();
-		}
+        public void AddStockMaterial(StockMaterial stockMaterial)
+        {
+            _dbcontext.Set<StockMaterial>().Add(stockMaterial);
+            _dbcontext.SaveChanges();
+        }
 
-		public int GetMaterialByType(int? typeId, string materialCode)
-		{
-			var material = _dbcontext.Set<Material>()
-				.FirstOrDefault(m => m.MaterialTypeId == typeId);
+        public int GetMaterialByType(int? typeId, string materialCode)
+        {
+            var material = _dbcontext.Set<Material>()
+                .FirstOrDefault(m => m.MaterialTypeId == typeId);
 
-			return material.Id;
-		}
+            return material.Id;
+        }
+        public List<StockInModel> GetStockInModels()
+        {
+            var stockInModels = _dbcontext.Stock
+               .Select(s => new StockInModel
+               {
+                   Stock = s,
+                   MaterialGroup = _dbcontext.MaterialGroup.Where(mg => mg.Id == s.MaterialGroupId).Select(mg => mg.Name).FirstOrDefault(),
+                   MaterialName = _dbcontext.MaterialType.Where(mt => mt.Id == s.MaterialTypeId).Select(mt => mt.Name).FirstOrDefault(),
+                   MaterialCode = _dbcontext.Material.Where(mt => mt.Id == s.MaterialId).Select(mt => mt.Code).FirstOrDefault(),
+                   Quantity = _dbcontext.StockMaterial.Where(sm => sm.StockId == s.Id).Sum(sm => sm.Quantity)
+               })
+               .ToList();
 
-	}
+            return stockInModels;
+        }
+       
+    }
 }

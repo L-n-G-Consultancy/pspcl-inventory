@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Pspcl.Core.Domain;
 
-namespace Pspcl.Web.Models
+
+namespace Pspcl.Web.ViewModels
 {
 	//[DataContract]
 	//[Serializable]
@@ -44,7 +45,7 @@ namespace Pspcl.Web.Models
 		//[DataMember]
 		public string? Rating { get; set; }
 		//[DataMember]
-		public decimal? EnterRate { get; set; }
+		public decimal? Rate { get; set; }
 		//[DataMember]
 		public string? PrefixNumber { get; set; }
 		public List<StockMaterial> stockMaterialList { get; set; }
