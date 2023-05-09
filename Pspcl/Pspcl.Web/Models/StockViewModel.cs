@@ -17,35 +17,26 @@ namespace Pspcl.Web.Models
 			AvailableRatings = new List<SelectListItem>();
 			AvailableMaterialCodes = new List<SelectListItem>();
 		}
-		///[DataMember]
 		public DateTime? GrnDate { get; set; }
-		//[DataMember]
 		public long? GrnNumber { get; set; }
-		//[DataMember]
 		public String? TestReportReference { get; set; }
-		//[DataMember]
 		public DateTime? InvoiceDate { get; set; }
-		//[DataMember]
 		public string? InvoiceNumber { get; set; }
-		//[DataMember]
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
-		//[DataMember]
-		public string? SelectedMaterialCode { get; set; }
-		//[DataMember]
+		public int? SelectedMaterialCode { get; set; }
+		public string SelectedMaterialCodeName { get; set; }
 		public IList<SelectListItem>? AvailableMaterialGroups { get; set; }
-		//[DataMember]
 		public int? MaterialGroupId { get; set; }
-		//[DataMember]
-		public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
-		//[DataMember]
+        public string SelectedMaterialGroupName { get; set; }
+
+        public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
 		public int? MaterialTypeId { get; set; }
-		//[DataMember]
-		public IList<SelectListItem>? AvailableRatings { get; set; }
-		//[DataMember]
+        public string SelectedMaterialTypeName { get; set; }
+
+        public IList<SelectListItem>? AvailableRatings { get; set; }
 		public string? Rating { get; set; }
-		//[DataMember]
-		public decimal? EnterRate { get; set; }
-		//[DataMember]
+        public string SelectedRatingName { get; set; }
+        public decimal? EnterRate { get; set; }
 		public string? PrefixNumber { get; set; }
 		public List<StockMaterial> stockMaterialList { get; set; }
 	}

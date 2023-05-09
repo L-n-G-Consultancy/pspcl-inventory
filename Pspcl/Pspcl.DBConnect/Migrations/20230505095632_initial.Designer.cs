@@ -12,7 +12,7 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230502135353_initial")]
+    [Migration("20230505095632_initial")]
     partial class initial
     {
         /// <inheritdoc />

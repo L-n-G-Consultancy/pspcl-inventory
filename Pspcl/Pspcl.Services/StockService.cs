@@ -60,7 +60,43 @@ namespace Pspcl.Services
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
 
-		public int AddStock(Stock stock)
+        public string GetMaterialGroupById(int? materialGroupId)
+        {
+            var response= _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
+            string materialGroupName = response.ToString();
+            return materialGroupName;
+        }
+
+        public string GetMaterialTypeById(int? materialTypeId)
+        {
+            var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Name).FirstOrDefault();
+            string materialTypeName = response.ToString();
+            return materialTypeName;
+        }
+
+        public string GetMaterialCodeById(int? materialCodeId)
+        {
+            var response = _dbcontext.Material.Where(x => x.Id == materialCodeId).Select(x => x.Code).FirstOrDefault();
+            if (response == null)
+            {
+                return "None";
+            }
+            string materialCodeName = response.ToString();
+            return materialCodeName;
+        }
+
+        public string GetRatingNameById(int? materialTypeId)
+        {
+            var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Rating).FirstOrDefault();
+            if(response == null)
+            {
+                return "None";
+            }
+            string Rating = response.ToString();
+            return Rating;
+        }
+
+        public int AddStock(Stock stock)
 		{
 			_dbcontext.Set<Stock>().Add(stock);
 			_dbcontext.SaveChanges();

@@ -2,19 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Pspcl.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Pspcl.Core.Domain;
-using Pspcl.DBConnect;
-using Pspcl.Services;
-using Pspcl.Web.Models;
-using Pspcl.Core.Domain;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
+using Pspcl.Core.Domain;
+using Pspcl.Services.Interfaces;
+using Pspcl.Web.Models;
 
-namespace Pspcl.Web.Controllers		
+
+namespace Pspcl.Web.Controllers
 {
     [Authorize]
     public class StockViewController : Controller
@@ -64,87 +58,39 @@ namespace Pspcl.Web.Controllers
         [HttpPost]
         public IActionResult AddStock(IFormCollection formCollection)
         {
-			try
-			{
-				var model = new StockViewModel();
-				//var formValues = HttpContext.Request.Form;
-				//// Convert the FormCollection to a dictionary
-				//var formData = formValues.ToDictionary(x => x.Key, x => x.Value.ToString());
-				//// Store the serialized dictionary in the temp data
-				//TempData["FormData"] = JsonConvert.SerializeObject(formData);
+            var model = new StockViewModel();
+            DateTime date = DateTime.Parse(formCollection["GRNDate"]);
+            model.GrnDate = date;
+            model.TestReportReference = formCollection["TestReportReference"];
+            model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
+            model.InvoiceNumber = formCollection["invoiceNo"];
+            model.SelectedMaterialCode = int.Parse(formCollection["materialCode"]);
+            model.EnterRate = decimal.Parse(formCollection["rate"]);
+            model.MaterialGroupId = int.Parse(formCollection["materialGroup"]);
+            model.MaterialTypeId = int.Parse(formCollection["materialType"]);
+            model.Rating = formCollection["rating"];
+            model.GrnNumber = long.Parse(formCollection["GrnNO"]);
+            model.PrefixNumber = formCollection["PrefixNumber"];
 
-				model.SelectedMaterialCode = formCollection["selectedMaterialCode"];
+            List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
 
-				DateTime date = DateTime.Parse(formCollection["GRNDate"]);
+            for (int i = 12; i < formCollection.Count - 1; i = i + 3)
+            {
+                var element_from = formCollection.ElementAt(i);
+                var element_to = formCollection.ElementAt(i + 1);
+                var element_qty = formCollection.ElementAt(i + 2);
 
-				model.GrnDate = date;
-				model.TestReportReference = formCollection["TestReportReference"];
-				model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
-				model.InvoiceNumber = formCollection["invoiceNo"];
-				model.SelectedMaterialCode = formCollection["materialCode"];
-				model.EnterRate = decimal.Parse(formCollection["rate"]);
-				model.MaterialGroupId = int.Parse(formCollection["materialGroup"]);
-				model.MaterialTypeId = int.Parse(formCollection["materialType"]);
-				model.Rating = formCollection["rating"];
-				model.GrnNumber = long.Parse(formCollection["GrnNO"]);
-				model.PrefixNumber = formCollection["PrefixNumber"];
-
-
-				List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
-
-				for (int i = 12; i < formCollection.Count - 1; i = i + 3)
-				{
-					var element_from = formCollection.ElementAt(i);
-					var element_to = formCollection.ElementAt(i + 1);
-					var element_qty = formCollection.ElementAt(i + 2);
-
-					StockMaterial row = new()
-					{
-						SerialNumberFrom = Convert.ToInt32(element_from.Value),
-						SerialNumberTo = int.Parse(element_to.Value),
-						Quantity = int.Parse(element_qty.Value),
-					};
-					stockMaterialsList.Add(row);
-				}
-
-				model.stockMaterialList = stockMaterialsList;
-
-				if (ModelState.IsValid)
-				{
-					var stockEntity = _mapper.Map<Stock>(model);
-
-					int materialId = _stockService.GetMaterialByType(model.MaterialTypeId, model.SelectedMaterialCode);
-					stockEntity.MaterialId = materialId;
-
-					var newStockId = _stockService.AddStock(stockEntity);
-
-
-					int displayOrder = 1;
-					foreach (var stockMaterial in model.stockMaterialList)
-					{
-						stockMaterial.StockId = newStockId;
-						stockMaterial.DisplayOrder = displayOrder++;
-					}
-
-					foreach (var stockMaterialViewModel in model.stockMaterialList)
-					{
-						var stockMaterialEntity = _mapper.Map<StockMaterial>(stockMaterialViewModel);
-						_stockService.AddStockMaterial(stockMaterialEntity);
-					}
-
-                    ViewBag.Message = "Stock saved successfully";
-                    TempData["Message"] = ViewBag.Message;
-                    return RedirectToAction("Index","Home");
-				}
-			}
-			catch (Exception ex)
-			{
-				ViewBag.Message = ex.Message;
-				return View();
-			}
-
-			return View();
-
+                StockMaterial row = new()
+                {
+                    SerialNumberFrom = Convert.ToInt32(element_from.Value),
+                    SerialNumberTo = int.Parse(element_to.Value),
+                    Quantity = int.Parse(element_qty.Value),
+                };
+                stockMaterialsList.Add(row);
+            }
+            model.stockMaterialList = stockMaterialsList;
+            TempData["StockViewModel"]=JsonConvert.SerializeObject(model);
+            return RedirectToAction("Preview", "Preview");
         }
     }
 }

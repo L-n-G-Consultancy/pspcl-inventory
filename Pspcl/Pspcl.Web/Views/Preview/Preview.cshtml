@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
+@model Pspcl.Web.Models.StockViewModel;
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -24,82 +25,78 @@
 
                                 <form class="mt-4">
                                     <div class="row">
-
                                         <div class="form-group col-md-6">
                                             <label for="">Material code</label>
-                                            <input type="text" readOnly class="form-control" value="SNT: 001254175852212">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
+                                            @Html.TextBoxFor(m => m.SelectedMaterialCodeName, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid state.
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label for="inputState">Material Group</label>
-                                            <input type="text" readOnly class="form-control" value="MTC12547100023321211240">
-                                            <div class="valid-feedback">
-                                                Looks good!
+                                            @Html.TextBoxFor(m => m.SelectedMaterialGroupName, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="date">Select GRN Date</label>
-                                            <input type="text" readOnly class="form-control" value="INV-1254412">
+                                            <label for="GRNdate">Select GRN Date</label>
+                                            @Html.TextBoxFor(m => m.GrnDate, "{0:d}", new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="materialType">Material Type</label>
+                                            @Html.TextBoxFor(m => m.SelectedMaterialTypeName, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="GRNno">GRN No</label>
+                                            @Html.TextBoxFor(m => m.GrnNumber, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="Rating">Rating</label>
+                                            @Html.TextBoxFor(m => m.SelectedRatingName, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="TestReport">Test Report Reference</label>
+                                            @Html.TextBoxFor(m => m.TestReportReference, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+
+                                        @*<div class="form-group col-md-6">
+                                        <label for="">Make</label>
+                                        <input type="text" readOnly class="form-control" value="@Model">
+                                        <div class="invalid-feedback">
+                                        Please provide a valid state.
+                                        </div>
+                                        </div>
+                                        *@
+                                        <div class="form-group col-md-6">
+                                            <label for="Invoicedate">Invoice Date</label>
+                                            @Html.TextBoxFor(m => m.InvoiceDate, "{0:d}", new { @readonly = "readonly" , @class = "form-control" })
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Material Type</label>
-                                            <input type="text" readOnly class="form-control" value="SN:1254145214455">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="date">GRN No</label>
-                                            <input type="text" readOnly class="form-control" value="Copper Meter">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="">Rating</label>
-                                            <input type="text" readOnly class="form-control" value="10">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="">Test Report Reference</label>
-                                            <input type="text" readOnly class="form-control" value="G776578777yf98f9f99">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="">Make</label>
-                                            <input type="text" readOnly class="form-control" value="Rs. 18000/Unit">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="">Invoice Date</label>
-                                            <input type="text" readOnly class="form-control" value="Copper">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="">Rate</label>
-                                            <input type="text" readOnly class="form-control" value="23/03/2023">
+                                            <label for="Rate">Rate</label>
+                                            @Html.TextBoxFor(m => m.EnterRate, new { @readonly = "readonly" , @class = "form-control" })
 
                                             <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
                                             <div class="invalid-feedback">
@@ -108,8 +105,8 @@
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="">Invoice No.</label>
-                                            <input type="text" readOnly class="form-control" value="Huawei">
+                                            <label for="InvoiceNo">Invoice No.</label>
+                                            @Html.TextBoxFor(m => m.InvoiceNumber, new { @readonly = "readonly" , @class = "form-control" })
                                             <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
@@ -117,14 +114,11 @@
                                         </div>
 
                                         <div class="form-group col-md-6">
-                                            <label for="">Prefix-Qty S.No.</label>
-                                            <input type="text" readOnly class="form-control" value="TRN908876789">
-                                            <div class="invalid-feedback">
+                                            <label for="Prefixqty">Prefix-Qty S.No.</label>
+                                            @Html.TextBoxFor(m => m.PrefixNumber, new { @readonly = "readonly" , @class = "form-control" })                                            <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </form>
 
