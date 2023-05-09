@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Pspcl.Web.Models;
+using Pspcl.Web.ViewModels;
 using Pspcl.Core.Domain;
 
 namespace Pspcl.Web.Controllers

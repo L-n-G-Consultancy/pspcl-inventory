@@ -3,18 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Pspcl.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Pspcl.Core.Domain;
-using Pspcl.DBConnect;
-using Pspcl.Services;
-using Pspcl.Web.Models;
-using Pspcl.Core.Domain;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
+using Pspcl.Web.ViewModels;
 
-namespace Pspcl.Web.Controllers		
+namespace Pspcl.Web.Controllers
 {
     [Authorize]
     public class StockViewController : Controller
@@ -82,7 +74,7 @@ namespace Pspcl.Web.Controllers
 				model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
 				model.InvoiceNumber = formCollection["invoiceNo"];
 				model.SelectedMaterialCode = formCollection["materialCode"];
-				model.EnterRate = decimal.Parse(formCollection["rate"]);
+				model.Rate = decimal.Parse(formCollection["rate"]);
 				model.MaterialGroupId = int.Parse(formCollection["materialGroup"]);
 				model.MaterialTypeId = int.Parse(formCollection["materialType"]);
 				model.Rating = formCollection["rating"];
