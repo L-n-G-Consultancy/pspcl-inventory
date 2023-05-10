@@ -66,9 +66,7 @@ namespace Pspcl.Web.Controllers
 				//TempData["FormData"] = JsonConvert.SerializeObject(formData);
 
 				model.SelectedMaterialCode = formCollection["selectedMaterialCode"];
-
 				DateTime date = DateTime.Parse(formCollection["GRNDate"]);
-
 				model.GrnDate = date;
 				model.TestReportReference = formCollection["TestReportReference"];
 				model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
@@ -78,7 +76,7 @@ namespace Pspcl.Web.Controllers
 				model.MaterialGroupId = int.Parse(formCollection["materialGroup"]);
 				model.MaterialTypeId = int.Parse(formCollection["materialType"]);
 				model.Rating = formCollection["rating"];
-				model.GrnNumber = long.Parse(formCollection["GrnNO"]);
+				model.GrnNumber = formCollection["GrnNO"];
 				model.PrefixNumber = formCollection["PrefixNumber"];
 
 
