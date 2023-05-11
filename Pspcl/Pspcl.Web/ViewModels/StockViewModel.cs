@@ -21,7 +21,7 @@ namespace Pspcl.Web.ViewModels
 		///[DataMember]
 		public DateTime? GrnDate { get; set; }
 		//[DataMember]
-		public long? GrnNumber { get; set; }
+		public string? GrnNumber { get; set; }
 		//[DataMember]
 		public String? TestReportReference { get; set; }
 		//[DataMember]
