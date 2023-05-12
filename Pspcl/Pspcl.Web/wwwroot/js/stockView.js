@@ -12,25 +12,16 @@ var addStock = {
 	},
 	
 	addRow: function () {
-		let rowCounter = 1;
-		var rowCount = $("#myTableBody tr").length;
-		var newRow = $('<tr>');
-		var cols = '';
-		rowCounter++;
+        var rowCount = $("#myTableBody tr").length;
+        var rowCounter = rowCount + 1;
+        var newRow = $('<tr>');
+        var cols = '';
 		cols += '<td><input name="row_' + rowCounter + '_from" type="text" class="from-input" placeholder="From"></td>';
 		cols += '<td><input name="row_' + rowCounter + '_to" type="text" class="to-input" placeholder="To"></td>';
 		cols += '<td><input name="row_' + rowCounter + '_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>';
-
-		if (rowCount > 1) {
-			cols += '<td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>';
-			cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-		}
-		else {
-			cols += '<td><button type="button" class="btn btn-primary add-row"><i class="fas fa-plus"></i></button></td>';
-			cols += '<td><button style="display:none" type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-		}
+		cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
 		newRow.append(cols);
-		newRow.attr('id', 'row_' + (rowCounter)); // add id attribute with an incrementing number
+		newRow.attr('id', 'row_' + (rowCounter)); 
 		$('tbody').append(newRow);
 
 		if (rowCount > 0) {
@@ -46,14 +37,10 @@ var addStock = {
 	}
 };
 $(document).ready(() => {
-	$("#addMaterialButton").click(function (event) {
-		event.preventDefault();
-		$("#materialTable").show();
 		$(document).on('input', '.from-input, .to-input', addStock.calculateQty);
-		$(document).on('click', '.add-row', addStock.addRow);
+	    $(document).on('click', '#addMaterialButton', addStock.addRow);
 		$(document).on('click', '.remove-row', addStock.removeRow);
 		$('tbody tr:first-child .remove-row').hide();
-	});
 });
 
 $(function () {
@@ -139,15 +126,11 @@ $(function () {
 		event.preventDefault();
 
 		if (validateInputs()) {
-			// submit the form
 			this.submit();
 		} else {
-			// show an error message or handle the invalid input
 			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
 		}
 	});
-
-
 
 
 
@@ -170,3 +153,4 @@ function validateInputs() {
 
 	return isValid;
 }
+

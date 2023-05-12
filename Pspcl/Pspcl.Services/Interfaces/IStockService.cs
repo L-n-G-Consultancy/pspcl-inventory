@@ -10,10 +10,12 @@ namespace Pspcl.Services.Interfaces
         List<MaterialType> GetAllMaterialRatings(int materialTypeId, bool? onlyActive = false);
         List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false);
 		int AddStock(Stock stock);
-		void AddStockMaterial(StockMaterial stockMaterial);
-		int GetMaterialByType(int? typeId, string materialCode);
+		int AddStockMaterial(StockMaterial stockMaterial);
+        void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries);
         List<StockInModel> GetStockInModels();
-
-
+        string GetMaterialGroupById(int? materialGroupId);
+        string GetMaterialTypeById(int? materialTypeId);
+        string GetMaterialCodeById(int? materialCodeId);
+        string GetRatingNameById(int? materialTypeId);
     }
 }
