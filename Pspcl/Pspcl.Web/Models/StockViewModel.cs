@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Pspcl.Core.Domain;
 
 namespace Pspcl.Web.Models

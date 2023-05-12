@@ -26,9 +26,6 @@ namespace Pspcl.Services
 
         }
 
-
-
-
         public List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false)
         {
             if (!onlyActive.HasValue)
@@ -69,6 +66,54 @@ namespace Pspcl.Services
 			return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
 		}
 
+		//public List<Stock> GetAllMakes()
+		//{
+		//	return _dbcontext.Stock.ToList();
+		//}
+
+
+
+		public List<string> GetCircleAndDivision(int selectedSubDivId, bool? onlyActive = false)
+		{
+			if (onlyActive.HasValue)
+			{
+				SubDivision subDivision = _dbcontext.SubDivision.FirstOrDefault(x => x.Id == selectedSubDivId);			
+				if (subDivision != null)
+				{
+					int divId = subDivision.DivisionId;
+					Division Division = _dbcontext.Division.FirstOrDefault(x => x.Id == divId);
+					string divisionName = Division.Name.ToString();
+
+					int circleDiv = Division.CircleId;
+					Circle Circle = _dbcontext.Circle.FirstOrDefault(x => x.Id == circleDiv);
+					string circleName = Circle.Name.ToString();
+
+					List<string> DivisionCircle = new List<string>();
+					DivisionCircle.Add(divisionName);
+					DivisionCircle.Add(circleName);
+
+					return DivisionCircle;
+				}
+			}
+			return new List<string>();
+		}
+
+		public List<Stock> GetAvailableQuantity(List<int> Ids)
+		{
+			List<Stock> stocks = (List<Stock>)_dbcontext.Stock.Where(x => x.MaterialGroupId == Ids[0] && x.MaterialTypeId== Ids[1] && x.MaterialId == Ids[2]).Select(x=>x);
+			List<StockMaterial> stockMaterials = new List<StockMaterial>();
+			foreach (Stock stock in stocks)
+			{
+				stockMaterials = _dbcontext.StockMaterial.Where(x => x.StockId == stock.Id).ToList();
+			}
+			List<StockMaterialSeries> series = new List<StockMaterialSeries>();
+			foreach(StockMaterial stockMaterial in stockMaterials)
+			{
+				series= _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == stockMaterial.Id).ToList();
+			}
+
+			return stocks;
+		}
 		public int AddStock(Stock stock)
 		{
 			_dbcontext.Set<Stock>().Add(stock);
