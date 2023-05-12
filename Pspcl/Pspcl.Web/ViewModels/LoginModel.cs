@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace Pspcl.Models
+namespace Pspcl.ViewModels
 {
     public class LoginModel
     {

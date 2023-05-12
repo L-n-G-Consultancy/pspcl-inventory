@@ -1,7 +1,8 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
-@model Pspcl.Web.Models.StockViewModel
+@model Pspcl.Web.ViewModels.StockViewModel
+@using Newtonsoft.Json
 <div class="main-content">
     <div class="page-content">
         @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class", id= "StockForm" }))
@@ -9,21 +10,19 @@
         {
             <div class="row">
 
-
                 <div class="form-group col-md-6">
-                    <label for="">Invoice No.</label>
-                    <input type="number" name="invoiceNo" class="form-control" id="invoiceNo"
-                           placeholder="Enter Invoice Number" required>
+                    <label for="invoiceNo">Invoice No.</label>
+                    @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @type = "text", @required = "required", placeholder = "Enter Invoice Number" })
                     <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
                 </div>
 
+
                 <div class="form-group col-md-6">
                     <label for="">Invoice Date</label>
-                    <input type="date" name="InvoiceDate" class="form-control" id="invoiceDate"
-                           placeholder="Select GRN Date" required>
+                    @Html.EditorFor(model => model.InvoiceDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @required = "required", placeholder = "Select Invoice Date" } })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -31,14 +30,14 @@
 
                 <div class="form-group col-md-6">
                     <label for="materialGroupId">Material Group</label>
-                    <select id="materialGroupId" name="materialGroup" class="form-control" required>
-                        <option  disabled>--Select Material Group--</option>
-                        @foreach (var data in Model.AvailableMaterialGroups)
-                        {
-                            <option value="@data.Value">@data.Text</option>
-                        }
-                    </select>
-
+                    @if (Model.MaterialGroupId != null)
+                    {
+                        @Html.DropDownListFor(m => m.MaterialGroupId, new SelectList(Model.AvailableMaterialGroups, "Value", "Text", Model.MaterialGroupId), "--Select Material Group--", new { @class = "form-control", required = "required", id = "materialGroupId" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.MaterialGroupId, new SelectList(Model.AvailableMaterialGroups, "Value", "Text"), "--Select Material Group--", new { @class = "form-control", required = "required", id = "materialGroupId" })
+                    }
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -47,59 +46,60 @@
 
                 <div class="form-group col-md-6">
                     <label for="materialTypeId">Material Type</label>
-                    <select id="materialTypeId" name="materialType" class="form-control" required>
-                        <option  disabled>--Select Material Type--</option>
-                        @foreach (var data in Model.AvailableMaterialTypes)
-                        {
-                            <option value="@data.Value">@data.Text</option>
-
-                        }
-                    </select>
+                    @if (Model.MaterialTypeId != null)
+                    {
+                        @Html.DropDownListFor(m => m.MaterialTypeId, new SelectList(Model.AvailableMaterialTypes, "Value", "Text", Model.MaterialTypeId), "--Select Material Type--", new { @class = "form-control", required = "required", id = "materialTypeId" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.MaterialTypeId, new SelectList(Model.AvailableMaterialTypes, "Value", "Text"), "--Select Material Type--", new { @class = "form-control", required = "required", id = "materialTypeId" })
+                    }
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="">Rating</label>
-                    <select id="ratingId" name="rating" class="form-control" required>
-                        <option disabled>--Select Rating--</option>
-                        @foreach (var data in Model.AvailableRatings)
-                        {
-                            <option value="@data.Value">@data.Text</option>
-                        }
-                    </select>
+                    <label for="ratingId">Rating</label>
+                    @if (Model.Rating != null)
+                    {
+                        @Html.DropDownListFor(m => m.Rating, new SelectList(Model.AvailableRatings, "Value", "Text", Model.Rating), "--Select Rating--", new { @class = "form-control", required = "required", id = "ratingId" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.Rating, new SelectList(Model.AvailableRatings, "Value", "Text"), "--Select Rating--", new { @class = "form-control", required = "required", id = "ratingId" })
+                    }
                     <div class="invalid-feedback">
-                        Please provide a valid state.
+                        Please provide a valid rating.
                     </div>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="materialId">Material Code:</label>
-                    <select id="materialId" name="materialCode" class="form-control" required>
-                        <option disabled>--Select Material Code--</option>
-                        @foreach (var item in Model.AvailableMaterialCodes)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
+                    @if (Model.MaterialIdByCode != null)
+                    {
+                        @Html.DropDownListFor(m => m.MaterialIdByCode, new SelectList(Model.AvailableMaterialCodes, "Value", "Text", Model.MaterialIdByCode), "--Select Material Code--", new { @class = "form-control", required = "required", id = "materialId" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.MaterialIdByCode, new SelectList(Model.AvailableMaterialCodes, "Value", "Text"), "--Select Material Code--", new { @class = "form-control", required = "required", id = "materialId" })
+                    }
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="date">GRN Date</label>
+                    @Html.EditorFor(model => model.GrnDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "GRN Date", @required = "required" } })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label for="date">Select GRN Date</label>
-                    <input type="date" class="form-control" id="date" name="GRNDate" placeholder="Select GRN Date" required>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
 
                 <div class="form-group col-md-6">
                     <label for="date">GRN No</label>
-                    <input type="text" name="GrnNO" class="form-control" id="grnNumber"
-                           placeholder="Enter GRN No" required>
+                    @Html.TextBoxFor(model => model.GrnNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter GRN No" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -107,8 +107,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Test Report Reference</label>
-                    <input type="text" name="TestReportReference" class="form-control" id="reportRef"
-                           placeholder="Enter Test Report Reference" required>
+                    @Html.TextBoxFor(model => model.TestReportReference, new { @class = "form-control", @required = "required", placeholder = "Enter Test Report Reference" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -116,8 +115,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Make</label>
-                    <input type="text" class="form-control" id="lookupTable" name="make"
-                           placeholder="Make" required>
+                    @Html.TextBoxFor(model => model.Make, new { @class = "form-control", @required = "required", placeholder = "Make" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -125,8 +123,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Rate</label>
-                    <input type="number" name="rate" class="form-control" id="rate"
-                           placeholder="Enter Rate" required>
+                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @type = "number", @required = "required", placeholder = "Enter Rate" })
                     <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
                     <div class="invalid-feedback">
                         Please provide a valid state.
@@ -135,8 +132,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Prefix</label>
-                    <input type="number" name="PrefixNumber" class="form-control" id="prefix"
-                           placeholder="Enter Prefix" required>
+                    @Html.TextBoxFor(model => model.PrefixNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Prefix" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -148,7 +144,7 @@
                 </div>
             </div>
 
-            <div id="materialTable" class="mt-3 mb-5 border-black-top pt-4" style="display:none">
+            <div id="materialTable" class="mt-3 mb-5 border-black-top pt-4" style="">
                 <table id="stockTable" class="table table-responsive custom-table">
                     <thead class="thead-dark">
                         <tr>
@@ -159,22 +155,44 @@
                         </tr>
                     </thead>
                     <tbody id="myTableBody">
-                        <tr id="row_1">
-                            <td><input name="row_1_from" type="text" class="from-input" placeholder="From" required></td>
-                            <td><input name="row_1_to" type="text" class="to-input" placeholder="To" required></td>
-                            <td><input name="row_1_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>
-                            <td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>
-                        </tr>
+                        @if (Model.stockMaterialList != null && Model.stockMaterialList.Count > 0)
+                        {
+                            @for (int i = 0; i < Model.stockMaterialList.Count; i++)
+                            {
+                                var rowCounter = i + 1;
+                                <tr id="row_@rowCounter">
+                                    <td>
+                                        @Html.TextBox("row_" + rowCounter + "_from", Model.stockMaterialList[i].SerialNumberFrom, new { @class = "from-input", @placeholder = "From", @required = "required" })
+                                     </td>
+                                    <td>
+                                        @Html.TextBox("row_" + rowCounter + "_to", Model.stockMaterialList[i].SerialNumberTo, new { @class = "to-input", @placeholder = "From", @required = "required" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("row_" + rowCounter + "_qty", Model.stockMaterialList[i].Quantity, new { @class = "qty-input", @placeholder =  "Quantity",@readonly = "readonly", @required = "required" })
+                                    </td>
+                                    <td><button type="button" class="btn btn-danger remove-row" data-row="@rowCounter"><i class="fas fa-minus"></i></button></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr id="row_1">
+                                <td><input name="row_1_from" type="text" class="from-input" placeholder="From" required></td>
+                                <td><input name="row_1_to" type="text" class="to-input" placeholder="To" required></td>
+                                <td><input name="row_1_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>
+                                <td><button type="button" class="btn btn-danger remove-row" data-row="1"><i class="fas fa-minus"></i></button></td>
+                            </tr>
+                        }
+
                     </tbody>
                 </table>
 
                 <div class="form-group offset-md-5">
                     <label for="">&nbsp;</label>
-                    <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Save</button>
+                    <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4" onclick="saveStockMaterialList()">Add Stock</button>
                 </div>
-            </div>
 
-            
+            </div>
 
         }
 

@@ -1,4 +1,5 @@
 ﻿using Pspcl.Core.Domain;
+using Pspcl.Services.Models;
 
 namespace Pspcl.Services.Interfaces
 {
@@ -15,7 +16,12 @@ namespace Pspcl.Services.Interfaces
 		List<Stock> GetAvailableQuantity(List<int> Ids);
 
 		int AddStock(Stock stock);
-		void AddStockMaterial(StockMaterial stockMaterial);
-		int GetMaterialByType(int? typeId, string materialCode);
-	}
+		int AddStockMaterial(StockMaterial stockMaterial);
+        void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries);
+        List<StockInModel> GetStockInModels();
+        string GetMaterialGroupById(int? materialGroupId);
+        string GetMaterialTypeById(int? materialTypeId);
+        string GetMaterialCodeById(int? materialCodeId);
+        string GetRatingNameById(int? materialTypeId);
+    }
 }

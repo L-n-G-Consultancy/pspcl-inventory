@@ -24,7 +24,7 @@ namespace Pspcl.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
-            var model = new Pspcl.Models.LoginModel();
+            var model = new Pspcl.ViewModels.LoginModel();
             model.ReturnUrl = returnUrl ?? Url.Content("~/");
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             //model.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -34,7 +34,7 @@ namespace Pspcl.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Login(Pspcl.Models.LoginModel model)
+        public async Task<IActionResult> Login(Pspcl.ViewModels.LoginModel model)
         {
             if (ModelState.IsValid)
             {

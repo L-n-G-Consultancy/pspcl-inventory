@@ -1,52 +1,48 @@
 var addStock = {
-    calculateQty: function () {
-        var fromVal = $(this).closest('tr').find('.from-input').val();
-        var toVal = $(this).closest('tr').find('.to-input').val();
-        if (fromVal && toVal) {
-            var qtyVal = parseInt(toVal) - parseInt(fromVal) + 1;
-            $(this).closest('tr').find('.qty-input').val(qtyVal);
-        }
-        else {
-            $(this).closest('tr').find('.qty-input').val('');
-        }
-    },
-
-    addRow: function () {
+	calculateQty: function () {
+		var fromVal = $(this).closest('tr').find('.from-input').val();
+		var toVal = $(this).closest('tr').find('.to-input').val();
+		if (fromVal && toVal) {
+			var qtyVal = parseInt(toVal) - parseInt(fromVal) + 1;
+			$(this).closest('tr').find('.qty-input').val(qtyVal);
+		}
+		else {
+			$(this).closest('tr').find('.qty-input').val('');
+		}
+	},
+	
+	addRow: function () {
         var rowCount = $("#myTableBody tr").length;
         var rowCounter = rowCount + 1;
         var newRow = $('<tr>');
         var cols = '';
-        cols += '<td><input name="row_' + rowCounter + '_from" type="text" class="from-input" placeholder="From"></td>';
-        cols += '<td><input name="row_' + rowCounter + '_to" type="text" class="to-input" placeholder="To"></td>';
-        cols += '<td><input name="row_' + rowCounter + '_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>';
-        cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-        //if (rowCount > 1) {
-        //	cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-        //}
-        //else {
-        //	cols += '<td><button style="display:none" type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
-        //}
-        newRow.append(cols);
-        newRow.attr('id', 'row_' + (rowCounter)); // add id attribute with an incrementing number
-        $('tbody').append(newRow);
-        if (rowCount > 0) {
-            $("#myTableBody tr:last-child .remove-row").show();
-        }
-    }
-    ,
-    removeRow: function () {
-        var rowCount = $("#myTableBody tr").length;
-        if (rowCount > 1) {
-            $(this).closest('tr').remove();
-        }
-    }
+		cols += '<td><input name="row_' + rowCounter + '_from" type="text" class="from-input" placeholder="From"></td>';
+		cols += '<td><input name="row_' + rowCounter + '_to" type="text" class="to-input" placeholder="To"></td>';
+		cols += '<td><input name="row_' + rowCounter + '_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>';
+		cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
+		newRow.append(cols);
+		newRow.attr('id', 'row_' + (rowCounter)); 
+		$('tbody').append(newRow);
+
+		if (rowCount > 0) {
+			$("#myTableBody tr:last-child .remove-row").show();
+		}
+	}
+,
+	removeRow: function () {
+		var rowCount = $("#myTableBody tr").length;
+		if (rowCount > 1) {
+			$(this).closest('tr').remove();
+		}
+	}
 };
 $(document).ready(() => {
-    $(document).on('input', '.from-input, .to-input', addStock.calculateQty);
-    $(document).on('click', '#addMaterialButton', addStock.addRow);
-    $(document).on('click', '.remove-row', addStock.removeRow);
-    $('tbody tr:first-child .remove-row').hide();
+		$(document).on('input', '.from-input, .to-input', addStock.calculateQty);
+	    $(document).on('click', '#addMaterialButton', addStock.addRow);
+		$(document).on('click', '.remove-row', addStock.removeRow);
+		$('tbody tr:first-child .remove-row').hide();
 });
+
 $(function () {
     $("#materialGroupId").on("change", function () {
         var materialGroupId = $(this).val();
@@ -163,12 +159,14 @@ $("#IssueStockBtn").click(function (event) {
 $('#StockForm').on('submit', function (event) {
     event.preventDefault();
 
-    if (validateInputs()) {
-        this.submit();
-    } else {
-        alert('Please make sure that every "To" input is greater than its corresponding "From" input, because Quantity cannot be negative.');
-    }
-});
+		if (validateInputs()) {
+			this.submit();
+		} else {
+			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
+		}
+	});
+
+
 
 function validateInputs() {
     var isValid = true;
@@ -179,12 +177,14 @@ function validateInputs() {
         var fromVal = $row.find('.from-input').val();
         var toVal = $this.val();
 
-        if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
-            isValid = false;
-            $this.addClass('is-invalid');
-        } else {
-            $this.removeClass('is-invalid');
-        }
-    });
-    return isValid;
+		if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
+			isValid = false;
+			$this.addClass('is-invalid');
+		} else {
+			$this.removeClass('is-invalid');
+		}
+	});
+
+	return isValid;
 }
+

@@ -1,0 +1,51 @@
+﻿@model List<Pspcl.Services.Models.StockInModel>
+@{
+    Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="page-content">
+
+        <h3>Stock-In Report</h3>
+        <table class="table table-responsive custom-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Txn ID</th>
+                    <th scope="col">GRN Date</th>
+                    <th scope="col">GRN No.</th>
+                    <th scope="col">T.R.R.</th>
+                    <th scope="col">Invoice Date</th>
+                    <th scope="col">Invoice No.</th>
+                    <th scope="col">Prefix No.</th>
+                    <th scope="col">Material Group</th>
+                    <th scope="col">Material Type</th>
+                    <th scope="col">Material Code</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Qty</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @foreach (var stockInModel in Model)
+                {
+                    <tr>
+                        <td>@stockInModel.Stock.TransactionId</td>
+                        <td>@stockInModel.Stock.GrnDate.ToString().Split(' ')[0]</td>
+                        <td>@stockInModel.Stock.GrnNumber</td>
+                        <td>@stockInModel.Stock.TestReportReference</td>
+                        <td>@stockInModel.Stock.InvoiceDate.ToString().Split(' ')[0]</td>
+                        <td>@stockInModel.Stock.InvoiceNumber</td>
+                        <td>@stockInModel.Stock.PrefixNumber</td>
+                        <td>@stockInModel.MaterialGroup</td>
+                        <td>@stockInModel.MaterialName</td>
+                        <td>@stockInModel.MaterialCode</td>
+                        <td>@stockInModel.Stock.Rate</td>
+                        <td>@stockInModel.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

@@ -1,6 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
+@{
+    int counter = 1;
+}
+@model Pspcl.Web.ViewModels.StockViewModel
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -12,7 +16,6 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
                                 <h1 class="heading text-uppercase">Electricity Meter Management</h1>
-
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <h2 class="h2-heading">Stock Preview</h2>
@@ -20,23 +23,19 @@
                                     <div class="col-md-6 text-right">
                                     </div>
                                 </div>
-
-
-                                @using (Html.BeginForm("Preview", "Preview", FormMethod.Get, new { @class = "my-form-class", id = "PreviewStockForm" }))
-
+                                @using (Html.BeginForm("Preview", "Preview", new { @class = "mt-4", id = "StockForm" }))
                                 {
                                     <div class="row">
-
-
                                         <div class="form-group col-md-6">
-                                            <label for="">Invoice No.</label>
-                                            <input type="text" readOnly class="form-control" value="Huawei">
-                                            <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
+                                            <label for="">Material code</label>
+                                            @Html.TextBoxFor(m => m.SelectedMaterialCodeName, new { @readonly = "readonly" , @class = "form-control"})
                                             <div class="invalid-feedback">
-                                                Please provide a valid state.
+                                                @Html.HiddenFor(m => m.MaterialIdByCode, new { @name="materialCode"})
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid state.
+                                                </div>
                                             </div>
                                         </div>
-
                                         <div class="form-group col-md-6">
                                             <label for="">Invoice Date</label>
                                             <input type="text" readOnly class="form-control" value="Copper">
@@ -47,100 +46,92 @@
 
                                         <div class="form-group col-md-6">
                                             <label for="inputState">Material Group</label>
-                                            <input type="text" readOnly class="form-control" value="MTC12547100023321211240">
-                                            <div class="valid-feedback">
-                                                Looks good!
+                                            @Html.TextBoxFor(m => m.SelectedMaterialGroupName, new { @readonly = "readonly" , @class = "form-control"})
+                                            <div class="invalid-feedback">
+                                                @Html.HiddenFor(m => m.MaterialGroupId, new { @name="materialGroup"})
+                                                <div class="valid-feedback">
+                                                    Looks good!
+                                                </div>
                                             </div>
                                         </div>
-
                                         <div class="form-group col-md-6">
-                                            <label for="inputState">Material Type</label>
-                                            <input type="text" readOnly class="form-control" value="SN:1254145214455">
+                                            <label for="GRNdate">Select GRN Date</label>
+                                            @Html.TextBoxFor(m => m.GrnDate, "{0:d}", new { @readonly = "readonly" , @class = "form-control",@name="GRNDate"})
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
                                         <div class="form-group col-md-6">
-                                            <label for="">Rating</label>
-                                            <input type="text" readOnly class="form-control" value="10">
+                                            <label for="materialType">Material Type</label>
+                                            @Html.TextBoxFor(m => m.SelectedMaterialTypeName, new { @readonly = "readonly" , @class = "form-control",@name="materialType"})
+                                            @Html.HiddenFor(m => m.MaterialTypeId, new { @name="materialType"})
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
                                         <div class="form-group col-md-6">
-                                            <label for="">Material code</label>
-                                            <input type="text" readOnly class="form-control" value="SNT: 001254175852212">
+                                            <label for="GRNno">GRN No</label>
+                                            @Html.TextBoxFor(m => m.GrnNumber, new { @readonly = "readonly" , @class = "form-control",@name="GrnNO"})
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
-
-                                        
-
                                         <div class="form-group col-md-6">
-                                            <label for="date">Select GRN Date</label>
-                                            <input type="text" readOnly class="form-control" value="INV-1254412">
+                                            <label for="Rating">Rating</label>
+                                            @Html.TextBoxFor(m => m.SelectedRatingName, new { @readonly = "readonly" , @class = "form-control",@name="rating", @value=Model.MaterialTypeId})
+                                            <input type="hidden" name="rating" value="@Model.MaterialTypeId" />
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
-
                                         <div class="form-group col-md-6">
-                                            <label for="date">GRN No</label>
-                                            <input type="text" readOnly class="form-control" value="Copper Meter">
+                                            <label for="TestReport">Test Report Reference</label>
+                                            @Html.TextBoxFor(m => m.TestReportReference, new { @readonly = "readonly" , @class = "form-control",@name="TestReportReference"})
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label for="">Test Report Reference</label>
-                                            <input type="text" readOnly class="form-control" value="G776578777yf98f9f99">
-                                            <div class="invalid-feedback">
-                                                Please provide a valid state.
-                                            </div>
-                                        </div>
-
                                         <div class="form-group col-md-6">
                                             <label for="">Make</label>
-                                            <input type="text" readOnly class="form-control" value="Rs. 18000/Unit">
+                                            @Html.TextBoxFor(m => m.Make, new { @class = "form-control", @required = "required", placeholder = "Make" })
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
-                                        
-
                                         <div class="form-group col-md-6">
-                                            <label for="">Rate</label>
-                                            <input type="text" readOnly class="form-control" value="23/03/2023">
-
+                                            <label for="Invoicedate">Invoice Date</label>
+                                            @Html.TextBoxFor(m => m.InvoiceDate, "{0:d}", new { @readonly = "readonly" , @class = "form-control",@name="InvoiceDate"})
+                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="Rate">Rate</label>
+                                            @Html.TextBoxFor(m => m.Rate, new { @readonly = "readonly" , @class = "form-control", @name="rate"})
                                             <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
-                                        
-
                                         <div class="form-group col-md-6">
-                                            <label for="">Prefix-Qty S.No.</label>
-                                            <input type="text" readOnly class="form-control" value="TRN908876789">
+                                            <label for="InvoiceNo">Invoice No.</label>
+                                            @Html.TextBoxFor(m => m.InvoiceNumber, new { @readonly = "readonly" , @class = "form-control",@name="InvoiceNo"})
+                                            <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
                                         </div>
-
+                                        <div class="form-group col-md-6">
+                                            <label for="Prefixqty">Prefix-Qty S.No.</label>
+                                            @Html.TextBoxFor(m => m.PrefixNumber, new { @readonly = "readonly" , @class = "form-control",@name="PrefixNumber"})                                            <div class="invalid-feedback">
+                                                Please provide a valid state.
+                                            </div>
+                                        </div>
 
                                     </div>
 
-
-                                    <div id="PreviewMaterialTable" class="mt-3 mb-5 border-black-top pt-4" style="display:none">
-                                        <table id="stockTable" class="table table-responsive custom-table">
+                                  <div class="mt-3 mb-5 border-black-top pt-4">
+                                        <table class="table table-responsive custom-table">
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th scope="col">Sr. No From</th>
@@ -148,54 +139,44 @@
                                                     <th scope="col">QTY</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="myPreviewTableBody">
-                                                <tr id="row_1">
-                                                    <td><input name="row_1_from" type="text" class="from-input" placeholder="From" required></td>
-                                                    <td><input name="row_1_to" type="text" class="to-input" placeholder="To" required></td>
-                                                    <td><input name="row_1_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>
-                                                </tr>
+                                            <tbody>
+                                                @foreach (var item in Model.stockMaterialList)
+                                                {
+                                                    <tr>
+                                                        <td><input name="row_' + @counter + '_from" type="text" class="from-input" value="@item.SerialNumberFrom" required readonly></td>
+                                                        <td><input name="row_' + @counter + '_to" type="text" class="to-input" value="@item.SerialNumberTo" required readonly></td>
+                                                        <td><input name="row_' + @counter + '_qty" type="text" class="qty-input" value="@item.Quantity" readonly></td>
+                                                    </tr>
+                                                    counter ++;
+                                                }
                                             </tbody>
                                         </table>
-
-                                        <div class="form-group offset-md-5">
-                                            <label for="">&nbsp;</label>
-                                            <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4">Save</button>
+                                        <div class="text-center">
+                                            <button type="submit" name="save" value="save" formmethod="post" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-sm">Save</button>
+                                            <button type="submit" name="save" value="modify" formmethod="post" class="btn btn btn-outline-dark px-4 mt-3">Modify</button>
                                         </div>
-                                    </div>
-                               }
-
-                                
-                                    <div class="text-center">
-                                        <button type="button" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-sm">Save</button>
-                                        <button type="submit" class="btn btn btn-outline-dark px-4 mt-3">Modify</button>
-                                    </div>
-
-
-                                    <!-- Modal-->
-
-                                    <div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-sm-6">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="mySmallModalLabel"></h5>
-                                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                        <!-- Modal-->
+                                        <div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-sm-6">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="mySmallModalLabel"></h5>
+                                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <p class="mx-auto my-5 font-weight-normal">
+                                                        Stock Saved Successfully!
+                                                    </p>
                                                 </div>
-                                                <p class="mx-auto my-5 font-weight-normal">
-                                                    Stock Saved Successfully!
-                                                </p>
                                             </div>
                                         </div>
-                                    </div>
-
-                                </div>
-
+                                  </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
