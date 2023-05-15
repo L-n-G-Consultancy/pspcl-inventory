@@ -90,8 +90,10 @@ namespace Pspcl.Web.Controllers
                 if (password != confirmPassword)
                 {
                     ModelState.AddModelError("", "The password and confirm password fields do not match.");
+                    ViewBag.PasswordMismatchError = "The password and confirm password fields do not match.";
                     return View(user);
                 }
+
 
                 // Create the new user object
                 var newUser = new User

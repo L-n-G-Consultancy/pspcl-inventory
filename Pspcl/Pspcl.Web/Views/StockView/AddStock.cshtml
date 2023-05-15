@@ -32,7 +32,7 @@
                 <div class="form-group col-md-6">
                     <label for="materialGroupId">Material Group</label>
                     <select id="materialGroupId" name="materialGroup" class="form-control" required>
-                        <option  disabled>--Select Material Group--</option>
+                        <option disabled selected="selected">--Select Material Group--</option>
                         @foreach (var data in Model.AvailableMaterialGroups)
                         {
                             <option value="@data.Value">@data.Text</option>
@@ -48,7 +48,7 @@
                 <div class="form-group col-md-6">
                     <label for="materialTypeId">Material Type</label>
                     <select id="materialTypeId" name="materialType" class="form-control" required>
-                        <option  disabled>--Select Material Type--</option>
+                        <option  disabled selected="selected">--Select Material Type--</option>
                         @foreach (var data in Model.AvailableMaterialTypes)
                         {
                             <option value="@data.Value">@data.Text</option>
@@ -63,7 +63,7 @@
                 <div class="form-group col-md-6">
                     <label for="">Rating</label>
                     <select id="ratingId" name="rating" class="form-control" required>
-                        <option disabled>--Select Rating--</option>
+                        <option disabled selected="selected">--Select Rating--</option>
                         @foreach (var data in Model.AvailableRatings)
                         {
                             <option value="@data.Value">@data.Text</option>
@@ -75,9 +75,9 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="materialId">Material Code:</label>
+                    <label for="materialId" selected="selected">Material Code:</label>
                     <select id="materialId" name="materialCode" class="form-control" required>
-                        <option disabled>--Select Material Code--</option>
+                        <option disabled selected="selected">--Select Material Code--</option>
                         @foreach (var item in Model.AvailableMaterialCodes)
                         {
                             <option value="@item.Value">@item.Text</option>
