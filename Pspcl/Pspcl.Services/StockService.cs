@@ -60,7 +60,6 @@ namespace Pspcl.Services
             var materialCodes = _dbcontext.Material.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
-
         public int AddStock(Stock stock)
         {
             _dbcontext.Set<Stock>().Add(stock);
@@ -68,19 +67,18 @@ namespace Pspcl.Services
             return stock.Id;
         }
 
-        public void AddStockMaterial(StockMaterial stockMaterial)
+        public int AddStockMaterial(StockMaterial stockMaterial)
         {
             _dbcontext.Set<StockMaterial>().Add(stockMaterial);
             _dbcontext.SaveChanges();
+            return stockMaterial.Id;
         }
-
-        public int GetMaterialByType(int? typeId, string materialCode)
+        public void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries)
         {
-            var material = _dbcontext.Set<Material>()
-                .FirstOrDefault(m => m.MaterialTypeId == typeId);
-
-            return material.Id;
+            _dbcontext.Set<StockMaterialSeries>().AddRange(stockMaterialSeries);
+            _dbcontext.SaveChanges();
         }
+
         public List<StockInModel> GetStockInModels()
         {
             var stockInModels = _dbcontext.Stock
@@ -96,6 +94,38 @@ namespace Pspcl.Services
 
             return stockInModels;
         }
-       
+
+        public string GetMaterialGroupById(int? materialGroupId)
+        {
+            var response = _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
+            string materialGroupName = response.ToString();
+            return materialGroupName;
+        }
+        public string GetMaterialTypeById(int? materialTypeId)
+        {
+            var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Name).FirstOrDefault();
+            string materialTypeName = response.ToString();
+            return materialTypeName;
+        }
+        public string GetMaterialCodeById(int? materialIdByCode)
+        {
+            var response = _dbcontext.Material.Where(x => x.Id == materialIdByCode).Select(x => x.Code).FirstOrDefault();
+            if (response == null)
+            {
+                return "None";
+            }
+            string materialCodeName = response.ToString();
+            return materialCodeName;
+        }
+        public string GetRatingNameById(int? materialTypeId)
+        {
+            var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Rating).FirstOrDefault();
+            if (response == null)
+            {
+                return "None";
+            }
+            string Rating = response.ToString();
+            return Rating;
+        }
     }
 }
