@@ -196,7 +196,7 @@ namespace Pspcl.DBConnect.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TransactionId = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     GrnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    GrnNumber = table.Column<int>(type: "int", nullable: false),
+                    GrnNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TestReportReference = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     InvoiceDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InvoiceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -205,7 +205,8 @@ namespace Pspcl.DBConnect.Migrations
                     MaterialGroupId = table.Column<int>(type: "int", nullable: false),
                     MaterialTypeId = table.Column<int>(type: "int", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Rating = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -413,12 +414,15 @@ namespace Pspcl.DBConnect.Migrations
                 name: "StockMaterialSeries",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     StockMaterialId = table.Column<int>(type: "int", nullable: false),
                     SerialNumber = table.Column<int>(type: "int", nullable: false),
                     IsIssued = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_StockMaterialSeries", x => x.Id);
                     table.ForeignKey(
                         name: "FK_StockMaterialSeries_StockMaterial_StockMaterialId",
                         column: x => x.StockMaterialId,

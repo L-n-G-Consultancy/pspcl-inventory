@@ -335,13 +335,17 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<DateTime?>("GrnDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GrnNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("GrnNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("InvoiceDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InvoiceNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -487,6 +491,12 @@ namespace Pspcl.DBConnect.Migrations
 
             modelBuilder.Entity("Pspcl.Core.Domain.StockMaterialSeries", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("IsIssued")
                         .HasColumnType("bit");
 
@@ -495,6 +505,8 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<int>("StockMaterialId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("StockMaterialId");
 

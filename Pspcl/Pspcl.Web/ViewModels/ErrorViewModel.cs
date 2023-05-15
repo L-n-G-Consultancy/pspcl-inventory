@@ -1,4 +1,4 @@
-namespace Pspcl.Web.Models
+namespace Pspcl.Web.ViewModels
 {
     public class ErrorViewModel
     {

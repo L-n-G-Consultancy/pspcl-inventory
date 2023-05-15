@@ -1,4 +1,4 @@
-﻿using Pspcl.Web.Models;
+﻿using Pspcl.Web.ViewModels;
 using System.Collections;
 using AutoMapper;
 using System.Collections.Generic;

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
+using Pspcl.Services.Models;
 
 namespace Pspcl.Services
 {
@@ -59,24 +60,56 @@ namespace Pspcl.Services
             var materialCodes = _dbcontext.Material.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
+        public int AddStock(Stock stock)
+        {
+            _dbcontext.Set<Stock>().Add(stock);
+            _dbcontext.SaveChanges();
+            return stock.Id;
+        }
+
+        public int AddStockMaterial(StockMaterial stockMaterial)
+        {
+            _dbcontext.Set<StockMaterial>().Add(stockMaterial);
+            _dbcontext.SaveChanges();
+            return stockMaterial.Id;
+        }
+        public void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries)
+        {
+            _dbcontext.Set<StockMaterialSeries>().AddRange(stockMaterialSeries);
+            _dbcontext.SaveChanges();
+        }
+
+        public List<StockInModel> GetStockInModels()
+        {
+            var stockInModels = _dbcontext.Stock
+               .Select(s => new StockInModel
+               {
+                   Stock = s,
+                   MaterialGroup = _dbcontext.MaterialGroup.Where(mg => mg.Id == s.MaterialGroupId).Select(mg => mg.Name).FirstOrDefault(),
+                   MaterialName = _dbcontext.MaterialType.Where(mt => mt.Id == s.MaterialTypeId).Select(mt => mt.Name).FirstOrDefault(),
+                   MaterialCode = _dbcontext.Material.Where(mt => mt.Id == s.MaterialId).Select(mt => mt.Code).FirstOrDefault(),
+                   Quantity = _dbcontext.StockMaterial.Where(sm => sm.StockId == s.Id).Sum(sm => sm.Quantity)
+               })
+               .ToList();
+
+            return stockInModels;
+        }
 
         public string GetMaterialGroupById(int? materialGroupId)
         {
-            var response= _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
+            var response = _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
             string materialGroupName = response.ToString();
             return materialGroupName;
         }
-
         public string GetMaterialTypeById(int? materialTypeId)
         {
             var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Name).FirstOrDefault();
             string materialTypeName = response.ToString();
             return materialTypeName;
         }
-
-        public string GetMaterialCodeById(int? materialCodeId)
+        public string GetMaterialCodeById(int? materialIdByCode)
         {
-            var response = _dbcontext.Material.Where(x => x.Id == materialCodeId).Select(x => x.Code).FirstOrDefault();
+            var response = _dbcontext.Material.Where(x => x.Id == materialIdByCode).Select(x => x.Code).FirstOrDefault();
             if (response == null)
             {
                 return "None";
@@ -84,38 +117,15 @@ namespace Pspcl.Services
             string materialCodeName = response.ToString();
             return materialCodeName;
         }
-
         public string GetRatingNameById(int? materialTypeId)
         {
             var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Rating).FirstOrDefault();
-            if(response == null)
+            if (response == null)
             {
                 return "None";
             }
             string Rating = response.ToString();
             return Rating;
         }
-
-        public int AddStock(Stock stock)
-		{
-			_dbcontext.Set<Stock>().Add(stock);
-			_dbcontext.SaveChanges();
-			return stock.Id;
-		}
-
-		public void AddStockMaterial(StockMaterial stockMaterial)
-		{
-			_dbcontext.Set<StockMaterial>().Add(stockMaterial);
-			_dbcontext.SaveChanges();
-		}
-
-		public int GetMaterialByType(int? typeId)
-		{
-			var material = _dbcontext.Set<Material>()
-				.FirstOrDefault(m => m.MaterialTypeId == typeId);
-
-			return material.Id;
-		}
-
-	}
+    }
 }

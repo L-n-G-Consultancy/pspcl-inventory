@@ -3,8 +3,10 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Pspcl.Core.Domain;
+using System.ComponentModel.DataAnnotations;
 
-namespace Pspcl.Web.Models
+
+namespace Pspcl.Web.ViewModels
 {
 	//[DataContract]
 	//[Serializable]
@@ -17,14 +19,22 @@ namespace Pspcl.Web.Models
 			AvailableRatings = new List<SelectListItem>();
 			AvailableMaterialCodes = new List<SelectListItem>();
 		}
-		public DateTime? GrnDate { get; set; }
-		public long? GrnNumber { get; set; }
+        ///[DataMember]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? GrnDate { get; set; }
+		//[DataMember]
+		public string? GrnNumber { get; set; }
+		//[DataMember]
 		public String? TestReportReference { get; set; }
-		public DateTime? InvoiceDate { get; set; }
+        //[DataMember]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? InvoiceDate { get; set; }
+		//[DataMember]
 		public string? InvoiceNumber { get; set; }
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
-		public int? SelectedMaterialCode { get; set; }
-		public string SelectedMaterialCodeName { get; set; }
+		//[DataMember]
+		public int? MaterialIdByCode { get; set; }
+		//[DataMember]
 		public IList<SelectListItem>? AvailableMaterialGroups { get; set; }
 		public int? MaterialGroupId { get; set; }
         public string SelectedMaterialGroupName { get; set; }
@@ -35,9 +45,14 @@ namespace Pspcl.Web.Models
 
         public IList<SelectListItem>? AvailableRatings { get; set; }
 		public string? Rating { get; set; }
-        public string SelectedRatingName { get; set; }
-        public decimal? EnterRate { get; set; }
+        //[DataMember]
+        public decimal? Rate { get; set; }
+		//[DataMember]
 		public string? PrefixNumber { get; set; }
+		public string Make { get; set; }
 		public List<StockMaterial> stockMaterialList { get; set; }
-	}
+		public string SelectedMaterialCodeName { get; set;}
+		public string SelectedRatingName { get; set; }
+
+    }
 }
