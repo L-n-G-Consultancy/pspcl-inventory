@@ -67,14 +67,16 @@ namespace Pspcl.Services
 			return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
 		}
 
-		//public List<Stock> GetAllMakes()
-		//{
-		//	return _dbcontext.Stock.ToList();
-		//}
+        public List<string> GetAllMakes()
+        {
+			List<string> makes = _dbcontext.Stock.Select(s => s.Make).Distinct().ToList();
+
+            return makes;
+        }
 
 
 
-		public List<string> GetCircleAndDivision(int selectedSubDivId, bool? onlyActive = false)
+        public List<string> GetCircleAndDivision(int selectedSubDivId, bool? onlyActive = false)
 		{
 			if (onlyActive.HasValue)
 			{
@@ -82,39 +84,66 @@ namespace Pspcl.Services
 				if (subDivision != null)
 				{
 					int divId = subDivision.DivisionId;
+                    string divisionId= divId.ToString();
+
 					Division Division = _dbcontext.Division.FirstOrDefault(x => x.Id == divId);
 					string divisionName = Division.Name.ToString();
 
 					int circleDiv = Division.CircleId;
+                    string circleId= circleDiv.ToString();
 					Circle Circle = _dbcontext.Circle.FirstOrDefault(x => x.Id == circleDiv);
 					string circleName = Circle.Name.ToString();
 
 					List<string> DivisionCircle = new List<string>();
 					DivisionCircle.Add(divisionName);
 					DivisionCircle.Add(circleName);
+                    DivisionCircle.Add(divisionId);
+                    DivisionCircle.Add(circleId);
 
 					return DivisionCircle;
 				}
 			}
 			return new List<string>();
 		}
+        public List<List<int>> GetAvailableQuantity(List<int> Ids)
+        {
+			int materialGroupId = Ids[0];
+			int materialTypeId = Ids[1];
+			int materialId = Ids[2];
+			Console.WriteLine("Material Group Id: " + materialGroupId);
 
-		public List<Stock> GetAvailableQuantity(List<int> Ids)
-		{
-			List<Stock> stocks = (List<Stock>)_dbcontext.Stock.Where(x => x.MaterialGroupId == Ids[0] && x.MaterialTypeId== Ids[1] && x.MaterialId == Ids[2]).Select(x=>x);
-			List<StockMaterial> stockMaterials = new List<StockMaterial>();
-			foreach (Stock stock in stocks)
-			{
-				stockMaterials = _dbcontext.StockMaterial.Where(x => x.StockId == stock.Id).ToList();
-			}
-			List<StockMaterialSeries> series = new List<StockMaterialSeries>();
-			foreach(StockMaterial stockMaterial in stockMaterials)
-			{
-				series= _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == stockMaterial.Id).ToList();
-			}
+			List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
+			List<int> stockIds = stocks.Select(x => x.Id).ToList();
+			List<StockMaterial> Materials = _dbcontext.StockMaterial.Where(x => stockIds.Contains(x.StockId)).ToList();
+			List<int> idList = Materials.Select(x => x.Id).ToList();
+			var query = _dbcontext.StockMaterialSeries.Where(x => idList.Contains(x.StockMaterialId) && !x.IsIssued);
+			string sqlQuery = query.ToString();
+			//Console.WriteLine(sqlQuery);
+			var MaterialSeries = query.ToList();
+			List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
+			int totalAvailableQuantity = quantities.Count();
+			Console.WriteLine(totalAvailableQuantity);
 
-			return stocks;
-		}
+			var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
+		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
+		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber   }) .ToList();
+
+			// the above query would have an output like this:
+			//var materialRanges = new List<object>
+
+			//         {
+			//          new { StockMaterialId = 1, SrNoFrom = 100, SrNoTo = 105 },
+			//          new { StockMaterialId = 2, SrNoFrom = 200, SrNoTo = 207 },
+			//          new { StockMaterialId = 3, SrNoFrom = 300, SrNoTo = 301 }
+			//         };
+
+			//List<object> ranges = materialRanges.Select(x => new { x.SrNoFrom, x.SrNoTo }).ToList();
+
+
+			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
+			return ranges;
+        }
+
 		public int AddStock(Stock stock)
 		{
 			_dbcontext.Set<Stock>().Add(stock);
@@ -133,6 +162,14 @@ namespace Pspcl.Services
             _dbcontext.Set<StockMaterialSeries>().AddRange(stockMaterialSeries);
             _dbcontext.SaveChanges();
         }
+
+        public void issueStock(List<int> SrNo)
+        {
+            List<int> Srno = SrNo;
+            
+        }
+
+
 
         public List<StockInModel> GetStockInModels()
         {

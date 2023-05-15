@@ -47,5 +47,9 @@ namespace Pspcl.Web.ViewModels
 		public string SelectedMaterialCodeName { get; set;}
 		public string SelectedRatingName { get; set; }
 
-    }
+		public int? MaterialGroupId { get; set; }
+		public int? MaterialTypeId { get; set; }
+
+
+	}
 }

@@ -11,9 +11,10 @@ namespace Pspcl.Services.Interfaces
         List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false);
 		List<SubDivision> GetAllSubDivisions(bool? onlyActive = false);
 		List<string> GetCircleAndDivision(int selectedSubDivId, bool? onlyActive = false);
-		//List<Stock> GetAllMakes();
+		List<string> GetAllMakes();
 
-		List<Stock> GetAvailableQuantity(List<int> Ids);
+		//List<Stock> GetAvailableQuantity(List<int> Ids);
+		List<List<int>> GetAvailableQuantity(List<int> Ids);
 
 		int AddStock(Stock stock);
 		int AddStockMaterial(StockMaterial stockMaterial);

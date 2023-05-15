@@ -121,6 +121,8 @@ $(function () {
 $(function () {
     $("#SelectedSubDivId").on("change", function () {
         var selectedSubDivId = $(this)[0].selectedIndex;
+        $("#Division").empty();
+        $("#Division").empty();
         if (selectedSubDivId) {
             $.ajax({
                 url: "/IssueStock/GetCircleAndDivision",
@@ -136,26 +138,6 @@ $(function () {
     });
 });
 
-$("#IssueStockBtn").click(function (event) {
-    event.preventDefault();
-    const form1data = $("#IssueStockForm1").serializeArray();
-    const form2data = $("#IssueStockForm2").serializeArray();
-    const combinedData = $.extend({}, form1data, form2data);
-    $.ajax({
-        url: "IssueStock/IssueStockView",
-        type: "POST",
-        data: JSON.stringify(combinedData),
-        contentType: "application/json",
-        success: function (response) {
-            console.log(response);
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    });
-});
-
-
 $('#StockForm').on('submit', function (event) {
     event.preventDefault();
 
@@ -165,8 +147,6 @@ $('#StockForm').on('submit', function (event) {
 			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
 		}
 	});
-
-
 
 function validateInputs() {
     var isValid = true;
@@ -188,3 +168,33 @@ function validateInputs() {
 	return isValid;
 }
 
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/GetAvailableStockRows",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (result) {
+                    console.log(result);
+                    var sum = 0;
+                    console.log("initial: "+sum);
+                    $.each(result, function (index, value) {                        
+                        sum += value[2];
+                    });
+                    $("#AvailableStock").val(sum);
+
+                    console.log("final: " + sum);
+                   
+                }
+            });
+        }
+        else {
+            
+        }
+    });
+});

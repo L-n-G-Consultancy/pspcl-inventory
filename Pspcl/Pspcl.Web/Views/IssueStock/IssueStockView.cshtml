@@ -5,6 +5,7 @@
 @*@model Pspcl.Web.Models.StockViewModel
 *@
 
+
 <div class="main-content">
     <div class="page-content">
 
@@ -21,29 +22,17 @@
 		@using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1" }))
 		{	
 		<div class="row">
-				@*<div class="form-group col-md-6">
-					<label for="txoDo">TXO DD </label>
-					<input type="text" class="form-control" id="TxoDo" name="TxoDo" placeholder="Enter TXO DD">
-					<div class="valid-feedback"> Looks good! </div>
-				</div>*@
+				
 
 				<div class="form-group col-md-6">
 					<label >Select Current Date</label>
 					<input type="date" class="form-control" id="CurrentDate" name="CurrentDate" placeholder="Select current Date">
 					<div class="invalid-feedback"> Please provide a valid state. </div>
-				</div>
-
-				@*<div class="form-group col-md-6">
-					<label for="date">GRN Date</label>
-					@Html.EditorFor(model => model.CurrentDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @required = "required" } })
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>*@
+				</div>				
 				
 				<div class="form-group col-md-6">
 					<label for="date"> Date</label>
-					<input type="date" class="form-control" id="Date" name="Date" placeholder="Select GRN Date">
+					<input type="date" class="form-control" id="Date" name="Date" >
 					<div class="invalid-feedback">
 						Please provide a valid state.
 					</div>
@@ -58,7 +47,7 @@
 				</div>
 
 				<div class="form-group col-md-6">
-					<label for="">Je Name</label>
+					<label for="">JE Name</label>
 					@Html.TextBoxFor(model => model.JeName, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Je Name" })
 					<div class="invalid-feedback">
 						Please provide a valid state.
@@ -67,7 +56,7 @@
 
 				<div class="form-group col-md-6">
 					<label for="subDivId">Sub Division Name</label>
-					@Html.DropDownListFor(m => m.SelectedSubDivId, new SelectList(Model.SubDivisionList, "Value", "Text"), new { @class = "form-control", required = "required", id = "SelectedSubDivId" })
+					@Html.DropDownListFor(m => m.SelectedSubDivId, new SelectList(Model.SubDivisionList, "Value", "Text"), "--Select Sub-Division--", new { @class = "form-control", required = "required", id = "SelectedSubDivId" })
 
 					<div class="invalid-feedback">
 						Please provide a valid state.
@@ -94,7 +83,7 @@
 				<div class="form-group col-md-6">
 					<label for="materialTypeId">Material Type:</label>
 
-					@Html.DropDownListFor(m => m.MaterialTypeId, new SelectList(Model.AvailableMaterialTypes, "Value", "Text"), "--Select Material Tye--", new { @class = "form-control", required = "required", id = "materialTypeId" })
+					@Html.DropDownListFor(m => m.MaterialTypeId, new SelectList(Model.AvailableMaterialTypes, "Value", "Text"), "--Select Material Type-", new { @class = "form-control", required = "required", id = "materialTypeId" })
 
 					<div class="invalid-feedback">
 						Please provide a valid state.
@@ -118,145 +107,59 @@
 						Please provide a valid state.
 					</div>
 				</div>
+				<div class="form-group col-md-6">
+					<label for="SelectedMakeId">Make</label>
+					@Html.DropDownListFor(m => m.SelectedMake, new SelectList(ViewBag.StringList), "--Select Make--", new { @class = "form-control", required = "required", id = "makeId" })
+
+					<div class="invalid-feedback">
+						Please provide a valid state.
+					</div>
+				</div>
 
 				<div class="form-group col-md-6">
-					<label for="">Quantity</label>
+					<label for="AvailableStock">Available Stock Quantity</label>
+					<input type="text" class="form-control" id="AvailableStock" name="AvailableStock" readonly>
+					<div class="valid-feedback"> Looks good! </div>
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="">Enter Quantity</label>
 					@Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", @type = "text", @required = "required", placeholder = "Enter Quantity" })
 					<div class="invalid-feedback">
 						Please provide a valid state.
 					</div>
 				</div>
-			
 
-				<div class="form-group col-md-6">
-					<label for="AvailableStock">AvailableStock</label>
-					<input type="text" class="form-control" id="AvailableStock" name="AvailableStock" readonly>
-					<div class="valid-feedback"> Looks good! </div>
+
+
+				<div class="mt-3 mb-5 border-black-top pt-4">
+					
+					<!-- Modal-->
+					<div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-sm-6">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="mySmallModalLabel"></h5>
+									<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<p class="mx-auto my-5 font-weight-normal">
+									Stock Issued Successfully!
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<div class="col-md-12 text-center">
-					<label for="">&nbsp;</label>
-					<button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-lg">Issue Stock</button>
-					<button type="button" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
-				</div>
+
+			</div>
+			<div class="col-md-12 text-center">
+				<label for="">&nbsp;</label>
+				<button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-lg">Issue Stock</button>
+				<button type="reset" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
 			</div>
 		}
-
-		<!-- Add Material Modal -->
-		<div class="modal fade bd-example-modal-lg" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title text-white" id="mySmallModalLabel">Add Material</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="mx-auto px-4  font-weight-normal">
-						@using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm2" }))
-							{	
-								<div class="row">
-							
-								<div class="form-group col-md-6">
-									<label for="materialGroupId">Material Group</label>
-									<select id="materialGroupId" name="TxoDo" name="materialGroup" class="form-control" required>
-										<option disabled>--Select Material Group--</option>
-										@foreach (var data in Model.AvailableMaterialGroups)
-										{
-											<option value="@data.Value">@data.Text</option>
-										}
-									</select>
-									<div class="valid-feedback">
-										Looks good!
-									</div>
-								</div>
-
-								<div class="form-group col-md-6">
-									<label for="materialTypeId">Material Type</label>
-									<select id="materialTypeId" name="materialType" class="form-control" required>
-										<option disabled>--Select Material Type--</option>
-										@foreach (var data in Model.AvailableMaterialTypes)
-										{
-											<option value="@data.Value">@data.Text</option>
-										}
-									</select>
-									<div class="invalid-feedback">
-										Please provide a valid state.
-									</div>
-								</div>
-
-
-								@*<div class="form-group col-md-6">
-									<label for="materialId">Material Code:</label>
-									@if (Model.SelectedMaterialCode != null)
-									{
-										@Html.DropDownListFor(m => m.SelectedMaterialCode, new SelectList(Model.AvailableMaterialCodes, "Value", "Text", Model.SelectedMaterialCode), "--Select Material Code--", new { @class = "form-control", required = "required", id = "materialId" })
-									}
-									else
-									{
-										@Html.DropDownListFor(m => m.SelectedMaterialCode, new SelectList(Model.AvailableMaterialCodes, "Value", "Text"), "--Select Material Code--", new { @class = "form-control", required = "required", id = "materialId" })
-									}
-									<div class="invalid-feedback">
-										Please provide a valid state.
-									</div>
-								</div>*@
-
-								
-
-								<div class="form-group col-md-6">
-									<label for="">Quantity</label>
-									@Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", @required = "required", placeholder = "Enter Quantity"})
-									<div class="invalid-feedback">
-										Please provide a valid state.
-									</div>
-								</div>
-
-								
-
-								<div class="form-group col-md-6">
-									<label for="">SrNo To</label>
-									@Html.TextBoxFor(model => model.SrNoTo, new { @class = "form-control", @required = "required", placeholder = "Enter SrNoTo" })
-									<div class="invalid-feedback">
-										Please provide a valid state.
-									</div>
-								</div>
-
-
-								<div class="form-group col-md-6">
-									<label for="">Sr. No From</label>
-									@Html.TextBoxFor(model => model.SrNoFrom, new { @class = "form-control", @required = "required", placeholder = "Enter SrNoFrom" })
-									<div class="invalid-feedback">
-										Please provide a valid state.
-									</div>
-								</div>
-							</div>
-							<div class="text-center mb-5 ">
-								<button type="button" class="btn btn-dark blackButton px-4 mt-3 mr-2" id="IssueStockBtn" data-toggle="modal" data-target=".bd-example-modal-sm">Issue Stock</button>
-								<button type="button" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
-							</div>
-						}
-
-					</div>
-				</div>
-			</div>
-		</div>
-	
-		<div class="modal fade bd-example-modal-sm" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-sm-6">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title text-white" id="mySmallModalLabel"> Stock Issuance</h5>
-						<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<p class="mx-auto my-5 font-weight-normal">
-						Stock has been issued Successfully!
-					</p>
-				</div>
-			</div>
-		</div>
-
 
     </div>
 </div>
