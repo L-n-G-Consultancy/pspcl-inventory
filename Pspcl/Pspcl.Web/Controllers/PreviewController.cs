@@ -14,7 +14,7 @@ namespace Pspcl.Web.Controllers
         private readonly IStockService _stockService;
         private readonly ILogger<PreviewController> _logger;
         private readonly IMapper _mapper;
-        public PreviewController(IStockService stockService, ILogger<PreviewController> logger, IMapper mapper)
+        public PreviewController(IStockService stockService, IMapper mapper, ILogger<PreviewController> logger)
         {
             _stockService = stockService;
             _logger = logger;
@@ -26,23 +26,30 @@ namespace Pspcl.Web.Controllers
             try
             {
                 var jsonResponse = TempData["StockViewModel"] as string;
-                var stockViewModel = JsonConvert.DeserializeObject<StockViewModel>(jsonResponse);
-                var materialGroupName = _stockService.GetMaterialGroupById(stockViewModel.MaterialGroupId);
-                var materialTypeName = _stockService.GetMaterialTypeById(stockViewModel.MaterialTypeId);
-                var materialCodeName = _stockService.GetMaterialCodeById(stockViewModel.MaterialIdByCode);
-                var ratingName = _stockService.GetRatingNameById(stockViewModel.MaterialTypeId);
-                stockViewModel.SelectedMaterialGroupName = materialGroupName;
-                stockViewModel.SelectedMaterialTypeName = materialTypeName;
-                stockViewModel.SelectedMaterialCodeName = materialCodeName;
-                stockViewModel.SelectedRatingName = ratingName;
-                return View(stockViewModel);
+                if (string.IsNullOrEmpty(jsonResponse))
+                {
+                    return View("Error");
+                }
+                else
+                {
+                    var stockViewModel = JsonConvert.DeserializeObject<StockViewModel>(jsonResponse);
+                    var materialGroupName = _stockService.GetMaterialGroupById(stockViewModel.MaterialGroupId);
+                    var materialTypeName = _stockService.GetMaterialTypeById(stockViewModel.MaterialTypeId);
+                    var materialCodeName = _stockService.GetMaterialCodeById(stockViewModel.MaterialIdByCode);
+                    var ratingName = _stockService.GetRatingNameById(stockViewModel.MaterialTypeId);
+                    stockViewModel.SelectedMaterialGroupName = materialGroupName;
+                    stockViewModel.SelectedMaterialTypeName = materialTypeName;
+                    stockViewModel.SelectedMaterialCodeName = materialCodeName;
+                    stockViewModel.SelectedRatingName = ratingName;
+                    return View(stockViewModel);
+
+                }
             }
-            catch (Exception ex)    
+            catch (Exception ex)
             {
-                _logger.LogInformation(ex,"");
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
                 return View("Error");
             }
-            
         }
         [HttpPost]
         public IActionResult Preview(IFormCollection formCollection,string save)
@@ -125,8 +132,8 @@ namespace Pspcl.Web.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = ex.Message;
-                return View();
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
             }
             return View();
         }

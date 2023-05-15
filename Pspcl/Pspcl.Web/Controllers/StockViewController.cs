@@ -14,11 +14,13 @@ namespace Pspcl.Web.Controllers
     {
         private readonly IStockService _stockService;
         private readonly IMapper _mapper;
+        private readonly ILogger<StockViewController> _logger;
 
-        public StockViewController(IStockService stockService, IMapper mapper)
+        public StockViewController(IStockService stockService, IMapper mapper, ILogger<StockViewController> logger)
         {
             _stockService = stockService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -72,43 +74,51 @@ namespace Pspcl.Web.Controllers
         [HttpPost]
         public IActionResult AddStock(IFormCollection formCollection)
         {
+            try
+            {
 
-            var model = new StockViewModel();
+                var model = new StockViewModel();
 
-				DateTime date = DateTime.Parse(formCollection["GRNDate"]);
-				model.GrnDate = date;
-				model.TestReportReference = formCollection["TestReportReference"];
-				model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
-				model.InvoiceNumber = formCollection["InvoiceNumber"];
-				model.MaterialIdByCode = int.Parse(formCollection["MaterialIdByCode"]);
-				model.Rate = decimal.Parse(formCollection["Rate"]);
-				model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
-				model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
-				model.Rating = formCollection["Rating"];
+                DateTime date = DateTime.Parse(formCollection["GRNDate"]);
+                model.GrnDate = date;
+                model.TestReportReference = formCollection["TestReportReference"];
+                model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
+                model.InvoiceNumber = formCollection["InvoiceNumber"];
+                model.MaterialIdByCode = int.Parse(formCollection["MaterialIdByCode"]);
+                model.Rate = decimal.Parse(formCollection["Rate"]);
+                model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
+                model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
+                model.Rating = formCollection["Rating"];
 				model.GrnNumber =formCollection["GrnNumber"];
-				model.PrefixNumber = formCollection["PrefixNumber"];
+                model.PrefixNumber = formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];
 
-            List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
+                List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
 
-				for (int i = 12; i < formCollection.Count - 2; i = i + 3)
-				{
-					var element_from = formCollection.ElementAt(i);
-					var element_to = formCollection.ElementAt(i + 1);
-					var element_qty = formCollection.ElementAt(i + 2);
+                for (int i = 12; i < formCollection.Count - 2; i = i + 3)
+                {
+                    var element_from = formCollection.ElementAt(i);
+                    var element_to = formCollection.ElementAt(i + 1);
+                    var element_qty = formCollection.ElementAt(i + 2);
 
-					StockMaterial row = new()
-					{
-						SerialNumberFrom = Convert.ToInt32(element_from.Value),
-						SerialNumberTo = int.Parse(element_to.Value),
-						Quantity = int.Parse(element_qty.Value),
-					};
-					stockMaterialsList.Add(row);
-				}
+                    StockMaterial row = new()
+                    {
+                        SerialNumberFrom = Convert.ToInt32(element_from.Value),
+                        SerialNumberTo = int.Parse(element_to.Value),
+                        Quantity = int.Parse(element_qty.Value),
+                    };
+                    stockMaterialsList.Add(row);
+                }
                 model.stockMaterialList = stockMaterialsList;
-               TempData["StockViewModel"] = JsonConvert.SerializeObject(model);
+                TempData["StockViewModel"] = JsonConvert.SerializeObject(model);
 
-             return RedirectToAction("Preview", "Preview");
+                return RedirectToAction("Preview", "Preview");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
+            }
         }
     }
 }
