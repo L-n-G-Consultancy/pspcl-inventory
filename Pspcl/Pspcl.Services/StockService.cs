@@ -109,7 +109,7 @@ namespace Pspcl.Services
 			_dbcontext.SaveChanges();
 		}
 
-		public int GetMaterialByType(int? typeId, string materialCode)
+		public int GetMaterialByType(int? typeId)
 		{
 			var material = _dbcontext.Set<Material>()
 				.FirstOrDefault(m => m.MaterialTypeId == typeId);

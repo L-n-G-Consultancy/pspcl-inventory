@@ -14,6 +14,6 @@ namespace Pspcl.Services.Interfaces
         string GetRatingNameById(int? materialTypeId);
         int AddStock(Stock stock);
         void AddStockMaterial(StockMaterial stockMaterial);
-        int GetMaterialByType(int? typeId, string materialCode);
+        int GetMaterialByType(int? typeId);
     }
 }
