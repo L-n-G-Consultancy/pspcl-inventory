@@ -14,11 +14,12 @@ namespace Pspcl.Core.Domain
         public string InvoiceNumber { get; set; }
         public decimal Rate { get; set; }
         public string PrefixNumber { get; set; }
-		public MaterialGroup MaterialGroup { get; set; }
-		public int MaterialGroupId { get; set; }
-		public int MaterialTypeId { get; set; }
-		public int MaterialId { get; set; }
+        public MaterialGroup MaterialGroup { get; set; }
+        public int MaterialGroupId { get; set; }
+        public int MaterialTypeId { get; set; }
+        public int MaterialId { get; set; }
         public string? Rating { get; set; }
+        public string Make { get; set; }
 
 	}
 }
