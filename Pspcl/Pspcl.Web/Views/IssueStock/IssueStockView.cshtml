@@ -140,7 +140,7 @@
 			
 		</div>
 		}
-		@*<input type="hidden" id="successMessage" value="@TempData["Message"]" />
+		<input type="hidden" id="successMessage" value="@TempData["Message"]" />
 		<div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-sm-6">
 				<div class="modal-content">
@@ -151,8 +151,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p class="mx-auto my-5 font-weight-normal">@TempData["Message"]</p>
-						
+						<p class="mx-auto my-5 font-weight-normal">@TempData["Message"]</p>						
 							<table class="table table-responsive custom-table">
 								<thead class="thead-dark">
 									<tr>
@@ -162,26 +161,24 @@
 									</tr>
 								</thead>
 								<tbody id="issuedRows">
-								@if (@TempData["Message"] != null)
-								{
-
-									@foreach (var row in issuedStock)
+									@if (Model.IssuedStockRanges != null)
 									{
-										<tr>
-											
-											<td>@row[1]</td>
-											<td>@row[2]</td>
-											<td>@row[3]</td>
-										</tr>
+										@foreach (var row in Model.IssuedStockRanges)
+										{
+											<tr>												
+												<td>@row[1]</td>
+												<td>@row[2]</td>
+												<td>@row[3]</td>
+											</tr>
+										}
 									}
-								}
 								</tbody>
 							</table>
 						
 					</div>
 				</div>
 			</div>
-		</div>*@
+		</div>
 
 	</div>
 </div>

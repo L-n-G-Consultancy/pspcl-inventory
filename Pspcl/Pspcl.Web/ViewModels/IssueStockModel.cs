@@ -41,7 +41,8 @@ namespace Pspcl.Web.Models
 		public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
 		public List<string> AvailableMakes { get; set; }
+        public List<List<int>>? IssuedStockRanges { get; set; }
 
 
-	}
+    }
 }

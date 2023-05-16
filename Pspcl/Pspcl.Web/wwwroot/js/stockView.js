@@ -139,28 +139,8 @@ $(function () {
     });
 });
 
-$('#StockForm').on('submit', function (event) {
-    event.preventDefault();
-var alertMessage = '';
-	$('#StockForm').on('submit', function (event) {
-        event.preventDefault();
-        var userEnteredRate = $("#Rate").val();
 
-        if (!validateInputs()) {
-            alertMessage = 'Please make sure that every "To" input is greater than its corresponding "From" input.';
-            showModal(alertMessage);
-            //alert();
-        }
-        else if (userEnteredRate > 1000000) {
-            alertMessage = 'Rate cannot exceed Rs 10,00,000';
-            showModal(alertMessage);
-           
-            //alert();
-        }
-        else {
-            this.submit();
-		}
-	});
+	
 function validateInputs() {
     var isValid = true;
 
@@ -269,18 +249,43 @@ $(function () {
 $(document).ready(function () {
     showModal('');
 });
+
+$('#StockForm').on('submit', function (event) {
+    event.preventDefault();
+    var userEnteredRate = $("#Rate").val();
+
+    if (!validateInputs()) {
+        alertMessage = 'Please make sure that every "To" input is greater than its corresponding "From" input.';
+        showModal(alertMessage);
+        //alert();
+    }
+    else if (userEnteredRate > 1000000) {
+        alertMessage = 'Rate cannot exceed Rs 10,00,000';
+        showModal(alertMessage);
+
+        //alert();
+    }
+    else {
+        this.submit();
+    }
+});
+
 function showModal(alertMessage) {
     var successMessage = $("#successMessage").val();
 
-    
-    if (successMessage) {       
+    if (alertMessage) {
+        $("#successMessagePlaceholder").text(alertMessage);
+        $("#successModal").modal("show");
+    }
+    if (successMessage) {
+        $("#successMessagePlaceholder").text(successMessage);
         $("#successModal").modal("show");
     }
 
 
 }
     
-}
+
 
 document.getElementById("exportButton").addEventListener("click", function () {
     // Fetch the table element

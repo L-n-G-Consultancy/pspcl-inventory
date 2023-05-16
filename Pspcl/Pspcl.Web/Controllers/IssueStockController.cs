@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
+
 namespace Pspcl.Web.Controllers
 {
     public class IssueStockController : Controller
@@ -32,7 +33,13 @@ namespace Pspcl.Web.Controllers
 
 			issueStockModel.SubDivisionList = subDivisions.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 			issueStockModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-			
+
+			var issuedStockRangesJson = TempData["IssuedStockRanges"] as string;
+			if(issuedStockRangesJson != null)
+			{
+				issueStockModel.IssuedStockRanges = JsonConvert.DeserializeObject<List<List<int>>>(issuedStockRangesJson);
+			}
+
 			return View(issueStockModel);
 
 		}
@@ -90,10 +97,9 @@ namespace Pspcl.Web.Controllers
 			StockBookMaterial stockBookMaterial = _mapper.Map<StockBookMaterial>(model);
 			_stockService.StockBookMaterial(stockBookMaterial, id);
 
-			ViewBag.Message = "Stock issued successfully";
-			TempData["Message"] = ViewBag.Message;		
-			//ViewBag["IssuedStock"] = IssuedStockRanges[0][0];
-			return RedirectToAction("Index", "Home");
+			TempData["IssuedStockRanges"] = JsonConvert.SerializeObject(IssuedStockRanges);
+			TempData["Message"] = "Stock Issued Successfully..!";
+            return RedirectToAction("IssueStockView", "IssueStock");
         }	
 		public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
 		{
