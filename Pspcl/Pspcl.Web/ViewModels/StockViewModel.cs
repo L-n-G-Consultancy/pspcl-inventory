@@ -49,6 +49,7 @@ namespace Pspcl.Web.ViewModels
 
 		public int? MaterialGroupId { get; set; }
 		public int? MaterialTypeId { get; set; }
+		public string TransactionId { get; set; }
 
 
 	}

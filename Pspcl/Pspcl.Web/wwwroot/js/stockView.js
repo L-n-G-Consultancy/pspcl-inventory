@@ -130,6 +130,7 @@ $(function () {
                 data: { SelectedSubDivId: selectedSubDivId },
                 success: function (result) {
                     console.log(result);
+
                     $("#Division").val(result[0]); 
                     $("#Circle").val(result[1]);
                 }
@@ -222,3 +223,46 @@ $(function () {
         }
     });
 });
+
+$(function () {
+
+    $("#requiredQuantity").on("input", function () {
+
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+
+        //$("#makeId").empty();
+            if (materialGroupId && materialTypeId && materialId) {
+            $.ajax({
+                url: "/IssueStock/IssueStockView",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (result) {
+
+
+                }
+            });
+        }
+            else {
+
+                //modal : please select material group code and type
+
+            $("#makeId").append($('<option>').text("--Select Make--").val(""));
+        }
+    });
+});
+
+$(document).ready(function () {
+    showModal('');
+});
+function showModal(alertMessage) {
+    var successMessage = $("#successMessage").val();
+
+    
+    if (successMessage) {       
+        $("#successModal").modal("show");
+    }
+
+
+}

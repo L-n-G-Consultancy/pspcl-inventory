@@ -4,7 +4,9 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
-
+@{
+    var issuedStock = (List<List<int>>)ViewData["IssuedStock"];
+}
  
 <div class="main-content">
     <div class="page-content">
@@ -21,6 +23,7 @@
                                 @if (ViewBag.Message != null)
                                 {
                                     <h2>@ViewBag.Message</h2>
+                                    
                                 }
                             </div>
                         </div>

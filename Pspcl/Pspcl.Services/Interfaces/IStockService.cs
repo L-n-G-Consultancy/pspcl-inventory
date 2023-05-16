@@ -14,6 +14,11 @@ namespace Pspcl.Services.Interfaces
 		List<string> GetAllMakes(int materialGrooupId, int materialTypeId, int materialId);
 		List<List<int>> GetAvailableQuantity(List<int> Ids);
 
+        void UpdateStockMaterialSeries(List<List<int>> requiredIssueData);
+		int IssueStock(StockIssueBook stockIssueBook);
+		void StockBookMaterial(StockBookMaterial stockBookMaterial, int id);
+
+
 		int AddStock(Stock stock);
 		int AddStockMaterial(StockMaterial stockMaterial);
         void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries);

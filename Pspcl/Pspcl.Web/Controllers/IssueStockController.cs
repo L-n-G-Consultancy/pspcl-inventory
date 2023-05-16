@@ -25,6 +25,7 @@ namespace Pspcl.Web.Controllers
         [HttpGet]
         public IActionResult IssueStockView()
         {
+
 			var subDivisions = _stockService.GetAllSubDivisions();
 			var materialGroup = _stockService.GetAllMaterialGroups();
 			IssueStockModel issueStockModel = new IssueStockModel();
@@ -38,6 +39,7 @@ namespace Pspcl.Web.Controllers
 		public JsonResult GetCircleAndDivision(int selectedSubDivId)
 		{
 			List<string> divisionAndCircle = _stockService.GetCircleAndDivision(selectedSubDivId);
+
 			var result = Json(divisionAndCircle);
 			return result;
 		}
@@ -45,9 +47,10 @@ namespace Pspcl.Web.Controllers
         [HttpPost]
         public ActionResult IssueStockView(IssueStockModel model)
         {
+			model.TransactionId = "trans1";
 			int MaterialGroupId = model.MaterialGroupId;
 			int MaterialTypeId = model.MaterialTypeId;
-			int? MaterialCodeId = model.MaterialCodeId;
+			int? MaterialCodeId = model.MaterialId;
 
 			int RequiredQuantity = model.Quantity;
 
@@ -61,26 +64,35 @@ namespace Pspcl.Web.Controllers
 			int requiredQuantity = model.Quantity;
 
 			List<List<int>> IssuedStockRanges = new List<List<int>>();
-			for (int i = 0; i <= Ranges.Count; i++)
+			for (int i = 0; i <= Ranges.Count-1; i++)
 			{
 				var currentRow = Ranges[i];
-				if (currentRow[2] <= requiredQuantity)
+				if (currentRow[3] <= requiredQuantity)
 				{
 					IssuedStockRanges.Add(currentRow);
-					requiredQuantity -= currentRow[2];
+					requiredQuantity -= currentRow[3];
 
 				}
 				else
 				{
-					currentRow[1] = currentRow[0] + requiredQuantity - 1;
-					currentRow[2] = requiredQuantity;
+					currentRow[2] = currentRow[1] + requiredQuantity - 1;
+					currentRow[3] = requiredQuantity;
 					IssuedStockRanges.Add(currentRow);
 					break;
-				}
+				}			
+
 			}
+			_stockService.UpdateStockMaterialSeries(IssuedStockRanges);
+			StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(model);
 
+			 int id= _stockService.IssueStock(stockIssueBookEntity);
 
+			StockBookMaterial stockBookMaterial = _mapper.Map<StockBookMaterial>(model);
+			_stockService.StockBookMaterial(stockBookMaterial, id);
 
+			ViewBag.Message = "Stock issued successfully";
+			TempData["Message"] = ViewBag.Message;		
+			//ViewBag["IssuedStock"] = IssuedStockRanges[0][0];
 			return RedirectToAction("Index", "Home");
         }	
 		public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
@@ -93,13 +105,11 @@ namespace Pspcl.Web.Controllers
 			List<List<int>> Ranges = _stockService.GetAvailableQuantity(Ids);
 			foreach (List<int> range in Ranges)
 			{
-				 sum = sum + range[2];
+				 sum = sum + range[3];
 				//sum = 0;
 			}
 			return Json(sum);
 		}
-
-
 		public JsonResult GetAllMakes(int materialGroupId, int materialTypeId, int materialId)
 		{
 			
@@ -108,7 +118,6 @@ namespace Pspcl.Web.Controllers
 
 			return Json(MakeList);
 		}
-
 
 	}
 }

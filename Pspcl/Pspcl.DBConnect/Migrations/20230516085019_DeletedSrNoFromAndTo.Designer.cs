@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pspcl.DBConnect;
 
@@ -11,9 +12,11 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516085019_DeletedSrNoFromAndTo")]
+    partial class DeletedSrNoFromAndTo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,6 +394,10 @@ namespace Pspcl.DBConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MaterialGroupId")
                         .HasColumnType("int");
 
@@ -435,10 +442,6 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Make")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SerialNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -454,6 +457,8 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CircleId");
 
                     b.ToTable("StockIssueBook");
                 });
@@ -735,6 +740,17 @@ namespace Pspcl.DBConnect.Migrations
                     b.Navigation("MaterialGroup");
 
                     b.Navigation("StockIssueBook");
+                });
+
+            modelBuilder.Entity("Pspcl.Core.Domain.StockIssueBook", b =>
+                {
+                    b.HasOne("Pspcl.Core.Domain.Circle", "Circle")
+                        .WithMany()
+                        .HasForeignKey("CircleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Circle");
                 });
 
             modelBuilder.Entity("Pspcl.Core.Domain.StockMaterial", b =>

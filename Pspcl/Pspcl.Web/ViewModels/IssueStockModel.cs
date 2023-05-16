@@ -17,24 +17,22 @@ namespace Pspcl.Web.Models
 
 
 		}
-		// public int TxoDo { get; set; }
+		 public string TransactionId { get; set; }
 		public DateTime CurrentDate { get; set; }
-		public string SrNo { get; set; }
-		public DateTime Date { get; set; }
-        public int SelectedSubDivId { get; set; }
+		public string SerialNumber { get; set; }
+		public DateTime SrNoDate { get; set; }
+        public int SubDivisionId { get; set; }
 		public string Division { get; set; }
 		public int DivisionId { get; set; }
 		public int CircleId { get; set; }
 		public string Circle { get; set; }
-		public string JeName { get; set; }
+		public string JuniorEngineerName { get; set; }
 
 		public int MaterialGroupId { get; set; }
 		public int MaterialTypeId { get; set; }
-		public int? MaterialCodeId { get; set; }
+		public int? MaterialId { get; set; }
 		public int Quantity { get; set; }
-		public string? SelectedMake { get; set; }
-		//public int SrNoFrom { get; set; }
-		//public int SrNoTo { get; set; }		
+		public string Make { get; set; }	
         public IList<SelectListItem> SubDivisionList { get; set; }
 
 		public List<List<int>> QuantityRanges { get; set; }
