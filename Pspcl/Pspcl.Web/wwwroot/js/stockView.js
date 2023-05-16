@@ -255,7 +255,6 @@ function showModal(alertMessage) {
 document.getElementById("exportButton").addEventListener("click", function () {
     // Fetch the table element
     var table = document.querySelector(".table");
-    console.log("Hello");
 
     // Create a new workbook
     var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet 1" });
