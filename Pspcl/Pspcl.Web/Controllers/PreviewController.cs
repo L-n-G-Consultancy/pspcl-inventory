@@ -119,7 +119,7 @@ namespace Pspcl.Web.Controllers
                         }
                         ViewBag.Message = "Stock saved successfully";
                         TempData["Message"] = ViewBag.Message;
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("AddStock", "StockView");
                     }
                     else
                     {

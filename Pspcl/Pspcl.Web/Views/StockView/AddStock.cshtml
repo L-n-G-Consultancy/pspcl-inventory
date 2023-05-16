@@ -5,6 +5,24 @@
 @using Newtonsoft.Json
 <div class="main-content">
     <div class="page-content">
+
+        <input type="hidden" id="successMessage" value="@TempData["Message"]" />  
+        <div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm-6">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mySmallModalLabel"></h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="successMessagePlaceholder"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class", id= "StockForm" }))
 
         {
@@ -123,7 +141,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Rate</label>
-                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @type = "number", @required = "required", placeholder = "Enter Rate" })
+                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id="Rate", @type = "number", @required = "required", placeholder = "Enter Rate" })
                     <small id="emailHelp" class="form-text text-muted">Unit Num Value, Max 1000000</small>
                     <div class="invalid-feedback">
                         Please provide a valid state.
@@ -189,7 +207,7 @@
 
                 <div class="form-group offset-md-5">
                     <label for="">&nbsp;</label>
-                    <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4" onclick="saveStockMaterialList()">Add Stock</button>
+                    <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4" onclick="saveStockMaterialList()">Preview</button>
                 </div>
 
             </div>
