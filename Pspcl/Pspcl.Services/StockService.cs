@@ -67,9 +67,9 @@ namespace Pspcl.Services
 			return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
 		}
 
-        public List<string> GetAllMakes()
+        public List<string> GetAllMakes(int materialGroupId, int materialTypeId, int materialId)
         {
-			List<string> makes = _dbcontext.Stock.Select(s => s.Make).Distinct().ToList();
+			List<string> makes = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId== materialTypeId && x.MaterialId== materialId).Select(s => s.Make).Distinct().ToList();
 
             return makes;
         }
@@ -118,7 +118,6 @@ namespace Pspcl.Services
 			List<int> idList = Materials.Select(x => x.Id).ToList();
 			var query = _dbcontext.StockMaterialSeries.Where(x => idList.Contains(x.StockMaterialId) && !x.IsIssued);
 			string sqlQuery = query.ToString();
-			//Console.WriteLine(sqlQuery);
 			var MaterialSeries = query.ToList();
 			List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
 			int totalAvailableQuantity = quantities.Count();
@@ -127,18 +126,6 @@ namespace Pspcl.Services
 			var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
 		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
 		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber   }) .ToList();
-
-			// the above query would have an output like this:
-			//var materialRanges = new List<object>
-
-			//         {
-			//          new { StockMaterialId = 1, SrNoFrom = 100, SrNoTo = 105 },
-			//          new { StockMaterialId = 2, SrNoFrom = 200, SrNoTo = 207 },
-			//          new { StockMaterialId = 3, SrNoFrom = 300, SrNoTo = 301 }
-			//         };
-
-			//List<object> ranges = materialRanges.Select(x => new { x.SrNoFrom, x.SrNoTo }).ToList();
-
 
 			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 			return ranges;

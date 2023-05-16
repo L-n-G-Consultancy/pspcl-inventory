@@ -109,7 +109,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label for="SelectedMakeId">Make</label>
-					@Html.DropDownListFor(m => m.SelectedMake, new SelectList(ViewBag.StringList), "--Select Make--", new { @class = "form-control", required = "required", id = "makeId" })
+					@Html.DropDownListFor(m => m.SelectedMake, new SelectList(Model.AvailableMakes, "Value", "Text"), "--Select Make--", new { @class = "form-control", required = "required", id = "makeId" })
 
 					<div class="invalid-feedback">
 						Please provide a valid state.
@@ -159,6 +159,23 @@
 				<button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-lg">Issue Stock</button>
 				<button type="reset" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
 			</div>
+
+			@*<!-- Modal-->
+			<div class="modal fade bd-example-modal-sm" id="stockNotAvailable" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-sm-6">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title"></h5>
+							<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<p class="mx-auto my-5 font-weight-normal">
+							Stock Not Avalilable!
+						</p>
+					</div>
+				</div>
+			</div>*@
 		}
 
     </div>

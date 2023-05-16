@@ -147,7 +147,6 @@ $('#StockForm').on('submit', function (event) {
 			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
 		}
 	});
-
 function validateInputs() {
     var isValid = true;
 
@@ -179,22 +178,47 @@ $(function () {
                 url: "/IssueStock/GetAvailableStockRows",
                 type: "GET",
                 data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-                success: function (result) {
-                    console.log(result);
-                    var sum = 0;
-                    console.log("initial: "+sum);
-                    $.each(result, function (index, value) {                        
-                        sum += value[2];
-                    });
-                    $("#AvailableStock").val(sum);
+                success: function (result) {  
+                    if (parseInt(result) > 0)
+                        $("#AvailableStock").text(result).val(result);
+                    else {
+                        $('#stockNotAvailable').show(); 
+                    }
+                }
+            });
+        }
+    });
+});
 
-                    console.log("final: " + sum);
-                   
+
+
+$(function () {
+    $("#materialId").on("change", function () {
+
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#makeId").empty();
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/GetAllMakes",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (result) {
+                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
+                    $.each(result, function (i, response) {
+                        console.log(response);
+                        if (response=="") {
+                            $("#makeId").append($('<option>').text("None").val(response));
+                        } else {
+                            $("#makeId").append($('<option>').text(response).val(response));
+                        }
+                    });
                 }
             });
         }
         else {
-            
+            $("#makeId").append($('<option>').text("--Select Make--").val(""));
         }
     });
 });
