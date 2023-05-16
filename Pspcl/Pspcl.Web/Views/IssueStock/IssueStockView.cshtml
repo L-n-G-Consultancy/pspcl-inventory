@@ -4,133 +4,132 @@
 @model Pspcl.Web.Models.IssueStockModel
 
 
+
 <div class="main-content">
     <div class="page-content">
 
-		<div class="row mt-3">
-			<div class="col-md-6">
-				<h2 class="h2-heading">Issue Stock</h2>
-			</div>
-			<div class="col-md-6 text-md-right text-left">
-				<button type="button" class="btn sr-btn mr-2 border-8">Reject SR</button>
-				<button type="button" class="btn sr-btn">Print/Save SR</button>
-			</div>
-		</div>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <h2 class="h2-heading">Issue Stock</h2>
+            </div>
+            <div class="col-md-6 text-md-right text-left">
+                <button type="button" class="btn sr-btn mr-2 border-8">Reject SR</button>
+                <button type="button" class="btn sr-btn">Print/Save SR</button>
+            </div>
+        </div>
 
-		@using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1" }))
-		{	
-		<div class="row">
-				
+        @using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1" }))
+        {
+            <div class="row">
 
-				<div class="form-group col-md-6">
-					<label >Select Current Date</label>
-					<input type="date" class="form-control" id="CurrentDate" name="CurrentDate" placeholder="Select current Date">
-					<div class="invalid-feedback"> Please provide a valid state. </div>
-				</div>				
-				
-				<div class="form-group col-md-6">
-					<label for="date"> Date</label>
-					<input type="date" class="form-control" id="Date" name="Date" >
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
 
-				<div class="form-group col-md-6">
-					<label for="">Sr No</label>
-					@Html.TextBoxFor(model => model.SerialNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter srNo" })
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                <div class="form-group col-md-6">
+                    <label>Select Current Date</label>
+                    <input type="date" class="form-control" id="CurrentDate" name="CurrentDate" placeholder="Select current Date">
+                    <div class="invalid-feedback"> Please provide a valid state. </div>
+                </div>
 
-				<div class="form-group col-md-6">
-					<label for="">JE Name</label>
-					@Html.TextBoxFor(model => model.JuniorEngineerName, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Je Name" })
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                <div class="form-group col-md-6">
+                    <label for="date"> Date</label>
+                    <input type="date" class="form-control" id="Date" name="Date">
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-				<div class="form-group col-md-6">
-					<label for="subDivId">Sub Division Name</label>
-					@Html.DropDownListFor(m => m.SubDivisionId, new SelectList(Model.SubDivisionList, "Value", "Text"), "--Select Sub-Division--", new { @class = "form-control", required = "required", id = "SelectedSubDivId" })
+                <div class="form-group col-md-6">
+                    <label for="">Sr No</label>
+                    @Html.TextBoxFor(model => model.SerialNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter srNo" })
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                <div class="form-group col-md-6">
+                    <label for="">JE Name</label>
+                    @Html.TextBoxFor(model => model.JuniorEngineerName, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Je Name" })
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-				<div class="form-group col-md-6">
-					<label for="materialGroupId">Material Group</label>
-					@Html.DropDownListFor(m => m.MaterialGroupId, new SelectList(Model.AvailableMaterialGroups, "Value", "Text"), "--Select Material Group-", new { @class = "form-control", required = "required", id = "materialGroupId" })
+                <div class="form-group col-md-6">
+                    <label for="subDivId">Sub Division Name</label>
+                    @Html.DropDownListFor(m => m.SubDivisionId, new SelectList(Model.SubDivisionList, "Value", "Text"), "--Select Sub-Division--", new { @class = "form-control", required = "required", id = "SelectedSubDivId" })
 
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>		
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-				<div class="form-group col-md-6">
-					<label for="">Division</label>
-					@Html.TextBoxFor(model => model.Division, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                <div class="form-group col-md-6">
+                    <label for="materialGroupId">Material Group</label>
+                    @Html.DropDownListFor(m => m.MaterialGroupId, new SelectList(Model.AvailableMaterialGroups, "Value", "Text"), "--Select Material Group-", new { @class = "form-control", required = "required", id = "materialGroupId" })
 
-				<div class="form-group col-md-6">
-					<label for="materialTypeId">Material Type:</label>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-					@Html.DropDownListFor(m => m.MaterialTypeId, new SelectList(Model.AvailableMaterialTypes, "Value", "Text"), "--Select Material Type-", new { @class = "form-control", required = "required", id = "materialTypeId" })
+                <div class="form-group col-md-6">
+                    <label for="">Division</label>
+                    @Html.TextBoxFor(model => model.Division, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
+                    @Html.HiddenFor(m => m.DivisionId, new{@id="DivisionId"})
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                <div class="form-group col-md-6">
+                    <label for="materialTypeId">Material Type:</label>
 
-				<div class="form-group col-md-6">
-					<label for="">Circle</label>
-					@Html.TextBoxFor(model => model.Circle, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                    @Html.DropDownListFor(m => m.MaterialTypeId, new SelectList(Model.AvailableMaterialTypes, "Value", "Text"), "--Select Material Type-", new { @class = "form-control", required = "required", id = "materialTypeId" })
 
-				<div class="form-group col-md-6">
-					<label for="MaterialId">Material Code:</label>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-					@Html.DropDownListFor(m => m.MaterialId, new SelectList(Model.AvailableMaterialCodes, "Value", "Text"), "--Select Material Code--", new { @class = "form-control", required = "required", id = "materialId" })
-					
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
-				<div class="form-group col-md-6">
-					<label for="SelectedMakeId">Make</label>
-					@Html.DropDownListFor(m => m.Make, new SelectList(Model.AvailableMakes, "Value", "Text"), "--Select Make--", new { @class = "form-control", required = "required", id = "makeId" })
+                <div class="form-group col-md-6">
+                    <label for="">Circle</label>
+                    @Html.TextBoxFor(model => model.Circle, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
+                    <div class="invalid-feedback">
+                        @Html.HiddenFor(m => m.CircleId,new{@id="CircleId"})
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                <div class="form-group col-md-6">
+                    <label for="MaterialId">Material Code:</label>
 
-				<div class="form-group col-md-6">
-					<label for="AvailableStock">Available Stock Quantity</label>
-					<input type="text" class="form-control" id="AvailableStock" name="AvailableStock" readonly>
-					<div class="valid-feedback"> Looks good! </div>
-				</div>
+                    @Html.DropDownListFor(m => m.MaterialId, new SelectList(Model.AvailableMaterialCodes, "Value", "Text"), "--Select Material Code--", new { @class = "form-control", required = "required", id = "materialId" })
 
-				<div class="form-group col-md-6">
-					<label for="">Enter Quantity</label>
-					@Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", @type = "text", @required = "required",id= "requiredQuantity", placeholder = "Enter Quantity" })
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
-				</div>
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="SelectedMakeId">Make</label>
+                    @Html.DropDownListFor(m => m.Make, new SelectList(Model.AvailableMakes, "Value", "Text"), "--Select Make--", new { @class = "form-control", required = "required", id = "makeId" })
 
-				
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>
 
-				
+                <div class="form-group col-md-6">
+                    <label for="AvailableStock">Available Stock Quantity</label>
+                    <input type="text" class="form-control" id="AvailableStock" name="AvailableStock" readonly>
+                    <div class="valid-feedback"> Looks good! </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="">Enter Quantity</label>
+                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control", @type = "text", @required = "required",id= "requiredQuantity", placeholder = "Enter Quantity" })
+                    <div class="invalid-feedback">
+                        Please provide a valid state.
+                    </div>
+                </div>				
 				
 			<div class="col-md-12 text-center">
 				<label for="">&nbsp;</label>
@@ -180,5 +179,24 @@
 			</div>
 		</div>
 
-	</div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="stockNotAvailableModal" tabindex="-1" role="dialog" aria-labelledby="stockNotAvailableModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mySmallModalLabel"></h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <p class="mx-auto my-5 font-weight-normal">
+                            Stock not available!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        
+
+    </div>
 </div>

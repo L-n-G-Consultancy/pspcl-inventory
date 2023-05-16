@@ -111,7 +111,6 @@ namespace Pspcl.Services
 			int materialGroupId = Ids[0];
 			int materialTypeId = Ids[1];
 			int materialId = Ids[2];
-			Console.WriteLine("Material Group Id: " + materialGroupId);
 
 			List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
 			List<int> stockIds = stocks.Select(x => x.Id).ToList();
@@ -122,7 +121,6 @@ namespace Pspcl.Services
 			var MaterialSeries = query.ToList();
 			List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
 			int totalAvailableQuantity = quantities.Count();
-			Console.WriteLine(totalAvailableQuantity);
 
 			var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
 		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
