@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Debugger.Contracts;
 using Newtonsoft.Json;
 using Pspcl.Core.Domain;
 using Pspcl.Services.Interfaces;
 using Pspcl.Web.ViewModels;
+using System.Diagnostics;
 
 namespace Pspcl.Web.Controllers
 {
@@ -14,25 +16,43 @@ namespace Pspcl.Web.Controllers
     {
         private readonly IStockService _stockService;
         private readonly IMapper _mapper;
-        public PreviewController(IStockService stockService, IMapper mapper)
+        private readonly ILogger<PreviewController> _logger;
+        public PreviewController(IStockService stockService, IMapper mapper, ILogger<PreviewController> logger)
         {
             _stockService = stockService;
             _mapper = mapper;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Preview()
         {
-            var jsonResponse = TempData["StockViewModel"] as string;
-            var stockViewModel = JsonConvert.DeserializeObject<StockViewModel>(jsonResponse);
-            var materialGroupName = _stockService.GetMaterialGroupById(stockViewModel.MaterialGroupId);
-            var materialTypeName = _stockService.GetMaterialTypeById(stockViewModel.MaterialTypeId);
-            var materialCodeName = _stockService.GetMaterialCodeById(stockViewModel.MaterialIdByCode);
-            var ratingName = _stockService.GetRatingNameById(stockViewModel.MaterialTypeId);
-            stockViewModel.SelectedMaterialGroupName = materialGroupName;
-            stockViewModel.SelectedMaterialTypeName = materialTypeName;
-            stockViewModel.SelectedMaterialCodeName = materialCodeName;
-            stockViewModel.SelectedRatingName = ratingName;
-            return View(stockViewModel);
+            try
+            {
+                var jsonResponse = TempData["StockViewModel"] as string;
+                if (string.IsNullOrEmpty(jsonResponse))
+                {
+                    return View("Error");
+                }
+                else
+                {
+                    var stockViewModel = JsonConvert.DeserializeObject<StockViewModel>(jsonResponse);
+                    var materialGroupName = _stockService.GetMaterialGroupById(stockViewModel.MaterialGroupId);
+                    var materialTypeName = _stockService.GetMaterialTypeById(stockViewModel.MaterialTypeId);
+                    var materialCodeName = _stockService.GetMaterialCodeById(stockViewModel.MaterialIdByCode);
+                    var ratingName = _stockService.GetRatingNameById(stockViewModel.MaterialTypeId);
+                    stockViewModel.SelectedMaterialGroupName = materialGroupName;
+                    stockViewModel.SelectedMaterialTypeName = materialTypeName;
+                    stockViewModel.SelectedMaterialCodeName = materialCodeName;
+                    stockViewModel.SelectedRatingName = ratingName;
+                    return View(stockViewModel);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
+            }
         }
         [HttpPost]
         public IActionResult Preview(IFormCollection formCollection,string save)
@@ -102,7 +122,7 @@ namespace Pspcl.Web.Controllers
                         }
                         ViewBag.Message = "Stock saved successfully";
                         TempData["Message"] = ViewBag.Message;
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("AddStock", "StockView");
                     }
                     else
                     {
@@ -115,8 +135,8 @@ namespace Pspcl.Web.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = ex.Message;
-                return View();
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
             }
             return View();
         }

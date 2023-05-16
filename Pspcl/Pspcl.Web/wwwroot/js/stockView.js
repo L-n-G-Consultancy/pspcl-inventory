@@ -141,11 +141,24 @@ $(function () {
 
 $('#StockForm').on('submit', function (event) {
     event.preventDefault();
+var alertMessage = '';
+	$('#StockForm').on('submit', function (event) {
+        event.preventDefault();
+        var userEnteredRate = $("#Rate").val();
 
-		if (validateInputs()) {
-			this.submit();
-		} else {
-			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
+        if (!validateInputs()) {
+            alertMessage = 'Please make sure that every "To" input is greater than its corresponding "From" input.';
+            showModal(alertMessage);
+            //alert();
+        }
+        else if (userEnteredRate > 1000000) {
+            alertMessage = 'Rate cannot exceed Rs 10,00,000';
+            showModal(alertMessage);
+           
+            //alert();
+        }
+        else {
+            this.submit();
 		}
 	});
 function validateInputs() {
@@ -266,3 +279,30 @@ function showModal(alertMessage) {
 
 
 }
+    
+}
+
+document.getElementById("exportButton").addEventListener("click", function () {
+    // Fetch the table element
+    var table = document.querySelector(".table");
+
+    // Create a new workbook
+    var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet 1" });
+
+    // Convert the workbook to an Excel file (blob)
+    var wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    var blob = new Blob([wbout], { type: "application/octet-stream" });
+
+    // Generate a temporary download link and trigger the download
+    var downloadLink = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = "stock_in_report.xlsx";
+    downloadLink.click();
+
+    // Cleanup
+    setTimeout(function () {
+        URL.revokeObjectURL(url);
+    }, 0);
+});
+
