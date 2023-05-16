@@ -5,6 +5,7 @@ using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
 using Pspcl.Services.Models;
 
+
 namespace Pspcl.Services
 {
 
@@ -123,9 +124,11 @@ namespace Pspcl.Services
 
 			var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
 		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
-		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber   }) .ToList();
+		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
+			}) .ToList();
+            Console.WriteLine(materialRanges);
 
-			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
+			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 			return ranges;
         }
 
@@ -146,12 +149,6 @@ namespace Pspcl.Services
         {
             _dbcontext.Set<StockMaterialSeries>().AddRange(stockMaterialSeries);
             _dbcontext.SaveChanges();
-        }
-
-        public void issueStock(List<int> SrNo)
-        {
-            List<int> Srno = SrNo;
-            
         }
 
 
@@ -204,5 +201,44 @@ namespace Pspcl.Services
             string Rating = response.ToString();
             return Rating;
         }
-    }
+
+		public void UpdateStockMaterialSeries(List<List<int>> requiredIssueData)
+		{
+			foreach (var Item in requiredIssueData)
+            {
+				// Get the StockMaterialSeries records that meet the specified conditions
+				var recordsToUpdate = _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == Item[0] && x.SerialNumber >= Item[1] && x.SerialNumber <= Item[2]);
+
+				// Loop through each record and update the abc column value to 1
+				foreach (var record in recordsToUpdate)
+				{
+					record.IsIssued = true;
+				}
+
+				// Save the changes to the database
+				_dbcontext.SaveChanges();
+			}
+
+
+		}
+	
+		public int IssueStock(StockIssueBook stockIssueBook)
+		{
+			_dbcontext.Set<StockIssueBook>().Add(stockIssueBook);
+			_dbcontext.SaveChanges();
+            return stockIssueBook.Id;
+		}
+
+		public void StockBookMaterial(StockBookMaterial stockBookMaterial, int id)
+		{
+			
+			
+			stockBookMaterial.StockIssueBookId =id;
+
+			_dbcontext.Set<StockBookMaterial>().Add(stockBookMaterial);
+			_dbcontext.SaveChanges();
+			return;
+		}
+
+	}
 }

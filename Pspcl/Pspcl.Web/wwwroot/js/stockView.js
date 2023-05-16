@@ -234,7 +234,6 @@ function showModal(alertMessage) {
                     success: function (result) {
                         $("#makeId").append($('<option>').text("--Select Make--").val(""));
                         $.each(result, function (i, response) {
-                            console.log(response);
                             if (response == "") {
                                 $("#makeId").append($('<option>').text("None").val(response));
                             } else {
