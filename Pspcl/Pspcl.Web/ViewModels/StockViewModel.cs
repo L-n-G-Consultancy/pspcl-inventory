@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Pspcl.Core.Domain;
 using System.ComponentModel.DataAnnotations;
 
 
 namespace Pspcl.Web.ViewModels
 {
-	//[DataContract]
-	//[Serializable]
 	public class StockViewModel
 	{
 		public StockViewModel()
@@ -53,6 +48,5 @@ namespace Pspcl.Web.ViewModels
 		public List<StockMaterial> stockMaterialList { get; set; }
 		public string SelectedMaterialCodeName { get; set;}
 		public string SelectedRatingName { get; set; }
-
-    }
+	}
 }

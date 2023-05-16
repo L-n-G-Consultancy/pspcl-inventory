@@ -65,7 +65,6 @@ $(function () {
         }
     });
 });
-
 $(function () {
     $("#materialTypeId").on("change", function () {
         var materialTypeId = $(this).val();
@@ -92,7 +91,6 @@ $(function () {
         }
     });
 });
-
 $(function () {
     $("#materialTypeId").on("change", function () {
         var materialTypeId = $(this).val();
@@ -120,10 +118,28 @@ $(function () {
     });
 });
 
+$(function () {
+    $("#SelectedSubDivId").on("change", function () {
+        var selectedSubDivId = $(this)[0].selectedIndex;
+        $("#Division").empty();
+        if (selectedSubDivId) {
+            $.ajax({
+                url: "/IssueStock/GetCircleAndDivision",
+                type: "GET",
+                data: { SelectedSubDivId: selectedSubDivId },
+                success: function (result) {
+                    $("#Division").val(result[0]); 
+                    $("#DivisionId").val(result[2]); 
+                    $("#Circle").val(result[1]);
+                    $("#CircleId").val(result[3]);
+                }
+            });
+        }
+    });
+});
 
-
-	$('#StockForm').on('submit', function (event) {
-		event.preventDefault();
+$('#StockForm').on('submit', function (event) {
+    event.preventDefault();
 
 		if (validateInputs()) {
 			this.submit();
@@ -131,17 +147,14 @@ $(function () {
 			alert('Please make sure that every "To" input is greater than its corresponding "From" input.');
 		}
 	});
-
-
-
 function validateInputs() {
-	var isValid = true;
+    var isValid = true;
 
-	$('.to-input').each(function () {
-		var $this = $(this);
-		var $row = $this.closest('tr');
-		var fromVal = $row.find('.from-input').val();
-		var toVal = $this.val();
+    $('.to-input').each(function () {
+        var $this = $(this);
+        var $row = $this.closest('tr');
+        var fromVal = $row.find('.from-input').val();
+        var toVal = $this.val();
 
 		if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
 			isValid = false;
@@ -154,3 +167,57 @@ function validateInputs() {
 	return isValid;
 }
 
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#AvailableStock").val('');
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/GetAvailableStockRows",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (result) {  
+                    if (parseInt(result) > 0)
+                        $("#AvailableStock").text(result).val(result);
+                    else {
+                        $('#stockNotAvailableModal').modal('show');
+                    }
+                }
+            });
+        }
+    });
+});
+
+
+
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#makeId").empty();
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/GetAllMakes",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (result) {
+                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
+                    $.each(result, function (i, response) {
+                        console.log(response);
+                        if (response=="") {
+                            $("#makeId").append($('<option>').text("None").val(response));
+                        } else {
+                            $("#makeId").append($('<option>').text(response).val(response));
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            $("#makeId").append($('<option>').text("--Select Make--").val(""));
+        }
+    });
+});
