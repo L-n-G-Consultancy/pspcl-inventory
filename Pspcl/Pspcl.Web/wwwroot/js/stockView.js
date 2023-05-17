@@ -47,6 +47,7 @@ $(function () {
     $("#materialGroupId").on("change", function () {
         var materialGroupId = $(this).val();
         $("#materialTypeId").empty();
+        $("#makeId").empty();
         if (materialGroupId) {
             $.ajax({
                 url: "/StockView/getMaterialTypes",
@@ -68,6 +69,7 @@ $(function () {
 $(function () {
     $("#materialTypeId").on("change", function () {
         var materialTypeId = $(this).val();
+        $("#makeId").empty();
         $("#ratingId").empty();
         if (materialTypeId) {
             $.ajax({
@@ -95,6 +97,7 @@ $(function () {
     $("#materialTypeId").on("change", function () {
         var materialTypeId = $(this).val();
         $("#materialId").empty();
+        $("#makeId").empty();
         if (materialTypeId) {
             $.ajax({
                 url: "/StockView/getMaterialCodes",
