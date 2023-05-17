@@ -6,15 +6,14 @@ namespace Pspcl.Core.Domain
     {
         [Key]
         public int Id { get; set; }
-        public MaterialGroup MaterialGroup { get; set; }
+       // public MaterialGroup MaterialGroup { get; set; }
         public int MaterialGroupId { get; set; } // Foreign key
-
-        public StockIssueBook StockIssueBook { get; set; }
+       /// <summary>
+       //public StockIssueBook StockIssueBook { get; set; }
+       /// </summary>
         public int StockIssueBookId { get; set; }  // Foreign key
-        public Material Material { get; set; }
+        //public Material Material { get; set; }
         public int MaterialId { get; set; }  // Foreign key
         public int Quantity { get; set; }
-        public int SerialNumberFrom { get; set; }
-        public int SerialNumberTo { get; set; }
     }
 }

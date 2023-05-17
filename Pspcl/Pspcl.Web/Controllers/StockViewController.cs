@@ -29,6 +29,7 @@ namespace Pspcl.Web.Controllers
             var json = TempData["StockViewModel"] as string;
             var materialGroup = _stockService.GetAllMaterialGroups();
 
+
             if (json != null)
             {
                 var model = JsonConvert.DeserializeObject<StockViewModel>(json);

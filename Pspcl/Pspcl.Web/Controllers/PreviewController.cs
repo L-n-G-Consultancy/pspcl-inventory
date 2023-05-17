@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Debugger.Contracts;
 using Newtonsoft.Json;
 using Pspcl.Core.Domain;
 using Pspcl.Services.Interfaces;
 using Pspcl.Web.ViewModels;
-using System.Diagnostics;
 
 namespace Pspcl.Web.Controllers
 {
@@ -15,13 +12,13 @@ namespace Pspcl.Web.Controllers
     public class PreviewController : Controller
     {
         private readonly IStockService _stockService;
-        private readonly IMapper _mapper;
         private readonly ILogger<PreviewController> _logger;
+        private readonly IMapper _mapper;
         public PreviewController(IStockService stockService, IMapper mapper, ILogger<PreviewController> logger)
         {
             _stockService = stockService;
-            _mapper = mapper;
             _logger = logger;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult Preview()

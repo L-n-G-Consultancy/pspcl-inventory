@@ -12,8 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230512064424_updated")]
-    partial class updated
+    [Migration("20230516115726_changeMake")]
+    partial class changeMake
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -403,12 +403,6 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SerialNumberFrom")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SerialNumberTo")
-                        .HasColumnType("int");
-
                     b.Property<int>("StockIssueBookId")
                         .HasColumnType("int");
 
@@ -444,9 +438,16 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SerialNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SrNoDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SubDivisionId")
                         .HasColumnType("int");
@@ -456,8 +457,6 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CircleId");
 
                     b.ToTable("StockIssueBook");
                 });
@@ -739,17 +738,6 @@ namespace Pspcl.DBConnect.Migrations
                     b.Navigation("MaterialGroup");
 
                     b.Navigation("StockIssueBook");
-                });
-
-            modelBuilder.Entity("Pspcl.Core.Domain.StockIssueBook", b =>
-                {
-                    b.HasOne("Pspcl.Core.Domain.Circle", "Circle")
-                        .WithMany()
-                        .HasForeignKey("CircleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Circle");
                 });
 
             modelBuilder.Entity("Pspcl.Core.Domain.StockMaterial", b =>

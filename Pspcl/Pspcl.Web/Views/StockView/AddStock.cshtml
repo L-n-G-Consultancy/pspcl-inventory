@@ -1,6 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
+@{
+    var Message = TempData["Message"];
+}
 @model Pspcl.Web.ViewModels.StockViewModel
 @using Newtonsoft.Json
 <div class="main-content">
