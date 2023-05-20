@@ -169,7 +169,21 @@ namespace Pspcl.Services
             return stockInModels;
         }
 
-        public string GetMaterialGroupById(int? materialGroupId)
+		public List<StockOutModel> GetStockOutModels()
+		{
+            var stockOutModels = new List<StockOutModel>
+            {
+                
+            };
+            
+
+
+
+
+            return stockOutModels;
+        }
+
+		public string GetMaterialGroupById(int? materialGroupId)
         {
             var response = _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
             string materialGroupName = response.ToString();
