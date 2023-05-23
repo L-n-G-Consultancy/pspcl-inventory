@@ -376,34 +376,36 @@ namespace Pspcl.DBConnect.Install
             {
                 var DivisionData = new List<Division>()
                 {
-                    new Division(){Name="CITY BATALA",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="SUB BATALA",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="DHARIWAL",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="GURDASPUR",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="CITY PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="SUB PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="QADIAN",IsActive=true,IsDeleted=false,CircleId=1},
+                    new Division(){Name="CITY BATALA",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 325},
+                    new Division(){Name="SUB BATALA",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 326},
+                    new Division(){Name="DHARIWAL",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 324},
+                    new Division(){Name="GURDASPUR",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 323},
+                    new Division(){Name="CITY PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 321},
+                    new Division(){Name="SUB PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 322},
+                    new Division(){Name="QADIAN",IsActive=true,IsDeleted=false,CircleId=1, LocationCode = 327},
 
-                    new Division(){Name="EAST",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="WEST",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="SUB ASR",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="AJNALA",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="JANDIALA",IsActive=true,IsDeleted=false,CircleId=2},
+                    new Division(){Name="EAST",IsActive=true,IsDeleted=false,CircleId=2, LocationCode = 331},
+                    new Division(){Name="WEST",IsActive=true,IsDeleted=false,CircleId=2, LocationCode = 332},
+                    new Division(){Name="SUB ASR",IsActive=true,IsDeleted=false,CircleId=2, LocationCode = 333},
+                    new Division(){Name="AJNALA",IsActive=true,IsDeleted=false,CircleId=2, LocationCode = 334},
+                    new Division(){Name="JANDIALA",IsActive=true,IsDeleted=false,CircleId=2, LocationCode = 343},
 
-                    new Division(){Name="INDUSTRIAL",IsActive=true,IsDeleted=false,CircleId=3},
-                    new Division(){Name="CIVIL LINE",IsActive=true,IsDeleted=false,CircleId=3},
-                    new Division(){Name="CITY CENTRE",IsActive=true,IsDeleted=false,CircleId=3},
-                    new Division(){Name="HAKIMA GATE",IsActive=true,IsDeleted=false,CircleId=3},
+                    new Division(){Name="INDUSTRIAL",IsActive=true,IsDeleted=false,CircleId=3, LocationCode = 490},
+                    new Division(){Name="CIVIL LINE",IsActive=true,IsDeleted=false,CircleId=3, LocationCode = 490},
+                    new Division(){Name="CITY CENTRE",IsActive=true,IsDeleted=false,CircleId=3, LocationCode = 490},
+                    new Division(){Name="HAKIMA GATE",IsActive=true,IsDeleted=false,CircleId=3, LocationCode = 490},
 
-                    new Division(){Name="RAYYA",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="CITY TT",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="SUB TT",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="PATTI",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="BHIKHIWIND",IsActive=true,IsDeleted=false,CircleId=4},
+                    new Division(){Name="RAYYA",IsActive=true,IsDeleted=false,CircleId=4, LocationCode = 344},
+                    new Division(){Name="CITY TT",IsActive=true,IsDeleted=false,CircleId=4, LocationCode = 341},
+                    new Division(){Name="SUB TT",IsActive=true,IsDeleted=false,CircleId=4, LocationCode = 342},
+                    new Division(){Name="PATTI",IsActive=true,IsDeleted=false,CircleId=4, LocationCode = 345},
+                    new Division(){Name="BHIKHIWIND",IsActive=true,IsDeleted=false,CircleId=4, LocationCode = 346},
 
-                    new Division(){Name="APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5},
-                    new Division(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5},
-                    new Division(){Name="APDRP GSP",IsActive=true,IsDeleted=false,CircleId=5},
+                    new Division(){Name="APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5, LocationCode = 813},
+                    new Division(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5, LocationCode = 813},
+                    new Division(){Name="APDRP GSP",IsActive=true,IsDeleted=false,CircleId=5, LocationCode = 813},
+                    
+                  
                 };
                 _identityContext.Division.AddRange(DivisionData);
                 await _identityContext.SaveChangesAsync();
@@ -544,7 +546,11 @@ namespace Pspcl.DBConnect.Install
                     new SubDivision(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,DivisionId=23},
 
                     new SubDivision(){Name="APDRP GSP",IsActive=true,IsDeleted=false,DivisionId=24},
-                   
+
+                    new SubDivision(){Name="APDRP",IsActive=true,IsDeleted=false,DivisionId=25},
+                    new SubDivision(){Name="METERING JALANDHAR",IsActive=true,IsDeleted=false,DivisionId=26},
+
+
                 };
                 _identityContext.SubDivision.AddRange(SubDivisionData);
                 await _identityContext.SaveChangesAsync();

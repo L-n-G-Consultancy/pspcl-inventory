@@ -12,8 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230516115726_changeMake")]
-    partial class changeMake
+    [Migration("20230523112920_updationsInTable")]
+    partial class updationsInTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("LocationCode")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -407,12 +410,6 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MaterialGroupId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("StockIssueBookId");
 
                     b.ToTable("StockBookMaterial");
                 });
@@ -711,33 +708,6 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired();
 
                     b.Navigation("MaterialGroup");
-                });
-
-            modelBuilder.Entity("Pspcl.Core.Domain.StockBookMaterial", b =>
-                {
-                    b.HasOne("Pspcl.Core.Domain.MaterialGroup", "MaterialGroup")
-                        .WithMany()
-                        .HasForeignKey("MaterialGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pspcl.Core.Domain.Material", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pspcl.Core.Domain.StockIssueBook", "StockIssueBook")
-                        .WithMany()
-                        .HasForeignKey("StockIssueBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Material");
-
-                    b.Navigation("MaterialGroup");
-
-                    b.Navigation("StockIssueBook");
                 });
 
             modelBuilder.Entity("Pspcl.Core.Domain.StockMaterial", b =>

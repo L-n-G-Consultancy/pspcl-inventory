@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Pspcl.DBConnect.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,6 +113,43 @@ namespace Pspcl.DBConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StockBookMaterial",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MaterialGroupId = table.Column<int>(type: "int", nullable: false),
+                    StockIssueBookId = table.Column<int>(type: "int", nullable: false),
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockBookMaterial", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StockIssueBook",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SrNoDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DivisionId = table.Column<int>(type: "int", nullable: false),
+                    SubDivisionId = table.Column<int>(type: "int", nullable: false),
+                    CircleId = table.Column<int>(type: "int", nullable: false),
+                    JuniorEngineerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockIssueBook", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubDivision",
                 columns: table => new
                 {
@@ -161,31 +198,6 @@ namespace Pspcl.DBConnect.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StockIssueBook",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CurrentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DivisionId = table.Column<int>(type: "int", nullable: false),
-                    SubDivisionId = table.Column<int>(type: "int", nullable: false),
-                    CircleId = table.Column<int>(type: "int", nullable: false),
-                    JuniorEngineerName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockIssueBook", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StockIssueBook_Circle_CircleId",
-                        column: x => x.CircleId,
-                        principalTable: "Circle",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -375,42 +387,6 @@ namespace Pspcl.DBConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StockBookMaterial",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MaterialGroupId = table.Column<int>(type: "int", nullable: false),
-                    StockIssueBookId = table.Column<int>(type: "int", nullable: false),
-                    MaterialId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    SerialNumberFrom = table.Column<int>(type: "int", nullable: false),
-                    SerialNumberTo = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockBookMaterial", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StockBookMaterial_MaterialGroup_MaterialGroupId",
-                        column: x => x.MaterialGroupId,
-                        principalTable: "MaterialGroup",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StockBookMaterial_Material_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Material",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StockBookMaterial_StockIssueBook_StockIssueBookId",
-                        column: x => x.StockIssueBookId,
-                        principalTable: "StockIssueBook",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StockMaterialSeries",
                 columns: table => new
                 {
@@ -464,26 +440,6 @@ namespace Pspcl.DBConnect.Migrations
                 column: "MaterialGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StockBookMaterial_MaterialGroupId",
-                table: "StockBookMaterial",
-                column: "MaterialGroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockBookMaterial_MaterialId",
-                table: "StockBookMaterial",
-                column: "MaterialId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockBookMaterial_StockIssueBookId",
-                table: "StockBookMaterial",
-                column: "StockIssueBookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockIssueBook_CircleId",
-                table: "StockIssueBook",
-                column: "CircleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StockMaterial_StockId",
                 table: "StockMaterial",
                 column: "StockId");
@@ -527,13 +483,22 @@ namespace Pspcl.DBConnect.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Circle");
+
+            migrationBuilder.DropTable(
                 name: "Division");
 
             migrationBuilder.DropTable(
                 name: "Login");
 
             migrationBuilder.DropTable(
+                name: "Material");
+
+            migrationBuilder.DropTable(
                 name: "StockBookMaterial");
+
+            migrationBuilder.DropTable(
+                name: "StockIssueBook");
 
             migrationBuilder.DropTable(
                 name: "StockMaterialSeries");
@@ -545,10 +510,7 @@ namespace Pspcl.DBConnect.Migrations
                 name: "User_Role_Mapping");
 
             migrationBuilder.DropTable(
-                name: "Material");
-
-            migrationBuilder.DropTable(
-                name: "StockIssueBook");
+                name: "MaterialType");
 
             migrationBuilder.DropTable(
                 name: "StockMaterial");
@@ -558,12 +520,6 @@ namespace Pspcl.DBConnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropTable(
-                name: "MaterialType");
-
-            migrationBuilder.DropTable(
-                name: "Circle");
 
             migrationBuilder.DropTable(
                 name: "Stock");

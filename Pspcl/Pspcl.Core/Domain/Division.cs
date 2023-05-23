@@ -8,6 +8,7 @@ namespace Pspcl.Core.Domain
         public int Id { get; set; } // primary key
 
         public string? Name { get; set; }
+        public int LocationCode { get; set; }
 
         public bool IsActive { get; set; }
 
