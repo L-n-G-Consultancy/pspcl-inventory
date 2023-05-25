@@ -33,7 +33,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="invoiceNo">Invoice No.</label>
-                    @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @type = "text", @required = "required", placeholder = "Enter Invoice Number" })
+                    @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @type = "text", @required = "required", placeholder = "Enter Invoice Number", @onchange = "getCorrespondingMakeValue(this.value)"  })
                     <small id="emailHelp" class="form-text text-muted">Add invoice also.</small>
                     <div class="invalid-feedback">
                         Please provide a valid state.
@@ -136,7 +136,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Make</label>
-                    @Html.TextBoxFor(model => model.Make, new { @class = "form-control", @required = "required", placeholder = "Make" })
+                    @Html.TextBoxFor(model => model.Make, new { @class = "form-control", id= "Make", @required = "required", placeholder = "Make" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>

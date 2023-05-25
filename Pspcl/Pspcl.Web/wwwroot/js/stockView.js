@@ -310,3 +310,29 @@ document.getElementById("exportButton").addEventListener("click", function () {
     }, 0);
 });
 
+function getCorrespondingMakeValue(invoiceNumber) {
+    $.ajax({
+
+        url: "/StockView/GetCorrespondingMakeValue",
+        type: "GET",
+        data: { invoiceNumber: invoiceNumber },
+        success: function (result) {
+
+            console.log("hey");
+
+            if (result != "Enter Make")
+            {
+                $('#Make').val(result);
+                $('#Make').prop('readonly', true);             
+            }
+
+            else {
+                $('#Make').val('');
+                $('#Make').prop('readonly', false);
+            }
+        },
+        error: function (xhr, status, error) {
+            // Handle the error
+        }
+    });
+}

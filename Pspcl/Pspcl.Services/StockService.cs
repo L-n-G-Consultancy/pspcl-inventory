@@ -240,5 +240,19 @@ namespace Pspcl.Services
 			return;
 		}
 
-	}
+        public string GetCorrespondingMakeValue(string invoiceNumber)
+        {
+            //string stock = _dbcontext.Stock.Where(x => x.InvoiceNumber == invoiceNumber).FirstOrDefault().ToString();
+
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.InvoiceNumber==invoiceNumber).ToList();
+            if (stocks.Count > 0)
+            {
+                string Make = stocks.Select(x => x.Make).FirstOrDefault().ToString();
+                return Make;
+            }
+            else
+                return "Enter Make";
+        }
+
+    }
 }
