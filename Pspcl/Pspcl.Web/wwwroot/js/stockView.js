@@ -249,21 +249,13 @@ $(function () {
                 type: "GET",
                 data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
                 success: function (response) {
-                    console.log("hey");
-                    console.log(response);
+                    $('#issueMaterialTableBody').empty();
 
-                    // Clear the table body
-                    //$('#issueMaterialTableBody').empty();
-
-                   // if (response.length > 0) {
                     var keys = Object.keys(response);
                     if (keys.length > 0) {
-                        console.log("hey");
-
-                        // Show the table if the response contains data
+                        
                         $('#issueMaterial').show();
 
-                        // Iterate through the response data and populate the table rows
                         for (var i = 0; i < keys.length; i++) {
                             var key = keys[i];
                             var rowCounter = i+1;
@@ -327,18 +319,18 @@ $(document).on('submit', '#StockForm', function (event) {
     }
 });    
 
-//$('#IssueStockForm1').on('submit', function (event) {
-//    event.preventDefault();
-//    var quantity = $('#requiredQuantity').val();
-//    var availableQuantity = $('#AvailableStock').val();
-//    if (parseInt(quantity) > parseInt(availableQuantity)) {
-//        $("#stockNotAvailableModal").modal("show");
-//    }
-//    else {
-//        this.submit();
-//    }
+$('#IssueStockForm1').on('submit', function (event) {
+    event.preventDefault();
+    var quantity = $('#requiredQuantity').val();
+    var availableQuantity = $('#AvailableStock').val();
+    if (parseInt(quantity) > parseInt(availableQuantity)) {
+        $("#stockNotAvailableModal").modal("show");
+    }
+    else {
+        this.submit();
+    }
 
-//});    
+});    
 
 
 document.getElementById("exportButton").addEventListener("click", function () {

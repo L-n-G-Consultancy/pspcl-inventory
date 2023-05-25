@@ -30,7 +30,7 @@ namespace Pspcl.Services.Interfaces
         string GetMaterialCodeById(int? materialCodeId);
         string GetRatingNameById(int? materialTypeId);
 
-        public Dictionary<String, int> GetAllMakesAndQuantitities(Dictionary<string, List<int>> makeWithStockIds);
+        //public Dictionary<String, int> GetAllMakesAndQuantitities(Dictionary<string, List<int>> makeWithStockIds);
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);
 
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);

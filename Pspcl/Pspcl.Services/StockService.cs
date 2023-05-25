@@ -130,8 +130,7 @@ namespace Pspcl.Services
 		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
 		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
 			}) .ToList();
-            Console.WriteLine(materialRanges);
-
+           
 			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 			return ranges;
         }
@@ -154,9 +153,6 @@ namespace Pspcl.Services
             _dbcontext.Set<StockMaterialSeries>().AddRange(stockMaterialSeries);
             _dbcontext.SaveChanges();
         }
-
-
-
         public List<StockInModel> GetStockInModels()
         {
             var stockInModels = _dbcontext.Stock
@@ -246,9 +242,7 @@ namespace Pspcl.Services
             return stockIssueBook.Id;
 		}
 		public void StockBookMaterial(StockBookMaterial stockBookMaterial, int id)
-		{
-			
-			
+		{			
 			stockBookMaterial.StockIssueBookId =id;
 
 			_dbcontext.Set<StockBookMaterial>().Add(stockBookMaterial);
@@ -258,9 +252,7 @@ namespace Pspcl.Services
 
 
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId)
-
 		{
-
 			List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
 			List<string> distinctMakes = stocks.Select(x => x.Make).Distinct().ToList();
 
@@ -274,15 +266,7 @@ namespace Pspcl.Services
 				makeWithStockIds.Add(make, stockId);
 			}
 
-			Dictionary<String, int> makesWithQuantities = new Dictionary<String, int>();
-			makesWithQuantities = GetAllMakesAndQuantitities(makeWithStockIds);
-
-			return makesWithQuantities;
-		}
-		public Dictionary<String, int> GetAllMakesAndQuantitities(Dictionary<string, List<int>> makeWithStockIds)
-		{
 			Dictionary<String, int> makesAndQuantities = new Dictionary<String, int>();
-            Dictionary<string, List<List<int>>> makesWithAvailableStockRanges = new Dictionary<string, List<List<int>>>();
 
             foreach (KeyValuePair<string, List<int>> keyValuePair in makeWithStockIds)
 			{
@@ -296,15 +280,6 @@ namespace Pspcl.Services
                 List<int> idList = Materials.Select(x => x.Id).ToList();
                 int QuantityAgainstMake = idList.Count();
 
-                var materialRanges = Materials.GroupBy(ms => ms.StockMaterialId).Select(g => new {
-                    StockMaterialId = g.Key,
-                    SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
-                    SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
-                }).ToList();
-
-                List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId, x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
-
-                makesWithAvailableStockRanges.Add(Make, ranges);
                 makesAndQuantities.Add(Make, QuantityAgainstMake);
 			}
 			return makesAndQuantities;
