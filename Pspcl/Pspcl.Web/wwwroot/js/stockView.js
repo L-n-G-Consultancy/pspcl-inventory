@@ -16,9 +16,9 @@ var addStock = {
         var rowCounter = rowCount + 1;
         var newRow = $('<tr>');
         var cols = '';
-        cols += '<td><input name="row_' + rowCounter + '_from" type="text" class="from-input" placeholder="From"></td>';
-        cols += '<td><input name="row_' + rowCounter + '_to" type="text" class="to-input" placeholder="To"></td>';
-        cols += '<td><input name="row_' + rowCounter + '_qty" type="text" class="qty-input" placeholder="Quantity" readonly></td>';
+        cols += '<td><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From"></td>';
+        cols += '<td><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To"></td>';
+        cols += '<td><input name="row_' + rowCounter + '_qty" type="number" class="qty-input" placeholder="Quantity" readonly></td>';
         cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
         newRow.append(cols);
         newRow.attr('id', 'row_' + (rowCounter));
@@ -157,7 +157,8 @@ function validateInputs() {
         if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
             isValid = false;
             $this.addClass('is-invalid');
-        } else {
+        }
+        else {
             $this.removeClass('is-invalid');
         }
     });
@@ -165,92 +166,80 @@ function validateInputs() {
     return isValid;
 }
 
+//$(function () {
+//    $("#materialId").on("change", function () {
+//        var materialGroupId = $("#materialGroupId").val();
+//        var materialTypeId = $("#materialTypeId").val();
+//        var materialId = $(this).val();
+//        $("#AvailableStock").val('');
+//        if (materialId) {
+//            $.ajax({
+//                url: "/IssueStock/GetAvailableStockRows",
+//                type: "GET",
+//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+//                success: function (result) {
+//                    if (parseInt(result) > 0)
+//                        $("#AvailableStock").text(result).val(result);
+//                    else {
+//                        showModal('Stock not avaialable.', 'Error..!')
+//                    }
+//                }
+//            });
+//        }
+//    });
+//});   
+
+//$(function () {
+//    $("#materialId").on("change", function () {
+//        var materialGroupId = $("#materialGroupId").val();
+//        var materialTypeId = $("#materialTypeId").val();
+//        var materialId = $(this).val();
+//        $("#makeId").empty();
+//        if (materialId) {
+//            $.ajax({
+//                url: "/IssueStock/GetAllMakes",
+//                type: "GET",
+//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+//                success: function (result) {
+//                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
+//                    $.each(result, function (i, response) {
+//                        if (response == "") {
+//                            $("#makeId").append($('<option>').text("None").val(response));
+//                        } else {
+//                            $("#makeId").append($('<option>').text(response).val(response));
+//                        }
+//                    });
+//                }
+//            });
+//        }
+//        else {
+//            $("#makeId").append($('<option>').text("--Select Make--").val(""));
+//        }
+//    });
+//});
+
 $(document).ready(function () {
-    showModal('');
+    showModal('', '');
+
 });
-function showModal(alertMessage) {
+
+function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
 
     if (alertMessage) {
         $("#successMessagePlaceholder").text(alertMessage);
-        $("#successModal").modal("show");
+        $("#staticBackdropLiveLabel").text(status);
+        $("#staticBackdropLive").modal("show");
     }
     if (successMessage) {
+        $("#staticBackdropLiveLabel").text('Successful');
         $("#successMessagePlaceholder").text(successMessage);
-        $("#successModal").modal("show");
+        $("#staticBackdropLive").modal("show");
     }
+
+
+
 }
-
-$(function () {
-    $("#materialId").on("change", function () {
-        var materialGroupId = $("#materialGroupId").val();
-        var materialTypeId = $("#materialTypeId").val();
-        var materialId = $(this).val();
-        $("#AvailableStock").val('');
-        if (materialId) {
-            $.ajax({
-                url: "/IssueStock/GetAvailableStockRows",
-                type: "GET",
-                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-                success: function (result) {
-                    if (parseInt(result) > 0)
-                        $("#AvailableStock").text(result).val(result);
-                    else {
-                        $('#stockNotAvailableModal').modal('show');
-                    }
-                }
-            });
-        }
-    });
-});   
-
-$(function () {
-    $("#materialId").on("change", function () {
-        var materialGroupId = $("#materialGroupId").val();
-        var materialTypeId = $("#materialTypeId").val();
-        var materialId = $(this).val();
-        $("#makeId").empty();
-        if (materialId) {
-            $.ajax({
-                url: "/IssueStock/GetAllMakes",
-                type: "GET",
-                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-                success: function (result) {
-                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
-                    $.each(result, function (i, response) {
-                        if (response == "") {
-                            $("#makeId").append($('<option>').text("None").val(response));
-                        } else {
-                            $("#makeId").append($('<option>').text(response).val(response));
-                        }
-                    });
-                }
-            });
-        }
-        else {
-            $("#makeId").append($('<option>').text("--Select Make--").val(""));
-        }
-    });
-});
-
-$(document).ready(function () {
-    showModal('');
-});
-
-function showModal(alertMessage) {
-    var successMessage = $("#successMessage").val();
-
-    if (alertMessage) {
-        $("#successMessagePlaceholder").text(alertMessage);
-        $("#successModal").modal("show");
-    }
-    if (successMessage) {
-        $("#successMessagePlaceholder").text(successMessage);
-        $("#successModal").modal("show");
-    }
-
-
- }
 
 $('#StockForm').on('submit', function (event) {
     event.preventDefault();
@@ -258,26 +247,27 @@ $('#StockForm').on('submit', function (event) {
 
     if (!validateInputs()) {
         alertMessage = 'Please make sure that every "To" input is greater than its corresponding "From" input.';
-        showModal(alertMessage);
+        showModal(alertMessage, 'Error..!');
         //alert();
     }
     else if (userEnteredRate > 1000000) {
         alertMessage = 'Rate cannot exceed Rs 10,00,000';
-        showModal(alertMessage);
-
-        //alert();
+        showModal(alertMessage, 'Error..!');       
     }
-    else {
+    else if (userEnteredRate < 0) {
+        $('.invalidEnteredRate').text('Please enter valid rate..!')     
+    }
+    else {              
         this.submit();
     }
-});    
+});      
 
 $('#IssueStockForm1').on('submit', function (event) {
     event.preventDefault();
     var quantity = $('#requiredQuantity').val();
     var availableQuantity = $('#AvailableStock').val();
     if (parseInt(quantity) > parseInt(availableQuantity)) {
-        $("#stockNotAvailableModal").modal("show");
+        showModal('Stock not avaialable.', 'Error..!')
     }
     else {
         this.submit();

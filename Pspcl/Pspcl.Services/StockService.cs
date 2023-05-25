@@ -126,7 +126,7 @@ namespace Pspcl.Services
 		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
 		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
 			}) .ToList();
-            Console.WriteLine(materialRanges);
+           
 
 			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 			return ranges;
