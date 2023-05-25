@@ -127,7 +127,7 @@ $(function () {
         $("#Division").empty();
         if (selectedSubDivId) {
             $.ajax({
-                url: "/IssueStock/GetCircleAndDivision",
+                url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
                 type: "GET",
                 data: { SelectedSubDivId: selectedSubDivId },
                 success: function (result) {
@@ -135,6 +135,7 @@ $(function () {
                     $("#DivisionId").val(result[2]);
                     $("#Circle").val(result[1]);
                     $("#CircleId").val(result[3]);
+                    $("#LocationCode").val(result[4]);
                 }
             });
         }
@@ -233,6 +234,60 @@ $(function () {
     });
 });
 
+
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#AvailableStock").val('');
+        
+
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/DisplayMakeWithQuantity",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (response) {
+                    console.log("hey");
+                    console.log(response);
+
+                    // Clear the table body
+                    //$('#issueMaterialTableBody').empty();
+
+                   // if (response.length > 0) {
+                    var keys = Object.keys(response);
+                    if (keys.length > 0) {
+                        console.log("hey");
+
+                        // Show the table if the response contains data
+                        $('#issueMaterial').show();
+
+                        // Iterate through the response data and populate the table rows
+                        for (var i = 0; i < keys.length; i++) {
+                            var key = keys[i];
+                            var rowCounter = i+1;
+                            var value = response[key];
+                            var rowHtml = '<tr>';
+                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" id="row_' + key + '_Make" value="' + key + '" /></td>';
+                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" id="row_' + key + '_AvailQty" value="' + value + '" /></td>';
+                            rowHtml += '<td><input type="text" class="required-quantity-input" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" /></td>';
+                            rowHtml += '</tr>';
+                            $('#issueMaterialTableBody').append(rowHtml);
+                        }
+                    } else {
+                        // Hide the table if the response is empty
+                        $('#issueMaterial').hide();
+                    }
+                }
+
+
+            });
+        }
+    });
+});   
+
+
 $(document).ready(function () {
     showModal('');
 });
@@ -252,7 +307,7 @@ function showModal(alertMessage) {
 
  }
 
-$('#StockForm').on('submit', function (event) {
+$(document).on('submit', '#StockForm', function (event) {
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 
@@ -272,18 +327,18 @@ $('#StockForm').on('submit', function (event) {
     }
 });    
 
-$('#IssueStockForm1').on('submit', function (event) {
-    event.preventDefault();
-    var quantity = $('#requiredQuantity').val();
-    var availableQuantity = $('#AvailableStock').val();
-    if (parseInt(quantity) > parseInt(availableQuantity)) {
-        $("#stockNotAvailableModal").modal("show");
-    }
-    else {
-        this.submit();
-    }
+//$('#IssueStockForm1').on('submit', function (event) {
+//    event.preventDefault();
+//    var quantity = $('#requiredQuantity').val();
+//    var availableQuantity = $('#AvailableStock').val();
+//    if (parseInt(quantity) > parseInt(availableQuantity)) {
+//        $("#stockNotAvailableModal").modal("show");
+//    }
+//    else {
+//        this.submit();
+//    }
 
-});    
+//});    
 
 
 document.getElementById("exportButton").addEventListener("click", function () {
@@ -309,4 +364,8 @@ document.getElementById("exportButton").addEventListener("click", function () {
         URL.revokeObjectURL(url);
     }, 0);
 });
+
+
+
+
 

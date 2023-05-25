@@ -23,7 +23,9 @@ namespace Pspcl.Web.Models
 		public DateTime SrNoDate { get; set; }
         public int SubDivisionId { get; set; }
 		public string Division { get; set; }
-		public int DivisionId { get; set; }
+        public int LocationCode { get; set; }
+
+        public int DivisionId { get; set; }
 		public int CircleId { get; set; }
 		public string Circle { get; set; }
 		public string JuniorEngineerName { get; set; }
@@ -40,9 +42,16 @@ namespace Pspcl.Web.Models
 		public IList<SelectListItem>? AvailableMaterialGroups { get; set; }
 		public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
+
 		public List<string> AvailableMakes { get; set; }
         public List<List<int>>? IssuedStockRanges { get; set; }
 
+        //public List<StockItem> StockItems { get; set; }
+
+		public List<Dictionary<string,string>> StockItems { get; set; }
+
 
     }
+
+
 }

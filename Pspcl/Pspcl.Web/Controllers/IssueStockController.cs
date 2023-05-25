@@ -26,7 +26,6 @@ namespace Pspcl.Web.Controllers
         [HttpGet]
         public IActionResult IssueStockView()
         {
-
 			var subDivisions = _stockService.GetAllSubDivisions();
 			var materialGroup = _stockService.GetAllMaterialGroups();
 			IssueStockModel issueStockModel = new IssueStockModel();
@@ -43,53 +42,92 @@ namespace Pspcl.Web.Controllers
 			return View(issueStockModel);
 
 		}
-		public JsonResult GetCircleAndDivision(int selectedSubDivId)
+		public JsonResult GetCircleAndDivisionAndLocationCode(int selectedSubDivId)
 		{
-			List<string> divisionAndCircle = _stockService.GetCircleAndDivision(selectedSubDivId);
+			List<string> divisionAndCircle = _stockService.GetCircleAndDivisionAndLocationCode(selectedSubDivId);
 
 			var result = Json(divisionAndCircle);
 			return result;
 		}
 
         [HttpPost]
-        public ActionResult IssueStockView(IssueStockModel model)
+        public ActionResult IssueStockView(IssueStockModel model, IFormCollection formCollection)
         {
 			model.TransactionId = "trans1";
 			int MaterialGroupId = model.MaterialGroupId;
 			int MaterialTypeId = model.MaterialTypeId;
 			int? MaterialCodeId = model.MaterialId;
 
-			int RequiredQuantity = model.Quantity;
-
-			List<int> Ids = new List<int>();
-			Ids.Add(MaterialGroupId);
-			Ids.Add(MaterialTypeId);
-			Ids.Add((int)MaterialCodeId);
-			List<List<int>> Ranges = _stockService.GetAvailableQuantity(Ids);
+			
+            int materialGroupId = Convert.ToInt32(formCollection["MaterialGroupId"]);
+            int materialTypeId = Convert.ToInt32(formCollection["MaterialTypeId"]);
+            int materialCodeId = Convert.ToInt32(formCollection["MaterialId"]);
 
 
-			int requiredQuantity = model.Quantity;
+             Dictionary<string, List<List<int>>> issuedMakesAndRows = new Dictionary<string, List<List<int>>>();
+             //List<List<int>> IssuedDataRows = new List<List<int>>();
 
-			List<List<int>> IssuedStockRanges = new List<List<int>>();
-			for (int i = 0; i <= Ranges.Count-1; i++)
-			{
-				var currentRow = Ranges[i];
-				if (currentRow[3] <= requiredQuantity)
+             Dictionary<string, List<List<int>>> availableMakeAndRows = new Dictionary<string, List<List<int>>>();
+             availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
+
+			 foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
+			 {				
+				for (int i = 14; i < formCollection.Count - 1; i = i + 3)
 				{
-					IssuedStockRanges.Add(currentRow);
-					requiredQuantity -= currentRow[3];
+					var element_make = formCollection.ElementAt(i);
+					var element_availableQty = formCollection.ElementAt(i + 1);
+					var element_requiredQty = formCollection.ElementAt(i + 2);
 
-				}
-				else
-				{
-					currentRow[2] = currentRow[1] + requiredQuantity - 1;
-					currentRow[3] = requiredQuantity;
-					IssuedStockRanges.Add(currentRow);
-					break;
-				}			
+					string make = element_make.ToString();
+					int availableQty = Convert.ToInt32(element_availableQty.Value);
+					int requiredQty = Convert.ToInt32(element_requiredQty.Value);
 
-			}
-			_stockService.UpdateStockMaterialSeries(IssuedStockRanges);
+                    List<List<int>> IssuedDataRows = new List<List<int>>();
+
+                    if (requiredQty <= availableQty)
+					{
+
+						List<List<int>> value = kvp.Value;
+
+						for (int j = 0; j <= value.Count - 1; j++)
+						{
+							var currentRow = value[j];
+							if (currentRow[3] <= requiredQty)
+							{
+								IssuedDataRows.Add(currentRow);
+								requiredQty -= currentRow[3];
+							}
+							else
+							{
+								if (requiredQty > 0)
+								{
+									currentRow[2] = currentRow[1] + requiredQty - 1;
+									currentRow[3] = requiredQty;
+									IssuedDataRows.Add(currentRow);
+									break;
+								}
+								break;
+							}
+						}
+					}
+
+                    if(issuedMakesAndRows.ContainsKey(make))
+					{
+						break;
+                    }
+					else
+					{
+                        issuedMakesAndRows.Add(make, IssuedDataRows);
+                        _stockService.UpdateStockMaterialSeries(IssuedDataRows);
+                    }
+                    break;
+                }
+				
+             }
+
+            List<List<int>> IssuedStockRanges = new List<List<int>>();
+
+            _stockService.UpdateStockMaterialSeries(IssuedStockRanges);
 			StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(model);
 
 			 int id= _stockService.IssueStock(stockIssueBookEntity);
@@ -116,14 +154,21 @@ namespace Pspcl.Web.Controllers
 			}
 			return Json(sum);
 		}
-		public JsonResult GetAllMakes(int materialGroupId, int materialTypeId, int materialId)
-		{
+		//public JsonResult GetAllMakes(int materialGroupId, int materialTypeId, int materialId)
+		//{
 			
-			List<string> make = _stockService.GetAllMakes(materialGroupId, materialTypeId, materialId);
-			List<string> MakeList = make.Any() ? make : new List<string> { "" };
+		//	List<string> make = _stockService.GetAllMakes(materialGroupId, materialTypeId, materialId);
+		//	List<string> MakeList = make.Any() ? make : new List<string> { "" };
 
-			return Json(MakeList);
-		}
+		//	return Json(MakeList);
+		//}
+
+		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
+		{
+			Dictionary <string,int> Result = new Dictionary<string,int>();
+			Result = _stockService.AllMakesAndQuantitities(materialGroupId, materialTypeId, materialId);
+            return Json(Result);
+        }
 
 	}
 }
