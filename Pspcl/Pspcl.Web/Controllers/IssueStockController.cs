@@ -70,9 +70,11 @@ namespace Pspcl.Web.Controllers
              Dictionary<string, List<List<int>>> availableMakeAndRows = new Dictionary<string, List<List<int>>>();
              availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
-			 foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
+
+			int x = 14;
+             foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
-				for (int i = 14; i < formCollection.Count - 1; i = i + 3)
+				for (int i = x; i < formCollection.Count - 1;)
 				{
 					var element_make = formCollection.ElementAt(i);
 					var element_availableQty = formCollection.ElementAt(i + 1);
@@ -120,7 +122,9 @@ namespace Pspcl.Web.Controllers
                         issuedMakesAndRows.Add(make, IssuedDataRows);
                         _stockService.UpdateStockMaterialSeries(IssuedDataRows);
                     }
+					x = i + 3;
                     break;
+
                 }
 				
              }
