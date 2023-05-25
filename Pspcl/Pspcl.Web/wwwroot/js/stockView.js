@@ -47,6 +47,7 @@ $(function () {
     $("#materialGroupId").on("change", function () {
         var materialGroupId = $(this).val();
         $("#materialTypeId").empty();
+        $("#materialId").empty();
         $("#makeId").empty();
         if (materialGroupId) {
             $.ajax({
