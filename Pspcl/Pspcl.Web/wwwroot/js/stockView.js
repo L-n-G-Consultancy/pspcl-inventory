@@ -327,3 +327,22 @@ function getCorrespondingMakeValue(invoiceNumber) {
         }
     });
 }
+
+function GrnValidation(GrnNumber) {
+    $.ajax({
+
+        url: "/StockView/isGrnNumberExist",
+        type: "GET",
+        data: { GrnNumber: GrnNumber },
+        success: function (result) {
+            console.log(result);
+            if (result) {
+                $('#GrnNumber').val('This Grn already exists..!');
+                $('#GRNfield').empty();
+            }
+        },
+        error: function (xhr, status, error) {
+            // Handle the error
+        }
+    });
+}

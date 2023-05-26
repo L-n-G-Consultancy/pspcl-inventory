@@ -28,5 +28,6 @@ namespace Pspcl.Services.Interfaces
         string GetMaterialCodeById(int? materialCodeId);
         string GetRatingNameById(int? materialTypeId);
         public string GetCorrespondingMakeValue(string invoiceNumber);
+        public bool isGrnNumberExist(string GrnNumber);
     }
 }
