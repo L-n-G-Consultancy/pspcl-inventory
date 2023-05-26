@@ -122,13 +122,11 @@ namespace Pspcl.Services
             List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
             int totalAvailableQuantity = quantities.Count();
 
-            var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new
-            {
-                StockMaterialId = g.Key,
-                SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
-                SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
-            }).ToList();
-            Console.WriteLine(materialRanges);
+			var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
+		        SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
+		        SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
+			}) .ToList();
+           
 
             List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId, x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
             return ranges;

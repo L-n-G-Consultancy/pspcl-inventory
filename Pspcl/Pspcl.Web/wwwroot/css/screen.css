@@ -454,3 +454,33 @@ img{max-width:100%;}
 .header-img{display:flex; justify-content:center;}
 .header-title{margin-top:10px; justify-content:center; margin-inline:auto;}
 }
+#stock-in-report h3 {
+    display: inline-block;
+}
+
+#stock-in-report button {
+    float: right;
+}
+
+.modal-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: white;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+}
