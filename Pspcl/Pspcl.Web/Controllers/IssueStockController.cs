@@ -54,9 +54,7 @@ namespace Pspcl.Web.Controllers
         public ActionResult IssueStockView(IssueStockModel model, IFormCollection formCollection)
         {
 			model.TransactionId = "trans1";
-			int MaterialGroupId = model.MaterialGroupId;
-			int MaterialTypeId = model.MaterialTypeId;
-			int? MaterialCodeId = model.MaterialId;
+			
 
 			
             int materialGroupId = Convert.ToInt32(formCollection["MaterialGroupId"]);
@@ -131,16 +129,54 @@ namespace Pspcl.Web.Controllers
 
             List<List<int>> IssuedStockRanges = new List<List<int>>();
 
-            _stockService.UpdateStockMaterialSeries(IssuedStockRanges);
-			StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(model);
+            StockIssueBook stockIssueBook =new StockIssueBook();
+			stockIssueBook.TransactionId = "transaction";
+            stockIssueBook.CurrentDate = DateTime.Now;
+			stockIssueBook.SrNoDate = DateTime.Parse(formCollection["SrNoDate"]);
+			stockIssueBook.SerialNumber = formCollection["SerialNumber"];
+            stockIssueBook.DivisionId = int.Parse(formCollection["DivisionId"]);
+            stockIssueBook.SubDivisionId = int.Parse(formCollection["SubDivisionId"]);
+            stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
+			stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
 
-			 int id= _stockService.IssueStock(stockIssueBookEntity);
+            StockBookMaterial stockBookMaterial1 = new StockBookMaterial();
 
-			StockBookMaterial stockBookMaterial = _mapper.Map<StockBookMaterial>(model);
-			_stockService.StockBookMaterial(stockBookMaterial, id);
+			stockBookMaterial1.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
+            stockBookMaterial1.MaterialId = int.Parse(formCollection["MaterialId"]);
 
-			TempData["IssuedStockRanges"] = JsonConvert.SerializeObject(IssuedStockRanges);
-			TempData["Message"] = "Stock Issued Successfully..!";
+
+            foreach (KeyValuePair<string, List<List<int>>> keyValuePair in issuedMakesAndRows)
+			{
+				if(keyValuePair.Value.Count > 0) {
+
+                    stockIssueBook.Make = keyValuePair.Key;
+					stockIssueBook.Id = 0;
+                    StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(stockIssueBook);
+                 
+                    int id = _stockService.IssueStock(stockIssueBookEntity);
+
+
+                    stockBookMaterial1.StockIssueBookId = id;
+
+					int quantity = 0;
+					for (int i = 0; i< keyValuePair.Value.Count; i++)
+					{
+						quantity += keyValuePair.Value[i][3];
+                    }
+                    stockBookMaterial1.Quantity = quantity;
+
+					stockBookMaterial1.Id = 0;
+                    StockBookMaterial stockBookMaterial = _mapper.Map<StockBookMaterial>(stockBookMaterial1);
+                    _stockService.StockBookMaterial(stockBookMaterial);
+                }
+				else
+				{
+					continue;
+				}
+            }
+
+
+
             return RedirectToAction("IssueStockView", "IssueStock");
         }	
 		public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)

@@ -11,12 +11,11 @@ namespace Pspcl.Services.Interfaces
         List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false);
 		List<SubDivision> GetAllSubDivisions(bool? onlyActive = false);
 		List<string> GetCircleAndDivisionAndLocationCode(int selectedSubDivId, bool? onlyActive = false);
-		List<string> GetAllMakes(int materialGrooupId, int materialTypeId, int materialId);
 		List<List<int>> GetAvailableQuantity(List<int> Ids);
 
         void UpdateStockMaterialSeries(List<List<int>> requiredIssueData);
 		int IssueStock(StockIssueBook stockIssueBook);
-		void StockBookMaterial(StockBookMaterial stockBookMaterial, int id);
+		void StockBookMaterial(StockBookMaterial stockBookMaterial);
 
 
 		int AddStock(Stock stock);
@@ -29,8 +28,6 @@ namespace Pspcl.Services.Interfaces
         string GetMaterialTypeById(int? materialTypeId);
         string GetMaterialCodeById(int? materialCodeId);
         string GetRatingNameById(int? materialTypeId);
-
-        //public Dictionary<String, int> GetAllMakesAndQuantitities(Dictionary<string, List<int>> makeWithStockIds);
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);
 
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);

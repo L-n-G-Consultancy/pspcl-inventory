@@ -210,36 +210,6 @@ $(function () {
         var materialGroupId = $("#materialGroupId").val();
         var materialTypeId = $("#materialTypeId").val();
         var materialId = $(this).val();
-        $("#makeId").empty();
-        if (materialId) {
-            $.ajax({
-                url: "/IssueStock/GetAllMakes",
-                type: "GET",
-                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-                success: function (result) {
-                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
-                    $.each(result, function (i, response) {
-                        if (response == "") {
-                            $("#makeId").append($('<option>').text("None").val(response));
-                        } else {
-                            $("#makeId").append($('<option>').text(response).val(response));
-                        }
-                    });
-                }
-            });
-        }
-        else {
-            $("#makeId").append($('<option>').text("--Select Make--").val(""));
-        }
-    });
-});
-
-
-$(function () {
-    $("#materialId").on("change", function () {
-        var materialGroupId = $("#materialGroupId").val();
-        var materialTypeId = $("#materialTypeId").val();
-        var materialId = $(this).val();
         $("#AvailableStock").val('');
         
 

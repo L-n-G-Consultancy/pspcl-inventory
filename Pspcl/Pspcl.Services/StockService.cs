@@ -69,16 +69,6 @@ namespace Pspcl.Services
 			}
 			return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
 		}
-
-        public List<string> GetAllMakes(int materialGroupId, int materialTypeId, int materialId)
-        {
-			List<string> makes = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId== materialTypeId && x.MaterialId== materialId).Select(s => s.Make).Distinct().ToList();
-
-            return makes;
-        }
-
-
-
         public List<string> GetCircleAndDivisionAndLocationCode(int selectedSubDivId, bool? onlyActive = false)
 		{
 			if (onlyActive.HasValue)
@@ -238,12 +228,13 @@ namespace Pspcl.Services
 		public int IssueStock(StockIssueBook stockIssueBook)
 		{
 			_dbcontext.Set<StockIssueBook>().Add(stockIssueBook);
-			//_dbcontext.SaveChanges();
+
+			_dbcontext.SaveChanges();
             return stockIssueBook.Id;
 		}
-		public void StockBookMaterial(StockBookMaterial stockBookMaterial, int id)
+		public void StockBookMaterial(StockBookMaterial stockBookMaterial)
 		{			
-			stockBookMaterial.StockIssueBookId =id;
+			
 
 			_dbcontext.Set<StockBookMaterial>().Add(stockBookMaterial);
 			_dbcontext.SaveChanges();
