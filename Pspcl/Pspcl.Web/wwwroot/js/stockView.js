@@ -47,8 +47,9 @@ $(function () {
     $("#materialGroupId").on("change", function () {
         var materialGroupId = $(this).val();
         $("#materialTypeId").empty();
-        $("#materialId").empty();
+        $("#materialId").empty().append($('<option>').text("--Select Material Code--").val(""));;
         $("#makeId").empty();
+        $("#ratingId").empty().append($('<option>').text("--Select Rating--").val(""));
         if (materialGroupId) {
             $.ajax({
                 url: "/StockView/getMaterialTypes",
@@ -63,7 +64,7 @@ $(function () {
             });
         }
         else {
-            $("#materialTypeId").append($('<option>').text("--Select material Type--").val(""));
+            $("#materialTypeId").append($('<option>').text("--Select Material Type--").val(""));
         }
     });
 });
@@ -337,8 +338,11 @@ function GrnValidation(GrnNumber) {
         success: function (result) {
             console.log(result);
             if (result) {
-                $('#GrnNumber').val('This Grn already exists..!');
-                $('#GRNfield').empty();
+                $('#GrnNumber').text('Entered GRN already exists..!')
+                $('#GRNfield').val(null);
+            }
+            else {
+                $('#GrnNumber').text('')
             }
         },
         error: function (xhr, status, error) {
