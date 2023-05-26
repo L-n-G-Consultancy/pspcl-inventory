@@ -120,9 +120,9 @@
 
                 <div class="form-group col-md-6">
                     <label for="date">GRN No</label>
-                    @Html.TextBoxFor(model => model.GrnNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter GRN No" })
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
+                    @Html.TextBoxFor(model => model.GrnNumber, new { @class = "form-control", @type = "text", @required = "required", @id= "GRNfield", @placeholder = "Enter GRN No", @onchange ="GrnValidation(this.value)"})
+                    <div class="text-danger" id="GrnNumber">
+                       
                     </div>
                 </div>
 

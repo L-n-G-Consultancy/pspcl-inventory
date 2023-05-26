@@ -130,6 +130,19 @@ namespace Pspcl.Web.Controllers
             return Json(Make);
 
         }
+        public string isGrnNumberExist(string GrnNumber)
+        {
 
+            bool result = _stockService.isGrnNumberExist(GrnNumber);
+
+            if (result)
+            {
+                return "exists";
+            }
+            return "";
+
+        }
+
+        
     }
 }
