@@ -144,17 +144,12 @@ namespace Pspcl.Web.Controllers
 			stockBookMaterial1.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
             stockBookMaterial1.MaterialId = int.Parse(formCollection["MaterialId"]);
 
-
+            
+            StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(stockIssueBook);
+            int id = _stockService.IssueStock(stockIssueBookEntity);
             foreach (KeyValuePair<string, List<List<int>>> keyValuePair in issuedMakesAndRows)
 			{
 				if(keyValuePair.Value.Count > 0) {
-
-                    stockIssueBook.Make = keyValuePair.Key;
-					stockIssueBook.Id = 0;
-                    StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(stockIssueBook);
-                 
-                    int id = _stockService.IssueStock(stockIssueBookEntity);
-
 
                     stockBookMaterial1.StockIssueBookId = id;
 
@@ -163,9 +158,10 @@ namespace Pspcl.Web.Controllers
 					{
 						quantity += keyValuePair.Value[i][3];
                     }
-                    stockBookMaterial1.Quantity = quantity;
 
-					stockBookMaterial1.Id = 0;
+                    stockBookMaterial1.Quantity = quantity;
+                    stockBookMaterial1.Make = keyValuePair.Key;
+                    stockBookMaterial1.Id = 0;
                     StockBookMaterial stockBookMaterial = _mapper.Map<StockBookMaterial>(stockBookMaterial1);
                     _stockService.StockBookMaterial(stockBookMaterial);
                 }

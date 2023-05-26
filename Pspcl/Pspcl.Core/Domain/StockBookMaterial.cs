@@ -11,7 +11,7 @@ namespace Pspcl.Core.Domain
         public int MaterialId { get; set; }  // Foreign key
         public int Quantity { get; set; }
 
-
+        public string Make { get; set; }
 
         // public MaterialGroup MaterialGroup { get; set; }
         /// <summary>
