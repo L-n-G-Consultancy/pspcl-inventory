@@ -231,8 +231,8 @@ $(function () {
                             var rowCounter = i+1;
                             var value = response[key];
                             var rowHtml = '<tr>';
-                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" id="row_' + key + '_Make" value="' + key + '" /></td>';
-                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" id="row_' + key + '_AvailQty" value="' + value + '" /></td>';
+                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" value="' + key + '" readonly/></td>';
+                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
                             rowHtml += '<td><input type="text" class="required-quantity-input" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" /></td>';
                             rowHtml += '</tr>';
                             $('#issueMaterialTableBody').append(rowHtml);

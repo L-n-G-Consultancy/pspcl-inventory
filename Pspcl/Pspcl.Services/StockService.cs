@@ -18,18 +18,14 @@ namespace Pspcl.Services
         {
             _dbcontext = dbContext;
         }
-
         public List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false)
         {
             if (!onlyActive.HasValue)
             {
                 return _dbcontext.MaterialGroup.ToList();
             }
-
             return _dbcontext.MaterialGroup.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
-
         }
-
         public List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false)
         {
             if (!onlyActive.HasValue)
@@ -40,7 +36,6 @@ namespace Pspcl.Services
             return materialTypes.Where(x => x.MaterialGroupId == materialGroupId).ToList();
 
         }
-
         public List<MaterialType> GetAllMaterialRatings(int materialTypeId, bool? onlyActive = false)
         {
             if (!onlyActive.HasValue)
@@ -124,14 +119,12 @@ namespace Pspcl.Services
 			List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 			return ranges;
         }
-
 		public int AddStock(Stock stock)
 		{
 			_dbcontext.Set<Stock>().Add(stock);
 			_dbcontext.SaveChanges();
 			return stock.Id;
 		}
-
         public int AddStockMaterial(StockMaterial stockMaterial)
         {
             _dbcontext.Set<StockMaterial>().Add(stockMaterial);
@@ -165,12 +158,7 @@ namespace Pspcl.Services
             {
                 
             };
-            
-
-
-
-
-            return stockOutModels;
+           return stockOutModels;
         }
 
 		public string GetMaterialGroupById(int? materialGroupId)
@@ -218,12 +206,8 @@ namespace Pspcl.Services
 				{
 					record.IsIssued = true;
 				}
-
-				// Save the changes to the database
 				_dbcontext.SaveChanges();
 			}
-
-
 		}
 		public int IssueStock(StockIssueBook stockIssueBook)
 		{
@@ -234,14 +218,10 @@ namespace Pspcl.Services
 		}
 		public void StockBookMaterial(StockBookMaterial stockBookMaterial)
 		{			
-			
-
 			_dbcontext.Set<StockBookMaterial>().Add(stockBookMaterial);
 			_dbcontext.SaveChanges();
 			return;
 		}
-
-
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId)
 		{
 			List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
@@ -278,8 +258,6 @@ namespace Pspcl.Services
 
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId)
         {
-            //List<Dictionary<string, List<List<int>>>> allAvailableMakesAndRows = new List<Dictionary<string, List<List<int>>>>();
-
             Dictionary<string, List<List<int>>> availableMakesAndRows = new Dictionary<string, List<List<int>>>();
 
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
@@ -315,16 +293,9 @@ namespace Pspcl.Services
                 List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId, x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 
                 availableMakesAndRows.Add(Make, ranges);
-                //allAvailableMakesAndRows.Add(availableMakesAndRows);
-
-               // return allAvailableMakesAndRows;
-
             }
             return availableMakesAndRows;
         }
-
-
-
     }
 }
 

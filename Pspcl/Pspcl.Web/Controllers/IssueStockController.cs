@@ -33,13 +33,13 @@ namespace Pspcl.Web.Controllers
 			issueStockModel.SubDivisionList = subDivisions.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 			issueStockModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 
-			var issuedStockRangesJson = TempData["IssuedStockRanges"] as string;
-			if(issuedStockRangesJson != null)
-			{
-				issueStockModel.IssuedStockRanges = JsonConvert.DeserializeObject<List<List<int>>>(issuedStockRangesJson);
-			}
+			//var issuedMakesAndRowsJson = TempData["issuedMakesAndRows"] as string;
+   //         if (issuedMakesAndRowsJson != null)
+   //         {
+   //             issueStockModel.IssuedStockRanges = JsonConvert.DeserializeObject<Dictionary<string,List<List<int>>>>(issuedMakesAndRowsJson);
+   //         }
 
-			return View(issueStockModel);
+            return View(issueStockModel);
 
 		}
 		public JsonResult GetCircleAndDivisionAndLocationCode(int selectedSubDivId)
@@ -51,25 +51,20 @@ namespace Pspcl.Web.Controllers
 		}
 
         [HttpPost]
-        public ActionResult IssueStockView(IssueStockModel model, IFormCollection formCollection)
-        {
-			model.TransactionId = "trans1";
-			
-
-			
+        public ActionResult IssueStockView(IFormCollection formCollection)
+        {	
             int materialGroupId = Convert.ToInt32(formCollection["MaterialGroupId"]);
             int materialTypeId = Convert.ToInt32(formCollection["MaterialTypeId"]);
             int materialCodeId = Convert.ToInt32(formCollection["MaterialId"]);
 
 
              Dictionary<string, List<List<int>>> issuedMakesAndRows = new Dictionary<string, List<List<int>>>();
-             //List<List<int>> IssuedDataRows = new List<List<int>>();
 
              Dictionary<string, List<List<int>>> availableMakeAndRows = new Dictionary<string, List<List<int>>>();
              availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
 
-			int x = 14;
+			 int x = 14;
              foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
@@ -122,14 +117,16 @@ namespace Pspcl.Web.Controllers
                     }
 					x = i + 3;
                     break;
-
-                }
-				
+                }				
              }
 
-            List<List<int>> IssuedStockRanges = new List<List<int>>();
+            //List<List<int>> IssuedStockRanges = new List<List<int>>();
+
+            TempData["issuedMakesAndRows"] = JsonConvert.SerializeObject(issuedMakesAndRows);
+            TempData["Message"] = "Stock Issued Successfully..!";
 
             StockIssueBook stockIssueBook =new StockIssueBook();
+
 			stockIssueBook.TransactionId = "transaction";
             stockIssueBook.CurrentDate = DateTime.Now;
 			stockIssueBook.SrNoDate = DateTime.Parse(formCollection["SrNoDate"]);
@@ -170,9 +167,6 @@ namespace Pspcl.Web.Controllers
 					continue;
 				}
             }
-
-
-
             return RedirectToAction("IssueStockView", "IssueStock");
         }	
 		public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
@@ -186,19 +180,10 @@ namespace Pspcl.Web.Controllers
 			foreach (List<int> range in Ranges)
 			{
 				 sum = sum + range[3];
-				//sum = 0;
+				
 			}
 			return Json(sum);
 		}
-		//public JsonResult GetAllMakes(int materialGroupId, int materialTypeId, int materialId)
-		//{
-			
-		//	List<string> make = _stockService.GetAllMakes(materialGroupId, materialTypeId, materialId);
-		//	List<string> MakeList = make.Any() ? make : new List<string> { "" };
-
-		//	return Json(MakeList);
-		//}
-
 		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
 		{
 			Dictionary <string,int> Result = new Dictionary<string,int>();
