@@ -44,7 +44,7 @@ namespace Pspcl.Web.Models
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
 
 		public List<string> AvailableMakes { get; set; }
-        public List<List<int>>? IssuedStockRanges { get; set; }
+        public Dictionary<string,List<List<int>>>? IssuedStockRanges { get; set; }
 
         //public List<StockItem> StockItems { get; set; }
 

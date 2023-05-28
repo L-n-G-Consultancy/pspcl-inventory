@@ -182,28 +182,28 @@ function showModal(alertMessage) {
     }
 }
 
-$(function () {
-    $("#materialId").on("change", function () {
-        var materialGroupId = $("#materialGroupId").val();
-        var materialTypeId = $("#materialTypeId").val();
-        var materialId = $(this).val();
-        $("#AvailableStock").val('');
-        if (materialId) {
-            $.ajax({
-                url: "/IssueStock/GetAvailableStockRows",
-                type: "GET",
-                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-                success: function (result) {
-                    if (parseInt(result) > 0)
-                        $("#AvailableStock").text(result).val(result);
-                    else {
-                        $('#stockNotAvailableModal').modal('show');
-                    }
-                }
-            });
-        }
-    });
-});   
+//$(function () {
+//    $("#materialId").on("change", function () {
+//        var materialGroupId = $("#materialGroupId").val();
+//        var materialTypeId = $("#materialTypeId").val();
+//        var materialId = $(this).val();
+//        $("#AvailableStock").val('');
+//        if (materialId) {
+//            $.ajax({
+//                url: "/IssueStock/GetAvailableStockRows",
+//                type: "GET",
+//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+//                success: function (result) {
+//                    if (parseInt(result) > 0)
+//                        $("#AvailableStock").text(result).val(result);
+//                    else {
+//                        $('#stockNotAvailableModal').modal('show');
+//                    }
+//                }
+//            });
+//        }
+//    });
+//});   
 
 $(function () {
     $("#materialId").on("change", function () {

@@ -33,11 +33,11 @@ namespace Pspcl.Web.Controllers
 			issueStockModel.SubDivisionList = subDivisions.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 			issueStockModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
 
-			//var issuedMakesAndRowsJson = TempData["issuedMakesAndRows"] as string;
-   //         if (issuedMakesAndRowsJson != null)
-   //         {
-   //             issueStockModel.IssuedStockRanges = JsonConvert.DeserializeObject<Dictionary<string,List<List<int>>>>(issuedMakesAndRowsJson);
-   //         }
+			var issuedMakesAndRowsJson = TempData["issuedMakesAndRows"] as string;
+			if (issuedMakesAndRowsJson != null)
+			{
+				issueStockModel.IssuedStockRanges = JsonConvert.DeserializeObject<Dictionary<string, List<List<int>>>>(issuedMakesAndRowsJson);
+			}
 
             return View(issueStockModel);
 
@@ -64,7 +64,7 @@ namespace Pspcl.Web.Controllers
              availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
 
-			 int x = 14;
+			 int x = 12;
              foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
@@ -169,21 +169,21 @@ namespace Pspcl.Web.Controllers
             }
             return RedirectToAction("IssueStockView", "IssueStock");
         }	
-		public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
-		{
-			int sum=0;
-			List<int> Ids = new List<int>();
-			Ids.Add(materialGroupId);
-			Ids.Add(materialTypeId);
-			Ids.Add((int)materialId);
-			List<List<int>> Ranges = _stockService.GetAvailableQuantity(Ids);
-			foreach (List<int> range in Ranges)
-			{
-				 sum = sum + range[3];
+		//public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
+		//{
+		//	int sum=0;
+		//	List<int> Ids = new List<int>();
+		//	Ids.Add(materialGroupId);
+		//	Ids.Add(materialTypeId);
+		//	Ids.Add((int)materialId);
+		//	List<List<int>> Ranges = _stockService.GetAvailableQuantity(Ids);
+		//	foreach (List<int> range in Ranges)
+		//	{
+		//		 sum = sum + range[3];
 				
-			}
-			return Json(sum);
-		}
+		//	}
+		//	return Json(sum);
+		//}
 		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
 		{
 			Dictionary <string,int> Result = new Dictionary<string,int>();

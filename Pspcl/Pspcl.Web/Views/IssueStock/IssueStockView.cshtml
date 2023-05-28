@@ -166,14 +166,14 @@
 
             <div class="col-md-12 text-center">
                 <label for="">&nbsp;</label>
-                <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target="#stockmodal">Issue Stock</button>
+                <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target="#IssuedDataModal">Issue Stock</button>
                 <button type="reset" class="btn btn btn-outline-dark px-4 mt-3">Reset</button>
             </div>
 
 		}
 @*		<input type="hidden" id="successMessage" value="@TempData["Message"]" />
 *@		
-        <div class="modal fade bd-example-modal-sm" id="successModal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-sm" id="IssuedDataModal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-sm-6">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -193,19 +193,24 @@
 										<th scope="col">QTY</th>
 									</tr>
 								</thead>
-								<tbody id="issuedRows">
-									@if (Model.IssuedStockRanges != null)
-									{
-										@foreach (var row in Model.IssuedStockRanges)
-										{
-											<tr>												
-												<td>@row[1]</td>
-												<td>@row[2]</td>
-												<td>@row[3]</td>
-											</tr>
-										}
-									}
-								</tbody>
+
+                            <tbody id="issuedRows">
+                                @if (Model.IssuedStockRanges != null)
+                                {
+                                    foreach (var keyValuePair in Model.IssuedStockRanges)
+                                    {
+                                        foreach (var row in keyValuePair.Value)
+                                        {
+                                            <tr>
+                                                <td>@keyValuePair.Key</td>
+                                                <td>@row[1]</td>
+                                                <td>@row[2]</td>
+                                                <td>@row[3]</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
 							</table>
 						
 					</div>
