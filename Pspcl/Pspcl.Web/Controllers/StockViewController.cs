@@ -121,5 +121,28 @@ namespace Pspcl.Web.Controllers
                 return View("Error");
             }
         }
+
+        public JsonResult GetCorrespondingMakeValue(string invoiceNumber)
+        {
+
+            string Make = _stockService.GetCorrespondingMakeValue(invoiceNumber);
+
+            return Json(Make);
+
+        }
+        public string isGrnNumberExist(string GrnNumber)
+        {
+
+            bool result = _stockService.isGrnNumberExist(GrnNumber);
+
+            if (result)
+            {
+                return "exists";
+            }
+            return "";
+
+        }
+
+        
     }
 }
