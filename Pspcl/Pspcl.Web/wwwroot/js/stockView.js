@@ -16,8 +16,8 @@ var addStock = {
         var rowCounter = rowCount + 1;
         var newRow = $('<tr>');
         var cols = '';
-        cols += '<td><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From"></td>';
-        cols += '<td><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To"></td>';
+        cols += '<td><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From" required><span class="required-field text-danger">*</span></td>';
+        cols += '<td><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To" required><span class="required-field text-danger">*</span></td>';
         cols += '<td><input name="row_' + rowCounter + '_qty" type="number" class="qty-input" placeholder="Quantity" readonly></td>';
         cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
         newRow.append(cols);
@@ -42,6 +42,7 @@ $(document).ready(() => {
     $(document).on('click', '.remove-row', addStock.removeRow);
     $('tbody tr:first-child .remove-row').hide();
 });
+
 
 $(function () {
     $("#materialGroupId").on("change", function () {
@@ -254,15 +255,15 @@ $('#StockForm').on('submit', function (event) {
     }
     else if (userEnteredRate > 1000000) {
         alertMessage = 'Rate cannot exceed Rs 10,00,000';
-        showModal(alertMessage, 'Error..!');       
+        showModal(alertMessage, 'Error..!');
     }
     else if (userEnteredRate < 0) {
-        $('.invalidEnteredRate').text('Please enter valid rate..!')     
+        $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
-    else {              
+    else {
         this.submit();
     }
-});      
+});
 
 $('#IssueStockForm1').on('submit', function (event) {
     event.preventDefault();
@@ -275,7 +276,7 @@ $('#IssueStockForm1').on('submit', function (event) {
         this.submit();
     }
 
-});    
+});
 
 
 document.getElementById("exportButton").addEventListener("click", function () {
@@ -312,10 +313,9 @@ function getCorrespondingMakeValue(invoiceNumber) {
 
             console.log("hey");
 
-            if (result != "Enter Make")
-            {
+            if (result != "Enter Make") {
                 $('#Make').val(result);
-                $('#Make').prop('readonly', true);             
+                $('#Make').prop('readonly', true);
             }
 
             else {

@@ -25,14 +25,14 @@
         </div>
 
 
-        @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class", id= "StockForm" }))
+        @using (Html.BeginForm("AddStock", "StockView", FormMethod.Post, new { @class = "my-form-class", id = "StockForm" }))
 
         {
             <div class="row">
 
                 <div class="form-group col-md-6">
                     <label for="invoiceNo">Invoice No. <span class="required-field text-danger">*</span></label>
-                    @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @type = "text", @required = "required", placeholder = "Enter Invoice Number", @onchange = "getCorrespondingMakeValue(this.value)"  })                    
+                    @Html.TextBoxFor(model => model.InvoiceNumber, new { @class = "form-control", @type = "text", @required = "required", placeholder = "Enter Invoice Number", @onchange = "getCorrespondingMakeValue(this.value)"  })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -120,12 +120,11 @@
                     <label for="date">GRN No <span class="required-field text-danger">*</span></label>
                     @Html.TextBoxFor(model => model.GrnNumber, new { @class = "form-control", @type = "text", @required = "required", @id= "GRNfield", @placeholder = "Enter GRN No", @onchange ="GrnValidation(this.value)"})
                     <div class="text-danger" id="GrnNumber">
-                       
                     </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="">Test Report Reference <span class="required-field text-danger">*</span></label>
+                    <label for="">Test Report Reference</label>
                     @Html.TextBoxFor(model => model.TestReportReference, new { @class = "form-control", placeholder = "Enter Test Report Reference" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
@@ -145,32 +144,31 @@
                     @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id="Rate", @type = "number", @required = "required", placeholder = "Enter Rate" })
                     <small id="enteredRate" class="form-text text-muted"> Max rate value &#x20B9;10,00,000</small>
                     <div class="invalidEnteredRate text-danger">
-                        
                     </div>
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="">Prefix <span class="required-field text-danger">*</span></label>
+                    <label for="">Prefix</label>
                     @Html.TextBoxFor(model => model.PrefixNumber, new { @class = "form-control", @type = "text", @placeholder = "Enter Prefix" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
                 </div>
 
-                
+
             </div>
 
 
             <div id="materialTable" class="mt-3 mb-5 border-black-top pt-4">
-                <div class="col-12 d-lg-inline-block pr-0">                   
+                <div class="col-12 d-lg-inline-block pr-0">
                     <button id="addMaterialButton" type="button" class="btn btn-dark blackButton px-5 mt-2 mt-md-4 float-lg-right"><i class="fas fa-plus-square"></i> Add Material</button>
                 </div>
                 <table id="stockTable" class="table table-responsive custom-table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Sr. No From <span class="required-field text-danger">*</span></th>
-                            <th scope="col">Sr. No To <span class="required-field text-danger">*</span></th>
-                            <th scope="col">QTY <span class="required-field text-danger">*</span></th>
+                            <th scope="col">Sr. No From</th>
+                            <th scope="col">Sr. No To</th>
+                            <th scope="col">QTY</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -182,10 +180,10 @@
                                 var rowCounter = i + 1;
                                 <tr id="row_@rowCounter">
                                     <td>
-                                        @Html.TextBox("row_" + rowCounter + "_from", Model.stockMaterialList[i].SerialNumberFrom, new { @class = "from-input", @placeholder = "From", @required = "required" })
-                                     </td>
+                                        @Html.TextBox("row_" + rowCounter + "_from", Model.stockMaterialList[i].SerialNumberFrom, new { @class = "from-input", @id="sr_from", @required = "required" })
+                                    </td>
                                     <td>
-                                        @Html.TextBox("row_" + rowCounter + "_to", Model.stockMaterialList[i].SerialNumberTo, new { @class = "to-input", @placeholder = "From", @required = "required" })
+                                        @Html.TextBox("row_" + rowCounter + "_to", Model.stockMaterialList[i].SerialNumberTo, new { @class = "to-input", @id="sr_to", @required = "required" })
                                     </td>
                                     <td>
                                         @Html.TextBox("row_" + rowCounter + "_qty", Model.stockMaterialList[i].Quantity, new { @class = "qty-input", @placeholder =  "Quantity",@readonly = "readonly", @required = "required" })
@@ -197,8 +195,8 @@
                         else
                         {
                             <tr id="row_1">
-                                <td><input name="row_1_from" type="number" class="from-input" placeholder="From" min="1" required></td>
-                                <td><input name="row_1_to" type="number" class="to-input" placeholder="To" min="1" required></td>
+                                <td><input name="row_1_from" type="number" class="from-input" placeholder="From" min="1" required><span class="required-field text-danger">*</span></td>
+                                <td><input name="row_1_to" type="number" class="to-input" placeholder="To" min="1" required><span class="required-field text-danger">*</span></td>
                                 <td><input name="row_1_qty" type="number" class="qty-input" placeholder="Quantity" readonly></td>
                                 <td><button type="button" class="btn btn-danger remove-row" data-row="1"><i class="fas fa-minus"></i></button></td>
                             </tr>
@@ -207,7 +205,7 @@
                     </tbody>
                 </table>
 
-                <div class="form-group offset-md-5">                    
+                <div class="form-group offset-md-5">
                     <button type="submit" class="btn btn-dark blackButton px-5 mt-2 mt-md-4" onclick="saveStockMaterialList()">Preview</button>
                 </div>
 
