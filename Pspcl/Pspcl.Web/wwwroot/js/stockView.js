@@ -150,13 +150,17 @@ var alertMessage = '';
 
 function validateInputs() {
     var isValid = true;
-
+    var listOfSerialNumber = [];
     $('.to-input').each(function () {
         var $this = $(this);
         var $row = $this.closest('tr');
         var fromVal = $row.find('.from-input').val();
         var toVal = $this.val();
 
+        for (i = parseInt( fromVal ); i <= toVal; i++) {
+            listOfSerialNumber.push(i);
+        }
+                
         if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
             isValid = false;
             $this.addClass('is-invalid');
@@ -164,7 +168,15 @@ function validateInputs() {
         else {
             $this.removeClass('is-invalid');
         }
+
     });
+    
+    if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
+        
+        isValid = false;
+    }
+    
+
 
     return isValid;
 }
@@ -249,7 +261,7 @@ $('#StockForm').on('submit', function (event) {
     var userEnteredRate = $("#Rate").val();
 
     if (!validateInputs()) {
-        alertMessage = 'Quantity cannot be zero or negative!';
+        alertMessage = 'Table data is not correct..';
         showModal(alertMessage, 'Error..!');
         //alert();
     }
@@ -260,8 +272,10 @@ $('#StockForm').on('submit', function (event) {
     else if (userEnteredRate < 0) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
+    
     else {
-        this.submit();
+        
+       // this.submit();
     }
 });
 
