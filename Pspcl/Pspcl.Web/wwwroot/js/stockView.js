@@ -156,7 +156,7 @@ function validateInputs() {
         var fromVal = $row.find('.from-input').val();
         var toVal = $this.val();
 
-        if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
+        if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
             isValid = false;
             $this.addClass('is-invalid');
         }
