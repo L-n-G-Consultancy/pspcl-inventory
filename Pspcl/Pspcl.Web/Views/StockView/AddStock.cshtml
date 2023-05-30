@@ -127,7 +127,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Test Report Reference <span class="required-field text-danger">*</span></label>
-                    @Html.TextBoxFor(model => model.TestReportReference, new { @class = "form-control", @required = "required", placeholder = "Enter Test Report Reference" })
+                    @Html.TextBoxFor(model => model.TestReportReference, new { @class = "form-control", placeholder = "Enter Test Report Reference" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>
@@ -152,7 +152,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Prefix <span class="required-field text-danger">*</span></label>
-                    @Html.TextBoxFor(model => model.PrefixNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Prefix" })
+                    @Html.TextBoxFor(model => model.PrefixNumber, new { @class = "form-control", @type = "text", @placeholder = "Enter Prefix" })
                     <div class="invalid-feedback">
                         Please provide a valid state.
                     </div>

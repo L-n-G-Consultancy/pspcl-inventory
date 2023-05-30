@@ -155,7 +155,7 @@ function validateInputs() {
         var fromVal = $row.find('.from-input').val();
         var toVal = $this.val();
 
-        if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
+        if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
             isValid = false;
             $this.addClass('is-invalid');
         }
@@ -247,7 +247,7 @@ $('#StockForm').on('submit', function (event) {
     var userEnteredRate = $("#Rate").val();
 
     if (!validateInputs()) {
-        alertMessage = 'Please make sure that every "To" input is greater than its corresponding "From" input.';
+        alertMessage = 'Please make sure that Quantity cannot be negative.';
         showModal(alertMessage, 'Error..!');
         //alert();
     }
