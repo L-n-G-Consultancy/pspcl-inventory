@@ -57,7 +57,7 @@ $(function () {
                 type: "GET",
                 data: { materialGroupId: materialGroupId },
                 success: function (result) {
-                    $("#materialTypeId").append($('<option> ').text("--Select material Type--").val(""));
+                    $("#materialTypeId").append($('<option> ').text("--Select Material Type--").val(""));
                     $.each(result, function (i, response) {
                         $("#materialTypeId").append($('<option>').text(response.text).val(response.value));
                     });
@@ -124,25 +124,25 @@ $(function () {
     });
 });
 
-$(function () {
-    $("#SelectedSubDivId").on("change", function () {
-        var selectedSubDivId = $(this)[0].selectedIndex;
-        $("#Division").empty();
-        if (selectedSubDivId) {
-            $.ajax({
-                url: "/IssueStock/GetCircleAndDivision",
-                type: "GET",
-                data: { SelectedSubDivId: selectedSubDivId },
-                success: function (result) {
-                    $("#Division").val(result[0]);
-                    $("#DivisionId").val(result[2]);
-                    $("#Circle").val(result[1]);
-                    $("#CircleId").val(result[3]);
-                }
-            });
-        }
-    });
-});
+//$(function () {
+//    $("#SelectedSubDivId").on("change", function () {
+//        var selectedSubDivId = $(this)[0].selectedIndex;
+//        $("#Division").empty();
+//        if (selectedSubDivId) {
+//            $.ajax({
+//                url: "/IssueStock/GetCircleAndDivision",
+//                type: "GET",
+//                data: { SelectedSubDivId: selectedSubDivId },
+//                success: function (result) {
+//                    $("#Division").val(result[0]);
+//                    $("#DivisionId").val(result[2]);
+//                    $("#Circle").val(result[1]);
+//                    $("#CircleId").val(result[3]);
+//                }
+//            });
+//        }
+//    });
+//});
 
 
 
@@ -249,7 +249,7 @@ $('#StockForm').on('submit', function (event) {
     var userEnteredRate = $("#Rate").val();
 
     if (!validateInputs()) {
-        alertMessage = 'Please make sure that Quantity cannot be negative.';
+        alertMessage = 'Quantity cannot be zero or negative!';
         showModal(alertMessage, 'Error..!');
         //alert();
     }
@@ -350,3 +350,38 @@ function GrnValidation(GrnNumber) {
         }
     });
 }
+
+
+function validateDates() {
+    var invoiceDate = document.getElementById("invoiceDate").value;
+    var grnDate = document.getElementById("grnDate").value;
+
+    if (invoiceDate === "" && grnDate !== "") {
+        displayModal("Please enter the Invoice Date first.");
+        document.getElementById("grnDate").value = "";
+        return;
+    }
+
+    if (invoiceDate !== "" && grnDate !== "" && new Date(grnDate) < new Date(invoiceDate)) {
+        displayModal("GRN Date must be greater than or equal to Invoice Date.");
+        document.getElementById("grnDate").value = "";
+    }
+}
+
+function displayModal(message) {
+    var modalErrorMessage = document.getElementById("modalErrorMessage");
+    modalErrorMessage.innerText = message;
+
+    var validationModal = new bootstrap.Modal(document.getElementById("validationModal"));
+    validationModal.show();
+}
+
+function ClearGrnDate() {
+    document.getElementById("grnDate").value = "";
+}
+
+
+
+
+   
+
