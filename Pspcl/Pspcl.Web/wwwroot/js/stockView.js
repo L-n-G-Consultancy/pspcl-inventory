@@ -16,8 +16,8 @@ var addStock = {
         var rowCounter = rowCount + 1;
         var newRow = $('<tr>');
         var cols = '';
-        cols += '<td><div class="required-field text-danger">*</div><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From" required></td>';
-        cols += '<td><div class="required-field text-danger">*</div><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To" required></td>';
+        cols += '<td><div class="required text-danger">*</div><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From" required></td>';
+        cols += '<td><div class="required text-danger">*</div><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To" required></td>';
         cols += '<td><input name="row_' + rowCounter + '_qty" type="number" class="qty-input" placeholder="Quantity" readonly></td>';
         cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
         newRow.append(cols);

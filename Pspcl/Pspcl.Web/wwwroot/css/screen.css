@@ -499,7 +499,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
-.required-field {
+.required {
     margin-top: -14px;
     float: left;
 }
