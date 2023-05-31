@@ -45,7 +45,7 @@ namespace Pspcl.Web.Controllers
                 viewModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
                 return View(viewModel);
             }
-            
+
         }
 
         public JsonResult getMaterialTypes(int materialGroupId)
@@ -90,17 +90,59 @@ namespace Pspcl.Web.Controllers
                 model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
                 model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
                 model.Rating = formCollection["Rating"];
-				model.GrnNumber =formCollection["GrnNumber"];
+                model.GrnNumber = formCollection["GrnNumber"];
                 model.PrefixNumber = formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];
 
+                //List<int> SerialNumbers = new List<int>();
+
+                //for (int i = 12; i < formCollection.Count - 2; i += 3)
+                //{
+                //    var srno_from = formCollection.ElementAt(i);
+                //    var srno_to = formCollection.ElementAt(i + 1);
+
+                //    int SerialNumberFrom = Convert.ToInt32(srno_from.Value);
+                //    int SerialNumberTo = int.Parse(srno_to.Value);
+
+
+                //    for (int j = SerialNumberFrom; j <= SerialNumberTo; j++)
+                //    {
+                //        SerialNumbers.Add(j);
+                //    }
+
+                //}
+
+
+                //int MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
+                //int MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
+                //int MaterialId = int.Parse(formCollection["MaterialIdByCode"]);
+                //string Make = formCollection["Make"];
+
+                //bool isSrNoAlreadyPresent = _stockService.srNoValidationInDatabase(SerialNumbers, MaterialGroupId, MaterialTypeId, MaterialId, Make);
+
+                //bool hasDuplicates = SerialNumbers.Count != SerialNumbers.Distinct().Count();
+
+                //if (hasDuplicates)
+                //{
+                //    Console.WriteLine("The list contains duplicate values.");
+                //    ViewBag.HasDuplicates = true;
+
+                //}
+                //else if(isSrNoAlreadyPresent)
+                //{
+                //    Console.WriteLine("The stock with same serial number has already been added !");
+                //}
+                //else
+                //{
+               // Console.WriteLine("The list does not contain duplicate values.");
+
                 List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
 
-                for (int i = 12; i < formCollection.Count - 2; i = i + 3)
+                for (int j = 12; j < formCollection.Count - 2; j = j + 3)
                 {
-                    var element_from = formCollection.ElementAt(i);
-                    var element_to = formCollection.ElementAt(i + 1);
-                    var element_qty = formCollection.ElementAt(i + 2);
+                    var element_from = formCollection.ElementAt(j);
+                    var element_to = formCollection.ElementAt(j + 1);
+                    var element_qty = formCollection.ElementAt(j + 2);
 
                     StockMaterial row = new()
                     {
@@ -114,12 +156,24 @@ namespace Pspcl.Web.Controllers
                 TempData["StockViewModel"] = JsonConvert.SerializeObject(model);
 
                 return RedirectToAction("Preview", "Preview");
+                //}
+
+                //return RedirectToAction("Preview", "Preview");
+
+                //return View();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
-                return View("Error");
+                //return View("Error");
+                return RedirectToAction("Preview", "Preview");
+
             }
+
+            //return RedirectToAction("Preview", "Preview");
+
+
+
         }
 
         public JsonResult GetCorrespondingMakeValue(string invoiceNumber)
@@ -143,6 +197,13 @@ namespace Pspcl.Web.Controllers
 
         }
 
-        
+        public bool serverSideSerialNumberValidation(List<int> listOfSerialNumber, int materialGroupId, int MaterialTypeId, int materialId, string make)
+
+        {
+            bool isSrNoAlreadyPresent = _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
+            return isSrNoAlreadyPresent;
+        }
+
+
     }
 }

@@ -16,8 +16,8 @@ var addStock = {
         var rowCounter = rowCount + 1;
         var newRow = $('<tr>');
         var cols = '';
-        cols += '<td><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From"></td>';
-        cols += '<td><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To"></td>';
+        cols += '<td><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From" required><span class="required-field text-danger">*</span></td>';
+        cols += '<td><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To" required><span class="required-field text-danger">*</span></td>';
         cols += '<td><input name="row_' + rowCounter + '_qty" type="number" class="qty-input" placeholder="Quantity" readonly></td>';
         cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
         newRow.append(cols);
@@ -43,6 +43,7 @@ $(document).ready(() => {
     $('tbody tr:first-child .remove-row').hide();
 });
 
+
 $(function () {
     $("#materialGroupId").on("change", function () {
         var materialGroupId = $(this).val();
@@ -56,7 +57,7 @@ $(function () {
                 type: "GET",
                 data: { materialGroupId: materialGroupId },
                 success: function (result) {
-                    $("#materialTypeId").append($('<option> ').text("--Select material Type--").val(""));
+                    $("#materialTypeId").append($('<option> ').text("--Select Material Type--").val(""));
                     $.each(result, function (i, response) {
                         $("#materialTypeId").append($('<option>').text(response.text).val(response.value));
                     });
@@ -123,25 +124,27 @@ $(function () {
     });
 });
 
-$(function () {
-    $("#SelectedSubDivId").on("change", function () {
-        var selectedSubDivId = $(this)[0].selectedIndex;
-        $("#Division").empty();
-        if (selectedSubDivId) {
-            $.ajax({
-                url: "/IssueStock/GetCircleAndDivision",
-                type: "GET",
-                data: { SelectedSubDivId: selectedSubDivId },
-                success: function (result) {
-                    $("#Division").val(result[0]);
-                    $("#DivisionId").val(result[2]);
-                    $("#Circle").val(result[1]);
-                    $("#CircleId").val(result[3]);
-                }
-            });
-        }
-    });
-});
+
+
+//$(function () {
+//    $("#SelectedSubDivId").on("change", function () {
+//        var selectedSubDivId = $(this)[0].selectedIndex;
+//        $("#Division").empty();
+//        if (selectedSubDivId) {
+//            $.ajax({
+//                url: "/IssueStock/GetCircleAndDivision",
+//                type: "GET",
+//                data: { SelectedSubDivId: selectedSubDivId },
+//                success: function (result) {
+//                    $("#Division").val(result[0]);
+//                    $("#DivisionId").val(result[2]);
+//                    $("#Circle").val(result[1]);
+//                    $("#CircleId").val(result[3]);
+//                }
+//            });
+//        }
+//    });
+//});
 
 
 
@@ -149,19 +152,73 @@ var alertMessage = '';
 
 function validateInputs() {
     var isValid = true;
-
+    var listOfSerialNumber = [];
     $('.to-input').each(function () {
         var $this = $(this);
         var $row = $this.closest('tr');
+
         var fromVal = $row.find('.from-input').val();
         var toVal = $this.val();
 
-        if (fromVal && toVal && parseFloat(fromVal) >= parseFloat(toVal)) {
+        for (i = parseInt( fromVal ); i <= toVal; i++) {
+            listOfSerialNumber.push(i);
+        }
+                
+        if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
             isValid = false;
             $this.addClass('is-invalid');
         }
         else {
             $this.removeClass('is-invalid');
+        }
+
+    });
+    
+    if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
+
+        isValid = false;
+    }
+   
+    
+
+
+    return isValid;
+}
+
+
+function validateSerialNumbers(listOfSerialNumber) {
+    var isValid = true;  
+
+    var materialGroupId = parseInt($("#materialGroupId").val());
+    var materialTypeId = parseInt($("#materialTypeId").val());
+    var materialId = parseInt($("#materialId").val());
+    var make = $("#Make").val();
+  
+    $.ajax({
+
+        url: "/StockView/serverSideSerialNumberValidation",
+        type: "POST",
+        data: {
+            listOfSerialNumber: listOfSerialNumber,
+            materialGroupId: materialGroupId,
+            materialTypeId: materialTypeId,
+            materialId: materialId,
+            make: make
+        },
+        success: function (result) {
+            var isPresent = result;
+            console.log(result);
+            if (isPresent) {
+                //show Modal
+                isvalid = false;
+            }
+            else {
+                //continue
+                isvalid = true;
+            }
+        },
+        error: function (xhr, status, error) {
+            // Handle the error
         }
     });
 
@@ -248,34 +305,36 @@ $('#StockForm').on('submit', function (event) {
     var userEnteredRate = $("#Rate").val();
 
     if (!validateInputs()) {
-        alertMessage = 'Please make sure that every "To" input is greater than its corresponding "From" input.';
+        alertMessage = 'Table data is not correct..';
         showModal(alertMessage, 'Error..!');
         //alert();
     }
     else if (userEnteredRate > 1000000) {
         alertMessage = 'Rate cannot exceed Rs 10,00,000';
-        showModal(alertMessage, 'Error..!');       
+        showModal(alertMessage, 'Error..!');
     }
     else if (userEnteredRate < 0) {
-        $('.invalidEnteredRate').text('Please enter valid rate..!')     
+        $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
-    else {              
-        this.submit();
-    }
-});      
-
-$('#IssueStockForm1').on('submit', function (event) {
-    event.preventDefault();
-    var quantity = $('#requiredQuantity').val();
-    var availableQuantity = $('#AvailableStock').val();
-    if (parseInt(quantity) > parseInt(availableQuantity)) {
-        showModal('Stock not avaialable.', 'Error..!')
-    }
+    
     else {
-        this.submit();
+        
+       this.submit();
     }
+});
 
-});    
+//$('#IssueStockForm1').on('submit', function (event) {
+//    event.preventDefault();
+//    var quantity = $('#requiredQuantity').val();
+//    var availableQuantity = $('#AvailableStock').val();
+//    if (parseInt(quantity) > parseInt(availableQuantity)) {
+//        showModal('Stock not avaialable.', 'Error..!')
+//    }
+//    else {
+//        this.submit();
+//    }
+
+//});
 
 
 document.getElementById("exportButton").addEventListener("click", function () {
@@ -312,10 +371,9 @@ function getCorrespondingMakeValue(invoiceNumber) {
 
             console.log("hey");
 
-            if (result != "Enter Make")
-            {
+            if (result != "Enter Make") {
                 $('#Make').val(result);
-                $('#Make').prop('readonly', true);             
+                $('#Make').prop('readonly', true);
             }
 
             else {
@@ -350,3 +408,73 @@ function GrnValidation(GrnNumber) {
         }
     });
 }
+
+
+function validateDates() {
+    var invoiceDate = document.getElementById("invoiceDate").value;
+    var grnDate = document.getElementById("grnDate").value;
+
+    if (invoiceDate === "" && grnDate !== "") {
+        displayModal("Please enter the Invoice Date first.");
+        document.getElementById("grnDate").value = "";
+        return;
+    }
+
+    if (invoiceDate !== "" && grnDate !== "" && new Date(grnDate) < new Date(invoiceDate)) {
+        displayModal("GRN Date must be greater than or equal to Invoice Date.");
+        document.getElementById("grnDate").value = "";
+    }
+}
+
+function displayModal(message) {
+    var modalErrorMessage = document.getElementById("modalErrorMessage");
+    modalErrorMessage.innerText = message;
+
+    var validationModal = new bootstrap.Modal(document.getElementById("validationModal"));
+    validationModal.show();
+}
+
+function ClearGrnDate() {
+    document.getElementById("grnDate").value = "";
+}
+
+
+//function serialNumberValidation(SrNoTo) {
+//    var srNoTo = SrNoTo;
+//    var srNoFrom =
+//}
+
+//function validateSerialNumbers() {
+//    $('.to-input').each(function () {
+//        var $this = $(this);
+//        var $row = $this.closest('tr');
+//        var fromVal = $row.find('.from-input').val();
+//        var toVal = $this.val();
+
+//        Console.log(fromVal);
+//        Console.log(toVal);
+
+//        Console.log(" ");
+
+
+//        var ListOfSerialNumbers = [];
+
+//        for (let i = fromVal; i <= toVal; i++) {
+//            ListOfSerialNumbers.append(i);
+//        }
+
+//        //if (ListOfSerialNumbers.length == ListOfSerialNumbers.distinct().length) {
+//        //show modal
+//        //}
+
+//    });
+//}
+
+
+
+
+
+
+
+   
+
