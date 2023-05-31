@@ -124,6 +124,8 @@ $(function () {
     });
 });
 
+
+
 //$(function () {
 //    $("#SelectedSubDivId").on("change", function () {
 //        var selectedSubDivId = $(this)[0].selectedIndex;
@@ -154,6 +156,7 @@ function validateInputs() {
     $('.to-input').each(function () {
         var $this = $(this);
         var $row = $this.closest('tr');
+
         var fromVal = $row.find('.from-input').val();
         var toVal = $this.val();
 
@@ -249,7 +252,8 @@ $('#StockForm').on('submit', function (event) {
     var userEnteredRate = $("#Rate").val();
 
     if (!validateInputs()) {
-        alertMessage = 'Quantity cannot be zero or negative!';
+        //alertMessage = 'Quantity cannot be zero or negative!';
+        alertMessage = 'Incorrect Table Data, Please check again!';
         showModal(alertMessage, 'Error..!');
         //alert();
     }
@@ -265,18 +269,18 @@ $('#StockForm').on('submit', function (event) {
     }
 });
 
-$('#IssueStockForm1').on('submit', function (event) {
-    event.preventDefault();
-    var quantity = $('#requiredQuantity').val();
-    var availableQuantity = $('#AvailableStock').val();
-    if (parseInt(quantity) > parseInt(availableQuantity)) {
-        showModal('Stock not avaialable.', 'Error..!')
-    }
-    else {
-        this.submit();
-    }
+//$('#IssueStockForm1').on('submit', function (event) {
+//    event.preventDefault();
+//    var quantity = $('#requiredQuantity').val();
+//    var availableQuantity = $('#AvailableStock').val();
+//    if (parseInt(quantity) > parseInt(availableQuantity)) {
+//        showModal('Stock not avaialable.', 'Error..!')
+//    }
+//    else {
+//        this.submit();
+//    }
 
-});
+//});
 
 
 document.getElementById("exportButton").addEventListener("click", function () {
@@ -379,6 +383,97 @@ function displayModal(message) {
 function ClearGrnDate() {
     document.getElementById("grnDate").value = "";
 }
+
+
+//function serialNumberValidation(SrNoTo) {
+//    var srNoTo = SrNoTo;
+//    var srNoFrom =
+//}
+
+//function validateSerialNumbers() {
+//    $('.to-input').each(function () {
+//        var $this = $(this);
+//        var $row = $this.closest('tr');
+//        var fromVal = $row.find('.from-input').val();
+//        var toVal = $this.val();
+
+//        Console.log(fromVal);
+//        Console.log(toVal);
+
+//        Console.log(" ");
+
+
+//        var ListOfSerialNumbers = [];
+
+//        for (let i = fromVal; i <= toVal; i++) {
+//            ListOfSerialNumbers.append(i);
+//        }
+
+//        //if (ListOfSerialNumbers.length == ListOfSerialNumbers.distinct().length) {
+//        //show modal
+//        //}
+
+//    });
+//}
+
+function validateSerialNumbers() {
+    var isValid = true;
+    var listOfSerialNumber = [];
+
+    var materialGroupId = $("#materialGroupId").val();
+    var materialTypeId = $("#materialTypeId").val();
+    var materialId = $("#MaterialIdByCode").val();
+    var make = $("#Make").val();
+
+    $('.to-input').each(function () {
+        var $this = $(this);
+        var $row = $this.closest('tr');
+        var fromVal = $row.find('.from-input').val();
+        var toVal = $this.val();
+        for (i = parseInt(fromVal); i <= toVal; i++) {
+            listOfSerialNumber.push(i);
+        }
+
+        if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
+            idValid = false;
+            $this.addClass('is-invalid');
+        }
+        else {
+            $this.removeClass('is-invalid');
+        }
+    });
+
+    if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length)
+    {
+        isValid = false;
+
+    }
+    
+        //isValid = serverSideSerialNumberValidation(listOfSerialNumber, materialGroupId, materialId, make)
+        $.ajax({
+
+            url: "/StockView/serverSideSerialNumberValidation",
+            type: "GET",
+            data: { listOfSerialNumber: listOfSerialNumber, materialGroupId: materialGroupId, materialId: materialId, make:make },
+            success: function (result) {
+                console.log(result);
+                if (result == true) {
+                    //show Modal
+                    isvalid = false;
+                }
+                else {
+                    //continue
+                    isvalid = true;
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle the error
+            }
+        });
+    
+    return isValid
+}
+
 
 
 
