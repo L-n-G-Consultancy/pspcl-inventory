@@ -269,16 +269,6 @@ namespace Pspcl.Services
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
             List<int> stockId = stocks.Select(x => x.Id).ToList();
 
-            // var stockMaterialIdList = new List<int>();
-            // var SerialNumber = _dbcontext.StockMaterial.Where(x => stockMaterialIdList.Contains(x.StockId));
-            // List<int> ListOfIds = SerialNumber.Select(x => x.Id).ToList();
-            // var isSerialNumberRepeated = _dbcontext.StockMaterialSeries.Where(x => ListOfIds.Contains(x.StockMaterialId));
-
-
-            //List<int> serialNumbersList = isSerialNumberRepeated.Select(x => x.SerialNumber).ToList();
-            // var isSerialRepeated = _dbcontext.StockMaterialSeries.Where(x => serialNumbers.Contains(x.StockMaterialId));
-
-            //var isSerialR = serialNumbersList.Where(x => serialNumbers.Contains(x.serialNumbers));
 
             List<StockMaterial> stockMaterial = _dbcontext.StockMaterial.Where(x => stockId.Contains(x.StockId)).ToList();
             List<int> stockMaterialId = stockMaterial.Select(x => x.Id).ToList();

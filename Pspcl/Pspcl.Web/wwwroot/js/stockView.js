@@ -150,69 +150,78 @@ $(function () {
 
 var alertMessage = '';
 
-async function validateInputs() {
+function validateInputs() {
     var isValid = true;
     var listOfSerialNumber = [];
+    $('.to-input').each(function () {
+        var $this = $(this);
+        var $row = $this.closest('tr');
 
-    // ... code to populate listOfSerialNumber
+        var fromVal = $row.find('.from-input').val();
+        var toVal = $this.val();
 
-    if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
-        isValid = false;
-    } else {
-        try {
-            var result = await validateSerialNumbers(listOfSerialNumber);
-            if (result) {
-                isValid = false;
-                showModal('Serial numbers already exist.', 'Error..!');
-            } else {
-                isValid = true;
-            }
-        } catch (error) {
-            // Handle the error
-            console.error(error);
-            isValid = false;
+        for (i = parseInt(fromVal); i <= toVal; i++) {
+            listOfSerialNumber.push(i);
         }
 
+        if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
+            isValid = false;
+            $this.addClass('is-invalid');
+        }
     });
-    
+
     if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
 
-        isValidMsg = 'duplicatesrno';
+        isValid = false;
+
+        return false;
     }
+  
+    if (validateSerialNumbers(listOfSerialNumber)) {
+        isValid = false;
+        return isValid;
+        
+    };
+
 
     return isValid;
 }
 
 
-async function validateSerialNumbers(listOfSerialNumber) {
-    var isValid = true;
+function validateSerialNumbers(listOfSerialNumber) {
+    
 
     var materialGroupId = parseInt($("#materialGroupId").val());
     var materialTypeId = parseInt($("#materialTypeId").val());
     var materialId = parseInt($("#materialId").val());
     var make = $("#Make").val();
 
-    try {
-        var result = await $.ajax({
-            url: "/StockView/serverSideSerialNumberValidation",
-            type: "POST",
-            data: {
-                listOfSerialNumber: listOfSerialNumber,
-                materialGroupId: materialGroupId,
-                materialTypeId: materialTypeId,
-                materialId: materialId,
-                make: make
+    $.ajax({
+
+        url: "/StockView/serverSideSerialNumberValidation",
+        type: "POST",
+        async: false,
+        processData:false,
+        data: {
+            listOfSerialNumber: listOfSerialNumber,
+            materialGroupId: materialGroupId,
+            materialTypeId: materialTypeId,
+            materialId: materialId,
+            make: make
+        },
+        success: function (result) {
+
+            if (result) {
+                showModal("Serail no. already", "error");
             }
-        });
+            return result;
+            
+        },
+        error: function (xhr, status, error) {
+            // Handle the error
+        }
+    });
 
-        return result;
-    } catch (error) {
-        // Handle the error
-        console.error(error);
-        isValid = false;
-    }
-
-    return isValid;
 }
 
 //$(function () {
@@ -310,8 +319,8 @@ $('#StockForm').on('submit', function (event) {
     }
     
     else {
-        
-       this.submit();
+        alert("on to preview");
+       //this.submit();
     }
 });
 
