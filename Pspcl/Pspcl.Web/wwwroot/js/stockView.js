@@ -150,77 +150,61 @@ $(function () {
 
 var alertMessage = '';
 
-function validateInputs() {
+async function validateInputs() {
     var isValid = true;
     var listOfSerialNumber = [];
-    $('.to-input').each(function () {
-        var $this = $(this);
-        var $row = $this.closest('tr');
 
-        var fromVal = $row.find('.from-input').val();
-        var toVal = $this.val();
+    // ... code to populate listOfSerialNumber
 
-        for (i = parseInt( fromVal ); i <= toVal; i++) {
-            listOfSerialNumber.push(i);
-        }
-                
-        if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
-            isValid = false;
-            $this.addClass('is-invalid');
-        }
-        else {
-            $this.removeClass('is-invalid');
-        }
-
-    });
-    
     if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
-
         isValid = false;
+    } else {
+        try {
+            var result = await validateSerialNumbers(listOfSerialNumber);
+            if (result) {
+                isValid = false;
+                showModal('Serial numbers already exist.', 'Error..!');
+            } else {
+                isValid = true;
+            }
+        } catch (error) {
+            // Handle the error
+            console.error(error);
+            isValid = false;
+        }
     }
-   
-    
-
 
     return isValid;
 }
 
 
-function validateSerialNumbers(listOfSerialNumber) {
-    var isValid = true;  
+async function validateSerialNumbers(listOfSerialNumber) {
+    var isValid = true;
 
     var materialGroupId = parseInt($("#materialGroupId").val());
     var materialTypeId = parseInt($("#materialTypeId").val());
     var materialId = parseInt($("#materialId").val());
     var make = $("#Make").val();
-  
-    $.ajax({
 
-        url: "/StockView/serverSideSerialNumberValidation",
-        type: "POST",
-        data: {
-            listOfSerialNumber: listOfSerialNumber,
-            materialGroupId: materialGroupId,
-            materialTypeId: materialTypeId,
-            materialId: materialId,
-            make: make
-        },
-        success: function (result) {
-            var isPresent = result;
-            console.log(result);
-            if (isPresent) {
-                //show Modal
-                isvalid = false;
+    try {
+        var result = await $.ajax({
+            url: "/StockView/serverSideSerialNumberValidation",
+            type: "POST",
+            data: {
+                listOfSerialNumber: listOfSerialNumber,
+                materialGroupId: materialGroupId,
+                materialTypeId: materialTypeId,
+                materialId: materialId,
+                make: make
             }
-            else {
-                //continue
-                isvalid = true;
-            }
-        },
-        error: function (xhr, status, error) {
-            // Handle the error
-        }
-    });
+        });
+
+        return result;
+    } catch (error) {
+        // Handle the error
+        console.error(error);
+        isValid = false;
+    }
 
     return isValid;
 }
