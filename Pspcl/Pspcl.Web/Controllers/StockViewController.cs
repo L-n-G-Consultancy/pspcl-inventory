@@ -197,11 +197,11 @@ namespace Pspcl.Web.Controllers
 
         }
 
-        public JsonResult serverSideSerialNumberValidation(List<int> listOfSerialNumber, int materialGroupId, int MaterialTypeId, int materialId, string make)
+        public bool serverSideSerialNumberValidation(List<int> listOfSerialNumber, int materialGroupId, int MaterialTypeId, int materialId, string make)
 
         {
             bool isSrNoAlreadyPresent = _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
-            return Json(isSrNoAlreadyPresent);
+            return isSrNoAlreadyPresent;
         }
 
 
