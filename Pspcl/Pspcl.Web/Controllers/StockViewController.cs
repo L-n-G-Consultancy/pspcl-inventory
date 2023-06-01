@@ -82,7 +82,7 @@ namespace Pspcl.Web.Controllers
 
                 DateTime date = DateTime.Parse(formCollection["GRNDate"]);
                 model.GrnDate = date;
-                model.TestReportReference = formCollection["TestReportReference"];
+                model.TestReportReference = string.IsNullOrEmpty(formCollection["TestReportReference"]) ? "N/A" : formCollection["TestReportReference"];
                 model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
                 model.InvoiceNumber = formCollection["InvoiceNumber"];
                 model.MaterialIdByCode = int.Parse(formCollection["MaterialIdByCode"]);
@@ -91,7 +91,7 @@ namespace Pspcl.Web.Controllers
                 model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
                 model.Rating = formCollection["Rating"];
                 model.GrnNumber = formCollection["GrnNumber"];
-                model.PrefixNumber = formCollection["PrefixNumber"];
+                model.PrefixNumber = string.IsNullOrEmpty(formCollection["PrefixNumber"]) ? "N/A" : formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];
 
                 //List<int> SerialNumbers = new List<int>();
