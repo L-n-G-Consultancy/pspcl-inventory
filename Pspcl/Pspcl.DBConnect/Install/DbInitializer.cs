@@ -101,7 +101,7 @@ namespace Pspcl.DBConnect.Install
                     IsDeleted = false,
 
                 };
-                var userCreateResponse = await _userManager.CreateAsync(defaultAdmin, "admin");
+                var userCreateResponse = await _userManager.CreateAsync(defaultAdmin, "12345");
                 _logger.LogInformation("Super Admin Created : {@defaultAdmin}", defaultAdmin);
 
                 // Assign Default User Role

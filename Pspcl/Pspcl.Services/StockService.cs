@@ -56,75 +56,75 @@ namespace Pspcl.Services
             return materialCodes.Where(x => x.MaterialTypeId == materialTypeId).ToList();
         }
 
-		public List<SubDivision> GetAllSubDivisions(bool? onlyActive = false)
-		{
-			if (!onlyActive.HasValue)
-			{
-				return _dbcontext.SubDivision.ToList();
-			}
-			return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
-		}
+        public List<SubDivision> GetAllSubDivisions(bool? onlyActive = false)
+        {
+            if (!onlyActive.HasValue)
+            {
+                return _dbcontext.SubDivision.ToList();
+            }
+            return _dbcontext.SubDivision.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
+        }
         public List<string> GetCircleAndDivisionAndLocationCode(int selectedSubDivId, bool? onlyActive = false)
-		{
-			if (onlyActive.HasValue)
-			{
-				SubDivision subDivision = _dbcontext.SubDivision.FirstOrDefault(x => x.Id == selectedSubDivId);			
-				if (subDivision != null)
-				{
-					int divId = subDivision.DivisionId;
-                    string divisionId= divId.ToString();
+        {
+            if (onlyActive.HasValue)
+            {
+                SubDivision subDivision = _dbcontext.SubDivision.FirstOrDefault(x => x.Id == selectedSubDivId);
+                if (subDivision != null)
+                {
+                    int divId = subDivision.DivisionId;
+                    string divisionId = divId.ToString();
 
-					Division Division = _dbcontext.Division.FirstOrDefault(x => x.Id == divId);
-					string divisionName = Division.Name.ToString();
+                    Division Division = _dbcontext.Division.FirstOrDefault(x => x.Id == divId);
+                    string divisionName = Division.Name.ToString();
                     string locationCode = Division.LocationCode.ToString();
 
-					int circleDiv = Division.CircleId;
-                    string circleId= circleDiv.ToString();
-					Circle Circle = _dbcontext.Circle.FirstOrDefault(x => x.Id == circleDiv);
-					string circleName = Circle.Name.ToString();
+                    int circleDiv = Division.CircleId;
+                    string circleId = circleDiv.ToString();
+                    Circle Circle = _dbcontext.Circle.FirstOrDefault(x => x.Id == circleDiv);
+                    string circleName = Circle.Name.ToString();
 
-					List<string> DivisionCircle = new List<string>();
-					DivisionCircle.Add(divisionName);
-					DivisionCircle.Add(circleName);
+                    List<string> DivisionCircle = new List<string>();
+                    DivisionCircle.Add(divisionName);
+                    DivisionCircle.Add(circleName);
                     DivisionCircle.Add(divisionId);
                     DivisionCircle.Add(circleId);
                     DivisionCircle.Add(locationCode);
 
-					return DivisionCircle;
-				}
-			}
-			return new List<string>();
-		}
-   //     public List<List<int>> GetAvailableQuantity(List<int> Ids)
-   //     {
-			//int materialGroupId = Ids[0];
-			//int materialTypeId = Ids[1];
-			//int materialId = Ids[2];
+                    return DivisionCircle;
+                }
+            }
+            return new List<string>();
+        }
+        //     public List<List<int>> GetAvailableQuantity(List<int> Ids)
+        //     {
+        //int materialGroupId = Ids[0];
+        //int materialTypeId = Ids[1];
+        //int materialId = Ids[2];
 
-			//List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
-			//List<int> stockIds = stocks.Select(x => x.Id).ToList();
-			//List<StockMaterial> Materials = _dbcontext.StockMaterial.Where(x => stockIds.Contains(x.StockId)).ToList();
-			//List<int> idList = Materials.Select(x => x.Id).ToList();
-			//var query = _dbcontext.StockMaterialSeries.Where(x => idList.Contains(x.StockMaterialId) && !x.IsIssued);
-			//string sqlQuery = query.ToString();
-			//var MaterialSeries = query.ToList();
-			//List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
-			//int totalAvailableQuantity = quantities.Count();
+        //List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
+        //List<int> stockIds = stocks.Select(x => x.Id).ToList();
+        //List<StockMaterial> Materials = _dbcontext.StockMaterial.Where(x => stockIds.Contains(x.StockId)).ToList();
+        //List<int> idList = Materials.Select(x => x.Id).ToList();
+        //var query = _dbcontext.StockMaterialSeries.Where(x => idList.Contains(x.StockMaterialId) && !x.IsIssued);
+        //string sqlQuery = query.ToString();
+        //var MaterialSeries = query.ToList();
+        //List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
+        //int totalAvailableQuantity = quantities.Count();
 
-			//var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
-		 //       SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
-		 //       SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
-			//}) .ToList();
-           
-			//List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
-			//return ranges;
-   //     }
-		public int AddStock(Stock stock)
-		{
-			_dbcontext.Set<Stock>().Add(stock);
-			_dbcontext.SaveChanges();
-			return stock.Id;
-		}
+        //var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
+        //       SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
+        //       SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
+        //}) .ToList();
+
+        //List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
+        //return ranges;
+        //     }
+        public int AddStock(Stock stock)
+        {
+            _dbcontext.Set<Stock>().Add(stock);
+            _dbcontext.SaveChanges();
+            return stock.Id;
+        }
         public int AddStockMaterial(StockMaterial stockMaterial)
         {
             _dbcontext.Set<StockMaterial>().Add(stockMaterial);
@@ -152,16 +152,16 @@ namespace Pspcl.Services
             return stockInModels;
         }
 
-		public List<StockOutModel> GetStockOutModels()
-		{
+        public List<StockOutModel> GetStockOutModels()
+        {
             var stockOutModels = new List<StockOutModel>
             {
-                
+
             };
-           return stockOutModels;
+            return stockOutModels;
         }
 
-		public string GetMaterialGroupById(int? materialGroupId)
+        public string GetMaterialGroupById(int? materialGroupId)
         {
             var response = _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
             string materialGroupName = response.ToString();
@@ -194,67 +194,67 @@ namespace Pspcl.Services
             return Rating;
         }
 
-		public void UpdateStockMaterialSeries(List<List<int>> requiredIssueData)
-		{
-			foreach (var Item in requiredIssueData)
+        public void UpdateStockMaterialSeries(List<List<int>> requiredIssueData)
+        {
+            foreach (var Item in requiredIssueData)
             {
-				// Get the StockMaterialSeries records that meet the specified conditions
-				var recordsToUpdate = _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == Item[0] && x.SerialNumber >= Item[1] && x.SerialNumber <= Item[2]);
+                // Get the StockMaterialSeries records that meet the specified conditions
+                var recordsToUpdate = _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == Item[0] && x.SerialNumber >= Item[1] && x.SerialNumber <= Item[2]);
 
-				// Loop through each record and update the abc column value to 1
-				foreach (var record in recordsToUpdate)
-				{
-					record.IsIssued = true;
-				}
-				_dbcontext.SaveChanges();
-			}
-		}
-		public int IssueStock(StockIssueBook stockIssueBook)
-		{
-			_dbcontext.Set<StockIssueBook>().Add(stockIssueBook);
+                // Loop through each record and update the abc column value to 1
+                foreach (var record in recordsToUpdate)
+                {
+                    record.IsIssued = true;
+                }
+                _dbcontext.SaveChanges();
+            }
+        }
+        public int IssueStock(StockIssueBook stockIssueBook)
+        {
+            _dbcontext.Set<StockIssueBook>().Add(stockIssueBook);
 
-			_dbcontext.SaveChanges();
+            _dbcontext.SaveChanges();
             return stockIssueBook.Id;
-		}
-		public void StockBookMaterial(StockBookMaterial stockBookMaterial)
-		{			
-			_dbcontext.Set<StockBookMaterial>().Add(stockBookMaterial);
-			_dbcontext.SaveChanges();
-			return;
-		}
-		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId)
-		{
-			List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
-			List<string> distinctMakes = stocks.Select(x => x.Make).Distinct().ToList();
+        }
+        public void StockBookMaterial(StockBookMaterial stockBookMaterial)
+        {
+            _dbcontext.Set<StockBookMaterial>().Add(stockBookMaterial);
+            _dbcontext.SaveChanges();
+            return;
+        }
+        public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId)
+        {
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
+            List<string> distinctMakes = stocks.Select(x => x.Make).Distinct().ToList();
 
-			Dictionary<string, List<int>> makeWithStockIds = new Dictionary<string, List<int>>();
-			List<int> stockId = new List<int>();
-			foreach (string make in distinctMakes)
-			{
-				stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
-				stockId = stocks.Select(x => x.Id).ToList();
+            Dictionary<string, List<int>> makeWithStockIds = new Dictionary<string, List<int>>();
+            List<int> stockId = new List<int>();
+            foreach (string make in distinctMakes)
+            {
+                stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
+                stockId = stocks.Select(x => x.Id).ToList();
 
-				makeWithStockIds.Add(make, stockId);
-			}
+                makeWithStockIds.Add(make, stockId);
+            }
 
-			Dictionary<String, int> makesAndQuantities = new Dictionary<String, int>();
+            Dictionary<String, int> makesAndQuantities = new Dictionary<String, int>();
 
             foreach (KeyValuePair<string, List<int>> keyValuePair in makeWithStockIds)
-			{
-				string Make = keyValuePair.Key;
-				List<int> stockIdList = keyValuePair.Value.ToList();
+            {
+                string Make = keyValuePair.Key;
+                List<int> stockIdList = keyValuePair.Value.ToList();
 
-				var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id);
-				List<int> stockMaterialIdsList = query.ToList();
+                var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id);
+                List<int> stockMaterialIdsList = query.ToList();
 
                 List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued).ToList();
                 List<int> idList = Materials.Select(x => x.Id).ToList();
                 int QuantityAgainstMake = idList.Count();
 
                 makesAndQuantities.Add(Make, QuantityAgainstMake);
-			}
-			return makesAndQuantities;
-		}
+            }
+            return makesAndQuantities;
+        }
 
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId)
         {
@@ -284,7 +284,8 @@ namespace Pspcl.Services
                 List<int> idList = Materials.Select(x => x.Id).ToList();
 
 
-                var materialRanges = Materials.GroupBy(ms => ms.StockMaterialId).Select(g => new {
+                var materialRanges = Materials.GroupBy(ms => ms.StockMaterialId).Select(g => new
+                {
                     StockMaterialId = g.Key,
                     SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
                     SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
@@ -296,6 +297,71 @@ namespace Pspcl.Services
             }
             return availableMakesAndRows;
         }
+        public string GetCorrespondingMakeValue(string invoiceNumber)
+        {
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.InvoiceNumber == invoiceNumber).ToList();
+            if (stocks.Count > 0)
+            {
+                string Make = stocks.Select(x => x.Make).FirstOrDefault().ToString();
+                return Make;
+            }
+            else
+                return "Enter Make";
+        }
+
+
+        public bool isGrnNumberExist(string GrnNumber)
+        {
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.GrnNumber == GrnNumber).ToList();
+            if (stocks.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId, int materialTypeId, int materialId, string make)
+        {
+
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
+            List<int> stockId = stocks.Select(x => x.Id).ToList();
+
+            // var stockMaterialIdList = new List<int>();
+            // var SerialNumber = _dbcontext.StockMaterial.Where(x => stockMaterialIdList.Contains(x.StockId));
+            // List<int> ListOfIds = SerialNumber.Select(x => x.Id).ToList();
+            // var isSerialNumberRepeated = _dbcontext.StockMaterialSeries.Where(x => ListOfIds.Contains(x.StockMaterialId));
+
+
+            //List<int> serialNumbersList = isSerialNumberRepeated.Select(x => x.SerialNumber).ToList();
+            // var isSerialRepeated = _dbcontext.StockMaterialSeries.Where(x => serialNumbers.Contains(x.StockMaterialId));
+
+            //var isSerialR = serialNumbersList.Where(x => serialNumbers.Contains(x.serialNumbers));
+
+            List<StockMaterial> stockMaterial = _dbcontext.StockMaterial.Where(x => stockId.Contains(x.StockId)).ToList();
+            List<int> stockMaterialId = stockMaterial.Select(x => x.Id).ToList();
+
+
+            List<StockMaterialSeries> stockMaterialSeries = _dbcontext.StockMaterialSeries.Where(x => stockMaterialId.Contains(x.StockMaterialId)).ToList();
+            List<int> SerialNumberList = stockMaterialSeries.Select(x => x.SerialNumber).ToList();
+
+            bool isContained = SerialNumberList.Any(x => serialNumbers.Contains(x));
+
+            //
+            //List<StockMaterialSeries> stockMaterialSeriesList = _dbcontext.StockMaterialSeries.Where(x => stockMaterialId.Contains(x.StockMaterialId)&& stockMaterialSeries.Contains(serialNumbers).ToList();
+
+
+
+
+            if (isContained)
+            {
+
+                return true;
+            }
+            return false;
+        }
     }
+
+
+
 }
 
