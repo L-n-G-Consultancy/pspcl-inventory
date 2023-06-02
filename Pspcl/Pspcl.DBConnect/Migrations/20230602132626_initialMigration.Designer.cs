@@ -12,8 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230523112920_updationsInTable")]
-    partial class updationsInTable
+    [Migration("20230602132626_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,6 +229,9 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TestingCharges")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialTypeId");
@@ -338,6 +341,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("GrnDate")
                         .HasColumnType("datetime2");
 
@@ -363,6 +369,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<int>("MaterialTypeId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PrefixNumber")
                         .IsRequired()
@@ -397,6 +406,10 @@ namespace Pspcl.DBConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MaterialGroupId")
                         .HasColumnType("int");
 
@@ -425,17 +438,19 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("CircleId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CurrentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DivisionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("JuniorEngineerName")
-                        .IsRequired()
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Make")
+                    b.Property<string>("JuniorEngineerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -447,6 +462,9 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SubDivisionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestingCharges")
                         .HasColumnType("int");
 
                     b.Property<string>("TransactionId")

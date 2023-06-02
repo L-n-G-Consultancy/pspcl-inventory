@@ -226,6 +226,9 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TestingCharges")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialTypeId");
@@ -335,6 +338,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("GrnDate")
                         .HasColumnType("datetime2");
 
@@ -360,6 +366,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<int>("MaterialTypeId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PrefixNumber")
                         .IsRequired()
@@ -426,11 +435,17 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("CircleId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CurrentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DivisionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JuniorEngineerName")
                         .IsRequired()
@@ -444,6 +459,9 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SubDivisionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestingCharges")
                         .HasColumnType("int");
 
                     b.Property<string>("TransactionId")

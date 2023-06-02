@@ -35,6 +35,7 @@ namespace Pspcl.DBConnect.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationCode = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -121,7 +122,8 @@ namespace Pspcl.DBConnect.Migrations
                     MaterialGroupId = table.Column<int>(type: "int", nullable: false),
                     StockIssueBookId = table.Column<int>(type: "int", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,7 +144,9 @@ namespace Pspcl.DBConnect.Migrations
                     SubDivisionId = table.Column<int>(type: "int", nullable: false),
                     CircleId = table.Column<int>(type: "int", nullable: false),
                     JuniorEngineerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TestingCharges = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,7 +222,9 @@ namespace Pspcl.DBConnect.Migrations
                     MaterialTypeId = table.Column<int>(type: "int", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,6 +245,7 @@ namespace Pspcl.DBConnect.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TestingCharges = table.Column<int>(type: "int", nullable: false),
                     MaterialTypeId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
