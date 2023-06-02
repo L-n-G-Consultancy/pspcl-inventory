@@ -124,27 +124,26 @@ $(function () {
     });
 });
 
-
-
-//$(function () {
-//    $("#SelectedSubDivId").on("change", function () {
-//        var selectedSubDivId = $(this)[0].selectedIndex;
-//        $("#Division").empty();
-//        if (selectedSubDivId) {
-//            $.ajax({
-//                url: "/IssueStock/GetCircleAndDivision",
-//                type: "GET",
-//                data: { SelectedSubDivId: selectedSubDivId },
-//                success: function (result) {
-//                    $("#Division").val(result[0]);
-//                    $("#DivisionId").val(result[2]);
-//                    $("#Circle").val(result[1]);
-//                    $("#CircleId").val(result[3]);
-//                }
-//            });
-//        }
-//    });
-//});
+$(function () {
+    $("#SelectedSubDivId").on("change", function () {
+        var selectedSubDivId = $(this)[0].selectedIndex;
+        $("#Division").empty();
+        if (selectedSubDivId) {
+            $.ajax({
+                url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
+                type: "GET",
+                data: { SelectedSubDivId: selectedSubDivId },
+                success: function (result) {
+                    $("#Division").val(result[0]);
+                    $("#DivisionId").val(result[2]);
+                    $("#Circle").val(result[1]);
+                    $("#CircleId").val(result[3]);
+                    $("#LocationCode").val(result[4]);
+                }
+            });
+        }
+    });
+});
 
 
 
@@ -272,6 +271,72 @@ function validateSerialNumbers(listOfSerialNumber) {
 //        }
 //    });
 //});
+//$(function () {
+//    $("#materialId").on("change", function () {
+//        var materialGroupId = $("#materialGroupId").val();
+//        var materialTypeId = $("#materialTypeId").val();
+//        var materialId = $(this).val();
+//        $("#AvailableStock").val('');
+//        if (materialId) {
+//            $.ajax({
+//                url: "/IssueStock/GetAvailableStockRows",
+//                type: "GET",
+//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+//                success: function (result) {
+//                    if (parseInt(result) > 0)
+//                        $("#AvailableStock").text(result).val(result);
+//                    else {
+//                        $('#stockNotAvailableModal').modal('show');
+//                    }
+//                }
+//            });
+//        }
+//    });
+//});   
+
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#AvailableStock").val('');
+        
+
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/DisplayMakeWithQuantity",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (response) {
+                    $('#issueMaterialTableBody').empty();
+
+                    var keys = Object.keys(response);
+                    if (keys.length > 0) {
+                        
+                        $('#issueMaterial').show();
+
+                        for (var i = 0; i < keys.length; i++) {
+                            var key = keys[i];
+                            var rowCounter = i+1;
+                            var value = response[key];
+                            var rowHtml = '<tr>';
+                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" value="' + key + '" readonly/></td>';
+                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
+                            rowHtml += '<td><input type="text" class="required-quantity-input" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" /></td>';
+                            rowHtml += '</tr>';
+                            $('#issueMaterialTableBody').append(rowHtml);
+                        }
+                    } else {
+                        // Hide the table if the response is empty
+                        $('#issueMaterial').hide();
+                    }
+                }
+
+
+            });
+        }
+    });
+});   
 
 $(document).ready(function () {
     showModal('', '');
@@ -296,7 +361,7 @@ function showModal(alertMessage, status) {
 
 }
 
-$('#StockForm').on('submit', function (event) {
+$(document).on('submit', '#StockForm', function (event) {
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 

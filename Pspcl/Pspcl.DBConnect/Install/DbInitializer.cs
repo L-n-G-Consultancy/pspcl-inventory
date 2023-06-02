@@ -544,7 +544,11 @@ namespace Pspcl.DBConnect.Install
                     new SubDivision(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,DivisionId=23},
 
                     new SubDivision(){Name="APDRP GSP",IsActive=true,IsDeleted=false,DivisionId=24},
-                   
+
+                    new SubDivision(){Name="APDRP",IsActive=true,IsDeleted=false,DivisionId=25},
+                    new SubDivision(){Name="METERING JALANDHAR",IsActive=true,IsDeleted=false,DivisionId=26},
+
+
                 };
                 _identityContext.SubDivision.AddRange(SubDivisionData);
                 await _identityContext.SaveChangesAsync();

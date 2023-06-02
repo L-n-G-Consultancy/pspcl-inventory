@@ -12,8 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230525105224_Initial")]
-    partial class Initial
+    [Migration("20230523112920_updationsInTable")]
+    partial class updationsInTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,9 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("LocationCode")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
