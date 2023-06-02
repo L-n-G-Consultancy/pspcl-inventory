@@ -16,8 +16,8 @@ var addStock = {
         var rowCounter = rowCount + 1;
         var newRow = $('<tr>');
         var cols = '';
-        cols += '<td><div class="required text-danger">*</div><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From" required></td>';
-        cols += '<td><div class="required text-danger">*</div><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To" required></td>';
+        cols += '<td><span class="required text-danger">*</span><input name="row_' + rowCounter + '_from" type="number" min="1" class="from-input" placeholder="From" required></td>';
+        cols += '<td><span class="required text-danger">*</span><input name="row_' + rowCounter + '_to" type="number" min="1" class="to-input" placeholder="To" required></td>';
         cols += '<td><input name="row_' + rowCounter + '_qty" type="number" class="qty-input" placeholder="Quantity" readonly></td>';
         cols += '<td><button type="button" class="btn btn-danger remove-row"><i class="fas fa-minus"></i></button></td>';
         newRow.append(cols);
@@ -151,7 +151,7 @@ $(function () {
 var alertMessage = '';
 
 function validateInputs() {
-    var isValid = true;
+    var isValidMsg = "";
     var listOfSerialNumber = [];
     $('.to-input').each(function () {
         var $this = $(this);
@@ -165,31 +165,21 @@ function validateInputs() {
         }
 
         if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
-            isValid = false;
-            $this.addClass('is-invalid');
+            isValidMsg = "qtynegative";
+            $this.addClass('is-invalid'); 
         }
     });
 
     if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
 
-        isValid = false;
-
-        return false;
+        isValidMsg = "duplicatesrno";
     }
-  
-    if (validateSerialNumbers(listOfSerialNumber)) {
-        isValid = false;
-        return isValid;
-        
-    };
-
-
-    return isValid;
+    return isValidMsg;
 }
 
 
 function validateSerialNumbers(listOfSerialNumber) {
-    
+    var isValid = true;
 
     var materialGroupId = parseInt($("#materialGroupId").val());
     var materialTypeId = parseInt($("#materialTypeId").val());
@@ -302,8 +292,9 @@ function showModal(alertMessage, status) {
 $('#StockForm').on('submit', function (event) {
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
+
     var response = validateInputs();
-    if (response =="qtynegative") {
+    if (response == "qtynegative") {
         alertMessage = 'Quantity cannot be zero or negative';
         showModal(alertMessage, 'Error..!');
     } else if (response == "duplicatesrno") {
@@ -317,10 +308,10 @@ $('#StockForm').on('submit', function (event) {
     else if (userEnteredRate < 0) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
-    
+
     else {
-        alert("on to preview");
-       //this.submit();
+
+        this.submit();
     }
 });
 
@@ -477,5 +468,5 @@ function ClearGrnDate() {
 
 
 
-   
+
 
