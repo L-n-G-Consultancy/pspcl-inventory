@@ -166,7 +166,7 @@ function validateInputs() {
 
         if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
             isValidMsg = "qtynegative";
-            $this.addClass('is-invalid'); 
+            $this.addClass('is-invalid');
         }
         else {
             $this.removeClass('is-invalid');
@@ -322,6 +322,7 @@ $('#StockForm').on('submit', function (event) {
     }
 });
 
+
 //$('#IssueStockForm1').on('submit', function (event) {
 //    event.preventDefault();
 //    var quantity = $('#requiredQuantity').val();
@@ -368,7 +369,6 @@ function getCorrespondingMakeValue(invoiceNumber) {
         data: { invoiceNumber: invoiceNumber },
         success: function (result) {
 
-            console.log("hey");
 
             if (result != "Enter Make") {
                 $('#Make').val(result);

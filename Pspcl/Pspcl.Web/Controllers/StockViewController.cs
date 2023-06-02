@@ -200,8 +200,8 @@ namespace Pspcl.Web.Controllers
         public bool serverSideSerialNumberValidation(List<int> listOfSerialNumber, int materialGroupId, int MaterialTypeId, int materialId, string make)
 
         {
-            bool isSrNoAlreadyPresent = _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
-            return isSrNoAlreadyPresent;
+            return _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
+            
         }
 
 
