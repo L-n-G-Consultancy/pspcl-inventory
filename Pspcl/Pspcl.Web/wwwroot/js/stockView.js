@@ -166,40 +166,34 @@ function validateInputs() {
 
         if (fromVal && toVal && parseInt(fromVal) > parseInt(toVal)) {
             isValidMsg = "qtynegative";
-            $this.addClass('is-invalid'); 
+            $this.addClass('is-invalid');
         }
+        else {
+            $this.removeClass('is-invalid');
+        }
+
     });
 
     if (listOfSerialNumber.length != Array.from(new Set(listOfSerialNumber)).length) {
 
-        isValid = false;
-
-        return isValid;
+        isValidMsg = "duplicatesrno";
     }
-
-    if (validateSerialNumbers(listOfSerialNumber)) {
-        isValid = false;
-        return isValid;
-
-    };
-
-
-    return isValid;
+    return isValidMsg;
 }
 
 
 function validateSerialNumbers(listOfSerialNumber) {
-
+    var isValid = true;
 
     var materialGroupId = parseInt($("#materialGroupId").val());
     var materialTypeId = parseInt($("#materialTypeId").val());
     var materialId = parseInt($("#materialId").val());
     var make = $("#Make").val();
+
     $.ajax({
 
         url: "/StockView/serverSideSerialNumberValidation",
         type: "POST",
-        async: false,
         data: {
             listOfSerialNumber: listOfSerialNumber,
             materialGroupId: materialGroupId,
@@ -208,18 +202,23 @@ function validateSerialNumbers(listOfSerialNumber) {
             make: make
         },
         success: function (result) {
-
-
-            if (result) {
-                showModal("Serial no. already exists", "error");
+            var isPresent = result;
+            console.log(result);
+            if (isPresent) {
+                //show Modal
+                isvalid = false;
             }
-            return result;
-
+            else {
+                //continue
+                isvalid = true;
+            }
         },
         error: function (xhr, status, error) {
             // Handle the error
         }
     });
+
+    return isValid;
 }
 
 //$(function () {
@@ -300,18 +299,15 @@ function showModal(alertMessage, status) {
 $('#StockForm').on('submit', function (event) {
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
-    if (!validateInputs()) {
-        alertMessage = 'Table data is not correct.';
+
+    var response = validateInputs();
+    if (response == "qtynegative") {
+        alertMessage = 'Quantity cannot be zero or negative';
+        showModal(alertMessage, 'Error..!');
+    } else if (response == "duplicatesrno") {
+        alertMessage = 'Duplicate serial numbers entered. Please enter unique serial numbers.';
         showModal(alertMessage, 'Error..!');
     }
-    //var response = validateInputs();
-    //if (response == "qtynegative") {
-    //    alertMessage = 'Quantity cannot be zero or negative';
-    //    showModal(alertMessage, 'Error..!');
-    //} else if (response == "duplicatesrno") {
-    //    alertMessage = 'Duplicate serial numbers entered. Please enter unique serial numbers.';
-    //    showModal(alertMessage, 'Error..!');
-    //}
     else if (userEnteredRate > 1000000) {
         alertMessage = 'Rate cannot exceed Rs 10,00,000';
         showModal(alertMessage, 'Error..!');
@@ -321,10 +317,11 @@ $('#StockForm').on('submit', function (event) {
     }
 
     else {
-        alert("on to preview");
-        //this.submit();
+
+        this.submit();
     }
 });
+
 
 //$('#IssueStockForm1').on('submit', function (event) {
 //    event.preventDefault();
