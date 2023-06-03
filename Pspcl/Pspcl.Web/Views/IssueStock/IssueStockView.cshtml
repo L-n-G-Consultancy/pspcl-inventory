@@ -20,35 +20,36 @@
 
         @using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1" }))
         {
-            <div class="form-group col-md-6">
+           @* <div class="form-group col-md-6">
                 <label for="CurrentDate">Current Date:</label>
                 <span id="CurrentDateLabel"></span>
             </div>
 
             <script>
                 var currentDate = new Date();
-                var options = { year: 'numeric', month: 'long', day: 'numeric' };
-                var formattedDate = currentDate.toLocaleDateString('en-US', options);
+                var day = String(currentDate.getDate()).padStart(2, '0');
+                var month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                var year = currentDate.getFullYear();
+                var formattedDate = day + '-' + month + '-' + year;
                 document.getElementById('CurrentDateLabel').textContent = formattedDate;
             </script>
-
-
+*@
+           
             <div class="row">
 
-                @*<div class="form-group col-md-6">
-                    <label for="CurrentDate">Current Date:</label>
-                    <span id="CurrentDateLabel"></span>
-                </div>
+                <div class="form-group col-md-6">
+                    <label for="currentDate">Current Date:</label>
+                    <input type="text" id="currentDate" readonly>
 
+                </div>
                 <script>
-                    var currentDate = new Date();
-                    var day = String(currentDate.getDate()).padStart(2, '0');
-                    var month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                    var year = currentDate.getFullYear();
-                    var formattedDate = day + '-' + month + '-' + year;
-                    document.getElementById('CurrentDateLabel').textContent = formattedDate;
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var currentDateField = document.getElementById('currentDate');
+                        var currentDate = new Date().toLocaleDateString();
+                        currentDateField.value = currentDate;
+                    });
                 </script>
-*@
+
 
 
                 <div class="form-group col-md-6">
@@ -136,6 +137,15 @@
                     @Html.TextBoxFor(model => model.Circle, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
                     <div class="invalid-feedback">
                         @Html.HiddenFor(m => m.CircleId,new{@id="CircleId"})
+                        Please provide a valid state.
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="">Cost</label>
+                    @Html.TextBoxFor(model => model.Cost, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
+                    <div class="invalid-feedback">
+                        
                         Please provide a valid state.
                     </div>
                 </div>

@@ -309,7 +309,6 @@ namespace Pspcl.Services
                 return "Enter Make";
         }
 
-
         public bool isGrnNumberExist(string GrnNumber)
         {
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.GrnNumber == GrnNumber).ToList();
@@ -326,17 +325,6 @@ namespace Pspcl.Services
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
             List<int> stockId = stocks.Select(x => x.Id).ToList();
 
-            // var stockMaterialIdList = new List<int>();
-            // var SerialNumber = _dbcontext.StockMaterial.Where(x => stockMaterialIdList.Contains(x.StockId));
-            // List<int> ListOfIds = SerialNumber.Select(x => x.Id).ToList();
-            // var isSerialNumberRepeated = _dbcontext.StockMaterialSeries.Where(x => ListOfIds.Contains(x.StockMaterialId));
-
-
-            //List<int> serialNumbersList = isSerialNumberRepeated.Select(x => x.SerialNumber).ToList();
-            // var isSerialRepeated = _dbcontext.StockMaterialSeries.Where(x => serialNumbers.Contains(x.StockMaterialId));
-
-            //var isSerialR = serialNumbersList.Where(x => serialNumbers.Contains(x.serialNumbers));
-
             List<StockMaterial> stockMaterial = _dbcontext.StockMaterial.Where(x => stockId.Contains(x.StockId)).ToList();
             List<int> stockMaterialId = stockMaterial.Select(x => x.Id).ToList();
 
@@ -346,12 +334,6 @@ namespace Pspcl.Services
 
             bool isContained = SerialNumberList.Any(x => serialNumbers.Contains(x));
 
-            //
-            //List<StockMaterialSeries> stockMaterialSeriesList = _dbcontext.StockMaterialSeries.Where(x => stockMaterialId.Contains(x.StockMaterialId)&& stockMaterialSeries.Contains(serialNumbers).ToList();
-
-
-
-
             if (isContained)
             {
 
@@ -359,9 +341,31 @@ namespace Pspcl.Services
             }
             return false;
         }
+
+        public int GetCost(int materialGroupId, int materialTypeId, int materialId, Dictionary<string, int> makesAndUnits)
+        {
+            List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
+            int testingCharges = material.Select(x => x.TestingCharges).First();
+
+            string make;
+            int totalCost = 0;
+            foreach (KeyValuePair<string, int> makeAndUnits in makesAndUnits)
+            {
+                make = makeAndUnits.Key;
+                
+                int units = makeAndUnits.Value;
+
+                List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
+                //int rate = Convert.ToInt32(stocks.Select(x => x.Rate).ToList());
+                int rate = Convert.ToInt32( stocks.Select(x => x.Rate).First());
+
+                // rate needs to be analyzed because there might be multiple makes against same materialGroupId, materialTypeId, materialId, and make, 
+                // because user can go to add stock screen again and again and add the material with all same specifications, but sifferent rates.
+
+                totalCost += (rate + ((3*rate)/100)+ testingCharges) * units ;
+            }
+            return totalCost;
+        }
     }
-
-
-
 }
 

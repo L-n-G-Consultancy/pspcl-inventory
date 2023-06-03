@@ -64,7 +64,7 @@ namespace Pspcl.Web.Controllers
              availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
 
-			 int x = 12;
+			 int x = 13;
              foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
@@ -191,5 +191,15 @@ namespace Pspcl.Web.Controllers
             return Json(Result);
         }
 
-	}
+         public JsonResult GetCost(int materialGroupId, int materialTypeId, int materialId, Dictionary<string, int> makesAndUnits)
+
+         {
+            int Result = _stockService.GetCost(materialGroupId, materialTypeId, materialId, makesAndUnits);
+            return Json(Result);
+         }
+
+
+
+
+    }
 }

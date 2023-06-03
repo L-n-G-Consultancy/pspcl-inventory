@@ -434,8 +434,6 @@ function getCorrespondingMakeValue(invoiceNumber) {
         data: { invoiceNumber: invoiceNumber },
         success: function (result) {
 
-            console.log("hey");
-
             if (result != "Enter Make") {
                 $('#Make').val(result);
                 $('#Make').prop('readonly', true);
@@ -451,7 +449,6 @@ function getCorrespondingMakeValue(invoiceNumber) {
         }
     });
 }
-
 function GrnValidation(GrnNumber) {
     $.ajax({
 
@@ -535,8 +532,45 @@ function ClearGrnDate() {
 //    });
 //}
 
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#Cost").val('');
 
+        var makesAndUnits = {};
+        function addMakeAndUnits(makesAndUnits, make, units) {
+            makesAndUnits[make] = units;
+        }
 
+        $('.to-input').each(function () {
+            var $this = $(this);
+            var $row = $this.closest('tr');
+
+            var make = $row.find('.from-input').val();
+            var units = $row.find('.from-input').val();
+
+            addMakeAndUnits(makesAndUnits, make, units);
+
+        });
+
+        // create a dictionary of makes, noOfUnits, and pass it to the controller
+
+        
+
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/GetCost",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, makesAndUnits: makesAndUnits },
+                success: function (response) {
+                    $('#Cost').val(reult);                    
+                }
+            });
+        }
+    });
+}); 
 
 
 
