@@ -15,8 +15,15 @@
                     <th scope="col">GRN Date</th>
                     <th scope="col">GRN No.</th>                  
                     <th scope="col">Invoice Date</th>
-                    <th scope="col">Invoice No.</th>                 
-                    <th scope="col">Material Group</th>
+                    <th scope="col">Invoice No.</th>
+
+                    <th scope="col">Prefix</th>
+                    <th scope="col">Make</th>
+                    <th scope="col">T.R.R</th>
+
+
+                    
+                    
                     <th scope="col">Material Type</th>
                     <th scope="col">Material Code</th>
                     <th scope="col">Rate</th>
@@ -31,8 +38,10 @@
                         <td>@stockInModel.Stock.GrnDate.ToString().Split(' ')[0]</td>
                         <td>@stockInModel.Stock.GrnNumber</td>                        
                         <td>@stockInModel.Stock.InvoiceDate.ToString().Split(' ')[0]</td>
-                        <td>@stockInModel.Stock.InvoiceNumber</td>                       
-                        <td>@stockInModel.MaterialGroup</td>
+                        <td>@stockInModel.Stock.InvoiceNumber</td>                         
+                        <td>@stockInModel.Stock.PrefixNumber</td>                       
+                        <td>@stockInModel.Stock.Make</td>                     
+                        <td>@stockInModel.Stock.TestReportReference</td>                     
                         <td>@stockInModel.MaterialName</td>
                         <td>@stockInModel.MaterialCode</td>
                         <td>@stockInModel.Stock.Rate</td>
