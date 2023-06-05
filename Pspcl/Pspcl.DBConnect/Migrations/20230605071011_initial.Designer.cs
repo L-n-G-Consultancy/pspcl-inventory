@@ -12,8 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230602132626_initialMigration")]
-    partial class initialMigration
+    [Migration("20230605071011_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -462,9 +462,6 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SubDivisionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TestingCharges")
                         .HasColumnType("int");
 
                     b.Property<string>("TransactionId")

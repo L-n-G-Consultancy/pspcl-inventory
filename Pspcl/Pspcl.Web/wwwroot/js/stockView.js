@@ -127,7 +127,9 @@ $(function () {
 $(function () {
     $("#SelectedSubDivId").on("change", function () {
         var selectedSubDivId = $(this)[0].selectedIndex;
-        $("#Division").empty();
+        $("#Division").val("");
+        $("#Circle").val("");
+        $("#LocationCode").val("");
         if (selectedSubDivId) {
             $.ajax({
                 url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
@@ -470,8 +472,6 @@ function GrnValidation(GrnNumber) {
         }
     });
 }
-
-
 function validateDates() {
     var invoiceDate = document.getElementById("invoiceDate").value;
     var grnDate = document.getElementById("grnDate").value;
@@ -533,10 +533,13 @@ function ClearGrnDate() {
 //}
 
 $(function () {
-    $("#materialId").on("change", function () {
+    /*$("#materialId").on("change", function () {*/
+
+    $(".required-quantity-input").on("change", function () {
         var materialGroupId = $("#materialGroupId").val();
         var materialTypeId = $("#materialTypeId").val();
-        var materialId = $(this).val();
+        var materialId = $("#materialId").val();
+
         $("#Cost").val('');
 
         var makesAndUnits = {};
@@ -544,13 +547,17 @@ $(function () {
             makesAndUnits[make] = units;
         }
 
-        $('.to-input').each(function () {
+        $('.make-input').each(function () {
             var $this = $(this);
             var $row = $this.closest('tr');
 
-            var make = $row.find('.from-input').val();
-            var units = $row.find('.from-input').val();
+            var make = $row.find('.make-input').val();
+            var units = $row.find('.required-quantity-input').val();
 
+            if (".required-quantity-input".val() == null) {
+                displayModal("Please Enter the quantity!");
+            }
+ 
             addMakeAndUnits(makesAndUnits, make, units);
 
         });

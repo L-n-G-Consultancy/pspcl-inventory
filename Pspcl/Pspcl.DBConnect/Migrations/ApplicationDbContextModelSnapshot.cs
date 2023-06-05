@@ -461,9 +461,6 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("SubDivisionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TestingCharges")
-                        .HasColumnType("int");
-
                     b.Property<string>("TransactionId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

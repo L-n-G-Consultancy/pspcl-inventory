@@ -20,26 +20,11 @@
 
         @using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1" }))
         {
-           @* <div class="form-group col-md-6">
-                <label for="CurrentDate">Current Date:</label>
-                <span id="CurrentDateLabel"></span>
-            </div>
-
-            <script>
-                var currentDate = new Date();
-                var day = String(currentDate.getDate()).padStart(2, '0');
-                var month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                var year = currentDate.getFullYear();
-                var formattedDate = day + '-' + month + '-' + year;
-                document.getElementById('CurrentDateLabel').textContent = formattedDate;
-            </script>
-*@
-           
             <div class="row">
 
                 <div class="form-group col-md-6">
                     <label for="currentDate">Current Date:</label>
-                    <input type="text" id="currentDate" readonly>
+                    <input type="text" class="form-control"  id="currentDate" readonly>
 
                 </div>
                 <script>
@@ -49,8 +34,6 @@
                         currentDateField.value = currentDate;
                     });
                 </script>
-
-
 
                 <div class="form-group col-md-6">
                     <label for="date">Sr No Date</label>
@@ -121,7 +104,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group col-md-6">
                     <label for="MaterialId">Material Code:</label>
 
@@ -157,22 +139,20 @@
                 </div>*@
 
 		    </div>
-                    <div id="issueMaterial" class="mt-3 mb-12 border-black-top pt-4" style=" display:none;">
 
-                        <table id="issueMaterialTable" class="table table-responsive custom-table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Make</th>
-                                    <th scope="col">Availale Quantity</th>
-                                    <th scope="col">Required Quantity</th>
-
-                                </tr>
-                            </thead>
-                            <tbody id="issueMaterialTableBody">
-                            </tbody>
-                        </table>
-
-                    </div>
+            <div id="issueMaterial" class="mt-3 mb-12 border-black-top pt-4" style=" display:none;">
+                <table id="issueMaterialTable" class="table table-responsive custom-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Make</th>
+                            <th scope="col">Availale Quantity</th>
+                            <th scope="col">Required Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issueMaterialTableBody">
+                    </tbody>
+                </table>
+            </div>
 
             <div class="col-md-12 text-center">
                 <label for="">&nbsp;</label>
@@ -193,16 +173,19 @@
 						</button>
 					</div>
 					<div class="modal-body">
+
 						<p class="mx-auto my-5 font-weight-normal">@TempData["Message"]</p>						
-							<table class="table table-responsive custom-table">
-								<thead class="thead-dark">
-									<tr>
-                                        <th scope="col">Make</th>
-										<th scope="col">Sr. No From</th>
-										<th scope="col">Sr. No To</th>
-										<th scope="col">QTY</th>
-									</tr>
-								</thead>
+						
+                        <table class="table table-responsive custom-table">
+
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Make</th>
+                                    <th scope="col">Sr. No From</th>
+                                    <th scope="col">Sr. No To</th>
+                                    <th scope="col">QTY</th>
+                                </tr>
+                            </thead>
 
                             <tbody id="issuedRows">
                                 @if (Model.IssuedStockRanges != null)
@@ -221,7 +204,7 @@
                                     }
                                 }
                             </tbody>
-							</table>
+                        </table>
 						
 					</div>
 				</div>
