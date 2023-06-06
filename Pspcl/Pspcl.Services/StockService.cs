@@ -185,12 +185,13 @@ namespace Pspcl.Services
         }
         public string GetRatingNameById(int? materialTypeId)
         {
-            var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Rating).FirstOrDefault();
-            if (response == null)
-            {
-                return "None";
-            }
-            string Rating = response.ToString();
+            //    var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Rating).FirstOrDefault();
+            //    if (response == null)
+            //    {
+            //        return "None";
+            //    }
+            //string Rating = response.ToString();
+            string Rating = "";
             return Rating;
         }
 

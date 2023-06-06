@@ -12,8 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230523112920_updationsInTable")]
-    partial class updationsInTable
+    [Migration("20230606122304_inittables")]
+    partial class inittables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,6 +229,9 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TestingCharges")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialTypeId");
@@ -292,12 +295,48 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Rating")
+                    b.HasKey("Id");
+
+                    b.ToTable("MaterialType");
+                });
+
+            modelBuilder.Entity("Pspcl.Core.Domain.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaterialType");
+                    b.ToTable("Rating");
+                });
+
+            modelBuilder.Entity("Pspcl.Core.Domain.RatingMaterialTypeMapping", b =>
+                {
+                    b.Property<int>("MaterialTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RatingId")
+                        .HasColumnType("int");
+
+                    b.ToTable("RatingMaterialTypeMapping");
                 });
 
             modelBuilder.Entity("Pspcl.Core.Domain.Role", b =>
@@ -397,6 +436,10 @@ namespace Pspcl.DBConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Make")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MaterialGroupId")
                         .HasColumnType("int");
 
@@ -432,10 +475,6 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("JuniorEngineerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Make")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -35,7 +35,7 @@ namespace Pspcl.Web.Controllers
                 var model = JsonConvert.DeserializeObject<StockViewModel>(json);
                 model.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
                 model.AvailableMaterialTypes = _stockService.GetAllMaterialTypes((int)model.MaterialGroupId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-                model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+                //model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
                 model.AvailableMaterialCodes = _stockService.GetAllMaterialCodes((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Code }).ToList();
                 return View(model);
             }
@@ -56,13 +56,13 @@ namespace Pspcl.Web.Controllers
             return Json(viewModel.AvailableMaterialTypes);
         }
 
-        public JsonResult getRating(int materialTypeId)
-        {
-            StockViewModel viewModel = new StockViewModel();
-            var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
-            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
-            return Json(viewModel.AvailableRatings);
-        }
+        //public JsonResult getRating(int materialTypeId)
+        //{
+        //    StockViewModel viewModel = new StockViewModel();
+        //    var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
+        //    viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+        //    return Json(viewModel.AvailableRatings);
+        //}
 
         public JsonResult getMaterialCodes(int materialTypeId)
         {
