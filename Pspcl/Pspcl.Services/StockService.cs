@@ -253,6 +253,13 @@ namespace Pspcl.Services
 
                 makesAndQuantities.Add(Make, QuantityAgainstMake);
             }
+            foreach(KeyValuePair<string,int> makeAndQuantity in makesAndQuantities)
+            {
+                if (makeAndQuantity.Value == 0)
+                {
+                    makesAndQuantities.Remove(makeAndQuantity.Key);
+                }
+            }
             return makesAndQuantities;
         }
 
@@ -342,30 +349,23 @@ namespace Pspcl.Services
             return false;
         }
 
-        public int GetCost(int materialGroupId, int materialTypeId, int materialId, Dictionary<string, int> makesAndUnits)
+        public int GetCost(int materialGroupId, int materialTypeId, int materialId, int noOfUnits )    
         {
             List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
             int testingCharges = material.Select(x => x.TestingCharges).First();
 
-            string make;
-            int totalCost = 0;
-            foreach (KeyValuePair<string, int> makeAndUnits in makesAndUnits)
-            {
-                make = makeAndUnits.Key;
-                
-                int units = makeAndUnits.Value;
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
+            int rate = Convert.ToInt32(stocks.Select(x => x.Rate).First());
 
-                List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
-                //int rate = Convert.ToInt32(stocks.Select(x => x.Rate).ToList());
-                int rate = Convert.ToInt32( stocks.Select(x => x.Rate).First());
+            int totalCost = (rate + ((3 * rate) / 100) + testingCharges) * noOfUnits;
 
-                // rate needs to be analyzed because there might be multiple makes against same materialGroupId, materialTypeId, materialId, and make, 
-                // because user can go to add stock screen again and again and add the material with all same specifications, but sifferent rates.
 
-                totalCost += (rate + ((3*rate)/100)+ testingCharges) * units ;
-            }
             return totalCost;
         }
+
+
+
     }
+         
 }
 

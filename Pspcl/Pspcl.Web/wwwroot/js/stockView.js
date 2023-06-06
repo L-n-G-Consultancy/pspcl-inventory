@@ -46,6 +46,9 @@ $(document).ready(() => {
 
 $(function () {
     $("#materialGroupId").on("change", function () {
+        $('#issueMaterial').hide();
+        $("#Cost").val('');
+
         var materialGroupId = $(this).val();
         $("#materialTypeId").empty();
         $("#materialId").empty().append($('<option>').text("--Select Material Code--").val(""));;
@@ -98,6 +101,9 @@ $(function () {
 });
 $(function () {
     $("#materialTypeId").on("change", function () {
+        $('#issueMaterial').hide();
+        $("#Cost").val('');
+
         var materialTypeId = $(this).val();
         $("#materialId").empty();
         $("#makeId").empty();
@@ -222,82 +228,12 @@ function validateSerialNumbers(listOfSerialNumber) {
     return isValid;
 }
 
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#AvailableStock").val('');
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAvailableStockRows",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    if (parseInt(result) > 0)
-//                        $("#AvailableStock").text(result).val(result);
-//                    else {
-//                        showModal('Stock not avaialable.', 'Error..!')
-//                    }
-//                }
-//            });
-//        }
-//    });
-//});   
-
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#makeId").empty();
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAllMakes",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
-//                    $.each(result, function (i, response) {
-//                        if (response == "") {
-//                            $("#makeId").append($('<option>').text("None").val(response));
-//                        } else {
-//                            $("#makeId").append($('<option>').text(response).val(response));
-//                        }
-//                    });
-//                }
-//            });
-//        }
-//        else {
-//            $("#makeId").append($('<option>').text("--Select Make--").val(""));
-//        }
-//    });
-//});
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#AvailableStock").val('');
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAvailableStockRows",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    if (parseInt(result) > 0)
-//                        $("#AvailableStock").text(result).val(result);
-//                    else {
-//                        $('#stockNotAvailableModal').modal('show');
-//                    }
-//                }
-//            });
-//        }
-//    });
-//});   
 
 $(function () {
     $("#materialId").on("change", function () {
+
+        $("#Cost").val('');
+
         var materialGroupId = $("#materialGroupId").val();
         var materialTypeId = $("#materialTypeId").val();
         var materialId = $(this).val();
@@ -322,9 +258,9 @@ $(function () {
                             var rowCounter = i+1;
                             var value = response[key];
                             var rowHtml = '<tr>';
-                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" value="' + key + '" readonly/></td>';
-                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
-                            rowHtml += '<td><input type="text" class="required-quantity-input" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" /></td>';
+                            rowHtml += '<td><input type="text" class="Make_reqQty MakeClass" name="row_' + rowCounter + '_make" id="row_' + rowCounter + '_Make" value="' + key + '" readonly/></td>';
+                            rowHtml += '<td><input type="number" class="Make_reqQty AvailableQtyClass" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
+                            rowHtml += '<td><input type="text" class="Make_reqQty" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" oninput="handleRequiredQuantity(event)" /></td>';
                             rowHtml += '</tr>';
                             $('#issueMaterialTableBody').append(rowHtml);
                         }
@@ -536,55 +472,68 @@ function ClearGrnDate() {
 //    });
 //}
 
-$(function () {
-    /*$("#materialId").on("change", function () {*/
 
-    $(".required-quantity-input").on("change", function () {
-        var materialGroupId = $("#materialGroupId").val();
-        var materialTypeId = $("#materialTypeId").val();
-        var materialId = $("#materialId").val();
 
-        $("#Cost").val('');
 
-        var makesAndUnits = {};
-        function addMakeAndUnits(makesAndUnits, make, units) {
-            makesAndUnits[make] = units;
+var makesAndUnits = {};
+$(document).ready(function () {
+    
+    makesAndUnits = {};
+});
+function handleRequiredQuantity(event) {
+    var materialGroupId = $("#materialGroupId").val();
+    var materialTypeId = $("#materialTypeId").val();
+    var materialId = $("#materialId").val();
+    $("#Cost").val('');
+
+    var units = event.target.value;
+
+    var $input = $(event.target);
+    var $row = $input.closest('tr');
+    var make = $row.find('.MakeClass').val();
+    var availableQty = $row.find('.AvailableQtyClass').val();
+
+    //if (parseInt(availableQty) < parseInt(units)) {
+    //    //displayModal("Stock Unavailable!");
+
+    //    alertMessage = 'Stock Unavailable!';
+    //    showModal(alertMessage, 'Error..!');
+    //}
+
+    var localMakesAndUnits = Object.assign({}, makesAndUnits);
+    
+    console.log($row);
+
+    if (make in localMakesAndUnits) {
+
+        delete localMakesAndUnits[make];
+        delete makesAndUnits[make];
+
+    }
+
+    localMakesAndUnits[make] = units;
+    makesAndUnits = Object.assign({}, localMakesAndUnits);
+    var noOfUnits = 0;
+
+    for (var key in makesAndUnits) {
+        if (makesAndUnits.hasOwnProperty(key)) {
+            var value = parseInt(makesAndUnits[key]);
+            noOfUnits += value;
         }
-
-        $('.make-input').each(function () {
-            var $this = $(this);
-            var $row = $this.closest('tr');
-
-            var make = $row.find('.make-input').val();
-            var units = $row.find('.required-quantity-input').val();
-
-            if (".required-quantity-input".val() == null) {
-                displayModal("Please Enter the quantity!");
-            }
- 
-            addMakeAndUnits(makesAndUnits, make, units);
-
-        });
-
-        // create a dictionary of makes, noOfUnits, and pass it to the controller
-
-        
-
-        if (materialId) {
-            $.ajax({
-                url: "/IssueStock/GetCost",
-                type: "GET",
-                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, makesAndUnits: makesAndUnits },
-                success: function (response) {
-                    $('#Cost').val(reult);                    
-                }
-            });
+    }
+   
+    $.ajax({       
+        url: "/IssueStock/GetCost",
+        type: "GET",
+        data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, noOfUnits: noOfUnits },
+        success: function (response) {
+            $('#Cost').val(response);
         }
     });
-}); 
+}
 
 
 
-
-
-
+function clearTable() {
+    $('#issueMaterial').hide();
+}

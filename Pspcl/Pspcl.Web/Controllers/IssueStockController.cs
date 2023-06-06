@@ -191,10 +191,10 @@ namespace Pspcl.Web.Controllers
             return Json(Result);
         }
 
-         public JsonResult GetCost(int materialGroupId, int materialTypeId, int materialId, Dictionary<string, int> makesAndUnits)
+         public JsonResult GetCost(int materialGroupId, int materialTypeId, int materialId, int noOfUnits)
 
          {
-            int Result = _stockService.GetCost(materialGroupId, materialTypeId, materialId, makesAndUnits);
+            int Result = _stockService.GetCost(materialGroupId, materialTypeId, materialId, noOfUnits);
             return Json(Result);
          }
 
