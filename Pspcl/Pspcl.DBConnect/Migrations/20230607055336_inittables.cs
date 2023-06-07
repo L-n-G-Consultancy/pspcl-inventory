@@ -118,11 +118,14 @@ namespace Pspcl.DBConnect.Migrations
                 name: "RatingMaterialTypeMapping",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     MaterialTypeId = table.Column<int>(type: "int", nullable: false),
                     RatingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_RatingMaterialTypeMapping", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

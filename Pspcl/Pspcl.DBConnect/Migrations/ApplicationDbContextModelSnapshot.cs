@@ -327,11 +327,19 @@ namespace Pspcl.DBConnect.Migrations
 
             modelBuilder.Entity("Pspcl.Core.Domain.RatingMaterialTypeMapping", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("MaterialTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("RatingId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.ToTable("RatingMaterialTypeMapping");
                 });

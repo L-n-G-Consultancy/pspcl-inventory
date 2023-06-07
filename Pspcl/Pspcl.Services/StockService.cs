@@ -36,14 +36,13 @@ namespace Pspcl.Services
             return materialTypes.Where(x => x.MaterialGroupId == materialGroupId).ToList();
 
         }
-        public List<MaterialType> GetAllMaterialRatings(int materialTypeId, bool? onlyActive = false)
+        public List<Tuple<int, string>> GetAllMaterialRatings(int materialTypeId)
         {
-            if (!onlyActive.HasValue)
-            {
-                return _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).ToList();
-            }
-            var rating = _dbcontext.MaterialType.Where(x => (onlyActive.Value && x.IsActive) || (!onlyActive.Value)).ToList();
-            return rating.Where(x => x.Id == materialTypeId).ToList();
+            return _dbcontext.Rating
+            .Join(_dbcontext.RatingMaterialTypeMapping, rating => rating.Id, mapping => mapping.RatingId, (rating, mapping) => new { rating, mapping })
+            .Where(joinResult => joinResult.mapping.MaterialTypeId == materialTypeId)
+           .Select(joinResult => Tuple.Create(joinResult.rating.Id, joinResult.rating.Name))
+            .ToList();
         }
 
         public List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false)
@@ -183,16 +182,14 @@ namespace Pspcl.Services
             string materialCodeName = response.ToString();
             return materialCodeName;
         }
-        public string GetRatingNameById(int? materialTypeId)
+        public string GetRatingNameById(int? ratingId)
         {
-            //    var response = _dbcontext.MaterialType.Where(x => x.Id == materialTypeId).Select(x => x.Rating).FirstOrDefault();
-            //    if (response == null)
-            //    {
-            //        return "None";
-            //    }
-            //string Rating = response.ToString();
-            string Rating = "";
-            return Rating;
+            var response=_dbcontext.Rating.Where(x=>x.Id==ratingId).Select(x => x.Name).FirstOrDefault();
+            if (response == null)
+            {
+                return "None";
+            }
+            return response;
         }
 
         public void UpdateStockMaterialSeries(List<List<int>> requiredIssueData)

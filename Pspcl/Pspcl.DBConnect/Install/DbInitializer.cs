@@ -286,6 +286,78 @@ namespace Pspcl.DBConnect.Install
                 _logger.LogError(ex, "Exception");
             }
         }
+        public async Task CreateDefaultRatingMaterialTypeMapping()
+        {
+            try { 
+
+                    var MappingData = new List<RatingMaterialTypeMapping>()
+                    {
+                    new RatingMaterialTypeMapping() {MaterialTypeId=1,RatingId=1},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=2,RatingId=1},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=3,RatingId=1},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=2},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=3},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=4},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=5},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=6},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=7},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=5,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=6,RatingId=9},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=7,RatingId=9},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=8,RatingId=9},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=9,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=10,RatingId=10},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=11,RatingId=11},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=12,RatingId=12},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=13,RatingId=13},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=14,RatingId=14},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=15,RatingId=10},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=16,RatingId=10},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=17,RatingId=10},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=18,RatingId=15},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=19,RatingId=16},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=20,RatingId=17},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=21,RatingId=18},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=22,RatingId=15},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=23,RatingId=16},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=24,RatingId=17},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=25,RatingId=15},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=26,RatingId=16},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=27,RatingId=19},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=28,RatingId=20},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=29,RatingId=19},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=30,RatingId=19},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=31,RatingId=19},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=32,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=33,RatingId=19},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=34,RatingId=21},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=35,RatingId=18},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=36,RatingId=22},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=37,RatingId=23},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=38,RatingId=24},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=39,RatingId=25},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=40,RatingId=26},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=41,RatingId=15},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=42,RatingId=27},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=43,RatingId=16},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=44,RatingId=28},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=45,RatingId=17},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=46,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=47,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=48,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=49,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=50,RatingId=8},
+                    new RatingMaterialTypeMapping() {MaterialTypeId=51,RatingId=8}
+                };
+                    _identityContext.RatingMaterialTypeMapping.AddRange(MappingData);
+                    await _identityContext.SaveChangesAsync();
+                    _logger.LogInformation("Mapping Data inserted : {@RatingMaterialTypeMappingData}", MappingData);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+        }
         public async Task CreateDefaultMaterial()
         {
             try
@@ -378,79 +450,6 @@ namespace Pspcl.DBConnect.Install
 
         }
 
-
-        public async Task CreateDefaultRatingMaterialTypeMapping()
-        {
-            try
-            {
-                var MappingData = new List<RatingMaterialTypeMapping>()
-                {
-                    new RatingMaterialTypeMapping() {MaterialTypeId=1,RatingId=1},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=2,RatingId=1},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=3,RatingId=1},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=2},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=3},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=4},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=5},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=6},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=4,RatingId=7},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=5,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=6,RatingId=9},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=7,RatingId=9},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=8,RatingId=9},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=9,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=10,RatingId=10},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=11,RatingId=11},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=12,RatingId=12},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=13,RatingId=13},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=14,RatingId=14},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=15,RatingId=10},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=16,RatingId=10},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=17,RatingId=10},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=18,RatingId=15},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=19,RatingId=16},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=20,RatingId=17},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=21,RatingId=18},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=22,RatingId=15},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=23,RatingId=16},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=24,RatingId=17},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=25,RatingId=15},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=26,RatingId=16},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=27,RatingId=19},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=28,RatingId=20},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=29,RatingId=19},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=30,RatingId=19},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=31,RatingId=19},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=32,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=33,RatingId=19},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=34,RatingId=21},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=35,RatingId=18},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=36,RatingId=22},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=37,RatingId=23},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=38,RatingId=24},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=39,RatingId=25},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=40,RatingId=26},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=41,RatingId=15},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=42,RatingId=27},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=43,RatingId=16},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=44,RatingId=28},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=45,RatingId=17},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=46,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=47,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=48,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=49,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=50,RatingId=8},
-                    new RatingMaterialTypeMapping() {MaterialTypeId=51,RatingId=8}
-                };
-                _identityContext.RatingMaterialTypeMapping.AddRange(MappingData);
-                await _identityContext.SaveChangesAsync();
-                _logger.LogInformation("Mapping Data inserted : {@RatingMaterialTypeMappingData}", MappingData);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception");
-            }
-        }
         public async Task CreateDefaultCircle()
         {
             try

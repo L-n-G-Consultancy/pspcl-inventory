@@ -12,7 +12,7 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230606122304_inittables")]
+    [Migration("20230607055336_inittables")]
     partial class inittables
     {
         /// <inheritdoc />
@@ -330,11 +330,19 @@ namespace Pspcl.DBConnect.Migrations
 
             modelBuilder.Entity("Pspcl.Core.Domain.RatingMaterialTypeMapping", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("MaterialTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("RatingId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.ToTable("RatingMaterialTypeMapping");
                 });

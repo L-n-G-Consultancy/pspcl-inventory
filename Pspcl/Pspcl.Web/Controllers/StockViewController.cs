@@ -56,13 +56,13 @@ namespace Pspcl.Web.Controllers
             return Json(viewModel.AvailableMaterialTypes);
         }
 
-        //public JsonResult getRating(int materialTypeId)
-        //{
-        //    StockViewModel viewModel = new StockViewModel();
-        //    var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
-        //    viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
-        //    return Json(viewModel.AvailableRatings);
-        //}
+        public JsonResult getRating(int materialTypeId)
+        {
+            StockViewModel viewModel = new StockViewModel();
+            var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
+            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() {Value=x.Item1.ToString(),Text = x.Item2}).ToList();
+            return Json(viewModel.AvailableRatings);
+        }
 
         public JsonResult getMaterialCodes(int materialTypeId)
         {
@@ -89,7 +89,7 @@ namespace Pspcl.Web.Controllers
                 model.Rate = decimal.Parse(formCollection["Rate"]);
                 model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
                 model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
-                model.Rating = formCollection["Rating"];
+                model.Rating = int.Parse(formCollection["Rating"]);
                 model.GrnNumber = formCollection["GrnNumber"];
                 model.PrefixNumber = string.IsNullOrEmpty(formCollection["PrefixNumber"]) ? "N/A" : formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];

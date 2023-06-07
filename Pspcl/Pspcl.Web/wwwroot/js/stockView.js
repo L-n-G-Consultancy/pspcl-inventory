@@ -219,80 +219,7 @@ function validateSerialNumbers(listOfSerialNumber) {
 
     return isValid;
 }
-
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#AvailableStock").val('');
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAvailableStockRows",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    if (parseInt(result) > 0)
-//                        $("#AvailableStock").text(result).val(result);
-//                    else {
-//                        showModal('Stock not avaialable.', 'Error..!')
-//                    }
-//                }
-//            });
-//        }
-//    });
-//});   
-
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#makeId").empty();
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAllMakes",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
-//                    $.each(result, function (i, response) {
-//                        if (response == "") {
-//                            $("#makeId").append($('<option>').text("None").val(response));
-//                        } else {
-//                            $("#makeId").append($('<option>').text(response).val(response));
-//                        }
-//                    });
-//                }
-//            });
-//        }
-//        else {
-//            $("#makeId").append($('<option>').text("--Select Make--").val(""));
-//        }
-//    });
-//});
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#AvailableStock").val('');
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAvailableStockRows",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    if (parseInt(result) > 0)
-//                        $("#AvailableStock").text(result).val(result);
-//                    else {
-//                        $('#stockNotAvailableModal').modal('show');
-//                    }
-//                }
-//            });
-//        }
-//    });
-//});   
+  
 
 $(function () {
     $("#materialId").on("change", function () {
@@ -501,40 +428,6 @@ function displayModal(message) {
 function ClearGrnDate() {
     document.getElementById("grnDate").value = "";
 }
-
-
-//function serialNumberValidation(SrNoTo) {
-//    var srNoTo = SrNoTo;
-//    var srNoFrom =
-//}
-
-//function validateSerialNumbers() {
-//    $('.to-input').each(function () {
-//        var $this = $(this);
-//        var $row = $this.closest('tr');
-//        var fromVal = $row.find('.from-input').val();
-//        var toVal = $this.val();
-
-//        Console.log(fromVal);
-//        Console.log(toVal);
-
-//        Console.log(" ");
-
-
-//        var ListOfSerialNumbers = [];
-
-//        for (let i = fromVal; i <= toVal; i++) {
-//            ListOfSerialNumbers.append(i);
-//        }
-
-//        //if (ListOfSerialNumbers.length == ListOfSerialNumbers.distinct().length) {
-//        //show modal
-//        //}
-
-//    });
-//}
-
-
 
 
 
