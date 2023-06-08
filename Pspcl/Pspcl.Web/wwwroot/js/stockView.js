@@ -378,7 +378,6 @@ function getCorrespondingMakeValue(invoiceNumber) {
         data: { invoiceNumber: invoiceNumber },
         success: function (result) {
 
-            console.log("hey");
 
             if (result != "Enter Make") {
                 $('#Make').val(result);
@@ -445,6 +444,8 @@ function displayModal(message) {
 function ClearGrnDate() {
     document.getElementById("grnDate").value = "";
 }
+
+
 
 
 //function serialNumberValidation(SrNoTo) {

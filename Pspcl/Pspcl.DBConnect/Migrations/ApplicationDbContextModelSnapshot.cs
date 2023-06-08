@@ -292,12 +292,56 @@ namespace Pspcl.DBConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Rating")
+                    b.HasKey("Id");
+
+                    b.ToTable("MaterialType");
+                });
+
+            modelBuilder.Entity("Pspcl.Core.Domain.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaterialType");
+                    b.ToTable("Rating");
+                });
+
+            modelBuilder.Entity("Pspcl.Core.Domain.RatingMaterialTypeMapping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MaterialTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RatingId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RatingMaterialTypeMapping");
                 });
 
             modelBuilder.Entity("Pspcl.Core.Domain.Role", b =>

@@ -35,7 +35,7 @@ namespace Pspcl.Web.Controllers
                 var model = JsonConvert.DeserializeObject<StockViewModel>(json);
                 model.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
                 model.AvailableMaterialTypes = _stockService.GetAllMaterialTypes((int)model.MaterialGroupId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-                model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+                //model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
                 model.AvailableMaterialCodes = _stockService.GetAllMaterialCodes((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Code }).ToList();
                 return View(model);
             }
@@ -60,7 +60,7 @@ namespace Pspcl.Web.Controllers
         {
             StockViewModel viewModel = new StockViewModel();
             var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
-            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() {Value=x.Item1.ToString(),Text = x.Item2}).ToList();
             return Json(viewModel.AvailableRatings);
         }
 
@@ -89,7 +89,7 @@ namespace Pspcl.Web.Controllers
                 model.Rate = decimal.Parse(formCollection["Rate"]);
                 model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
                 model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
-                model.Rating = formCollection["Rating"];
+                model.Rating = int.Parse(formCollection["Rating"]);
                 model.GrnNumber = formCollection["GrnNumber"];
                 model.PrefixNumber = string.IsNullOrEmpty(formCollection["PrefixNumber"]) ? "N/A" : formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];

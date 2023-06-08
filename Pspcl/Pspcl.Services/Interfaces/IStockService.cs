@@ -7,7 +7,7 @@ namespace Pspcl.Services.Interfaces
     {
         List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false);
         List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false);
-        List<MaterialType> GetAllMaterialRatings(int materialTypeId, bool? onlyActive = false);
+        List<Tuple<int, string>> GetAllMaterialRatings(int materialTypeId);
         List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false);
 		List<SubDivision> GetAllSubDivisions(bool? onlyActive = false);
 		List<string> GetCircleAndDivisionAndLocationCode(int selectedSubDivId, bool? onlyActive = false);
