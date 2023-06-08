@@ -47,7 +47,8 @@ $(document).ready(() => {
 $(function () {
     $("#materialGroupId").on("change", function () {
         $('#issueMaterial').hide();
-        $("#Cost").val('');
+        $("#Cost").val('0');
+        makesAndUnits = {};
 
         var materialGroupId = $(this).val();
         $("#materialTypeId").empty();
@@ -102,7 +103,9 @@ $(function () {
 $(function () {
     $("#materialTypeId").on("change", function () {
         $('#issueMaterial').hide();
-        $("#Cost").val('');
+        $("#Cost").val('0');
+
+        makesAndUnits = {};
 
         var materialTypeId = $(this).val();
         $("#materialId").empty();
@@ -260,13 +263,15 @@ $(function () {
                             var rowHtml = '<tr>';
                             rowHtml += '<td><input type="text" class="Make_reqQty MakeClass" name="row_' + rowCounter + '_make" id="row_' + rowCounter + '_Make" value="' + key + '" readonly/></td>';
                             rowHtml += '<td><input type="number" class="Make_reqQty AvailableQtyClass" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
-                            rowHtml += '<td><input type="text" class="Make_reqQty" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" oninput="handleRequiredQuantity(event)" /></td>';
+                            rowHtml += '<td><span class="required text-danger">*</span><input type="number" min="0" class="Make_reqQty" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" oninput="handleRequiredQuantity(event)" required /></td>';
                             rowHtml += '</tr>';
                             $('#issueMaterialTableBody').append(rowHtml);
                         }
                     } else {
                         // Hide the table if the response is empty
                         $('#issueMaterial').hide();
+                        $('#stockNotAvailableModal').modal('show');
+
                     }
                 }
 
@@ -278,7 +283,8 @@ $(function () {
 
 $(document).ready(function () {
     showModal('', '');
-
+    $('#stockNotAvailableModal').hide();
+    
 });
 
 function showModal(alertMessage, status) {
@@ -484,7 +490,7 @@ function handleRequiredQuantity(event) {
     var materialGroupId = $("#materialGroupId").val();
     var materialTypeId = $("#materialTypeId").val();
     var materialId = $("#materialId").val();
-    $("#Cost").val('');
+    //$("#Cost").val('');
 
     var units = event.target.value;
 
@@ -493,47 +499,68 @@ function handleRequiredQuantity(event) {
     var make = $row.find('.MakeClass').val();
     var availableQty = $row.find('.AvailableQtyClass').val();
 
-    //if (parseInt(availableQty) < parseInt(units)) {
-    //    //displayModal("Stock Unavailable!");
-
-    //    alertMessage = 'Stock Unavailable!';
-    //    showModal(alertMessage, 'Error..!');
-    //}
-
-    var localMakesAndUnits = Object.assign({}, makesAndUnits);
+   
     
-    console.log($row);
+    if (parseInt(availableQty) < parseInt(units)) {
+       // $("#Cost").val('0');
+        $input.val('0');
 
-    if (make in localMakesAndUnits) {
+        $('#stockNotAvailableModal').modal('show');
 
-        delete localMakesAndUnits[make];
-        delete makesAndUnits[make];
 
     }
 
-    localMakesAndUnits[make] = units;
-    makesAndUnits = Object.assign({}, localMakesAndUnits);
-    var noOfUnits = 0;
-
-    for (var key in makesAndUnits) {
-        if (makesAndUnits.hasOwnProperty(key)) {
-            var value = parseInt(makesAndUnits[key]);
-            noOfUnits += value;
+    else 
+    {
+        if (!units) {
+            units = 0;
         }
+
+        else if(parseInt(units) < 0) {
+            // $("#Cost").val('');
+            $input.val('0');
+            units = 0;
+
+        }
+        var localMakesAndUnits = Object.assign({}, makesAndUnits);
+
+        console.log($row);
+
+        if (make in localMakesAndUnits) {
+
+            delete localMakesAndUnits[make];
+            delete makesAndUnits[make];
+
+        }
+
+        localMakesAndUnits[make] = units;
+        makesAndUnits = Object.assign({}, localMakesAndUnits);
+        var noOfUnits = 0;
+
+        for (var key in makesAndUnits) {
+            if (makesAndUnits.hasOwnProperty(key)) {
+                var value = parseInt(makesAndUnits[key]);
+                noOfUnits += value;
+            }
+        }
+
+        $.ajax({
+            url: "/IssueStock/GetCost",
+            type: "GET",
+            data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, noOfUnits: noOfUnits },
+            success: function (response) {
+                $('#Cost').val(response);
+                
+            }
+        });
     }
    
-    $.ajax({       
-        url: "/IssueStock/GetCost",
-        type: "GET",
-        data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, noOfUnits: noOfUnits },
-        success: function (response) {
-            $('#Cost').val(response);
-        }
-    });
 }
-
-
 
 function clearTable() {
+    //$('#currentDate .resettable:not(.exclude-reset)').val('');
+
+    //document.getElementById("currentDate").value = "dont reset";
     $('#issueMaterial').hide();
 }
+
