@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Pspcl.DBConnect.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class inittables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +35,7 @@ namespace Pspcl.DBConnect.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationCode = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -89,12 +90,42 @@ namespace Pspcl.DBConnect.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Rating = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MaterialGroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MaterialType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rating", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RatingMaterialTypeMapping",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MaterialTypeId = table.Column<int>(type: "int", nullable: false),
+                    RatingId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RatingMaterialTypeMapping", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,7 +152,8 @@ namespace Pspcl.DBConnect.Migrations
                     MaterialGroupId = table.Column<int>(type: "int", nullable: false),
                     StockIssueBookId = table.Column<int>(type: "int", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,8 +173,7 @@ namespace Pspcl.DBConnect.Migrations
                     DivisionId = table.Column<int>(type: "int", nullable: false),
                     SubDivisionId = table.Column<int>(type: "int", nullable: false),
                     CircleId = table.Column<int>(type: "int", nullable: false),
-                    JuniorEngineerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Make = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    JuniorEngineerName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,6 +270,7 @@ namespace Pspcl.DBConnect.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TestingCharges = table.Column<int>(type: "int", nullable: false),
                     MaterialTypeId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -493,6 +525,12 @@ namespace Pspcl.DBConnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "Material");
+
+            migrationBuilder.DropTable(
+                name: "Rating");
+
+            migrationBuilder.DropTable(
+                name: "RatingMaterialTypeMapping");
 
             migrationBuilder.DropTable(
                 name: "StockBookMaterial");

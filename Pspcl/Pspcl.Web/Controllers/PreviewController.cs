@@ -36,7 +36,7 @@ namespace Pspcl.Web.Controllers
                     var materialGroupName = _stockService.GetMaterialGroupById(stockViewModel.MaterialGroupId);
                     var materialTypeName = _stockService.GetMaterialTypeById(stockViewModel.MaterialTypeId);
                     var materialCodeName = _stockService.GetMaterialCodeById(stockViewModel.MaterialIdByCode);
-                    var ratingName = _stockService.GetRatingNameById(stockViewModel.MaterialTypeId);
+                    var ratingName = _stockService.GetRatingNameById(stockViewModel.Rating);
                     stockViewModel.SelectedMaterialGroupName = materialGroupName;
                     stockViewModel.SelectedMaterialTypeName = materialTypeName;
                     stockViewModel.SelectedMaterialCodeName = materialCodeName;
@@ -66,7 +66,7 @@ namespace Pspcl.Web.Controllers
                 model.Rate = decimal.Parse(formCollection["Rate"]);
                 model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
                 model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
-                model.Rating = formCollection["rating"];
+                model.Rating = int.Parse(formCollection["rating"]);
                 model.GrnNumber = formCollection["GrnNumber"];
                 model.PrefixNumber = formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];
