@@ -479,9 +479,6 @@ function ClearGrnDate() {
 //    });
 //}
 
-
-
-
 var makesAndUnits = {};
 $(document).ready(function () {
     
@@ -500,15 +497,23 @@ function handleRequiredQuantity(event) {
     var make = $row.find('.MakeClass').val();
     var availableQty = $row.find('.AvailableQtyClass').val();
 
-   
-    
+    var localMakesAndUnits = Object.assign({}, makesAndUnits);
+  
     if (parseInt(availableQty) < parseInt(units)) {
-       // $("#Cost").val('0');
-        $input.val('0');
 
         $('#stockNotAvailableModal').modal('show');
 
+       // $("#Cost").val('0');
+        $input.val('0');
+        units = 0;
+      
+        if (make in localMakesAndUnits) {
 
+            delete localMakesAndUnits[make];
+            delete makesAndUnits[make];
+
+            updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId);
+        }
     }
 
     else 
@@ -523,9 +528,6 @@ function handleRequiredQuantity(event) {
             units = 0;
 
         }
-        var localMakesAndUnits = Object.assign({}, makesAndUnits);
-
-        console.log($row);
 
         if (make in localMakesAndUnits) {
 
@@ -534,28 +536,39 @@ function handleRequiredQuantity(event) {
 
         }
 
-        localMakesAndUnits[make] = units;
-        makesAndUnits = Object.assign({}, localMakesAndUnits);
-        var noOfUnits = 0;
+        updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId);
+    }  
+}
+function clearTable() {
+    //$('#currentDate .resettable:not(.exclude-reset)').val('');
 
-        for (var key in makesAndUnits) {
-            if (makesAndUnits.hasOwnProperty(key)) {
-                var value = parseInt(makesAndUnits[key]);
-                noOfUnits += value;
-            }
+    //document.getElementById("currentDate").value = "dont reset";
+    $('#issueMaterial').hide();
+}
+
+function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId) {
+
+    console.log(units);
+    localMakesAndUnits[make] = units;
+    makesAndUnits = Object.assign({}, localMakesAndUnits);
+    var noOfUnits = 0;
+
+    for (var key in makesAndUnits) {
+        if (makesAndUnits.hasOwnProperty(key)) {
+            var value = parseInt(makesAndUnits[key]);
+            noOfUnits += value;
         }
-
-        $.ajax({
-            url: "/IssueStock/GetCost",
-            type: "GET",
-            data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, noOfUnits: noOfUnits },
-            success: function (response) {
-                $('#Cost').val(response);
-                
-            }
-        });
     }
-   
+
+    $.ajax({
+        url: "/IssueStock/GetCost",
+        type: "GET",
+        data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, noOfUnits: noOfUnits },
+        success: function (response) {
+            $('#Cost').val(response);
+
+        }
+    });
 }
 
 function clearTable() {
@@ -564,4 +577,3 @@ function clearTable() {
     //document.getElementById("currentDate").value = "dont reset";
     $('#issueMaterial').hide();
 }
-

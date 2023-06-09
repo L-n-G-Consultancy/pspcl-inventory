@@ -299,7 +299,29 @@ namespace Pspcl.Services
                 List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId, x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 
                 availableMakesAndRows.Add(Make, ranges);
+
+
+
+                List<string> keysToRemove = new List<string>();
+
+                foreach (KeyValuePair<string, List<List<int>>> MakeAndRows in availableMakesAndRows)
+                {
+                    if (MakeAndRows.Value.Count == 0)
+                    {
+                        keysToRemove.Add(MakeAndRows.Key);
+                    }
+                }
+
+                foreach (string key in keysToRemove)
+                {
+                    availableMakesAndRows.Remove(key);
+                }
+
             }
+
+
+
+
             return availableMakesAndRows;
         }
         public string GetCorrespondingMakeValue(string invoiceNumber)

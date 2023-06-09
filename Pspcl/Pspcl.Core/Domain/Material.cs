@@ -12,7 +12,6 @@ namespace Pspcl.Core.Domain
         public int TestingCharges { get; set; }
 
         public MaterialType MaterialType { get; set; }
-        public int TestingCharges {get; set; }
 
         public int MaterialTypeId { get; set; } // Foreign key to MaterialType
 

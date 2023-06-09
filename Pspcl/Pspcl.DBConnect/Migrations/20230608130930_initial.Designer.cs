@@ -12,13 +12,8 @@ using Pspcl.DBConnect;
 namespace Pspcl.DBConnect.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:Pspcl/Pspcl.DBConnect/Migrations/20230605071011_initial.Designer.cs
-    [Migration("20230605071011_initial")]
+    [Migration("20230608130930_initial")]
     partial class initial
-========
-    [Migration("20230607055336_inittables")]
-    partial class inittables
->>>>>>>> 6a24727eaaadc0662a10823bb2658487312d32a7:Pspcl/Pspcl.DBConnect/Migrations/20230607055336_inittables.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

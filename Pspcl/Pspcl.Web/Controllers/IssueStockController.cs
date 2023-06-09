@@ -106,16 +106,20 @@ namespace Pspcl.Web.Controllers
 						}
 					}
 
-                    if(issuedMakesAndRows.ContainsKey(make))
-					{
-						break;
-                    }
-					else
-					{
-                        issuedMakesAndRows.Add(make, IssuedDataRows);
-                        _stockService.UpdateStockMaterialSeries(IssuedDataRows);
-                    }
-					x = i + 3;
+                    //               if(issuedMakesAndRows.ContainsKey(make))
+                    //{
+                    //	break;
+                    //               }
+                    //else
+                    //{
+                    //                   issuedMakesAndRows.Add(make, IssuedDataRows);
+                    //                   _stockService.UpdateStockMaterialSeries(IssuedDataRows);
+                    //               }
+
+
+                    issuedMakesAndRows.Add(make, IssuedDataRows);
+                    _stockService.UpdateStockMaterialSeries(IssuedDataRows);
+                    x = i + 3;
                     break;
                 }				
              }
