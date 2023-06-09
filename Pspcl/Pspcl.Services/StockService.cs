@@ -300,8 +300,6 @@ namespace Pspcl.Services
 
                 availableMakesAndRows.Add(Make, ranges);
 
-
-
                 List<string> keysToRemove = new List<string>();
 
                 foreach (KeyValuePair<string, List<List<int>>> MakeAndRows in availableMakesAndRows)
@@ -318,11 +316,7 @@ namespace Pspcl.Services
                 }
 
             }
-
-
-
-
-            return availableMakesAndRows;
+          return availableMakesAndRows;
         }
         public string GetCorrespondingMakeValue(string invoiceNumber)
         {
@@ -369,12 +363,12 @@ namespace Pspcl.Services
             return false;
         }
 
-        public int GetCost(int materialGroupId, int materialTypeId, int materialId, int noOfUnits )    
+        public int GetCost(int materialId, int noOfUnits )    
         {
             List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
             int testingCharges = material.Select(x => x.TestingCharges).First();
 
-            List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
+            List<Stock> stocks = _dbcontext.Stock.Where(x =>x.MaterialId == materialId).ToList();
             int rate = Convert.ToInt32(stocks.Select(x => x.Rate).First());
 
             int totalCost = (rate + ((3 * rate) / 100) + testingCharges) * noOfUnits;

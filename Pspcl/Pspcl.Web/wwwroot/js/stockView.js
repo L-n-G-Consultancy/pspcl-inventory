@@ -139,22 +139,37 @@ $(function () {
         $("#Division").val("");
         $("#Circle").val("");
         $("#LocationCode").val("");
+        $("#error-message").remove();
+
         if (selectedSubDivId) {
             $.ajax({
                 url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
                 type: "GET",
                 data: { SelectedSubDivId: selectedSubDivId },
                 success: function (result) {
+
                     $("#Division").val(result[0]);
                     $("#DivisionId").val(result[2]);
                     $("#Circle").val(result[1]);
                     $("#CircleId").val(result[3]);
                     $("#LocationCode").val(result[4]);
+                },
+                error: function (xhr, status, error) {
+                    $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                    $('#stockNotAvailableModal').modal('show');
+                    console.log("AJAX request failed. Status: " + status + ", Error: " + error);
                 }
             });
         }
     });
 });
+
+
+
+
+
+
+
 
 
 
@@ -230,8 +245,6 @@ function validateSerialNumbers(listOfSerialNumber) {
 
     return isValid;
 }
-
-
 $(function () {
     $("#materialId").on("change", function () {
 
@@ -241,7 +254,6 @@ $(function () {
         var materialTypeId = $("#materialTypeId").val();
         var materialId = $(this).val();
         $("#AvailableStock").val('');
-        
 
         if (materialId) {
             $.ajax({
@@ -253,12 +265,12 @@ $(function () {
 
                     var keys = Object.keys(response);
                     if (keys.length > 0) {
-                        
+
                         $('#issueMaterial').show();
 
                         for (var i = 0; i < keys.length; i++) {
                             var key = keys[i];
-                            var rowCounter = i+1;
+                            var rowCounter = i + 1;
                             var value = response[key];
                             var rowHtml = '<tr>';
                             rowHtml += '<td><input type="text" class="Make_reqQty MakeClass" name="row_' + rowCounter + '_make" id="row_' + rowCounter + '_Make" value="' + key + '" readonly/></td>';
@@ -267,24 +279,28 @@ $(function () {
                             rowHtml += '</tr>';
                             $('#issueMaterialTableBody').append(rowHtml);
                         }
-                    } else {
+                    }
+                    else {
                         // Hide the table if the response is empty
                         $('#issueMaterial').hide();
                         $('#stockNotAvailableModal').modal('show');
 
                     }
+                },
+                error: function (xhr, status, error) {
+                    $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                    $('#stockNotAvailableModal').modal('show');
+                    console.log("AJAX request failed. Status: " + status + ", Error: " + error);
                 }
-
-
             });
         }
     });
-});   
+});
 
 $(document).ready(function () {
     showModal('', '');
     $('#stockNotAvailableModal').hide();
-    
+
 });
 
 function showModal(alertMessage, status) {
@@ -330,22 +346,6 @@ $(document).on('submit', '#StockForm', function (event) {
         this.submit();
     }
 });
-
-
-//$('#IssueStockForm1').on('submit', function (event) {
-//    event.preventDefault();
-//    var quantity = $('#requiredQuantity').val();
-//    var availableQuantity = $('#AvailableStock').val();
-//    if (parseInt(quantity) > parseInt(availableQuantity)) {
-//        showModal('Stock not avaialable.', 'Error..!')
-//    }
-//    else {
-//        this.submit();
-//    }
-
-//});
-
-
 document.getElementById("exportButton").addEventListener("click", function () {
     // Fetch the table element
     var table = document.querySelector(".table");
@@ -390,7 +390,9 @@ function getCorrespondingMakeValue(invoiceNumber) {
             }
         },
         error: function (xhr, status, error) {
-            // Handle the error
+            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+            $('#stockNotAvailableModal').modal('show');
+            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
         }
     });
 }
@@ -481,7 +483,7 @@ function ClearGrnDate() {
 
 var makesAndUnits = {};
 $(document).ready(function () {
-    
+
     makesAndUnits = {};
 });
 function handleRequiredQuantity(event) {
@@ -498,15 +500,15 @@ function handleRequiredQuantity(event) {
     var availableQty = $row.find('.AvailableQtyClass').val();
 
     var localMakesAndUnits = Object.assign({}, makesAndUnits);
-  
+
     if (parseInt(availableQty) < parseInt(units)) {
 
         $('#stockNotAvailableModal').modal('show');
 
-       // $("#Cost").val('0');
+        // $("#Cost").val('0');
         $input.val('0');
         units = 0;
-      
+
         if (make in localMakesAndUnits) {
 
             delete localMakesAndUnits[make];
@@ -516,13 +518,12 @@ function handleRequiredQuantity(event) {
         }
     }
 
-    else 
-    {
+    else {
         if (!units) {
             units = 0;
         }
 
-        else if(parseInt(units) < 0) {
+        else if (parseInt(units) < 0) {
             // $("#Cost").val('');
             $input.val('0');
             units = 0;
@@ -537,13 +538,7 @@ function handleRequiredQuantity(event) {
         }
 
         updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId);
-    }  
-}
-function clearTable() {
-    //$('#currentDate .resettable:not(.exclude-reset)').val('');
-
-    //document.getElementById("currentDate").value = "dont reset";
-    $('#issueMaterial').hide();
+    }
 }
 
 function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId) {
@@ -563,7 +558,7 @@ function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTy
     $.ajax({
         url: "/IssueStock/GetCost",
         type: "GET",
-        data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId, noOfUnits: noOfUnits },
+        data: {materialId: materialId, noOfUnits: noOfUnits },
         success: function (response) {
             $('#Cost').val(response);
 
@@ -571,9 +566,13 @@ function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTy
     });
 }
 
-function clearTable() {
-    //$('#currentDate .resettable:not(.exclude-reset)').val('');
 
-    //document.getElementById("currentDate").value = "dont reset";
-    $('#issueMaterial').hide();
+function clearTable() {
+    setTimeout(() => {
+        var currentDateField = document.getElementById('currentDate');
+        var currentDate = new Date().toLocaleDateString();
+        currentDateField.value = currentDate;
+        $('#issueMaterial').hide();
+    }, 100);
+    
 }
