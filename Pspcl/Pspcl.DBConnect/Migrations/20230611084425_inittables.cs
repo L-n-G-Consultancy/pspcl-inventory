@@ -6,18 +6,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Pspcl.DBConnect.Migrations
 {
     /// <inheritdoc />
-    public partial class databasechanges : Migration
+    public partial class inittables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
+                name: "Make",
+                table: "StockIssueBook");
+
+            migrationBuilder.DropColumn(
                 name: "Rating",
                 table: "MaterialType");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Make",
+                table: "StockBookMaterial",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddColumn<int>(
                 name: "TestingCharges",
                 table: "Material",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<int>(
+                name: "LocationCode",
+                table: "Division",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -64,8 +82,23 @@ namespace Pspcl.DBConnect.Migrations
                 name: "RatingMaterialTypeMapping");
 
             migrationBuilder.DropColumn(
+                name: "Make",
+                table: "StockBookMaterial");
+
+            migrationBuilder.DropColumn(
                 name: "TestingCharges",
                 table: "Material");
+
+            migrationBuilder.DropColumn(
+                name: "LocationCode",
+                table: "Division");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Make",
+                table: "StockIssueBook",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "Rating",
