@@ -53,5 +53,19 @@ namespace Pspcl.Web.Controllers
             }
             return View();
         }
+
+        public IActionResult StockOutReport()
+        {
+			try
+			{
+				var stockOutModels = _stockService.GetStockOutModels();
+				return View(stockOutModels);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Exception");
+			}
+			return View();
+		}
     }
 }

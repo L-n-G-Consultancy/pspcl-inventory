@@ -6,7 +6,7 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
 
-                <li class="">
+                <li>
                     <a href="@Url.Action("AddStock", "StockView")">
                         <i class="fas fa-plus-circle"></i>
                         <span>Add Stock</span>
@@ -27,17 +27,23 @@
                     </a>
                 </li>
 
-                <li >
-                    <a href="@Url.Action("AvailableStock", "Report")">
+                <li hidden>
+                    <a href="@Url.Action("IssueTipView", "IssueTip")">
                         <i class="fas fa-folder"></i>
                         <span>Issue TIP</span>
                     </a>
                 </li>
 
-                <li >
+                <li>
                     <a href="@Url.Action("StockInReport", "Report")">
                         <i class="far fa-chart-bar"></i>
                         <span>Reports</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AvailableStock", "Report")">
+                        <i class="far fa-chart-bar"></i>
+                        <span>AvaibleStock Reports</span>
                     </a>
                 </li>
             </ul>

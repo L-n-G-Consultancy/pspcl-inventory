@@ -125,15 +125,13 @@ $(function () {
     });
 });
 
-
-
 $(function () {
     $("#SelectedSubDivId").on("change", function () {
         var selectedSubDivId = $(this)[0].selectedIndex;
         $("#Division").empty();
         if (selectedSubDivId) {
             $.ajax({
-                url: "/IssueStock/GetCircleAndDivision",
+                url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
                 type: "GET",
                 data: { SelectedSubDivId: selectedSubDivId },
                 success: function (result) {
@@ -141,6 +139,7 @@ $(function () {
                     $("#DivisionId").val(result[2]);
                     $("#Circle").val(result[1]);
                     $("#CircleId").val(result[3]);
+                    $("#LocationCode").val(result[4]);
                 }
             });
         }
@@ -221,58 +220,51 @@ function validateSerialNumbers(listOfSerialNumber) {
 
     return isValid;
 }
+  
 
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#AvailableStock").val('');
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAvailableStockRows",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    if (parseInt(result) > 0)
-//                        $("#AvailableStock").text(result).val(result);
-//                    else {
-//                        showModal('Stock not avaialable.', 'Error..!')
-//                    }
-//                }
-//            });
-//        }
-//    });
-//});   
+$(function () {
+    $("#materialId").on("change", function () {
+        var materialGroupId = $("#materialGroupId").val();
+        var materialTypeId = $("#materialTypeId").val();
+        var materialId = $(this).val();
+        $("#AvailableStock").val('');
+        
 
-//$(function () {
-//    $("#materialId").on("change", function () {
-//        var materialGroupId = $("#materialGroupId").val();
-//        var materialTypeId = $("#materialTypeId").val();
-//        var materialId = $(this).val();
-//        $("#makeId").empty();
-//        if (materialId) {
-//            $.ajax({
-//                url: "/IssueStock/GetAllMakes",
-//                type: "GET",
-//                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
-//                success: function (result) {
-//                    $("#makeId").append($('<option>').text("--Select Make--").val(""));
-//                    $.each(result, function (i, response) {
-//                        if (response == "") {
-//                            $("#makeId").append($('<option>').text("None").val(response));
-//                        } else {
-//                            $("#makeId").append($('<option>').text(response).val(response));
-//                        }
-//                    });
-//                }
-//            });
-//        }
-//        else {
-//            $("#makeId").append($('<option>').text("--Select Make--").val(""));
-//        }
-//    });
-//});
+        if (materialId) {
+            $.ajax({
+                url: "/IssueStock/DisplayMakeWithQuantity",
+                type: "GET",
+                data: { materialGroupId: materialGroupId, materialTypeId: materialTypeId, materialId: materialId },
+                success: function (response) {
+                    $('#issueMaterialTableBody').empty();
+
+                    var keys = Object.keys(response);
+                    if (keys.length > 0) {
+                        
+                        $('#issueMaterial').show();
+
+                        for (var i = 0; i < keys.length; i++) {
+                            var key = keys[i];
+                            var rowCounter = i+1;
+                            var value = response[key];
+                            var rowHtml = '<tr>';
+                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" value="' + key + '" readonly/></td>';
+                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
+                            rowHtml += '<td><input type="text" class="required-quantity-input" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" /></td>';
+                            rowHtml += '</tr>';
+                            $('#issueMaterialTableBody').append(rowHtml);
+                        }
+                    } else {
+                        // Hide the table if the response is empty
+                        $('#issueMaterial').hide();
+                    }
+                }
+
+
+            });
+        }
+    });
+});   
 
 $(document).ready(function () {
     showModal('', '');
@@ -297,7 +289,7 @@ function showModal(alertMessage, status) {
 
 }
 
-$('#StockForm').on('submit', function (event) {
+$(document).on('submit', '#StockForm', function (event) {
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 
@@ -353,7 +345,7 @@ document.getElementById("exportButton").addEventListener("click", function () {
     var downloadLink = document.createElement("a");
     var url = URL.createObjectURL(blob);
     downloadLink.href = url;
-    downloadLink.download = "stock_in_report.xlsx";
+    downloadLink.download = "report.xlsx";
     downloadLink.click();
 
     // Cleanup
@@ -437,4 +429,10 @@ function displayModal(message) {
 function ClearGrnDate() {
     document.getElementById("grnDate").value = "";
 }
+
+
+
+
+
+
 

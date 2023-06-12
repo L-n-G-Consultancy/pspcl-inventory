@@ -72,7 +72,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="Rating">Rating</label>
                                             @Html.TextBoxFor(m => m.SelectedRatingName, new { @readonly = "readonly" , @class = "form-control",@name="rating", @value=Model.MaterialTypeId})
-                                            <input type="hidden" name="rating" value="@Model.MaterialTypeId" />
+                                            <input type="hidden" name="rating" value="@Model.Rating" />
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>

@@ -9,6 +9,7 @@ namespace Pspcl.Core.Domain
         public string Name { get; set; }
 
         public string? Code { get; set; }
+        public int TestingCharges { get; set; }
 
         public MaterialType MaterialType { get; set; }
 
