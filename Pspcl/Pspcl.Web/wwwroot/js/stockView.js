@@ -36,6 +36,7 @@ var addStock = {
         }
     }
 };
+
 $(document).ready(() => {
     $(document).on('input', '.from-input, .to-input', addStock.calculateQty);
     $(document).on('click', '#addMaterialButton', addStock.addRow);
@@ -344,7 +345,7 @@ document.getElementById("exportButton").addEventListener("click", function () {
     var downloadLink = document.createElement("a");
     var url = URL.createObjectURL(blob);
     downloadLink.href = url;
-    downloadLink.download = "stock_in_report.xlsx";
+    downloadLink.download = "report.xlsx";
     downloadLink.click();
 
     // Cleanup

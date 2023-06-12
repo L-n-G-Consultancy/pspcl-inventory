@@ -22,9 +22,9 @@ namespace Pspcl.Services.Interfaces
 		int AddStockMaterial(StockMaterial stockMaterial);
         void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries);
         List<StockInModel> GetStockInModels();
-		List<StockOutModel> GetStockOutModels();
-
-		string GetMaterialGroupById(int? materialGroupId);
+        List<AvailableStockModel> GetAvailableStock();
+        List<StockOutModel> GetStockOutModels();
+        string GetMaterialGroupById(int? materialGroupId);
         string GetMaterialTypeById(int? materialTypeId);
         string GetMaterialCodeById(int? materialCodeId);
         string GetRatingNameById(int? materialTypeId);
