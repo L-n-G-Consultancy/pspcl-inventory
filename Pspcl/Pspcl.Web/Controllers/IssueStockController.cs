@@ -69,7 +69,7 @@ namespace Pspcl.Web.Controllers
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
 				{
-					var element_make = formCollection.ElementAt(i);
+					var element_make = formCollection.ElementAt(i).Value;
 					var element_availableQty = formCollection.ElementAt(i + 1);
 					var element_requiredQty = formCollection.ElementAt(i + 2);
 
@@ -106,25 +106,13 @@ namespace Pspcl.Web.Controllers
 						}
 					}
 
-                    //               if(issuedMakesAndRows.ContainsKey(make))
-                    //{
-                    //	break;
-                    //               }
-                    //else
-                    //{
-                    //                   issuedMakesAndRows.Add(make, IssuedDataRows);
-                    //                   _stockService.UpdateStockMaterialSeries(IssuedDataRows);
-                    //               }
-
-
+                    
                     issuedMakesAndRows.Add(make, IssuedDataRows);
                     _stockService.UpdateStockMaterialSeries(IssuedDataRows);
                     x = i + 3;
                     break;
                 }				
              }
-
-            //List<List<int>> IssuedStockRanges = new List<List<int>>();
 
             TempData["issuedMakesAndRows"] = JsonConvert.SerializeObject(issuedMakesAndRows);
             TempData["Message"] = "Stock Issued Successfully..!";
@@ -173,21 +161,7 @@ namespace Pspcl.Web.Controllers
             }
             return RedirectToAction("IssueStockView", "IssueStock");
         }	
-		//public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
-		//{
-		//	int sum=0;
-		//	List<int> Ids = new List<int>();
-		//	Ids.Add(materialGroupId);
-		//	Ids.Add(materialTypeId);
-		//	Ids.Add((int)materialId);
-		//	List<List<int>> Ranges = _stockService.GetAvailableQuantity(Ids);
-		//	foreach (List<int> range in Ranges)
-		//	{
-		//		 sum = sum + range[3];
-				
-		//	}
-		//	return Json(sum);
-		//}
+		
 		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
 		{
 			Dictionary <string,int> Result = new Dictionary<string,int>();
