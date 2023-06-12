@@ -16,7 +16,7 @@ namespace Pspcl.Core.Domain
         //public Circle Circle { get; set; }
         public int CircleId { get; set; }  // Foreign key
         public string JuniorEngineerName { get; set; }
-        
+       
 
     }
 }
