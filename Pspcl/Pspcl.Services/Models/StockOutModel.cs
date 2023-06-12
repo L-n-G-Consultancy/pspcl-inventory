@@ -9,6 +9,7 @@ namespace Pspcl.Services.Models
 {
 	public class StockOutModel
 	{
+        public Stock Stock { get; set; }
         public string TxnOutID { get; set; }
         public string SrNo { get; set; }
         public DateTime SrNoDate { get; set; }

@@ -29,7 +29,10 @@ namespace Pspcl.Services.Interfaces
         string GetMaterialCodeById(int? materialCodeId);
         string GetRatingNameById(int? materialTypeId);
         public string GetCorrespondingMakeValue(string invoiceNumber);
+
+        //public int GetCorrespondingRateValue(int materialId);
         public bool isGrnNumberExist(string GrnNumber);
+        public int GetCost(int materialId,int noOfUnits);
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId,int materialTypeId, int materialId, string make);
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);

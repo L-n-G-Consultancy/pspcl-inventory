@@ -57,7 +57,7 @@ namespace Pspcl.Web.Controllers
                     Random r = new Random();
                     int random = r.Next();
                     string uniqueFileName = random.ToString() + "_" + Image.FileName;
-                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "abc", "text");
+                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "App_data", "Images");
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                     string response = Path.Combine("App_data\\Images", uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -90,14 +90,14 @@ namespace Pspcl.Web.Controllers
             availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
 
-            int x = 12;
-            foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
-            {
-                for (int i = x; i < formCollection.Count - 1;)
-                {
-                    var element_make = formCollection.ElementAt(i);
-                    var element_availableQty = formCollection.ElementAt(i + 1);
-                    var element_requiredQty = formCollection.ElementAt(i + 2);
+			 int x = 13;
+             foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
+			 {				
+				for (int i = x; i < formCollection.Count - 1;)
+				{
+					var element_make = formCollection.ElementAt(i).Value;
+					var element_availableQty = formCollection.ElementAt(i + 1);
+					var element_requiredQty = formCollection.ElementAt(i + 2);
 
                     string make = element_make.ToString();
                     int availableQty = Convert.ToInt32(element_availableQty.Value);
@@ -132,21 +132,13 @@ namespace Pspcl.Web.Controllers
                         }
                     }
 
-                    if (issuedMakesAndRows.ContainsKey(make))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        issuedMakesAndRows.Add(make, IssuedDataRows);
-                        _stockService.UpdateStockMaterialSeries(IssuedDataRows);
-                    }
+                    
+                    issuedMakesAndRows.Add(make, IssuedDataRows);
+                    _stockService.UpdateStockMaterialSeries(IssuedDataRows);
                     x = i + 3;
                     break;
                 }
             }
-
-            //List<List<int>> IssuedStockRanges = new List<List<int>>();
 
             TempData["issuedMakesAndRows"] = JsonConvert.SerializeObject(issuedMakesAndRows);
             TempData["Message"] = "Stock Issued Successfully..!";
@@ -201,28 +193,24 @@ namespace Pspcl.Web.Controllers
                 }
             }
             return RedirectToAction("IssueStockView", "IssueStock");
-        }
-        //public JsonResult GetAvailableStockRows(int materialGroupId, int materialTypeId, int materialId)
-        //{
-        //	int sum=0;
-        //	List<int> Ids = new List<int>();
-        //	Ids.Add(materialGroupId);
-        //	Ids.Add(materialTypeId);
-        //	Ids.Add((int)materialId);
-        //	List<List<int>> Ranges = _stockService.GetAvailableQuantity(Ids);
-        //	foreach (List<int> range in Ranges)
-        //	{
-        //		 sum = sum + range[3];
-
-        //	}
-        //	return Json(sum);
-        //}
-        public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
-        {
-            Dictionary<string, int> Result = new Dictionary<string, int>();
-            Result = _stockService.AllMakesAndQuantitities(materialGroupId, materialTypeId, materialId);
+        }	
+		
+		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
+		{
+			Dictionary <string,int> Result = new Dictionary<string,int>();
+			Result = _stockService.AllMakesAndQuantitities(materialGroupId, materialTypeId, materialId);
             return Json(Result);
         }
+
+         public JsonResult GetCost(int materialId, int noOfUnits)
+
+         {
+            int Result = _stockService.GetCost(materialId, noOfUnits);
+            return Json(Result);
+         }
+
+
+
 
     }
 }
