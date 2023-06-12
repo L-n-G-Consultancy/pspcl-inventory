@@ -49,6 +49,7 @@ namespace Pspcl.Web.Models
         //public List<StockItem> StockItems { get; set; }
 
 		public List<Dictionary<string,string>> StockItems { get; set; }
+		public string Image { get; set; }
 
 
     }

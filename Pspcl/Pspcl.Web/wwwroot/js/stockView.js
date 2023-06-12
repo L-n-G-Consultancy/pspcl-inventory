@@ -128,7 +128,9 @@ $(function () {
 $(function () {
     $("#SelectedSubDivId").on("change", function () {
         var selectedSubDivId = $(this)[0].selectedIndex;
-        $("#Division").empty();
+        $("#Division").val("");
+        $("#LocationCode").val("");
+        $("#Circle").val("");
         if (selectedSubDivId) {
             $.ajax({
                 url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
@@ -220,7 +222,7 @@ function validateSerialNumbers(listOfSerialNumber) {
 
     return isValid;
 }
-  
+
 
 $(function () {
     $("#materialId").on("change", function () {
@@ -228,7 +230,7 @@ $(function () {
         var materialTypeId = $("#materialTypeId").val();
         var materialId = $(this).val();
         $("#AvailableStock").val('');
-        
+
 
         if (materialId) {
             $.ajax({
@@ -240,12 +242,12 @@ $(function () {
 
                     var keys = Object.keys(response);
                     if (keys.length > 0) {
-                        
+
                         $('#issueMaterial').show();
 
                         for (var i = 0; i < keys.length; i++) {
                             var key = keys[i];
-                            var rowCounter = i+1;
+                            var rowCounter = i + 1;
                             var value = response[key];
                             var rowHtml = '<tr>';
                             rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" value="' + key + '" readonly/></td>';
@@ -264,7 +266,7 @@ $(function () {
             });
         }
     });
-});   
+});
 
 $(document).ready(function () {
     showModal('', '');
