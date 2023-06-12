@@ -36,6 +36,7 @@ var addStock = {
         }
     }
 };
+
 $(document).ready(() => {
     $(document).on('input', '.from-input, .to-input', addStock.calculateQty);
     $(document).on('click', '#addMaterialButton', addStock.addRow);
@@ -126,25 +127,25 @@ $(function () {
 
 
 
-//$(function () {
-//    $("#SelectedSubDivId").on("change", function () {
-//        var selectedSubDivId = $(this)[0].selectedIndex;
-//        $("#Division").empty();
-//        if (selectedSubDivId) {
-//            $.ajax({
-//                url: "/IssueStock/GetCircleAndDivision",
-//                type: "GET",
-//                data: { SelectedSubDivId: selectedSubDivId },
-//                success: function (result) {
-//                    $("#Division").val(result[0]);
-//                    $("#DivisionId").val(result[2]);
-//                    $("#Circle").val(result[1]);
-//                    $("#CircleId").val(result[3]);
-//                }
-//            });
-//        }
-//    });
-//});
+$(function () {
+    $("#SelectedSubDivId").on("change", function () {
+        var selectedSubDivId = $(this)[0].selectedIndex;
+        $("#Division").empty();
+        if (selectedSubDivId) {
+            $.ajax({
+                url: "/IssueStock/GetCircleAndDivision",
+                type: "GET",
+                data: { SelectedSubDivId: selectedSubDivId },
+                success: function (result) {
+                    $("#Division").val(result[0]);
+                    $("#DivisionId").val(result[2]);
+                    $("#Circle").val(result[1]);
+                    $("#CircleId").val(result[3]);
+                }
+            });
+        }
+    });
+});
 
 
 
@@ -436,44 +437,4 @@ function displayModal(message) {
 function ClearGrnDate() {
     document.getElementById("grnDate").value = "";
 }
-
-
-//function serialNumberValidation(SrNoTo) {
-//    var srNoTo = SrNoTo;
-//    var srNoFrom =
-//}
-
-//function validateSerialNumbers() {
-//    $('.to-input').each(function () {
-//        var $this = $(this);
-//        var $row = $this.closest('tr');
-//        var fromVal = $row.find('.from-input').val();
-//        var toVal = $this.val();
-
-//        Console.log(fromVal);
-//        Console.log(toVal);
-
-//        Console.log(" ");
-
-
-//        var ListOfSerialNumbers = [];
-
-//        for (let i = fromVal; i <= toVal; i++) {
-//            ListOfSerialNumbers.append(i);
-//        }
-
-//        //if (ListOfSerialNumbers.length == ListOfSerialNumbers.distinct().length) {
-//        //show modal
-//        //}
-
-//    });
-//}
-
-
-
-
-
-
-
-
 

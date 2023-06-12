@@ -168,6 +168,35 @@ namespace Pspcl.Services
 
             return stockInModels;
         }
+        public List<AvailableStockModel> GetAvailableStock()
+        {
+            var availableStocks = _dbcontext.StockMaterial               
+                .Select(sm => new AvailableStockModel
+                {                    
+                    StockMaterial= sm,                         
+
+                    MaterialGroup = _dbcontext.MaterialGroup.Where(mg => mg.Id == _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.MaterialGroupId).FirstOrDefault()).Select(mg => mg.Name)
+                    .FirstOrDefault(),
+                    MaterialName = _dbcontext.MaterialType.Where(mt => mt.Id == _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.MaterialTypeId).FirstOrDefault()).Select(mt => mt.Name)
+                    .FirstOrDefault(),
+                    MaterialCode = _dbcontext.Material.Where(mt => mt.Id == _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.MaterialId).FirstOrDefault()).Select(mt => mt.Code)
+                    .FirstOrDefault(),
+
+                    grnNo = _dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnNumber).FirstOrDefault(),
+                    grnDate =(DateTime)_dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),                    
+                    Rate = (float)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Rate).FirstOrDefault(),
+
+                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false),
+                    SrNoTo = sm.SerialNumberTo,
+                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false) + 1
+
+
+                })
+                .ToList();
+
+            return availableStocks;
+        }
+
 
         public string GetMaterialGroupById(int? materialGroupId)
         {
