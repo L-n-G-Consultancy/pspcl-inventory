@@ -70,6 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="App_data\Images\" />
     <Folder Include="logs\" />
   </ItemGroup>
 

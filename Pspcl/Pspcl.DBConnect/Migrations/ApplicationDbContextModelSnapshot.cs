@@ -382,9 +382,6 @@ namespace Pspcl.DBConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("GrnDate")
                         .HasColumnType("datetime2");
 
@@ -410,9 +407,6 @@ namespace Pspcl.DBConnect.Migrations
 
                     b.Property<int>("MaterialTypeId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("PrefixNumber")
                         .IsRequired()
@@ -479,9 +473,6 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("CircleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("CurrentDate")
                         .HasColumnType("datetime2");
 
@@ -489,6 +480,7 @@ namespace Pspcl.DBConnect.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JuniorEngineerName")
