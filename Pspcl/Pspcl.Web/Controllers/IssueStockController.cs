@@ -48,7 +48,7 @@ namespace Pspcl.Web.Controllers
             return result;
         }
 
-        public string uploadImage(IFormFile Image)
+        public string UploadImage(IFormFile Image)
         {
             if (Image != null && Image.Length > 0)
             {
@@ -153,7 +153,7 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.SubDivisionId = int.Parse(formCollection["SubDivisionId"]);
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
-            string response = uploadImage(Image);
+            string response = UploadImage(Image);
             stockIssueBook.Image = response == "" ? null : (response == "-1" ?"-1":response);
             if (stockIssueBook.Image == "-1")
             {
