@@ -479,6 +479,10 @@ namespace Pspcl.DBConnect.Migrations
                     b.Property<int>("DivisionId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("JuniorEngineerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

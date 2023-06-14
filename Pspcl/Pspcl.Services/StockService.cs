@@ -280,6 +280,13 @@ namespace Pspcl.Services
 
                 makesAndQuantities.Add(Make, QuantityAgainstMake);
             }
+            foreach(KeyValuePair<string,int> makeAndQuantity in makesAndQuantities)
+            {
+                if (makeAndQuantity.Value == 0)
+                {
+                    makesAndQuantities.Remove(makeAndQuantity.Key);
+                }
+            }
             return makesAndQuantities;
         }
 
@@ -321,8 +328,24 @@ namespace Pspcl.Services
                 List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId, x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
 
                 availableMakesAndRows.Add(Make, ranges);
+
+                List<string> keysToRemove = new List<string>();
+
+                foreach (KeyValuePair<string, List<List<int>>> MakeAndRows in availableMakesAndRows)
+                {
+                    if (MakeAndRows.Value.Count == 0)
+                    {
+                        keysToRemove.Add(MakeAndRows.Key);
+                    }
+                }
+
+                foreach (string key in keysToRemove)
+                {
+                    availableMakesAndRows.Remove(key);
+                }
+
             }
-            return availableMakesAndRows;
+          return availableMakesAndRows;
         }
         public string GetCorrespondingMakeValue(string invoiceNumber)
         {
@@ -335,7 +358,6 @@ namespace Pspcl.Services
             else
                 return "Enter Make";
         }
-
 
         public bool isGrnNumberExist(string GrnNumber)
         {
@@ -353,7 +375,6 @@ namespace Pspcl.Services
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId && x.Make == make).ToList();
             List<int> stockId = stocks.Select(x => x.Id).ToList();
 
-
             List<StockMaterial> stockMaterial = _dbcontext.StockMaterial.Where(x => stockId.Contains(x.StockId)).ToList();
             List<int> stockMaterialId = stockMaterial.Select(x => x.Id).ToList();
 
@@ -363,12 +384,6 @@ namespace Pspcl.Services
 
             bool isContained = SerialNumberList.Any(x => serialNumbers.Contains(x));
 
-            //
-            //List<StockMaterialSeries> stockMaterialSeriesList = _dbcontext.StockMaterialSeries.Where(x => stockMaterialId.Contains(x.StockMaterialId)&& stockMaterialSeries.Contains(serialNumbers).ToList();
-
-
-
-
             if (isContained)
             {
 
@@ -376,9 +391,24 @@ namespace Pspcl.Services
             }
             return false;
         }
+
+        public int GetCost(int materialId, int noOfUnits )    
+        {
+            List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
+            int testingCharges = material.Select(x => x.TestingCharges).First();
+
+            List<Stock> stocks = _dbcontext.Stock.Where(x =>x.MaterialId == materialId).ToList();
+            int rate = Convert.ToInt32(stocks.Select(x => x.Rate).First());
+
+            int totalCost = (rate + ((3 * rate) / 100) + testingCharges) * noOfUnits;
+
+
+            return totalCost;
+        }
+
+
+
     }
-
-
-
+         
 }
 

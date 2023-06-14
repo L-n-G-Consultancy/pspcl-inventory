@@ -47,6 +47,10 @@ $(document).ready(() => {
 
 $(function () {
     $("#materialGroupId").on("change", function () {
+        $('#issueMaterial').hide();
+        $("#Cost").val('0');
+        makesAndUnits = {};
+
         var materialGroupId = $(this).val();
         $("#materialTypeId").empty();
         $("#materialId").empty().append($('<option>').text("--Select Material Code--").val(""));;
@@ -99,6 +103,11 @@ $(function () {
 });
 $(function () {
     $("#materialTypeId").on("change", function () {
+        $('#issueMaterial').hide();
+        $("#Cost").val('0');
+
+        makesAndUnits = {};
+
         var materialTypeId = $(this).val();
         $("#materialId").empty();
         $("#makeId").empty();
@@ -128,23 +137,40 @@ $(function () {
 $(function () {
     $("#SelectedSubDivId").on("change", function () {
         var selectedSubDivId = $(this)[0].selectedIndex;
-        $("#Division").empty();
+        $("#Division").val("");
+        $("#Circle").val("");
+        $("#LocationCode").val("");
+        $("#error-message").remove();
+
         if (selectedSubDivId) {
             $.ajax({
                 url: "/IssueStock/GetCircleAndDivisionAndLocationCode",
                 type: "GET",
                 data: { SelectedSubDivId: selectedSubDivId },
                 success: function (result) {
+
                     $("#Division").val(result[0]);
                     $("#DivisionId").val(result[2]);
                     $("#Circle").val(result[1]);
                     $("#CircleId").val(result[3]);
                     $("#LocationCode").val(result[4]);
+                },
+                error: function (xhr, status, error) {
+                    $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                    $('#stockNotAvailableModal').modal('show');
+                    console.log("AJAX request failed. Status: " + status + ", Error: " + error);
                 }
             });
         }
     });
 });
+
+
+
+
+
+
+
 
 
 
@@ -220,15 +246,15 @@ function validateSerialNumbers(listOfSerialNumber) {
 
     return isValid;
 }
-  
-
 $(function () {
     $("#materialId").on("change", function () {
+
+        $("#Cost").val('');
+
         var materialGroupId = $("#materialGroupId").val();
         var materialTypeId = $("#materialTypeId").val();
         var materialId = $(this).val();
         $("#AvailableStock").val('');
-        
 
         if (materialId) {
             $.ajax({
@@ -240,34 +266,41 @@ $(function () {
 
                     var keys = Object.keys(response);
                     if (keys.length > 0) {
-                        
+
                         $('#issueMaterial').show();
 
                         for (var i = 0; i < keys.length; i++) {
                             var key = keys[i];
-                            var rowCounter = i+1;
+                            var rowCounter = i + 1;
                             var value = response[key];
                             var rowHtml = '<tr>';
-                            rowHtml += '<td><input type="text" class="make-input" name="row_' + rowCounter + '_make" value="' + key + '" readonly/></td>';
-                            rowHtml += '<td><input type="number" class="available-quantity-input" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
-                            rowHtml += '<td><input type="text" class="required-quantity-input" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" /></td>';
+                            rowHtml += '<td><input type="text" class="Make_reqQty MakeClass" name="row_' + rowCounter + '_make" id="row_' + rowCounter + '_Make" value="' + key + '" readonly/></td>';
+                            rowHtml += '<td><input type="number" class="Make_reqQty AvailableQtyClass" name="row_' + rowCounter + '_availQty" value="' + value + '" readonly/></td>';
+                            rowHtml += '<td><span class="required text-danger">*</span><input type="number" min="0" class="Make_reqQty" name="row_' + rowCounter + '_reqAty" id="row_' + key + '_ReqQty" oninput="handleRequiredQuantity(event)" required /></td>';
                             rowHtml += '</tr>';
                             $('#issueMaterialTableBody').append(rowHtml);
                         }
-                    } else {
+                    }
+                    else {
                         // Hide the table if the response is empty
                         $('#issueMaterial').hide();
+                        $('#stockNotAvailableModal').modal('show');
+
                     }
+                },
+                error: function (xhr, status, error) {
+                    $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                    $('#stockNotAvailableModal').modal('show');
+                    console.log("AJAX request failed. Status: " + status + ", Error: " + error);
                 }
-
-
             });
         }
     });
-});   
+});
 
 $(document).ready(function () {
     showModal('', '');
+    $('#stockNotAvailableModal').hide();
 
 });
 
@@ -362,11 +395,12 @@ function getCorrespondingMakeValue(invoiceNumber) {
             }
         },
         error: function (xhr, status, error) {
-            // Handle the error
+            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+            $('#stockNotAvailableModal').modal('show');
+            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
         }
     });
 }
-
 function GrnValidation(GrnNumber) {
     $.ajax({
 
@@ -387,9 +421,9 @@ function GrnValidation(GrnNumber) {
             // Handle the error
         }
     });
+
+
 }
-
-
 function validateDates() {
     var invoiceDate = document.getElementById("invoiceDate").value;
     var grnDate = document.getElementById("grnDate").value;
@@ -421,6 +455,129 @@ function ClearGrnDate() {
 
 
 
+//function serialNumberValidation(SrNoTo) {
+//    var srNoTo = SrNoTo;
+//    var srNoFrom =
+//}
+
+//function validateSerialNumbers() {
+//    $('.to-input').each(function () {
+//        var $this = $(this);
+//        var $row = $this.closest('tr');
+//        var fromVal = $row.find('.from-input').val();
+//        var toVal = $this.val();
+
+//        Console.log(fromVal);
+//        Console.log(toVal);
+
+//        Console.log(" ");
 
 
+//        var ListOfSerialNumbers = [];
 
+//        for (let i = fromVal; i <= toVal; i++) {
+//            ListOfSerialNumbers.append(i);
+//        }
+
+//        //if (ListOfSerialNumbers.length == ListOfSerialNumbers.distinct().length) {
+//        //show modal
+//        //}
+
+//    });
+//}
+
+var makesAndUnits = {};
+$(document).ready(function () {
+
+    makesAndUnits = {};
+});
+function handleRequiredQuantity(event) {
+    var materialGroupId = $("#materialGroupId").val();
+    var materialTypeId = $("#materialTypeId").val();
+    var materialId = $("#materialId").val();
+    //$("#Cost").val('');
+
+    var units = event.target.value;
+
+    var $input = $(event.target);
+    var $row = $input.closest('tr');
+    var make = $row.find('.MakeClass').val();
+    var availableQty = $row.find('.AvailableQtyClass').val();
+
+    var localMakesAndUnits = Object.assign({}, makesAndUnits);
+
+    if (parseInt(availableQty) < parseInt(units)) {
+
+        $('#stockNotAvailableModal').modal('show');
+
+        // $("#Cost").val('0');
+        $input.val('0');
+        units = 0;
+
+        if (make in localMakesAndUnits) {
+
+            delete localMakesAndUnits[make];
+            delete makesAndUnits[make];
+
+            updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId);
+        }
+    }
+
+    else {
+        if (!units) {
+            units = 0;
+        }
+
+        else if (parseInt(units) < 0) {
+            // $("#Cost").val('');
+            $input.val('0');
+            units = 0;
+
+        }
+
+        if (make in localMakesAndUnits) {
+
+            delete localMakesAndUnits[make];
+            delete makesAndUnits[make];
+
+        }
+
+        updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId);
+    }
+}
+
+function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId) {
+
+    console.log(units);
+    localMakesAndUnits[make] = units;
+    makesAndUnits = Object.assign({}, localMakesAndUnits);
+    var noOfUnits = 0;
+
+    for (var key in makesAndUnits) {
+        if (makesAndUnits.hasOwnProperty(key)) {
+            var value = parseInt(makesAndUnits[key]);
+            noOfUnits += value;
+        }
+    }
+
+    $.ajax({
+        url: "/IssueStock/GetCost",
+        type: "GET",
+        data: {materialId: materialId, noOfUnits: noOfUnits },
+        success: function (response) {
+            $('#Cost').val(response);
+
+        }
+    });
+}
+
+
+function clearTable() {
+    setTimeout(() => {
+        var currentDateField = document.getElementById('currentDate');
+        var currentDate = new Date().toLocaleDateString();
+        currentDateField.value = currentDate;
+        $('#issueMaterial').hide();
+    }, 100);
+    
+}

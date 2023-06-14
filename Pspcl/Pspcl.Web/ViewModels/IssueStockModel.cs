@@ -34,7 +34,10 @@ namespace Pspcl.Web.Models
 		public int MaterialTypeId { get; set; }
 		public int? MaterialId { get; set; }
 		public int Quantity { get; set; }
-		public string Make { get; set; }	
+		public string Make { get; set; }
+
+        public int Cost { get; set; }
+
         public IList<SelectListItem> SubDivisionList { get; set; }
 
 		public List<List<int>> QuantityRanges { get; set; }
@@ -49,6 +52,7 @@ namespace Pspcl.Web.Models
         //public List<StockItem> StockItems { get; set; }
 
 		public List<Dictionary<string,string>> StockItems { get; set; }
+		public string Image { get; set; }
 
 
     }
