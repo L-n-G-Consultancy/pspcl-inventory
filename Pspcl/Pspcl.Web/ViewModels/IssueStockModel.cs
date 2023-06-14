@@ -37,8 +37,6 @@ namespace Pspcl.Web.Models
 		public string Make { get; set; }
 
         public int Cost { get; set; }
-        public string Image { get; set; }
-
 
         public IList<SelectListItem> SubDivisionList { get; set; }
 
@@ -54,6 +52,7 @@ namespace Pspcl.Web.Models
         //public List<StockItem> StockItems { get; set; }
 
 		public List<Dictionary<string,string>> StockItems { get; set; }
+		public string Image { get; set; }
 
 
     }
