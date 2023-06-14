@@ -273,6 +273,7 @@ $(document).ready(function () {
 
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
+    console.log(successMessage);
 
     if (alertMessage) {
         $("#successMessagePlaceholder").text(alertMessage);
@@ -315,19 +316,6 @@ $(document).on('submit', '#StockForm', function (event) {
     }
 });
 
-
-//$('#IssueStockForm1').on('submit', function (event) {
-//    event.preventDefault();
-//    var quantity = $('#requiredQuantity').val();
-//    var availableQuantity = $('#AvailableStock').val();
-//    if (parseInt(quantity) > parseInt(availableQuantity)) {
-//        showModal('Stock not avaialable.', 'Error..!')
-//    }
-//    else {
-//        this.submit();
-//    }
-
-//});
 
 
 document.getElementById("exportButton").addEventListener("click", function () {

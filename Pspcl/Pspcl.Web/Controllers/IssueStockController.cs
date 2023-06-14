@@ -69,7 +69,7 @@ namespace Pspcl.Web.Controllers
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
 				{
-					var element_make = formCollection.ElementAt(i);
+					var element_make = formCollection.ElementAt(i).Value;
 					var element_availableQty = formCollection.ElementAt(i + 1);
 					var element_requiredQty = formCollection.ElementAt(i + 2);
 
@@ -123,6 +123,7 @@ namespace Pspcl.Web.Controllers
             //List<List<int>> IssuedStockRanges = new List<List<int>>();
 
             TempData["issuedMakesAndRows"] = JsonConvert.SerializeObject(issuedMakesAndRows);
+
             TempData["Message"] = "Stock Issued Successfully..!";
 
             StockIssueBook stockIssueBook =new StockIssueBook();
