@@ -119,7 +119,7 @@ namespace Pspcl.Web.Controllers
 
             StockIssueBook stockIssueBook =new StockIssueBook();
 
-			stockIssueBook.TransactionId = "transaction";
+			stockIssueBook.TransactionId = Guid.NewGuid().ToString();
             stockIssueBook.CurrentDate = DateTime.Now;
 			stockIssueBook.SrNoDate = DateTime.Parse(formCollection["SrNoDate"]);
 			stockIssueBook.SerialNumber = formCollection["SerialNumber"];
