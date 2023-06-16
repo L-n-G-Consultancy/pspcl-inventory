@@ -333,6 +333,15 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
+$('#checkBoxAll').click(function () {
+    if ($(this).is(":checked")) {
+        $(".chkCheckBoxId").prop("checked", true)
+    }
+    else {
+        $(".chkCheckBoxId").prop("checked", false)
+    }
+});  
+
 $(document).on('submit', '#StockForm', function (event) {
     
     event.preventDefault();
@@ -360,6 +369,7 @@ $(document).on('submit', '#StockForm', function (event) {
     }
     
 });
+
 
 
 

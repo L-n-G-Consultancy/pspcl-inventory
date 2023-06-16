@@ -13,6 +13,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="@Url.Action("DeleteStock", "DeleteStock")">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Delete Stock</span>
+                    </a>
+                </li>
+
                 <li hidden>
                     <a href="@Url.Action("IssueStockView", "IssueStock")">
                         <i class="fab fa-stack-exchange"></i>
@@ -37,10 +44,10 @@
                 <li>
                     <a href="@Url.Action("StockInReport", "Report")">
                         <i class="far fa-chart-bar"></i>
-                        <span>Reports</span>
+                        <span>StockIn Report</span>
                     </a>
                 </li>
-                <li hidden>
+                <li>
                     <a href="@Url.Action("AvailableStock", "Report")">
                         <i class="far fa-chart-bar"></i>
                         <span>AvailableStock Reports</span>
