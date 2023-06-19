@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Pspcl.Services.Models
 {
-	public class StockOutModel
-	{
-        public Stock Stock { get; set; }
-        public string TxnOutID { get; set; }
-        public string SrNo { get; set; }
+    public class StockOutModel
+    {
+        public int Id { get; set; }
+        public int TransactionId { get; set; }
+        public DateTime CurrentDate { get; set; }
         public DateTime SrNoDate { get; set; }
-        public string DivName { get; set; }
-        public string LocationCode { get; set; }
-        public string SubDivName { get; set; }
-        public string JEname { get; set; }
-        public string MaterialType { get; set; }
+        public string SerialNumber { get; set; }
+        public string DivisionName { get; set; }
+        public int LocationID { get; set; }
+        public string SubDivisionName { get; set; }
+        public string JuniorEngineerName { get; set; }
+        public string MaterialName { get; set; }
         public string MaterialCode { get; set; }
+        public decimal Rate { get; set; }   
         public int Quantity { get; set; }
         public int Rate { get; set; }
         public string Make{ get; set; }
