@@ -90,8 +90,13 @@ namespace Pspcl.Web.Controllers
             availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
 
-			 int x = 13;
-             foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
+            int x;
+            if (Image== null)
+            {
+                x = 14;
+            }
+            else x = 13;
+            foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
 				{
@@ -141,6 +146,7 @@ namespace Pspcl.Web.Controllers
             }
 
             TempData["issuedMakesAndRows"] = JsonConvert.SerializeObject(issuedMakesAndRows);
+
             TempData["Message"] = "Stock Issued Successfully..!";
 
             StockIssueBook stockIssueBook = new StockIssueBook();

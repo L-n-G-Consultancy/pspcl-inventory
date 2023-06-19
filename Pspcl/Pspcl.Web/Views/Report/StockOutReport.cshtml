@@ -2,52 +2,65 @@
 @{
     Layout = "~/Views/Shared/_TwoColumnLayout.cshtml";
 }
-
 <div class="main-content">
     <div class="page-content">
 
-        <h3>Stock-In Report</h3>
+        <div id="stock-in-report"><h3>Stock-Out Report</h3> <button type="button" class="btn btn-dark blackButton px-5 mb-2 mb-md-2" id="exportButton">Export to Excel</button></div>
 
         <table class="table table-responsive custom-table">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Txn Out ID</th>
-                    <th scope="col">Sr.No.</th>
-                    <th scope="col">Sr.No. Date</th>
-                    <th scope="col">Division Name</th>
-                    <th scope="col">Location Code</th>
-                    <th scope="col">Sub-Division Name</th>
-                    <th scope="col">JE Name</th>
-                    <th scope="col">Material Type</th>
-                    <th scope="col">Material Code</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Rate</th>
+                <tr>
+                    <th>Txn Out Id</th>
+                    <th>IssueDate</th>
+                    <th>Sr. No.</th>
+                    <th>SrNo Date</th>
+                    <th>Division</th>
+                    <th>Location code</th>
+                    <th>SubDiv</th>
+                    <th>JE Name</th>
+                    <th>Material Type</th>
+                    <th>Material Code</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Make</th>
+
+
+
+
                 </tr>
-            </thead>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>@item.TransactionId</td>
+                <td>@item.CurrentDate</td>
+                <td>@item.SerialNumber</td>
+                <td>@item.SrNoDate</td>
+                <td>@item.DivisionName</td>
+                <td>@item.LocationID</td>
+                <td>@item.SubDivisionName</td>
+                <td>@item.JuniorEngineerName</td>
+                <td>@item.MaterialName</td>
+                <td>@item.MaterialCode</td>
+                <td>@item.Quantity</td>
+                <td>@item.Rate</td>
+                <td>@item.Make</td>
 
-            <tbody class="table-group-divider">
-                @foreach (var stockOutModel in Model)
-                {
-                    <tr>
-                        <td>@stockOutModel.TxnOutID</td>
-                        <td>@stockOutModel.SrNo</td>
-                        <td>@stockOutModel.SrNoDate.ToString().Split(' ')[0]</td>
-                        <td>@stockOutModel.DivName.ToString().Split(' ')[0]</td>
-                        <td>@stockOutModel.LocationCode</td>
-                        <td>@stockOutModel.SubDivName</td>
-                        <td>@stockOutModel.JEname</td>
-                        <td>@stockOutModel.MaterialType</td>
-                        <td>@stockOutModel.MaterialCode</td>
-                        <td>@stockOutModel.Quantity</td>
-                        <td>@stockOutModel.Rate</td>
 
-                    </tr>
-                }
-            </tbody>
 
-        </table>
-        <button type="button" class="btn btn-dark blackButton px-5 mt-2 mt-md-2" id="exportButton">Export to Excel</button>
+                
+            </tr>
+        }
+    </tbody>
+</table>
 
     </div>
+
+
 
 </div>

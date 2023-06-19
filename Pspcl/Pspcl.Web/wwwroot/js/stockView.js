@@ -300,29 +300,41 @@ $(function () {
 
 $(document).ready(function () {
     showModal('', '');
-    $('#stockNotAvailableModal').hide();
+    $('#stockNotAvailableModal').hide();    
 
 });
 
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
+    console.log(successMessage);
+    if (successMessage) {
+        $("#staticBackdropLiveLabel").text('Success');
+        $("#successMessagePlaceholder").text(successMessage);
+        $('#staticBackdropLive').modal('show');
+    }
 
     if (alertMessage) {
         $("#successMessagePlaceholder").text(alertMessage);
         $("#staticBackdropLiveLabel").text(status);
         $("#staticBackdropLive").modal("show");
     }
-    if (successMessage) {
-        $("#staticBackdropLiveLabel").text('Successful');
-        $("#successMessagePlaceholder").text(successMessage);
-        $("#staticBackdropLive").modal("show");
-    }
+    
 
 
 
 }
+$(document).on('click', "#saveStock", function (event) {
+    var $submitButton = $(this);
+    var $form = $submitButton.closest('form');
+
+    // Show the loading indicator
+    $('#loadingIndicator').show();
+
+    $form.submit();
+});
 
 $(document).on('submit', '#StockForm', function (event) {
+    
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 
@@ -341,12 +353,16 @@ $(document).on('submit', '#StockForm', function (event) {
     else if (userEnteredRate < 0) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
+    else {      
 
-    else {
+        this.submit();    
 
-        this.submit();
     }
+    
 });
+
+
+
 document.getElementById("exportButton").addEventListener("click", function () {
     // Fetch the table element
     var table = document.querySelector(".table");
@@ -577,3 +593,5 @@ function clearTable() {
     }, 100);
     
 }
+
+

@@ -114,27 +114,23 @@
 
             <div class="col-md-12 text-center">
                 <label for="">&nbsp;</label>
-                <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" >Issue Stock</button>
-                <button type="reset" id="resetButton" class="btn btn btn-outline-dark px-4 mt-3" onclick="clearTable()">Reset</button>
+                <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" id="IssueStockForm">Issue Stock</button>
+                <button type="reset" class="btn btn btn-outline-dark px-4 mt-3" onclick="clearTable()">Reset</button>
             </div>
 
-        }
+		}
+		<input type="hidden" id="successMessage" value="@TempData["Message"]" />
 
-        <div class="modal fade bd-example-modal-sm" id="IssuedDataModal" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-sm-6">
+        <div class="modal fade" id="staticBackdropLive" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="mySmallModalLabel"></h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h3 class="modal-title fs-3" id="staticBackdropLiveLabel"></h3>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-
-                        <p class="mx-auto my-5 font-weight-normal">@TempData["Message"]</p>
-
+                        <p class="mx-auto font-weight-normal">@TempData["Message"]</p>
                         <table class="table table-responsive custom-table">
-
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Make</th>
@@ -167,8 +163,10 @@
                 </div>
             </div>
         </div>
+		
+       
 
-        <!-- Modal -->
+            <!-- Modal -->
         <div class="modal fade" id="stockNotAvailableModal" tabindex="-1" role="dialog" aria-labelledby="stockNotAvailableModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
