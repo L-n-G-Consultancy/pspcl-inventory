@@ -477,34 +477,30 @@ namespace Pspcl.DBConnect.Install
             {
                 var DivisionData = new List<Division>()
                 {
-                    new Division(){Name="CITY BATALA",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="SUB BATALA",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="DHARIWAL",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="GURDASPUR",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="CITY PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="SUB PATHANKOT",IsActive=true,IsDeleted=false,CircleId=1},
-                    new Division(){Name="QADIAN",IsActive=true,IsDeleted=false,CircleId=1},
-
-                    new Division(){Name="EAST",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="WEST",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="SUB ASR",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="AJNALA",IsActive=true,IsDeleted=false,CircleId=2},
-                    new Division(){Name="JANDIALA",IsActive=true,IsDeleted=false,CircleId=2},
-
-                    new Division(){Name="INDUSTRIAL",IsActive=true,IsDeleted=false,CircleId=3},
-                    new Division(){Name="CIVIL LINE",IsActive=true,IsDeleted=false,CircleId=3},
-                    new Division(){Name="CITY CENTRE",IsActive=true,IsDeleted=false,CircleId=3},
-                    new Division(){Name="HAKIMA GATE",IsActive=true,IsDeleted=false,CircleId=3},
-
-                    new Division(){Name="RAYYA",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="CITY TT",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="SUB TT",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="PATTI",IsActive=true,IsDeleted=false,CircleId=4},
-                    new Division(){Name="BHIKHIWIND",IsActive=true,IsDeleted=false,CircleId=4},
-
-                    new Division(){Name="APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5},
-                    new Division(){Name="NON APDRP ASR",IsActive=true,IsDeleted=false,CircleId=5},
-                    new Division(){Name="APDRP GSP",IsActive=true,IsDeleted=false,CircleId=5},
+                    new Division(){Name="CITY BATALA",LocationCode=325 ,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="SUB BATALA",LocationCode=326 ,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="DHARIWAL",LocationCode= 324,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="GURDASPUR",LocationCode= 323,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="CITY PATHANKOT",LocationCode= 321,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="SUB PATHANKOT",LocationCode= 322,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="QADIAN",LocationCode= 327,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=1},
+                    new Division(){Name="EAST",LocationCode= 331,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=2},
+                    new Division(){Name="WEST",LocationCode= 332,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=2},
+                    new Division(){Name="SUB ASR",LocationCode= 333,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=2},
+                    new Division(){Name="AJNALA",LocationCode= 334,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=2},
+                    new Division(){Name="JANDIALA",LocationCode= 343,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=2},
+                    new Division(){Name="INDUSTRIAL",LocationCode= 490,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=3},
+                    new Division(){Name="CIVIL LINE",LocationCode= 490,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=3},
+                    new Division(){Name="CITY CENTRE",LocationCode= 490,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=3},
+                    new Division(){Name="HAKIMA GATE",LocationCode= 490,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=3},
+                    new Division(){Name="RAYYA",LocationCode= 344,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=4},
+                    new Division(){Name="CITY TT",LocationCode= 341,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=4},
+                    new Division(){Name="SUB TT",LocationCode= 342,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=4},
+                    new Division(){Name="PATTI",LocationCode= 345,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=4},
+                    new Division(){Name="BHIKHIWIND",LocationCode= 346,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=4},
+                    new Division(){Name="APDRP ASR",LocationCode= 813,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=5},
+                    new Division(){Name="NON APDRP ASR",LocationCode=813 ,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=5},
+                    new Division(){Name="APDRP GSP",LocationCode= 813,IsActive=true,IsDeleted=false,CreatedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),ModifiedOn=DateTime.Parse("2023-06-01 00:00:00.0000000"),CircleId=5},
                 };
                 _identityContext.Division.AddRange(DivisionData);
                 await _identityContext.SaveChangesAsync();

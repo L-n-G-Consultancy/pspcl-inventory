@@ -167,7 +167,7 @@ namespace Pspcl.Services
                     grnNo = _dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnNumber).FirstOrDefault(),
                     grnDate =(DateTime)_dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),                    
                     Rate = (float)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Rate).FirstOrDefault(),
-
+                    Make=_dbcontext.Stock.Where(s => s.Id==sm.StockId).Select(s=>s.Make).FirstOrDefault(),
                     AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false),
                     SrNoTo = sm.SerialNumberTo,
                     SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false) + 1
@@ -182,12 +182,33 @@ namespace Pspcl.Services
 
         public List<StockOutModel> GetStockOutModels()
         {
-            var stockOutModels = new List<StockOutModel>
-            {
+            var stockIssueBookModels = _dbcontext.StockIssueBook
+                .Join(_dbcontext.StockBookMaterial,
+                    sib => sib.Id,
+                    sbm => sbm.StockIssueBookId,
+                    (sib, sbm) => new StockOutModel
+                    {
+                       
+                        TransactionId = sbm.Id,
+                        CurrentDate = sib.CurrentDate,
+                        SrNoDate = sib.SrNoDate,
+                        SerialNumber = sib.SerialNumber,
+                        DivisionName = _dbcontext.Division.Where(d => d.Id==sib.DivisionId).Select(d => d.Name).FirstOrDefault(),
+                        LocationID = _dbcontext.Division.Where(d => d.Id == sib.DivisionId).Select(d => d.LocationCode).FirstOrDefault(),
+                        SubDivisionName = _dbcontext.SubDivision.Where(sd => sd.Id==sib.SubDivisionId).Select(sd => sd.Name).FirstOrDefault(),
+                        JuniorEngineerName = sib.JuniorEngineerName,
+                        MaterialName = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Name).FirstOrDefault(),
+                        MaterialCode = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Code).FirstOrDefault(),
+                        Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
+                        Quantity = sbm.Quantity,
+                        Make = sbm.Make
+                    })
+                .ToList();
 
-            };
-            return stockOutModels;
+            return stockIssueBookModels;
         }
+
+
 
         public string GetMaterialGroupById(int? materialGroupId)
         {
