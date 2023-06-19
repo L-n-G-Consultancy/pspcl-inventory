@@ -343,9 +343,23 @@ $(function () {
 });   
 
 $(document).ready(function () {
-    showModal('', '');
-
+    showModal('', '')   
+ 
 });
+
+
+$(document).on('click', '#stockIn, #stockOut, #availableStock', function (event) {
+    console.log("Hello");
+    
+    $('#stockIn').removeClass('active');
+    $('#stockOut').removeClass('active');
+    $('#availableStock').removeClass('active');
+
+    $('#submenu1').removeClass('mm-active');
+
+    $(this).addClass('mm-active');
+});
+
 
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
