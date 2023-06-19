@@ -39,7 +39,7 @@ namespace Pspcl.Web.ViewModels
 		public string SelectedMaterialTypeName { get; set; }
 
 		public IList<SelectListItem>? AvailableRatings { get; set; }
-		public string? Rating { get; set; }
+		public int? Rating { get; set; }
 		//[DataMember]
 		public decimal? Rate { get; set; }
 		//[DataMember]

@@ -7,7 +7,7 @@ namespace Pspcl.Services.Interfaces
     {
         List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false);
         List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false);
-        List<MaterialType> GetAllMaterialRatings(int materialTypeId, bool? onlyActive = false);
+        List<Tuple<int, string>> GetAllMaterialRatings(int materialTypeId);
         List<Material> GetAllMaterialCodes(int materialTypeId, bool? onlyActive = false);
 		List<SubDivision> GetAllSubDivisions(bool? onlyActive = false);
 		List<string> GetCircleAndDivisionAndLocationCode(int selectedSubDivId, bool? onlyActive = false);
@@ -22,14 +22,17 @@ namespace Pspcl.Services.Interfaces
 		int AddStockMaterial(StockMaterial stockMaterial);
         void AddStockMaterialSeries(StockMaterialSeries stockMaterialSeries);
         List<StockInModel> GetStockInModels();
-		List<StockOutModel> GetStockOutModels();
-
-		string GetMaterialGroupById(int? materialGroupId);
+        List<AvailableStockModel> GetAvailableStock();
+        List<StockOutModel> GetStockOutModels();
+        string GetMaterialGroupById(int? materialGroupId);
         string GetMaterialTypeById(int? materialTypeId);
         string GetMaterialCodeById(int? materialCodeId);
         string GetRatingNameById(int? materialTypeId);
         public string GetCorrespondingMakeValue(string invoiceNumber);
+
+        //public int GetCorrespondingRateValue(int materialId);
         public bool isGrnNumberExist(string GrnNumber);
+        public int GetCost(int materialId,int noOfUnits);
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId,int materialTypeId, int materialId, string make);
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);

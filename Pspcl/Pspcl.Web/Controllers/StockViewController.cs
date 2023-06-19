@@ -35,7 +35,7 @@ namespace Pspcl.Web.Controllers
                 var model = JsonConvert.DeserializeObject<StockViewModel>(json);
                 model.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
                 model.AvailableMaterialTypes = _stockService.GetAllMaterialTypes((int)model.MaterialGroupId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-                model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+                model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Item1.ToString(), Text = x.Item2 }).ToList();
                 model.AvailableMaterialCodes = _stockService.GetAllMaterialCodes((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Code }).ToList();
                 return View(model);
             }
@@ -60,7 +60,7 @@ namespace Pspcl.Web.Controllers
         {
             StockViewModel viewModel = new StockViewModel();
             var materialType = _stockService.GetAllMaterialRatings(materialTypeId);
-            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Rating }).ToList();
+            viewModel.AvailableRatings = materialType.Select(x => new SelectListItem() {Value=x.Item1.ToString(),Text = x.Item2}).ToList();
             return Json(viewModel.AvailableRatings);
         }
 
@@ -82,16 +82,16 @@ namespace Pspcl.Web.Controllers
 
                 DateTime date = DateTime.Parse(formCollection["GRNDate"]);
                 model.GrnDate = date;
-                model.TestReportReference = formCollection["TestReportReference"];
+                model.TestReportReference = string.IsNullOrEmpty(formCollection["TestReportReference"]) ? "N/A" : formCollection["TestReportReference"];
                 model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
                 model.InvoiceNumber = formCollection["InvoiceNumber"];
                 model.MaterialIdByCode = int.Parse(formCollection["MaterialIdByCode"]);
                 model.Rate = decimal.Parse(formCollection["Rate"]);
                 model.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
                 model.MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
-                model.Rating = formCollection["Rating"];
+                model.Rating = int.Parse(formCollection["Rating"]);
                 model.GrnNumber = formCollection["GrnNumber"];
-                model.PrefixNumber = formCollection["PrefixNumber"];
+                model.PrefixNumber = string.IsNullOrEmpty(formCollection["PrefixNumber"]) ? "N/A" : formCollection["PrefixNumber"];
                 model.Make = formCollection["Make"];
 
                 //List<int> SerialNumbers = new List<int>();
@@ -200,8 +200,8 @@ namespace Pspcl.Web.Controllers
         public bool serverSideSerialNumberValidation(List<int> listOfSerialNumber, int materialGroupId, int MaterialTypeId, int materialId, string make)
 
         {
-            bool isSrNoAlreadyPresent = _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
-            return isSrNoAlreadyPresent;
+            return _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
+            
         }
 
 

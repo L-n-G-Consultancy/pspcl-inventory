@@ -20,8 +20,7 @@ namespace Pspcl.Core.Domain
         public int MaterialId { get; set; }
         public string? Rating { get; set; }
         public string Make { get; set; }
-
-	}
+    }
 }
 
 

@@ -7,6 +7,9 @@
 @model Pspcl.Web.ViewModels.StockViewModel
 <div class="main-content">
     <div class="page-content">
+        <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+            <div class="spinner"></div>
+        </div>
         <div class="container-fluid">
             <!-- start page title -->
             <div class="row">
@@ -72,7 +75,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="Rating">Rating</label>
                                             @Html.TextBoxFor(m => m.SelectedRatingName, new { @readonly = "readonly" , @class = "form-control",@name="rating", @value=Model.MaterialTypeId})
-                                            <input type="hidden" name="rating" value="@Model.MaterialTypeId" />
+                                            <input type="hidden" name="rating" value="@Model.Rating" />
                                             <div class="invalid-feedback">
                                                 Please provide a valid state.
                                             </div>
@@ -145,7 +148,7 @@
                                             </tbody>
                                         </table>
                                         <div class="text-center">
-                                            <button type="submit" name="save" value="save" formmethod="post" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-sm">Save</button>
+                                            <button type="submit" id="saveStock" name="save" value="save" formmethod="post" class="btn btn-dark blackButton px-4 mt-3 mr-2" data-toggle="modal" data-target=".bd-example-modal-sm">Save</button>
                                             <button type="submit" name="save" value="modify" formmethod="post" class="btn btn btn-outline-dark px-4 mt-3">Modify</button>
                                         </div>
                                         <!-- Modal-->
