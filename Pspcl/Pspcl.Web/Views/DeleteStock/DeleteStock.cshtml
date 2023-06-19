@@ -9,9 +9,10 @@
 
         <div id="stock-in-report">
             <h3>Stock List</h3>
+            @*<button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button>
+*@
 
-
-            <button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button>
+            <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" id="retrieveRowsBtn">Delete</button>
             <br /><br />
 
         </div>
@@ -55,13 +56,3 @@
     </div>
 </div>
 
-@*<script>
-    $('#checkBoxAll').click(function () {
-        if ($(this).is(":checked")) {
-            $(".chkCheckBoxId").prop("checked", true)
-        }
-        else {
-            $(".chkCheckBoxId").prop("checked", false)
-        }
-    });
-</script>*@

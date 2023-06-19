@@ -342,6 +342,39 @@ $('#checkBoxAll').click(function () {
     }
 });  
 
+$("#retrieveRowsBtn").on("click", function () {
+    var selectedRows = []; // List to store selected row objects
+
+    // Iterate over the checkboxes in table rows
+    $('.eachStockRow').each(function () {
+        if ($(this).is(':checked')) {
+            var row = $(this).closest('tr'); // Get the parent row element
+            var rowData = {
+                grnNo: row.find('td:eq(1)').text(),
+                SrNoFrom: row.find('td:eq(7)').text(),
+                SrNoTo: row.find('td:eq(8)').text(),
+                Quantity: row.find('td:eq(9)').text()
+
+            };
+
+            selectedRows.push(rowData); // Add the row object to the list
+        }
+    });
+
+    // Perform further actions with the selectedRows list
+    $.ajax({
+        url: "/DeleteStock/StockToDelete",
+        type: "GET",
+        data: JSON.stringify(selectedRows),
+        contentType: 'application/json'
+
+    });
+
+
+    console.log(selectedRows);
+});
+
+
 $(document).on('submit', '#StockForm', function (event) {
     
     event.preventDefault();
