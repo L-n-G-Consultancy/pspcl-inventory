@@ -22,6 +22,7 @@ namespace Pspcl.Services.Models
         public string MaterialCode { get; set; }
         public decimal Rate { get; set; }   
         public int Quantity { get; set; }
-        public string Make { get; set; }
+        public string Make{ get; set; }
+
     }
 }

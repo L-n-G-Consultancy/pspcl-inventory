@@ -13,7 +13,7 @@
                     </a>
                 </li>
 
-                <li hidden>
+                <li>
                     <a href="@Url.Action("IssueStockView", "IssueStock")">
                         <i class="fab fa-stack-exchange"></i>
                         <span>Issue Stock</span>
@@ -34,24 +34,27 @@
                     </a>
                 </li>
 
-                <li >
+                <li>
                     <a href="@Url.Action("StockInReport", "Report")">
                         <i class="far fa-chart-bar"></i>
-                        <span>Reports</span>
+                        <span>Stock In</span>
                     </a>
                 </li>
-                <li hidden>
-                    <a href="@Url.Action("AvailableStock", "Report")">
-                        <i class="far fa-chart-bar"></i>
-                        <span>AvailableStock Reports</span>
-                    </a>
-                </li>
-                <li hidden>
+
+                <li>
                     <a href="@Url.Action("StockOutReport", "Report")">
                         <i class="far fa-chart-bar"></i>
-                        <span>Stock Out Reports</span>
+                        <span>Stock Out</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="@Url.Action("AvailableStock", "Report")">
+                        <i class="far fa-chart-bar"></i>
+                        <span>Available Stock</span>
+                    </a>
+                </li>
+                
             </ul>
         </div>
         <!-- Sidebar -->
