@@ -160,7 +160,7 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
             string response = UploadImage(Image);
-            stockIssueBook.Image = response == "" ? String.Empty : (response == errorResponse ?errorResponse:response);
+            stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ?errorResponse:response);
             if (stockIssueBook.Image == errorResponse)
             {
                  return View("Error");
