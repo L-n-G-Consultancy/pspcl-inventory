@@ -89,7 +89,7 @@ namespace Pspcl.Web.Controllers
             Dictionary<string, List<List<int>>> availableMakeAndRows = new Dictionary<string, List<List<int>>>();
             availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
-
+            var errorResponse = "-1";
             int x;
             if (Image== null)
             {
@@ -160,7 +160,7 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
             string response = UploadImage(Image);
-            stockIssueBook.Image = response == "" ? "" : (response == "-1" ?"-1":response);
+            stockIssueBook.Image = response == "" ? String.Empty : (response == errorResponse ?errorResponse:response);
             if (stockIssueBook.Image == "-1")
             {
                  return View("Error");
