@@ -358,6 +358,7 @@ $("#retrieveRowsBtn").on("click", function () {
             };
 
             selectedRows.push(rowData); 
+            $('.eachStockRow:checked').closest('tr').remove();
         }
     });
     var requestData = {
@@ -374,6 +375,7 @@ $("#retrieveRowsBtn").on("click", function () {
         success: function (response) {
             // Handle the response from the server
             console.log(response);
+            $('.eachStockRow:checked').closest('tr').remove();
         },
         error: function (xhr, textStatus, errorThrown) {
             // Handle any error that occurred during the AJAX request

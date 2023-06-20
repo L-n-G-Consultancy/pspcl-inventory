@@ -172,9 +172,9 @@ namespace Pspcl.Services
                     grnDate =(DateTime)_dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),                    
                     Rate = (float)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Rate).FirstOrDefault(),
                     Make=_dbcontext.Stock.Where(s => s.Id==sm.StockId).Select(s=>s.Make).FirstOrDefault(),
-                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false),
+                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted==false),
                     SrNoTo = sm.SerialNumberTo,
-                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false) + 1
+                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false) + 1
 
 
                 })
@@ -437,8 +437,39 @@ namespace Pspcl.Services
 
             return totalCost;
         }
-    }
 
+        public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
+        {
+            foreach (var Item in selectedRowsToDelete)
+            {
+                var recordsToUpdate = _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == Item[0] && x.SerialNumber >= Item[1] && x.SerialNumber <= Item[2]);
+                foreach (var record in recordsToUpdate)
+                {
+                    record.IsDeleted = true;
+                    record.ModifiedOn = DateTime.Now;
+                }
+                _dbcontext.SaveChanges();
+
+            }
+            return 1;
+        }
+
+        public int UpdateStockMaterial(List<List<int>> selectedRowsToDelete)
+        {
+            foreach (var Item in selectedRowsToDelete)
+            {
+                var recordsToUpdate = _dbcontext.StockMaterial.Where(x => x.Id == Item[0]);
+                foreach (var record in recordsToUpdate)
+                {
+                    record.ModifiedOn = DateTime.Now;
+                }
+                _dbcontext.SaveChanges();
+            }
+            return 1;
+        }
+
+    }
+    
 
 }
 
