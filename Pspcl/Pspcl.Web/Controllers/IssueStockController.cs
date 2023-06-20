@@ -161,7 +161,7 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
             string response = UploadImage(Image);
             stockIssueBook.Image = response == "" ? String.Empty : (response == errorResponse ?errorResponse:response);
-            if (stockIssueBook.Image == "-1")
+            if (stockIssueBook.Image == errorResponse)
             {
                  return View("Error");
             }
