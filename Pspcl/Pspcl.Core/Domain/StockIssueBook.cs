@@ -13,7 +13,6 @@ namespace Pspcl.Core.Domain
 		public string SerialNumber { get; set; }
         public int DivisionId { get; set; } // Foreign key
         public int SubDivisionId { get; set; }  // Foreign key
-        //public Circle Circle { get; set; }
         public int CircleId { get; set; }  // Foreign key
         public string JuniorEngineerName { get; set; }
         public string Image { get; set; }
