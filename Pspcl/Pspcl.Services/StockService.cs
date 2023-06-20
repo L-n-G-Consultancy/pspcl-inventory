@@ -155,7 +155,11 @@ namespace Pspcl.Services
             var availableStocks = _dbcontext.StockMaterial               
                 .Select(sm => new AvailableStockModel
                 {                    
-                    StockMaterial= sm,                         
+                    StockMaterial= sm, 
+                    
+                   
+                    StockMaterialId = sm.Id,
+
 
                     MaterialGroup = _dbcontext.MaterialGroup.Where(mg => mg.Id == _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.MaterialGroupId).FirstOrDefault()).Select(mg => mg.Name)
                     .FirstOrDefault(),
@@ -206,6 +210,13 @@ namespace Pspcl.Services
                 .ToList();
 
             return stockIssueBookModels;
+        }
+
+        public string GetStockToDelete(List<Object> selectedRows)
+        {
+            
+
+            return "";
         }
 
 
@@ -426,10 +437,8 @@ namespace Pspcl.Services
 
             return totalCost;
         }
-
-
-
     }
-         
+
+
 }
 

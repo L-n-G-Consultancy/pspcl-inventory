@@ -36,7 +36,9 @@ namespace Pspcl.Services.Interfaces
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId,int materialTypeId, int materialId, string make);
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);
-
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
+        public string GetStockToDelete(List<Object> selectedRows);
+
+
     }
 }

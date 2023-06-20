@@ -300,7 +300,7 @@ $(function () {
 
 $(document).ready(function () {
     showModal('', '');
-    $('#stockNotAvailableModal').hide();    
+    $('#stockNotAvailableModal').hide();
 
 });
 
@@ -318,7 +318,7 @@ function showModal(alertMessage, status) {
         $("#staticBackdropLiveLabel").text(status);
         $("#staticBackdropLive").modal("show");
     }
-    
+
 
 
 
@@ -335,40 +335,53 @@ $(document).on('click', "#saveStock", function (event) {
 
 $('#checkBoxAll').click(function () {
     if ($(this).is(":checked")) {
-        $(".chkCheckBoxId").prop("checked", true)
+        $(".eachStockRow").prop("checked", true)
     }
     else {
-        $(".chkCheckBoxId").prop("checked", false)
+        $(".eachStockRow").prop("checked", false)
     }
-});  
+});
 
 $("#retrieveRowsBtn").on("click", function () {
-    var selectedRows = []; // List to store selected row objects
+    var selectedRows = []; 
 
-    // Iterate over the checkboxes in table rows
+    
     $('.eachStockRow').each(function () {
         if ($(this).is(':checked')) {
-            var row = $(this).closest('tr'); // Get the parent row element
+            var row = $(this).closest('tr'); 
             var rowData = {
-                grnNo: row.find('td:eq(1)').text(),
+                StockMaterialId: row.find('td:eq(11)').text(),
                 SrNoFrom: row.find('td:eq(7)').text(),
                 SrNoTo: row.find('td:eq(8)').text(),
                 Quantity: row.find('td:eq(9)').text()
 
             };
 
-            selectedRows.push(rowData); // Add the row object to the list
+            selectedRows.push(rowData); 
+        }
+    });
+    var requestData = {
+        selectedRows: selectedRows
+    };
+
+    
+    $.ajax({
+        url: "/DeleteStock/StockToDelete",
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(requestData),
+        success: function (response) {
+            // Handle the response from the server
+            console.log(response);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // Handle any error that occurred during the AJAX request
+            console.error(errorThrown);
         }
     });
 
-    // Perform further actions with the selectedRows list
-    $.ajax({
-        url: "/DeleteStock/StockToDelete",
-        type: "GET",
-        data: JSON.stringify(selectedRows),
-        contentType: 'application/json'
 
-    });
 
 
     console.log(selectedRows);
@@ -376,7 +389,7 @@ $("#retrieveRowsBtn").on("click", function () {
 
 
 $(document).on('submit', '#StockForm', function (event) {
-    
+
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 
@@ -395,12 +408,12 @@ $(document).on('submit', '#StockForm', function (event) {
     else if (userEnteredRate < 0) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
-    else {      
+    else {
 
-        this.submit();    
+        this.submit();
 
     }
-    
+
 });
 
 
@@ -634,7 +647,9 @@ function clearTable() {
         currentDateField.value = currentDate;
         $('#issueMaterial').hide();
     }, 100);
-    
+
 }
+
+
 
 
