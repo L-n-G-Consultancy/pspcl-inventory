@@ -54,7 +54,7 @@ namespace Pspcl.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult StockToDelete(List<List<int>> selectedRows) 
+        public ActionResult StockToDelete([FromBody] List<SelectedRow> selectedRows) // Use the same parameter name
         {
 
             List<List<int>> selectedRowsToDelete = new List<List<int>>
