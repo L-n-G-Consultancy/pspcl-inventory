@@ -92,4 +92,10 @@
     <None Include="wwwroot\images\transparent-logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="App_data\Images\Placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
