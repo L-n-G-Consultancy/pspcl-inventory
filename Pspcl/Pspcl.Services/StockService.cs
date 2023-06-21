@@ -154,10 +154,10 @@ namespace Pspcl.Services
         {
             var availableStocks = _dbcontext.StockMaterial
                 .Select(sm => new AvailableStockModel
-                {
-                    StockMaterial = sm,
-
-
+                {                    
+                    StockMaterial= sm, 
+                    
+                   
                     StockMaterialId = sm.Id,
 
 
@@ -171,8 +171,8 @@ namespace Pspcl.Services
                     grnNo = _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.GrnNumber).FirstOrDefault(),
                     grnDate = (DateTime)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),
                     Rate = (float)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Rate).FirstOrDefault(),
-                    Make = _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Make).FirstOrDefault(),
-                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false),
+                    Make=_dbcontext.Stock.Where(s => s.Id==sm.StockId).Select(s=>s.Make).FirstOrDefault(),
+                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted==false),
                     SrNoTo = sm.SerialNumberTo,
                     SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false) + 1
 
@@ -215,7 +215,7 @@ namespace Pspcl.Services
 
         public string GetStockToDelete(List<Object> selectedRows)
         {
-
+            
 
             return "";
         }
@@ -440,6 +440,8 @@ namespace Pspcl.Services
         }
 
 
+
+
         public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
         {
             foreach (var Item in selectedRowsToDelete)
@@ -471,7 +473,7 @@ namespace Pspcl.Services
         }
 
     }
-
+    
 
 }
 
