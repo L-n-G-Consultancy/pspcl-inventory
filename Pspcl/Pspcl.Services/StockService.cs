@@ -217,7 +217,7 @@ namespace Pspcl.Services
             
         public string GetStockToDelete(List<Object> selectedRows)
         {
-
+            
 
             return "";
         }
@@ -442,7 +442,7 @@ namespace Pspcl.Services
         }
 
 
-        
+
 
         public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
         {
@@ -475,7 +475,7 @@ namespace Pspcl.Services
         }
 
     }
-
+    
 
 }
 

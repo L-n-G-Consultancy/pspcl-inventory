@@ -347,10 +347,11 @@ $("#deleteStockBtn").on("click", function () {
     var checkedRows = $('.eachStockRow:checked');
     if (checkedRows.length === 0) {
         $("#mainModalContent").text('No rows selected!');
+        $("#mySmallModalLabel").text('ERROR..!');
         $("#stockNotAvailableModal").modal("show");
+    } else {
+        $('#confirmationModal').modal('show');
     }
-    $('#confirmationModal').modal('show');
-
 });
 
 $("#retrieveRowsBtn").on("click", function () {
