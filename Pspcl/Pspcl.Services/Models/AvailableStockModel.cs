@@ -10,8 +10,8 @@ namespace Pspcl.Services.Models
     public class AvailableStockModel
     {
             
-        public StockMaterial StockMaterial { get; set; }    
-
+        public StockMaterial StockMaterial { get; set; }
+        public int StockMaterialId { get; set; }
         public String grnNo { get; set; }
         public DateTime grnDate { get; set; }
         public String MaterialGroup { get; set; }

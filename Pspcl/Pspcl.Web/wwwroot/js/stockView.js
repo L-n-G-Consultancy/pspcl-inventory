@@ -300,7 +300,7 @@ $(function () {
 
 $(document).ready(function () {
     showModal('', '');
-    $('#stockNotAvailableModal').hide();    
+    $('#stockNotAvailableModal').hide();
 
 });
 
@@ -320,7 +320,7 @@ function showModal(alertMessage, status) {
         $("#staticBackdropLiveLabel").text(status);
         $("#staticBackdropLive").modal("show");
     }
-    
+
 
 
 
@@ -335,8 +335,52 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
+$('#checkBoxAll').click(function () {
+    if ($(this).is(":checked")) {
+        $(".eachStockRow").prop("checked", true)
+    }
+    else {
+        $(".eachStockRow").prop("checked", false)
+    }
+});
+
+$("#retrieveRowsBtn").on("click", function () {
+    var selectedRows = [];
+
+    $('.eachStockRow').each(function () {
+        if ($(this).is(':checked')) {
+            var row = $(this).closest('tr');
+            var rowData = {
+                StockMaterialId: row.find('td:eq(11)').text(),
+                SrNoFrom: row.find('td:eq(7)').text(),
+                SrNoTo: row.find('td:eq(8)').text(),
+                Quantity: row.find('td:eq(9)').text()
+            };
+
+            selectedRows.push(rowData);
+        }
+    });
+
+    $.ajax({
+        url: "/DeleteStock/StockToDelete",
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(selectedRows),
+        success: function (response) {
+            // Handle the response from the server
+            console.log(response);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // Handle any error that occurred during the AJAX request
+            console.error(errorThrown);
+        }
+    });
+});
+
+
 $(document).on('submit', '#StockForm', function (event) {
-    
+
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 
@@ -355,13 +399,14 @@ $(document).on('submit', '#StockForm', function (event) {
     else if (userEnteredRate < 0) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
-    else {      
+    else {
 
-        this.submit();    
+        this.submit();
 
     }
-    
+
 });
+
 
 
 
@@ -577,7 +622,7 @@ function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTy
     $.ajax({
         url: "/IssueStock/GetCost",
         type: "GET",
-        data: {materialId: materialId, noOfUnits: noOfUnits },
+        data: { materialId: materialId, noOfUnits: noOfUnits },
         success: function (response) {
             $('#Cost').val(response);
 
@@ -593,7 +638,9 @@ function clearTable() {
         currentDateField.value = currentDate;
         $('#issueMaterial').hide();
     }, 100);
-    
+
 }
+
+
 
 
