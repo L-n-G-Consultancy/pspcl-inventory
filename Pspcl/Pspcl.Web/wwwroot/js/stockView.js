@@ -654,7 +654,7 @@ function FilterRecordsWithGrnDate(reportType) {
         $('#fromDate').val('');
         $('#toDate').val('');
     }
-    else if (new Date(toDate) <= new Date(fromDate)) {
+    else if (new Date(toDate) < new Date(fromDate)) {
         displayErrorModal("'To GRN Date' must be greater than the 'From Date'.", "Invalid Date Range");
     }
 
