@@ -343,9 +343,11 @@ $('#checkBoxAll').click(function () {
 });
 
 $("#retrieveRowsBtn").on("click", function () {
-    var selectedRows = []; 
+    $("#ConfirmDeletestock").modal("show");
+});
 
-    
+$("#YesDeleteStock").on("click", function () {
+    var selectedRows = [];   
     $('.eachStockRow').each(function () {
         if ($(this).is(':checked')) {
             var row = $(this).closest('tr'); 
@@ -364,8 +366,7 @@ $("#retrieveRowsBtn").on("click", function () {
     var requestData = {
         selectedRows: selectedRows
     };
-
-    
+   
     $.ajax({
         url: "/DeleteStock/StockToDelete",
         type: 'POST',
@@ -382,13 +383,14 @@ $("#retrieveRowsBtn").on("click", function () {
             console.error(errorThrown);
         }
     });
-
-
-
-
     console.log(selectedRows);
+    $("#ConfirmDeletestock").modal("hide");
+
 });
 
+$("#NoDeleteStock").on("click", function () {
+    $("#ConfirmDeletestock").modal("hide");
+});
 
 $(document).on('submit', '#StockForm', function (event) {
 

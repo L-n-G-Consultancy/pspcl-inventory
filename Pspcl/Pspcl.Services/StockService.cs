@@ -179,6 +179,7 @@ namespace Pspcl.Services
 
                 })
                 .ToList();
+            availableStocks.RemoveAll(sm => sm.AvailableQuantity == 0);
 
             return availableStocks;
         }
