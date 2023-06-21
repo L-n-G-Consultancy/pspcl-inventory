@@ -17,8 +17,12 @@ namespace Pspcl.Web.ViewModels
 		///[DataMember]
 		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
 		public DateTime? GrnDate { get; set; }
-		//[DataMember]
-		public string? GrnNumber { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
+
+
+        //[DataMember]
+        public string? GrnNumber { get; set; }
 		//[DataMember]
 		public String? TestReportReference { get; set; }
 		//[DataMember]

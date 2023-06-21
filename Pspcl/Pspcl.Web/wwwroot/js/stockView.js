@@ -308,7 +308,6 @@ $(document).ready(function () {
 
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
-    console.log(successMessage);
     if (successMessage) {
         $("#staticBackdropLiveLabel").text('Success');
         $("#successMessagePlaceholder").text(successMessage);
@@ -344,38 +343,55 @@ $('#checkBoxAll').click(function () {
     }
 });
 
+$("#deleteStockBtn").on("click", function () {
+    var checkedRows = $('.eachStockRow:checked');
+    if (checkedRows.length === 0) {
+        $("#mainModalContent").text('No rows selected!');
+        $("#stockNotAvailableModal").modal("show");
+    }
+    $('#confirmationModal').modal('show');
+
+});
+
 $("#retrieveRowsBtn").on("click", function () {
-    var selectedRows = [];
+    if ($('.eachStockRow').is(":checked")) {
+        var selectedRows = [];
 
-    $('.eachStockRow').each(function () {
-        if ($(this).is(':checked')) {
-            var row = $(this).closest('tr');
-            var rowData = {
-                StockMaterialId: row.find('td:eq(11)').text(),
-                SrNoFrom: row.find('td:eq(7)').text(),
-                SrNoTo: row.find('td:eq(8)').text(),
-                Quantity: row.find('td:eq(9)').text()
-            };
+        $('.eachStockRow').each(function () {
+            if ($(this).is(':checked')) {
+                var row = $(this).closest('tr');
+                var rowData = {
+                    StockMaterialId: row.find('td:eq(11)').text(),
+                    SrNoFrom: row.find('td:eq(7)').text(),
+                    SrNoTo: row.find('td:eq(8)').text(),
+                    Quantity: row.find('td:eq(9)').text()
+                };
 
-            selectedRows.push(rowData);
-        }
-    });
+                selectedRows.push(rowData);
+            }
+        });
 
-    $.ajax({
-        url: "/DeleteStock/StockToDelete",
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(selectedRows),
-        success: function (response) {
-            // Handle the response from the server
-            console.log(response);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            // Handle any error that occurred during the AJAX request
-            console.error(errorThrown);
-        }
-    });
+        $.ajax({
+            url: "/DeleteStock/StockToDelete",
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(selectedRows),
+            success: function (response) {
+                // Handle the response from the server
+                console.log(response);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // Handle any error that occurred during the AJAX request
+                console.error(errorThrown);
+            }
+        });
+        $('#confirmationModal').modal('hide');
+    }
+    else {
+        $("#mainModalContent").text('No rows selected!');
+        $("#stockNotAvailableModal").modal("show");
+    }
 });
 
 

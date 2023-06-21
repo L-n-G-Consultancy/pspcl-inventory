@@ -38,7 +38,7 @@ namespace Pspcl.Services.Interfaces
 		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
         public string GetStockToDelete(List<Object> selectedRows);
-
-
+        public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete);
+        public int UpdateStockMaterial(List<List<int>> selectedRowsToDelete);
     }
 }

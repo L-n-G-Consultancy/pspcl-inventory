@@ -36,12 +36,36 @@ namespace Pspcl.Web.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult StockToDelete(List<Object> selectedRows)
+        //{
+        //    try
+        //    {
+        //        var DeleteData = _stockService.GetStockToDelete(selectedRows);
+
+        //        return View(DeleteData);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Exception");
+        //    }
+        //    return View();
+        //}
+
 
         [HttpPost]
         public ActionResult StockToDelete([FromBody] List<SelectedRow> selectedRows) // Use the same parameter name
         {
-            
 
+            List<List<int>> selectedRowsToDelete = new List<List<int>>
+            {
+                new List<int> { 2,151,200,50},
+                new List<int> { 3,221,275,55},
+                new List<int>  { 5,100,175,65}
+            };
+
+            int test = _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
+            int test1 = _stockService.UpdateStockMaterial(selectedRowsToDelete);
             return Json(1); 
         }
         
