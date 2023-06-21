@@ -304,6 +304,8 @@ $(document).ready(function () {
 
 });
 
+
+
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
     console.log(successMessage);
