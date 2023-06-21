@@ -70,7 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="App_data\Images\" />
     <Folder Include="logs\" />
   </ItemGroup>
 
@@ -87,6 +86,12 @@
     <None Include="wwwroot\images\logo.png" />
     <None Include="wwwroot\images\profile-user.png" />
     <None Include="wwwroot\images\transparent-logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_data\Images\Placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
