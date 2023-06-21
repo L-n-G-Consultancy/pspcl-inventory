@@ -379,12 +379,17 @@ $("#retrieveRowsBtn").on("click", function () {
             contentType: 'application/json',
             data: JSON.stringify(selectedRows),
             success: function (response) {
-                // Handle the response from the server
-                console.log(response);
+                $('.eachStockRow:checked').each(function () {
+                    $(this).closest('tr').remove();
+                    $("#mySmallModalLabel").text('SUCCESS!');
+                    $("#mainModalContent").text("Stock deleted successfully.")
+                    $('#stockNotAvailableModal').modal('show');
+                });
+                
             },
             error: function (xhr, textStatus, errorThrown) {
-                // Handle any error that occurred during the AJAX request
-                console.error(errorThrown);
+                $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                $('#stockNotAvailableModal').modal('show'); 
             }
         });
         $('#confirmationModal').modal('hide');

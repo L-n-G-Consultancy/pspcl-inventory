@@ -147,6 +147,7 @@ namespace Pspcl.Services
                    Quantity = _dbcontext.StockMaterial.Where(sm => sm.StockId == s.Id).Sum(sm => sm.Quantity)
                })
                .ToList();
+            stockInModels.RemoveAll(s => s.Quantity == 0);
 
             return stockInModels;
         }
@@ -212,18 +213,6 @@ namespace Pspcl.Services
 
             return stockIssueBookModels;
         }
-
-        
-            
-        public string GetStockToDelete(List<Object> selectedRows)
-        {
-            
-
-            return "";
-        }
-
-
-
         public string GetMaterialGroupById(int? materialGroupId)
         {
             var response = _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
@@ -284,7 +273,7 @@ namespace Pspcl.Services
             _dbcontext.SaveChanges();
             return;
         }
-        public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId)
+        public Dictionary<String, int> AllMakesAndQuantities(int materialGroupId, int materialTypeId, int materialId)
         {
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
             List<string> distinctMakes = stocks.Select(x => x.Make).Distinct().ToList();
@@ -464,13 +453,26 @@ namespace Pspcl.Services
         {
             foreach (var Item in selectedRowsToDelete)
             {
-                var recordsToUpdate = _dbcontext.StockMaterial.Where(x => x.Id == Item[0]);
+                var recordsToUpdate = _dbcontext.StockMaterial.Where(x => x.Id == Item[0] && x.SerialNumberTo == Item[2]);
                 foreach (var record in recordsToUpdate)
                 {
                     record.ModifiedOn = DateTime.Now;
+                    if(record.SerialNumberFrom== Item[1])
+                    {
+                        _dbcontext.StockMaterial.Remove(record);
+
+                    }
+                    else
+                    {
+                        record.SerialNumberTo = Item[1] - 1;
+                        record.Quantity = record.SerialNumberTo - record.SerialNumberFrom + 1;
+                    }
+                    record.ModifiedOn = DateTime.Now;
+                   
                 }
-                _dbcontext.SaveChanges();
+                
             }
+            _dbcontext.SaveChanges();
             return 1;
         }
 

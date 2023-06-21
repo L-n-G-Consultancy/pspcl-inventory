@@ -56,13 +56,9 @@ namespace Pspcl.Web.Controllers
         [HttpPost]
         public ActionResult StockToDelete([FromBody] List<SelectedRow> selectedRows) // Use the same parameter name
         {
-
-            List<List<int>> selectedRowsToDelete = new List<List<int>>
-            {
-                new List<int> { 2,151,200,50},
-                new List<int> { 3,221,275,55},
-                new List<int>  { 5,100,175,65}
-            };
+            List<List<int>> selectedRowsToDelete = selectedRows
+           .Select(row => new List<int> { row.StockMaterialId, row.SrNoFrom, row.SrNoTo, row.Quantity })
+           .ToList();
 
             int test = _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
             int test1 = _stockService.UpdateStockMaterial(selectedRowsToDelete);
@@ -72,10 +68,10 @@ namespace Pspcl.Web.Controllers
     }
     public class SelectedRow
     {
-        public string StockMaterialId { get; set; }
-        public string SrNoFrom { get; set; }
-        public string SrNoTo { get; set; }
-        public string Quantity { get; set; }
+        public int StockMaterialId { get; set; }
+        public int SrNoFrom { get; set; }
+        public int SrNoTo { get; set; }
+        public int Quantity { get; set; }
     }
 
 }
