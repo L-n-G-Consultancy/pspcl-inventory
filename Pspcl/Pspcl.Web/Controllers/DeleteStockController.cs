@@ -36,25 +36,8 @@ namespace Pspcl.Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult StockToDelete(List<Object> selectedRows)
-        //{
-        //    try
-        //    {
-        //        var DeleteData = _stockService.GetStockToDelete(selectedRows);
-
-        //        return View(DeleteData);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Exception");
-        //    }
-        //    return View();
-        //}
-
-
         [HttpPost]
-        public ActionResult StockToDelete([FromBody] List<SelectedRow> selectedRows) // Use the same parameter name
+        public ActionResult StockToDelete([FromBody] List<DeleteStockRow> selectedRows) // Use the same parameter name
         {
             List<List<int>> selectedRowsToDelete = selectedRows
            .Select(row => new List<int> { row.StockMaterialId, row.SrNoFrom, row.SrNoTo, row.Quantity })
@@ -65,13 +48,6 @@ namespace Pspcl.Web.Controllers
             return Json(1); 
         }
         
-    }
-    public class SelectedRow
-    {
-        public int StockMaterialId { get; set; }
-        public int SrNoFrom { get; set; }
-        public int SrNoTo { get; set; }
-        public int Quantity { get; set; }
     }
 
 }
