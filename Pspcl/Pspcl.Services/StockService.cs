@@ -255,6 +255,7 @@ namespace Pspcl.Services
                 // Loop through each record and update the abc column value to 1
                 foreach (var record in recordsToUpdate)
                 {
+                    record.ModifiedOn = DateTime.Now;
                     record.IsIssued = true;
                 }
                 _dbcontext.SaveChanges();
