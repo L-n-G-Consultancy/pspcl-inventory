@@ -429,6 +429,10 @@ a:hover,a:focus{
 .input-border {
     border-color: #babdc6;
 }
+.width-0 {
+    width: 142px !important;
+}
+
 .btn-orange{background:#016c9a;}
 
 
@@ -472,6 +476,7 @@ a:hover,a:focus{
 }
 #stock-in-report h3 {
     display: inline-block;
+    margin-bottom: 20px;
 }
 
 #stock-in-report button {
@@ -483,6 +488,15 @@ a:hover,a:focus{
     line-height: 1.5;
     color: white;
 }
+
+
+.align-items-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    padding-bottom: 2px;
+    padding-top: 5px;
+}
+
 
 .modal-body {
     text-align: center;
@@ -556,3 +570,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         transform: rotate(360deg);
     }
 }
+
