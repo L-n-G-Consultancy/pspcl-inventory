@@ -101,13 +101,15 @@ namespace Pspcl.DBConnect.Install
                     SecurityStamp = Guid.NewGuid().ToString(),
                     AccessFailedCount = 0,
                     IsDeleted = false,
-
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    LastLoginTime = DateTime.Now
                 };
                 var userCreateResponse = await _userManager.CreateAsync(defaultAdmin, "12345");
                 _logger.LogInformation("Super Admin Created : {@defaultAdmin}", defaultAdmin);
 
                 // Assign Default User Role
-                //await _userManager.AddToRoleAsync(defaultAdmin, "InventoryManager");
+                await _userManager.AddToRoleAsync(defaultAdmin, "InventoryManager");
                 //_logger.LogInformation("Role Assigned : {@defaultAdmin}", "InventoryManager");
                 return defaultAdmin;
             }
@@ -288,9 +290,10 @@ namespace Pspcl.DBConnect.Install
         }
         public async Task CreateDefaultRatingMaterialTypeMapping()
         {
-            try { 
+            try
+            {
 
-                    var MappingData = new List<RatingMaterialTypeMapping>()
+                var MappingData = new List<RatingMaterialTypeMapping>()
                     {
                     new RatingMaterialTypeMapping() {MaterialTypeId=1,RatingId=1},
                     new RatingMaterialTypeMapping() {MaterialTypeId=2,RatingId=1},
@@ -349,9 +352,9 @@ namespace Pspcl.DBConnect.Install
                     new RatingMaterialTypeMapping() {MaterialTypeId=50,RatingId=8},
                     new RatingMaterialTypeMapping() {MaterialTypeId=51,RatingId=8}
                 };
-                    _identityContext.RatingMaterialTypeMapping.AddRange(MappingData);
-                    await _identityContext.SaveChangesAsync();
-                    _logger.LogInformation("Mapping Data inserted : {@RatingMaterialTypeMappingData}", MappingData);
+                _identityContext.RatingMaterialTypeMapping.AddRange(MappingData);
+                await _identityContext.SaveChangesAsync();
+                _logger.LogInformation("Mapping Data inserted : {@RatingMaterialTypeMappingData}", MappingData);
             }
             catch (Exception ex)
             {
