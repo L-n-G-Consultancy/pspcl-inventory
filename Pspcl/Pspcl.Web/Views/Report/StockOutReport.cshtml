@@ -50,32 +50,30 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @if (Model != null)
                 {
-                    <tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
 
-                        <td>@item.TransactionId</td>
-                        <td>@item.CurrentDate</td>
-                        <td>@item.SerialNumber</td>
-                        <td>@item.SrNoDate</td>
-                        <td>@item.DivisionName</td>
-                        <td>@item.LocationID</td>
-                        <td>@item.SubDivisionName</td>
-                        <td>@item.JuniorEngineerName</td>
-                        <td>@item.MaterialName</td>
-                        <td>@item.MaterialCode</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Rate</td>
-                        <td>@item.Make</td>
-
-
-
-
-                    </tr>
-                }
-            </tbody>
+                            <td>@item.TransactionId</td>
+                            <td>@item.CurrentDate</td>
+                            <td>@item.SerialNumber</td>
+                            <td>@item.SrNoDate</td>
+                            <td>@item.DivisionName</td>
+                            <td>@item.LocationID</td>
+                            <td>@item.SubDivisionName</td>
+                            <td>@item.JuniorEngineerName</td>
+                            <td>@item.MaterialName</td>
+                            <td>@item.MaterialCode</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Rate</td>
+                            <td>@item.Make</td>
+                        </tr>
+                    }
+                }                
+            </tbody>    
         </table>
-        <div id="paginate"></div>
 
     </div>
     @Html.Partial("_ModalPartial")

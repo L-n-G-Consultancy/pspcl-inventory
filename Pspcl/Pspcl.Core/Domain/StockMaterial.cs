@@ -12,5 +12,8 @@ namespace Pspcl.Core.Domain
         public  Stock Stock { get; set; }
         public int StockId { get; set; } // Foreign key
         public int DisplayOrder { get; set; }
+        public DateTime? CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
     }
 }

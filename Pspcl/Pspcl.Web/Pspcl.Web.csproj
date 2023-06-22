@@ -7,15 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="App_data\**" />
     <Compile Remove="Areas\**" />
     <Compile Remove="Helpers\**" />
     <Compile Remove="MapperService\**" />
+    <Content Remove="App_data\**" />
     <Content Remove="Areas\**" />
     <Content Remove="Helpers\**" />
     <Content Remove="MapperService\**" />
+    <EmbeddedResource Remove="App_data\**" />
     <EmbeddedResource Remove="Areas\**" />
     <EmbeddedResource Remove="Helpers\**" />
     <EmbeddedResource Remove="MapperService\**" />
+    <None Remove="App_data\**" />
     <None Remove="Areas\**" />
     <None Remove="Helpers\**" />
     <None Remove="MapperService\**" />
@@ -70,7 +74,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="App_data\Images\" />
     <Folder Include="logs\" />
   </ItemGroup>
 
@@ -87,6 +90,12 @@
     <None Include="wwwroot\images\logo.png" />
     <None Include="wwwroot\images\profile-user.png" />
     <None Include="wwwroot\images\transparent-logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_data\Images\Placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
