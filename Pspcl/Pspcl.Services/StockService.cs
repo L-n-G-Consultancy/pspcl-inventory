@@ -205,11 +205,17 @@ namespace Pspcl.Services
                         JuniorEngineerName = sib.JuniorEngineerName,
                         MaterialName = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Name).FirstOrDefault(),
                         MaterialCode = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Code).FirstOrDefault(),
+                        MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
                         Make = sbm.Make
                     })
                 .ToList();
+
+            foreach (var stock in stockIssueBookModels)
+            {
+                stock.Cost = GetCost(stock.MaterialId, stock.Quantity);
+            }
 
             return stockIssueBookModels;
         }
@@ -417,22 +423,19 @@ namespace Pspcl.Services
             return false;
         }
 
-        public int GetCost(int materialId, int noOfUnits)
+        public float GetCost(int materialId, int noOfUnits)
         {
             List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
-            int testingCharges = material.Select(x => x.TestingCharges).First();
+            float testingCharges = material.Select(x => x.TestingCharges).First();
 
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialId == materialId).ToList();
-            int rate = Convert.ToInt32(stocks.Select(x => x.Rate).First());
+            float rate = (float)(stocks.Select(x => x.Rate).First());
 
-            int totalCost = (rate + ((3 * rate) / 100) + testingCharges) * noOfUnits;
-
+            float totalCost = (rate + (3 * rate / 100) + testingCharges) * noOfUnits;
+            totalCost = (float)Math.Round(totalCost * 100f) / 100f;
 
             return totalCost;
         }
-
-
-
 
         public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
         {
@@ -478,7 +481,5 @@ namespace Pspcl.Services
         }
 
     }
-    
-
 }
 

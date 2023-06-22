@@ -141,7 +141,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Rate <span class="required-field text-danger">*</span></label>
-                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id="Rate", @type = "number", @required = "required", placeholder = "Enter Rate" })
+                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id="Rate", @type = "number", @required = "required", @step="any" ,placeholder = "Enter Rate" })
                     <small id="enteredRate" class="form-text text-muted"> Max rate value &#x20B9;10,00,000</small>
                     <div class="invalidEnteredRate text-danger">
                     </div>
@@ -179,10 +179,7 @@
                             {
                                 var rowCounter = i + 1;
                                 <tr id="row_@rowCounter">
-                                    <td>
-@*                                        @Html.TextBox("row_" + rowCounter + "_from", Model.stockMaterialList[i].SerialNumberFrom, new { @class = "from-input", @placeholder = "From", @required = "required", @onchange = "DuplicateSrNoCheck(this.value)" })
-*@                                        
-
+                                    <td>                                        
                                           @Html.TextBox("row_" + rowCounter + "_from", Model.stockMaterialList[i].SerialNumberFrom, new { @class = "from-input", @placeholder = "From", @required = "required" })
 
                                      </td>
