@@ -56,7 +56,11 @@ namespace Pspcl.Web.Controllers
         {
             try
             {
+                
                 var model = new StockViewModel();
+
+                model.CreatedOn = DateTime.Now;
+                model.ModifiedOn = DateTime.Now;
                 DateTime date = DateTime.Parse(formCollection["GRNDate"]);
                 model.GrnDate = date;
                 model.TestReportReference = formCollection["TestReportReference"];
@@ -102,6 +106,8 @@ namespace Pspcl.Web.Controllers
                         {
                             stockMaterial.StockId = newStockId;
                             stockMaterial.DisplayOrder = displayOrder++;
+                            stockMaterial.ModifiedOn = DateTime.Now;   
+                            stockMaterial.CreatedOn = DateTime.Now;
                         }
                         foreach (var stockMaterialViewModel in model.stockMaterialList)
                         {
@@ -113,6 +119,7 @@ namespace Pspcl.Web.Controllers
                                 stockmaterailseries.StockMaterialId = stockMaterailId;
                                 stockmaterailseries.SerialNumber = i;
                                 stockmaterailseries.IsIssued = false;
+                                stockmaterailseries.ModifiedOn = DateTime.Now;
                                 _stockService.AddStockMaterialSeries(stockmaterailseries);
                             }
 

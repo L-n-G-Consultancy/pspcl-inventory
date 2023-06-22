@@ -300,7 +300,7 @@ $(function () {
 
 $(document).ready(function () {
     showModal('', '');
-    $('#stockNotAvailableModal').hide();    
+    $('#stockNotAvailableModal').hide();
 
 });
 
@@ -308,7 +308,6 @@ $(document).ready(function () {
 
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
-    console.log(successMessage);
     if (successMessage) {
         $("#staticBackdropLiveLabel").text('Success');
         $("#successMessagePlaceholder").text(successMessage);
@@ -320,7 +319,7 @@ function showModal(alertMessage, status) {
         $("#staticBackdropLiveLabel").text(status);
         $("#staticBackdropLive").modal("show");
     }
-    
+
 
 
 
@@ -335,8 +334,75 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
+$('#checkBoxAll').click(function () {
+    if ($(this).is(":checked")) {
+        $(".eachStockRow").prop("checked", true)
+    }
+    else {
+        $(".eachStockRow").prop("checked", false)
+    }
+});
+
+$("#deleteStockBtn").on("click", function () {
+    var checkedRows = $('.eachStockRow:checked');
+    if (checkedRows.length === 0) {
+        $("#mainModalContent").text('No rows selected!');
+        $("#mySmallModalLabel").text('ERROR..!');
+        $("#stockNotAvailableModal").modal("show");
+    } else {
+        $('#confirmationModal').modal('show');
+    }
+});
+
+$("#retrieveRowsBtn").on("click", function () {
+    if ($('.eachStockRow').is(":checked")) {
+        var selectedRows = [];
+
+        $('.eachStockRow').each(function () {
+            if ($(this).is(':checked')) {
+                var row = $(this).closest('tr');
+                var rowData = {
+                    StockMaterialId: row.find('td:eq(11)').text(),
+                    SrNoFrom: row.find('td:eq(7)').text(),
+                    SrNoTo: row.find('td:eq(8)').text(),
+                    Quantity: row.find('td:eq(9)').text()
+                };
+
+                selectedRows.push(rowData);
+            }
+        });
+
+        $.ajax({
+            url: "/DeleteStock/StockToDelete",
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(selectedRows),
+            success: function (response) {
+                $('.eachStockRow:checked').each(function () {
+                    $(this).closest('tr').remove();
+                    $("#mySmallModalLabel").text('SUCCESS!');
+                    $("#mainModalContent").text("Stock deleted successfully.")
+                    $('#stockNotAvailableModal').modal('show');
+                });
+                
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                $('#stockNotAvailableModal').modal('show'); 
+            }
+        });
+        $('#confirmationModal').modal('hide');
+    }
+    else {
+        $("#mainModalContent").text('No rows selected!');
+        $("#stockNotAvailableModal").modal("show");
+    }
+});
+
+
 $(document).on('submit', '#StockForm', function (event) {
-    
+
     event.preventDefault();
     var userEnteredRate = $("#Rate").val();
 
@@ -355,13 +421,14 @@ $(document).on('submit', '#StockForm', function (event) {
     else if (userEnteredRate < 0) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
-    else {      
+    else {
 
-        this.submit();    
+        this.submit();
 
     }
-    
+
 });
+
 
 
 
@@ -577,7 +644,7 @@ function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTy
     $.ajax({
         url: "/IssueStock/GetCost",
         type: "GET",
-        data: {materialId: materialId, noOfUnits: noOfUnits },
+        data: { materialId: materialId, noOfUnits: noOfUnits },
         success: function (response) {
             $('#Cost').val(response);
 
@@ -593,7 +660,9 @@ function clearTable() {
         currentDateField.value = currentDate;
         $('#issueMaterial').hide();
     }, 100);
-    
+
 }
+
+
 
 

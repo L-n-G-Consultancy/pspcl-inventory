@@ -81,6 +81,9 @@ namespace Pspcl.Web.Controllers
                 var model = new StockViewModel();
 
                 DateTime date = DateTime.Parse(formCollection["GRNDate"]);
+                
+                model.CreatedOn = DateTime.Now;
+                model.ModifiedOn = DateTime.Now;
                 model.GrnDate = date;
                 model.TestReportReference = string.IsNullOrEmpty(formCollection["TestReportReference"]) ? "N/A" : formCollection["TestReportReference"];
                 model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);

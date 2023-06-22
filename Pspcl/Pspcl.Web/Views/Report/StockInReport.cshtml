@@ -26,23 +26,27 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                @foreach (var stockInModel in Model)
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>@stockInModel.Stock.Id</td>
-                        <td>@stockInModel.Stock.GrnDate.ToString().Split(' ')[0]</td>
-                        <td>@stockInModel.Stock.GrnNumber</td>                        
-                        <td>@stockInModel.Stock.InvoiceDate.ToString().Split(' ')[0]</td>
-                        <td>@stockInModel.Stock.InvoiceNumber</td>                         
-                        <td>@stockInModel.Stock.PrefixNumber</td>                       
-                        <td>@stockInModel.Stock.Make</td>                     
-                        <td>@stockInModel.Stock.TestReportReference</td>                     
-                        <td>@stockInModel.MaterialName</td>
-                        <td>@stockInModel.MaterialCode</td>
-                        <td>@stockInModel.Stock.Rate</td>
-                        <td>@stockInModel.Quantity</td>
-                    </tr>
+                    @foreach (var stockInModel in Model)
+                    {
+                        <tr>
+                            <td>@stockInModel.Stock.Id</td>
+                            <td>@stockInModel.Stock.GrnDate.ToString().Split(' ')[0]</td>
+                            <td>@stockInModel.Stock.GrnNumber</td>
+                            <td>@stockInModel.Stock.InvoiceDate.ToString().Split(' ')[0]</td>
+                            <td>@stockInModel.Stock.InvoiceNumber</td>
+                            <td>@stockInModel.Stock.PrefixNumber</td>
+                            <td>@stockInModel.Stock.Make</td>
+                            <td>@stockInModel.Stock.TestReportReference</td>
+                            <td>@stockInModel.MaterialName</td>
+                            <td>@stockInModel.MaterialCode</td>
+                            <td>@stockInModel.Stock.Rate</td>
+                            <td>@stockInModel.Quantity</td>
+                        </tr>
+                    }
                 }
+                
             </tbody>
 
         </table>

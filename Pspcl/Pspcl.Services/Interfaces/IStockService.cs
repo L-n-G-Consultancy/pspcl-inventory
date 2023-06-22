@@ -35,8 +35,9 @@ namespace Pspcl.Services.Interfaces
         public int GetCost(int materialId,int noOfUnits);
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId,int materialTypeId, int materialId, string make);
-		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);
-
+		public Dictionary<String, int> AllMakesAndQuantities(int materialGroupId, int materialTypeId, int materialId);
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
+        public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete);
+        public int UpdateStockMaterial(List<List<int>> selectedRowsToDelete);
     }
 }
