@@ -141,7 +141,7 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Rate <span class="required-field text-danger">*</span></label>
-                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id="Rate", @type = "number", @required = "required", @step="any" ,placeholder = "Enter Rate" })
+                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control", @id="Rate", @type = "number", @step = "any", @required = "required", placeholder = "Enter Rate" })
                     <small id="enteredRate" class="form-text text-muted"> Max rate value &#x20B9;10,00,000</small>
                     <div class="invalidEnteredRate text-danger">
                     </div>

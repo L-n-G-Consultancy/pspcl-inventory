@@ -22,6 +22,6 @@ namespace Pspcl.Services.Models
         public int SrNoFrom { get; set; }
         public int SrNoTo { get; set; }
         public float Rate { get; set; }
-
+        public float Value { get; set; }
     }
 }
