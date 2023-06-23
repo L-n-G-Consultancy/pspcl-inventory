@@ -93,6 +93,7 @@ namespace Pspcl.DBConnect.Install
                     Id = 0,
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
+                    FirstName="Admin",
                     LockoutEnabled = false,
                     PhoneNumber = "1234567890",
                     IsActive = true,
