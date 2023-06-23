@@ -784,6 +784,7 @@ function FilterRecordsWithGrnDate(reportType) {
                                 '<td>' + stockModel.quantity + '</td>' +
                                 '<td>' + stockModel.rate + '</td>' +
                                 '<td>' + stockModel.make + '</td>' +
+                                '<td>' + stockModel.cost + '</td>' +
                                 '</tr>';
                         }
                         tableBody.append(row);

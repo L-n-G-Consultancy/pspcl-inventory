@@ -310,7 +310,7 @@ namespace Pspcl.Services
                 var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id);
                 List<int> stockMaterialIdsList = query.ToList();
 
-                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued).ToList();
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued && !x.IsDeleted).ToList();
                 List<int> idList = Materials.Select(x => x.Id).ToList();
                 int QuantityAgainstMake = idList.Count();
 
