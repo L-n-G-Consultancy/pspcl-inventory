@@ -61,7 +61,7 @@ namespace Pspcl.DBConnect.Install
         /// </summary>
         public async Task CreateRoles()
         {
-            var roles = new List<string> { "InventoryManager" };
+            var roles = new List<string> { "SuperAdmin","InventoryManager", "Admin", "NonAdmin" };
             _logger.LogInformation("Roles List {@roles}", roles);
             foreach (var role in roles)
             {
@@ -80,10 +80,6 @@ namespace Pspcl.DBConnect.Install
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public async Task<User> CreateDefaultAdminUser()
         {
             try
@@ -107,8 +103,8 @@ namespace Pspcl.DBConnect.Install
                 _logger.LogInformation("Super Admin Created : {@defaultAdmin}", defaultAdmin);
 
                 // Assign Default User Role
-                //await _userManager.AddToRoleAsync(defaultAdmin, "InventoryManager");
-                //_logger.LogInformation("Role Assigned : {@defaultAdmin}", "InventoryManager");
+                await _userManager.AddToRoleAsync(defaultAdmin, "SuperAdmin");
+                _logger.LogInformation("Role Assigned : {@defaultAdmin}", "SuperAdmin");
                 return defaultAdmin;
             }
             catch (Exception ex)

@@ -13,12 +13,18 @@ namespace Pspcl.Web.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly RoleManager<Role> _roleManager; // Added RoleManager<Role>
 
-        public AccountController(SignInManager<User> signInManager, ILogger<AccountController> logger, UserManager<User> userManager)
+        public AccountController(
+            SignInManager<User> signInManager,
+            ILogger<AccountController> logger,
+            UserManager<User> userManager,
+            RoleManager<Role> roleManager) // Added RoleManager<Role>
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _roleManager = roleManager; // Added RoleManager<Role>
         }
 
         [HttpGet]
@@ -82,7 +88,9 @@ namespace Pspcl.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task< IActionResult> AddUser(User user, string password, string confirmPassword)
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddUser(User user, string password, string confirmPassword, string adminUser)
         {
             if (ModelState.IsValid)
             {
@@ -101,18 +109,22 @@ namespace Pspcl.Web.Controllers
                     UserName = user.Email,
                     Email = user.Email,
                     FirstName = user.FirstName,
-                    LastName = user.LastName,                    
+                    LastName = user.LastName,
                     IsActive = true,
-                    EmailConfirmed = true,                    
+                    EmailConfirmed = true,
                     AccessFailedCount = 0,
                     IsDeleted = false,
-
                 };
 
                 // Add the user to the database
                 var result = await _userManager.CreateAsync(newUser, password);
                 if (result.Succeeded)
                 {
+                    if (adminUser != null)
+                    {
+                       
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
