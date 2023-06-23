@@ -101,9 +101,9 @@ namespace Pspcl.Web.Controllers
 
                 if (fromDate.HasValue && toDate.HasValue)
                 {
-                    filteredstockOutModels = filteredstockOutModels.Where(s => s.CurrentDate >= fromDate.Value && s.CurrentDate <= toDate.Value)
-                        .OrderByDescending(s => s.CurrentDate)
-                        .ToList();
+                    filteredstockOutModels = filteredstockOutModels.Where(s => s.CurrentDate.Date >= fromDate.Value.Date && s.CurrentDate.Date <= toDate.Value.Date)
+                         .OrderByDescending(s => s.CurrentDate)
+                         .ToList();
                 }
 
                 return Json(filteredstockOutModels);
