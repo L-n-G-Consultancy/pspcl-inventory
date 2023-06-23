@@ -61,7 +61,7 @@ namespace Pspcl.DBConnect.Install
         /// </summary>
         public async Task CreateRoles()
         {
-            var roles = new List<string> { "SuperAdmin","InventoryManager", "Admin", "NonAdmin" };
+            var roles = new List<string> { "SuperAdmin","InventoryManager", "NonAdmin" };
             _logger.LogInformation("Roles List {@roles}", roles);
             foreach (var role in roles)
             {
@@ -89,6 +89,7 @@ namespace Pspcl.DBConnect.Install
                     Id = 0,
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
+                    FirstName="Super-Admin",
                     LockoutEnabled = false,
                     PhoneNumber = "1234567890",
                     IsActive = true,

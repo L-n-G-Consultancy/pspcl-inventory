@@ -86,12 +86,14 @@ namespace Pspcl.Web.Controllers
             return View();
         }
 
+       
         [HttpPost]
         [Authorize]
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> AddUser(User user, string password, string confirmPassword, string adminUser)
+        public async Task<IActionResult> AddUser(User user, string password, string confirmPassword, string choosenUserRole)
         {
+            if(choosenUserRole== "Inventory-Manager") { choosenUserRole = "InventoryManager"; }
+            if(choosenUserRole== "Normal User") { choosenUserRole = "NonAdmin"; }
+
             if (ModelState.IsValid)
             {
                 // Check that password and confirmPassword match
@@ -114,17 +116,16 @@ namespace Pspcl.Web.Controllers
                     EmailConfirmed = true,
                     AccessFailedCount = 0,
                     IsDeleted = false,
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    LastLoginTime = DateTime.Now
                 };
 
                 // Add the user to the database
                 var result = await _userManager.CreateAsync(newUser, password);
                 if (result.Succeeded)
                 {
-                    if (adminUser != null)
-                    {
-                       
-                    }
-
+                    await _userManager.AddToRoleAsync(newUser, choosenUserRole);
                     return RedirectToAction("Index", "Home");
                 }
                 else
