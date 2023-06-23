@@ -42,7 +42,51 @@ $(document).ready(() => {
     $(document).on('click', '#addMaterialButton', addStock.addRow);
     $(document).on('click', '.remove-row', addStock.removeRow);
     $('tbody tr:first-child .remove-row').hide();
+    var pageType = '';
+    var currentPageUrl = window.location.href;
+    if (currentPageUrl.includes('StockOutReport')) {
+        pageType = 'stockOut';
+    } else if (currentPageUrl.includes('StockInReport')) {
+        pageType = 'stockIn';
+    } else if (currentPageUrl.includes('AvailableStock')) {
+        pageType = 'availableStocks';
+    }
+    CustomPagination(pageType);
 });
+
+function CustomPagination(pageType) {
+    $('#paginate').pagination({
+        items: 100,
+        itemsOnPage: 10,
+        cssStyle: 'light-theme'
+    });
+    var tableSelector = '';
+    if (pageType === 'stockIn') {
+        tableSelector = "#stockInReportTable";
+    } else if (pageType === 'stockOut') {
+        tableSelector = "#stockOutReportTable";
+    } else {
+        tableSelector = "#availableStockTable";
+    }
+    var items = $(tableSelector + " tbody tr");
+    var numItems = items.length;
+    var perPage = 10;
+
+    items.slice(perPage).hide();
+
+    $('#paginate').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
+}
+
 
 
 $(function () {
@@ -231,11 +275,9 @@ function validateSerialNumbers(listOfSerialNumber) {
             var isPresent = result;
             console.log(result);
             if (isPresent) {
-                //show Modal
                 isvalid = false;
             }
             else {
-                //continue
                 isvalid = true;
             }
         },
@@ -308,7 +350,6 @@ $(document).ready(function () {
 
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
-    console.log(successMessage);
     if (successMessage) {
         $("#staticBackdropLiveLabel").text('Success');
         $("#successMessagePlaceholder").text(successMessage);
@@ -344,55 +385,63 @@ $('#checkBoxAll').click(function () {
     }
 });
 
+$("#deleteStockBtn").on("click", function () {
+    var checkedRows = $('.eachStockRow:checked');
+    if (checkedRows.length === 0) {
+        $("#mainModalContent").text('No rows selected!');
+        $("#mySmallModalLabel").text('ERROR..!');
+        $("#stockNotAvailableModal").modal("show");
+    } else {
+        $('#confirmationModal').modal('show');
+    }
+});
+
 $("#retrieveRowsBtn").on("click", function () {
-    $("#ConfirmDeletestock").modal("show");
+    if ($('.eachStockRow').is(":checked")) {
+        var selectedRows = [];
+
+        $('.eachStockRow').each(function () {
+            if ($(this).is(':checked')) {
+                var row = $(this).closest('tr');
+                var rowData = {
+                    StockMaterialId: row.find('td:eq(11)').text(),
+                    SrNoFrom: row.find('td:eq(7)').text(),
+                    SrNoTo: row.find('td:eq(8)').text(),
+                    Quantity: row.find('td:eq(9)').text()
+                };
+
+                selectedRows.push(rowData);
+            }
+        });
+
+        $.ajax({
+            url: "/DeleteStock/StockToDelete",
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(selectedRows),
+            success: function (response) {
+                $('.eachStockRow:checked').each(function () {
+                    $(this).closest('tr').remove();
+                    $("#mySmallModalLabel").text('SUCCESS!');
+                    $("#mainModalContent").text("Stock deleted successfully.")
+                    $('#stockNotAvailableModal').modal('show');
+                });
+                
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
+                $('#stockNotAvailableModal').modal('show'); 
+            }
+        });
+        $('#confirmationModal').modal('hide');
+    }
+    else {
+        $("#mainModalContent").text('No rows selected!');
+        $("#stockNotAvailableModal").modal("show");
+    }
 });
 
-$("#YesDeleteStock").on("click", function () {
-    var selectedRows = [];   
-    $('.eachStockRow').each(function () {
-        if ($(this).is(':checked')) {
-            var row = $(this).closest('tr'); 
-            var rowData = {
-                StockMaterialId: row.find('td:eq(11)').text(),
-                SrNoFrom: row.find('td:eq(7)').text(),
-                SrNoTo: row.find('td:eq(8)').text(),
-                Quantity: row.find('td:eq(9)').text()
-
-            };
-
-            selectedRows.push(rowData); 
-            $('.eachStockRow:checked').closest('tr').remove();
-        }
-    });
-    var requestData = {
-        selectedRows: selectedRows
-    };
-   
-    $.ajax({
-        url: "/DeleteStock/StockToDelete",
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(requestData),
-        success: function (response) {
-            // Handle the response from the server
-            console.log(response);
-            $('.eachStockRow:checked').closest('tr').remove();
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            // Handle any error that occurred during the AJAX request
-            console.error(errorThrown);
-        }
-    });
-    console.log(selectedRows);
-    $("#ConfirmDeletestock").modal("hide");
-
-});
-
-$("#NoDeleteStock").on("click", function () {
-    $("#ConfirmDeletestock").modal("hide");
-});
 
 $(document).on('submit', '#StockForm', function (event) {
 
@@ -637,12 +686,21 @@ function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTy
     $.ajax({
         url: "/IssueStock/GetCost",
         type: "GET",
-        data: {materialId: materialId, noOfUnits: noOfUnits },
+        data: { materialId: materialId, noOfUnits: noOfUnits },
         success: function (response) {
             $('#Cost').val(response);
 
         }
     });
+}
+function displayErrorModal(message, heading) {
+    var modalErrorMessage = document.getElementById("modalErrorMessage");
+    var modalTitle = document.getElementById("validationModalLabel");
+    modalErrorMessage.innerText = message;
+    modalTitle.innerText = heading;
+
+    var validationModal = new bootstrap.Modal(document.getElementById("validationModal"));
+    validationModal.show();
 }
 
 
@@ -655,6 +713,102 @@ function clearTable() {
     }, 100);
 
 }
+
+function FilterRecordsWithGrnDate(reportType) {
+    var fromDate = $('#fromDate').val();
+    var toDate = $('#toDate').val();
+
+    if (fromDate === '' || toDate === '') {
+        displayModal("Please select both the 'From Date' and 'To Date'.", "Missing Date Range");
+        $('#fromDate').val('');
+        $('#toDate').val('');
+    }
+    else if (new Date(toDate) < new Date(fromDate)) {
+        displayErrorModal("'To GRN Date' must be greater than the 'From Date'.", "Invalid Date Range");
+    }
+
+    else {
+        var url = '';
+        if (reportType == 'stockIn') {
+            url = "/Report/FilteredStockInReport";
+        }
+        else {
+            url = "/Report/FilteredStockOutReport";
+        }
+        $.ajax({
+            url: url,
+            type: "GET",
+            data: { fromDate: fromDate, toDate: toDate },
+            success: function (result) {
+                var tableBody = '';
+                if (reportType == 'stockIn') {
+                    tableBody = $('#stockInReportTable tbody');
+                }
+                else {
+                    tableBody = $('#stockOutReportTable tbody');
+                }
+                if (result.length === 0) {
+                    displayErrorModal("No records found for the selected dates.", "Error");
+                    $('#fromDate').val('');
+                    $('#toDate').val('');
+                }
+                else {
+                    tableBody.empty();
+                    result.forEach(function (stockModel) {
+                        var row = '';
+                        if (reportType == 'stockIn') {
+                            row = '<tr>' +
+                                '<td>' + stockModel.stock.id + '</td>' +
+                                '<td>' + new Date(stockModel.stock.grnDate).toLocaleDateString() + '</td>' +
+                                '<td>' + stockModel.stock.grnNumber + '</td>' +
+                                '<td>' + new Date(stockModel.stock.invoiceDate).toLocaleDateString() + '</td>' +
+                                '<td>' + stockModel.stock.invoiceNumber + '</td>' +
+                                '<td>' + stockModel.stock.prefixNumber + '</td>' +
+                                '<td>' + stockModel.stock.make + '</td>' +
+                                '<td>' + stockModel.stock.testReportReference + '</td>' +
+                                '<td>' + stockModel.materialName + '</td>' +
+                                '<td>' + stockModel.materialCode + '</td>' +
+                                '<td>' + stockModel.stock.rate + '</td>' +
+                                '<td>' + stockModel.quantity + '</td>' +
+                                '</tr>';
+                            CustomPagination(reportType);
+                        }
+                        else {
+                            row = '<tr>' +
+                                '<td>' + stockModel.transactionId + '</td>' +
+                                '<td>' + new Date(stockModel.currentDate).toLocaleDateString() + '</td>' +
+                                '<td>' + stockModel.serialNumber + '</td>' +
+                                '<td>' + new Date(stockModel.srNoDate).toLocaleDateString() + '</td>' +
+                                '<td>' + stockModel.subDivisionName + '</td>' +
+                                '<td>' + stockModel.locationID + '</td>' +
+                                '<td>' + stockModel.juniorEngineerName + '</td>' +
+                                '<td>' + stockModel.materialName + '</td>' +
+                                '<td>' + stockModel.materialCode + '</td>' +
+                                '<td>' + stockModel.quantity + '</td>' +
+                                '<td>' + stockModel.Rate + '</td>' +
+                                '<td>' + stockModel.make + '</td>' +
+                                '</tr>';
+                            CustomPagination(reportType);
+                        }
+                        tableBody.append(row);
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                displayErrorModal("An error occurred while fetching data. Please try again later", "Error");
+            }
+        });
+    }
+}
+
+
+$('#filterStockInButton').click(function () {
+    FilterRecordsWithGrnDate('stockIn');
+});
+
+$('#filterStockOutButton').click(function () {
+    FilterRecordsWithGrnDate('stockOut');
+});
 
 
 

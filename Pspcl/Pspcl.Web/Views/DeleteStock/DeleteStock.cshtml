@@ -12,7 +12,7 @@
             @*<button type="submit" value="Delete" class="btn btn-sm btn-danger rounded-0" onclick="return confirm('Are you sure?')"><i class="fa fa-trash-o"></i> Delete</button>
 *@
 
-            <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" id="retrieveRowsBtn">Delete</button>
+            <button type="submit" class="btn btn-dark blackButton px-4 mt-3 mr-2" id="deleteStockBtn">Delete</button>
             <br /><br />
 
         </div>
@@ -66,5 +66,39 @@
     </div>
 
 
+</div>
+
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected stock?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="retrieveRowsBtn">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="stockNotAvailableModal" tabindex="-1" role="dialog" aria-labelledby="stockNotAvailableModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mySmallModalLabel"></h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <p id="mainModalContent" class="mx-auto my-5 font-weight-normal">
+                Stock not available!
+            </p>
+        </div>
+    </div>
 </div>
 

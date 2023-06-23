@@ -204,7 +204,7 @@ namespace Pspcl.Web.Controllers
 		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)
 		{
 			Dictionary <string,int> Result = new Dictionary<string,int>();
-			Result = _stockService.AllMakesAndQuantitities(materialGroupId, materialTypeId, materialId);
+			Result = _stockService.AllMakesAndQuantities(materialGroupId, materialTypeId, materialId);
             return Json(Result);
         }
 
