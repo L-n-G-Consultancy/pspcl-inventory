@@ -4,21 +4,17 @@ namespace Pspcl.Core.Domain
 {
     public class User : IdentityUser<int>
     {
-        public User()
-        {
-            UserRoles = new List<UserRole>();
-        }
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public DateTime? LastLoginTime { get; set; }
         public bool IsDeleted { get; set; }
 
-        public string FirstName { get; set; } = string.Empty;
+        public string? FirstName { get; set; }
 
-        public string LastName { get; set; } = string.Empty;
+        public string? LastName { get; set; }
 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserRole>? UserRoles { get; set; }
 
     }
 }
