@@ -21,7 +21,7 @@ namespace Pspcl.Web.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = "SuperAdmin,InventoryManager")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult DeleteStock()
         {
             try

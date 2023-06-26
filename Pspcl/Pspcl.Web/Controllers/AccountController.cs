@@ -80,7 +80,7 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "SuperAdmin,InventoryManager")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult AddUser(AddUserModel user)
         {
             
@@ -89,7 +89,7 @@ namespace Pspcl.Web.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "SuperAdmin,InventoryManager")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> AddUser(AddUserModel user, string choosenUserRole)
         {
             if (choosenUserRole == "Super-Admin") { choosenUserRole = "SuperAdmin"; }
@@ -121,7 +121,6 @@ namespace Pspcl.Web.Controllers
                     LastName = user.LastName,
                     IsActive = true,
                     EmailConfirmed = true,
-                    AccessFailedCount = 0,
                     IsDeleted = false,
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now,

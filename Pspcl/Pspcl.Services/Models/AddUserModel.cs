@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace Pspcl.Services.Models
 {
-    public class AddUserModel : IdentityUser<int>
+    public class AddUserModel
     {
 
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public DateTime? LastLoginTime { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
+        public string Email { get; set; }
+        public String? UserName { get; set; }
+        public bool? EmailConfirmed { get; set; }        
 
         public string? FirstName { get; set; }
 
