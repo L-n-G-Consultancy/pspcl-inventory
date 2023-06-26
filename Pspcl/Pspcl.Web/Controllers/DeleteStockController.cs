@@ -5,6 +5,7 @@ using Pspcl.Services.Interfaces;
 using System.Text.Json.Nodes;
 using Newtonsoft.Json.Linq;
 using Pspcl.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Pspcl.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace Pspcl.Web.Controllers
             _logger = logger;
         }
 
-
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult DeleteStock()
         {
             try
@@ -33,6 +34,7 @@ namespace Pspcl.Web.Controllers
             {
                 _logger.LogError(ex, "Exception");
             }
+
             return View();
         }
 
@@ -42,12 +44,11 @@ namespace Pspcl.Web.Controllers
             List<List<int>> selectedRowsToDelete = selectedRows
            .Select(row => new List<int> { row.StockMaterialId, row.SrNoFrom, row.SrNoTo, row.Quantity })
            .ToList();
-
-            int test = _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
-            int test1 = _stockService.UpdateStockMaterial(selectedRowsToDelete);
-            return Json(1); 
+            _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
+            _stockService.UpdateStockMaterial(selectedRowsToDelete);
+            return Json(1);
         }
-        
+
     }
 
 }

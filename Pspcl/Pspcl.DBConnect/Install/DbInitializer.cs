@@ -61,7 +61,7 @@ namespace Pspcl.DBConnect.Install
         /// </summary>
         public async Task CreateRoles()
         {
-            var roles = new List<string> { "SuperAdmin","InventoryManager", "NonAdmin" };
+            var roles = new List<string> { "SuperAdmin","InventoryManager", "General" };
             _logger.LogInformation("Roles List {@roles}", roles);
             foreach (var role in roles)
             {

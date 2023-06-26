@@ -4,6 +4,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using Pspcl.Core.Domain;
 using Pspcl.Web.Models;
+using Pspcl.Services.Models;
 
 namespace Pspcl.Web.Mapping
 {
@@ -15,6 +16,7 @@ namespace Pspcl.Web.Mapping
 			CreateMap<IssueStockModel,StockIssueBook>();
             CreateMap <IssueStockModel, StockBookMaterial>();
 			CreateMap <Stock, StockViewModel>();
+            CreateMap <AddUserModel,User>();
         }
     }
 }
