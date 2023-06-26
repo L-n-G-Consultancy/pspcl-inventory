@@ -363,23 +363,66 @@ namespace Pspcl.Services
         public string GetCorrespondingMakeValue(string invoiceNumber)
         {
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.InvoiceNumber == invoiceNumber).ToList();
-            if (stocks.Count > 0)
+            if (stocks.Count == 0)
+            {
+                return "Enter Make";
+            }
+
+            else 
             {
                 string Make = stocks.Select(x => x.Make).FirstOrDefault().ToString();
-                return Make;
+                List<int> stockIdList = stocks.Select(x => x.Id).Distinct().ToList();
+
+                var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id).Distinct();
+                List<int> stockMaterialIdsList = query.ToList();
+
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsDeleted).ToList();
+                List<int> idList = Materials.Select(x => x.Id).ToList();
+
+                if (idList.Count > 0)
+                {
+                    return Make;
+                }
+
+                else
+                {
+                    return "Enter Make";
+                }
+                
             }
-            else
-                return "Enter Make";
+            
         }
 
         public bool isGrnNumberExist(string GrnNumber)
         {
+            //check if there are any stock records with same GRN number.
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.GrnNumber == GrnNumber).ToList();
-            if (stocks.Count > 0)
+
+
+            if (stocks.Count == 0)
             {
-                return true;
+                return false;
             }
-            return false;
+            else
+            {
+                List<int> stockIdList = stocks.Select(x => x.Id).Distinct().ToList();
+
+                var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id).Distinct();
+                List<int> stockMaterialIdsList = query.ToList();
+
+                // if yes, check if their IsDeleted is 0, if yes, this means there are records, present with same GRN, and those are not deleted.
+
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsDeleted).ToList();
+                List<int> idList = Materials.Select(x => x.Id).ToList();
+
+
+                if (idList.Count > 0)
+                {
+                    return true;
+                }
+                return false;
+
+            }
         }
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId, int materialTypeId, int materialId, string make)
