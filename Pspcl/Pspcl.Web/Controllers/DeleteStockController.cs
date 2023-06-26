@@ -21,27 +21,20 @@ namespace Pspcl.Web.Controllers
             _logger = logger;
         }
 
-
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult DeleteStock()
         {
-            if (!User.IsInRole("NonAdmin"))
+            try
             {
-                try
-                {
-                    var deleteStockModel = _stockService.GetAvailableStock();
+                var deleteStockModel = _stockService.GetAvailableStock();
 
-                    return View(deleteStockModel);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Exception");
-                }
-
+                return View(deleteStockModel);
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("Index", "Home");
+                _logger.LogError(ex, "Exception");
             }
+
             return View();
         }
 

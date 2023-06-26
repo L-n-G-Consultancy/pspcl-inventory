@@ -80,14 +80,10 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
         public IActionResult AddUser()
         {
-            if (!User.IsInRole("NonAdmin"))
-            {
-                return View();
-            }
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
 
