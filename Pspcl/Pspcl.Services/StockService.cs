@@ -132,10 +132,10 @@ namespace Pspcl.Services
         {
             var availableStocks = _dbcontext.StockMaterial
                 .Select(sm => new AvailableStockModel
-                {                    
-                    StockMaterial= sm, 
-                    
-                   
+                {
+                    StockMaterial = sm,
+
+
                     StockMaterialId = sm.Id,
 
 
@@ -149,15 +149,20 @@ namespace Pspcl.Services
                     grnNo = _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.GrnNumber).FirstOrDefault(),
                     grnDate = (DateTime)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),
                     Rate = (float)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Rate).FirstOrDefault(),
-                    Make=_dbcontext.Stock.Where(s => s.Id==sm.StockId).Select(s=>s.Make).FirstOrDefault(),
-                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted==false),
+                    Make = _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Make).FirstOrDefault(),
+                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false),
                     SrNoTo = sm.SerialNumberTo,
-                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false) + 1
+                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false) + 1,
 
 
                 })
                 .ToList();
             availableStocks.RemoveAll(sm => sm.AvailableQuantity == 0);
+            foreach (var stock in availableStocks)
+            {
+                stock.Value = stock.Rate * stock.AvailableQuantity;
+            }
+
 
             return availableStocks;
         }
@@ -182,11 +187,17 @@ namespace Pspcl.Services
                         JuniorEngineerName = sib.JuniorEngineerName,
                         MaterialName = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Name).FirstOrDefault(),
                         MaterialCode = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Code).FirstOrDefault(),
+                        MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
                         Make = sbm.Make
                     })
                 .ToList();
+
+            foreach (var stock in stockIssueBookModels)
+            {
+                stock.Cost = GetCost(stock.MaterialId, stock.Quantity);
+            }
 
             return stockIssueBookModels;
         }
@@ -276,7 +287,7 @@ namespace Pspcl.Services
                 var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id);
                 List<int> stockMaterialIdsList = query.ToList();
 
-                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued).ToList();
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued && !x.IsDeleted).ToList();
                 List<int> idList = Materials.Select(x => x.Id).ToList();
                 int QuantityAgainstMake = idList.Count();
 
@@ -394,16 +405,16 @@ namespace Pspcl.Services
             return false;
         }
 
-        public int GetCost(int materialId, int noOfUnits)
+        public float GetCost(int materialId, int noOfUnits)
         {
             List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
-            int testingCharges = material.Select(x => x.TestingCharges).First();
+            float testingCharges = material.Select(x => x.TestingCharges).First();
 
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialId == materialId).ToList();
-            int rate = Convert.ToInt32(stocks.Select(x => x.Rate).First());
+            float rate = (float)(stocks.Select(x => x.Rate).First());
 
-            int totalCost = (rate + ((3 * rate) / 100) + testingCharges) * noOfUnits;
-
+            float totalCost = (rate + (3 * rate / 100) + testingCharges) * noOfUnits;
+            totalCost = (float)Math.Round(totalCost * 100f) / 100f;
 
             return totalCost;
         }
@@ -435,7 +446,7 @@ namespace Pspcl.Services
                 foreach (var record in recordsToUpdate)
                 {
                     record.ModifiedOn = DateTime.Now;
-                    if(record.SerialNumberFrom== Item[1])
+                    if (record.SerialNumberFrom == Item[1])
                     {
                         _dbcontext.StockMaterial.Remove(record);
 
@@ -446,16 +457,16 @@ namespace Pspcl.Services
                         record.Quantity = record.SerialNumberTo - record.SerialNumberFrom + 1;
                     }
                     record.ModifiedOn = DateTime.Now;
-                   
+
                 }
-                
+
             }
             _dbcontext.SaveChanges();
             
         }       
 
     }
-    
+
 
 }
 
