@@ -81,9 +81,10 @@ namespace Pspcl.Web.Controllers
 
         [HttpGet]
         [Authorize]
-		public IActionResult AddUser()
+		public IActionResult AddUser(User user)
         {
-            return View();
+            
+            return View(user);
         }
 
        
@@ -91,8 +92,9 @@ namespace Pspcl.Web.Controllers
         [Authorize]
         public async Task<IActionResult> AddUser(User user, string password, string confirmPassword, string choosenUserRole)
         {
-            if(choosenUserRole== "Inventory-Manager") { choosenUserRole = "InventoryManager"; }
-            if(choosenUserRole== "Normal User") { choosenUserRole = "NonAdmin"; }
+            if (choosenUserRole == "Super-Admin") { choosenUserRole = "SuperAdmin"; }
+            else if (choosenUserRole== "Inventory-Manager") { choosenUserRole = "InventoryManager"; }
+            
 
             if (ModelState.IsValid)
             {
@@ -101,6 +103,9 @@ namespace Pspcl.Web.Controllers
                 {
                     ModelState.AddModelError("", "The password and confirm password fields do not match.");
                     ViewBag.PasswordMismatchError = "The password and confirm password fields do not match.";
+                    if (choosenUserRole == "SuperAdmin") { choosenUserRole = "Super-Admin"; }
+                    else if (choosenUserRole == "InventoryManager") { choosenUserRole = "Inventory-Manager"; }
+                    TempData["choosenRole"] = choosenUserRole;
                     return View(user);
                 }
 

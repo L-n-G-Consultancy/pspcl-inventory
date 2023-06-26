@@ -42,12 +42,11 @@ namespace Pspcl.Web.Controllers
             List<List<int>> selectedRowsToDelete = selectedRows
            .Select(row => new List<int> { row.StockMaterialId, row.SrNoFrom, row.SrNoTo, row.Quantity })
            .ToList();
-
-            int test = _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
-            int test1 = _stockService.UpdateStockMaterial(selectedRowsToDelete);
-            return Json(1); 
+            _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
+            _stockService.UpdateStockMaterial(selectedRowsToDelete);
+            return Json(1);
         }
-        
+
     }
 
 }

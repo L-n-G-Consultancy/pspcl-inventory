@@ -411,7 +411,7 @@ namespace Pspcl.Services
 
 
 
-        public int UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
+        public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
         {
             foreach (var Item in selectedRowsToDelete)
             {
@@ -424,10 +424,10 @@ namespace Pspcl.Services
                 _dbcontext.SaveChanges();
 
             }
-            return 1;
+            
         }
 
-        public int UpdateStockMaterial(List<List<int>> selectedRowsToDelete)
+        public void UpdateStockMaterial(List<List<int>> selectedRowsToDelete)
         {
             foreach (var Item in selectedRowsToDelete)
             {
@@ -451,7 +451,7 @@ namespace Pspcl.Services
                 
             }
             _dbcontext.SaveChanges();
-            return 1;
+            
         }       
 
     }
