@@ -211,7 +211,7 @@ namespace Pspcl.Web.Controllers
          public JsonResult GetCost(int materialId, int noOfUnits)
 
          {
-            int Result = _stockService.GetCost(materialId, noOfUnits);
+            float Result = _stockService.GetCost(materialId, noOfUnits);
             return Json(Result);
          }
 
