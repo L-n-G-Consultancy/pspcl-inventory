@@ -80,8 +80,8 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-		public IActionResult AddUser(User user)
+        [Authorize(Roles = "SuperAdmin,InventoryManager")]
+        public IActionResult AddUser(User user)
         {
             
             return View(user);
