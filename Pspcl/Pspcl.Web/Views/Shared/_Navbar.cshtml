@@ -35,7 +35,10 @@
                 <!-- item-->
                 <a class="dropdown-item" href="#"><span>Profile</span></a>
                 <a class="dropdown-item" href="@Url.Action("LogOut", "Account")"><span>Logout</span></a>
-                <a class="dropdown-item" href="@Url.Action("AddUser", "Account")"><span>Add User</span></a>
+                @if (!User.IsInRole("NonAdmin"))
+                {
+                    <a class="dropdown-item" href="@Url.Action("AddUser", "Account")"><span>Add User</span></a>
+                }
             </div>
         </div>
         <!-- My Profile Hld End-->

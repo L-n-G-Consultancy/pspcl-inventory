@@ -475,24 +475,21 @@ $(document).on('submit', '#StockForm', function (event) {
 
 
 document.getElementById("exportButton").addEventListener("click", function () {
-    // Fetch the table element
     var table = document.querySelector(".table");
-
-    // Create a new workbook
-    var wb = XLSX.utils.table_to_book(table, { sheet: "Sheet 1" });
-
-    // Convert the workbook to an Excel file (blob)
+    var clonedTable = table.cloneNode(true);
+    var rows = clonedTable.querySelectorAll("tbody tr");
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        row.style.display = "";
+    }
+    var wb = XLSX.utils.table_to_book(clonedTable, { sheet: "Sheet 1" });
     var wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     var blob = new Blob([wbout], { type: "application/octet-stream" });
-
-    // Generate a temporary download link and trigger the download
     var downloadLink = document.createElement("a");
     var url = URL.createObjectURL(blob);
     downloadLink.href = url;
     downloadLink.download = "report.xlsx";
     downloadLink.click();
-
-    // Cleanup
     setTimeout(function () {
         URL.revokeObjectURL(url);
     }, 0);
@@ -771,7 +768,6 @@ function FilterRecordsWithGrnDate(reportType) {
                                 '<td>' + stockModel.stock.rate + '</td>' +
                                 '<td>' + stockModel.quantity + '</td>' +
                                 '</tr>';
-                            CustomPagination(reportType);
                         }
                         else {
                             row = '<tr>' +
@@ -781,16 +777,19 @@ function FilterRecordsWithGrnDate(reportType) {
                                 '<td>' + new Date(stockModel.srNoDate).toLocaleDateString() + '</td>' +
                                 '<td>' + stockModel.subDivisionName + '</td>' +
                                 '<td>' + stockModel.locationID + '</td>' +
+                                '<td>' + stockModel.subDivisionName + '</td>' +
                                 '<td>' + stockModel.juniorEngineerName + '</td>' +
                                 '<td>' + stockModel.materialName + '</td>' +
                                 '<td>' + stockModel.materialCode + '</td>' +
                                 '<td>' + stockModel.quantity + '</td>' +
-                                '<td>' + stockModel.Rate + '</td>' +
+                                '<td>' + stockModel.rate + '</td>' +
                                 '<td>' + stockModel.make + '</td>' +
+                                '<td>' + stockModel.cost + '</td>' +
                                 '</tr>';
-                            CustomPagination(reportType);
                         }
                         tableBody.append(row);
+                        CustomPagination(reportType);
+
                     });
                 }
             },

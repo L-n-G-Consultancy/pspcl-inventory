@@ -94,30 +94,7 @@ namespace Pspcl.Services
             }
             return new List<string>();
         }
-        //     public List<List<int>> GetAvailableQuantity(List<int> Ids)
-        //     {
-        //int materialGroupId = Ids[0];
-        //int materialTypeId = Ids[1];
-        //int materialId = Ids[2];
-
-        //List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
-        //List<int> stockIds = stocks.Select(x => x.Id).ToList();
-        //List<StockMaterial> Materials = _dbcontext.StockMaterial.Where(x => stockIds.Contains(x.StockId)).ToList();
-        //List<int> idList = Materials.Select(x => x.Id).ToList();
-        //var query = _dbcontext.StockMaterialSeries.Where(x => idList.Contains(x.StockMaterialId) && !x.IsIssued);
-        //string sqlQuery = query.ToString();
-        //var MaterialSeries = query.ToList();
-        //List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
-        //int totalAvailableQuantity = quantities.Count();
-
-        //var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
-        //       SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
-        //       SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
-        //}) .ToList();
-
-        //List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
-        //return ranges;
-        //     }
+        
         public int AddStock(Stock stock)
         {
             _dbcontext.Set<Stock>().Add(stock);
@@ -310,7 +287,7 @@ namespace Pspcl.Services
                 var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id);
                 List<int> stockMaterialIdsList = query.ToList();
 
-                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued).ToList();
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued && !x.IsDeleted).ToList();
                 List<int> idList = Materials.Select(x => x.Id).ToList();
                 int QuantityAgainstMake = idList.Count();
 
@@ -483,7 +460,7 @@ namespace Pspcl.Services
             }
             _dbcontext.SaveChanges();
             return 1;
-        }
+        }       
 
     }
 

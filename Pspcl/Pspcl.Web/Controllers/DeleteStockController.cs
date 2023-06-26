@@ -24,7 +24,7 @@ namespace Pspcl.Web.Controllers
 
         public IActionResult DeleteStock()
         {
-            if (User.IsInRole("InventoryManager"))
+            if (!User.IsInRole("NonAdmin"))
             {
                 try
                 {

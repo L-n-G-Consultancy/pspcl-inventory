@@ -8,33 +8,50 @@
 	<div class="page-content">
         <h2>Add New User</h2>
 
-        <form asp-controller="Account" asp-action="AddUser" method="post">
+        <form asp-controller="Account" asp-action="AddUser" id="UserForm" method="post">
             <div class="form-group">
-                <label for="email">Email</label>
+                
+                <div class="btn-group dropright">
+                    <button type="button" class="btn btn-secondary dropdown-toggle btn-orange" data-toggle="dropdown" aria-expanded="false">
+                        User Role
+                    </button>
+                    <ul class="dropdown-menu" style="">
+                        <li class="dropdown-item user-role-option" >Inventory-Manager</li>
+                        <li class="dropdown-item user-role-option">Normal User</li>
+                    </ul>
+                    <input type="text" class="form-control ml-2" id="choosenUserRole" name="choosenUserRole" placeholder="Please choose user role" value="" required readonly>
+                    <span class="required-field text-danger">*</span>
+                </div>
+                              
+                
+                
+            </div>
+            <div class="form-group">
+                <label for="email">Email<span class="required-field text-danger">*</span></label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="firstName">First Name</label>
+                <label for="firstName">First Name <span class="required-field text-danger">*</span></label>
                 <input type="text" class="form-control" id="firstName" name="firstName">
             </div>
             <div class="form-group">
-                <label for="lastName">Last Name</label>
+                <label for="lastName">Last Name <span class="required-field text-danger">*</span></label>
                 <input type="text" class="form-control" id="lastName" name="lastName">
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Password <span class="required-field text-danger">*</span></label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
+                <label for="confirmPassword">Confirm Password <span class="required-field text-danger">*</span></label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 @if (!string.IsNullOrEmpty(ViewData["PasswordMismatchError"] as string))
                 {
                     <span class="text-danger">@ViewData["PasswordMismatchError"]</span>
                 }
             </div>
-           
+            
             <button type="submit" class="btn btn-orange text-light">Add User</button>
         </form>
 	</div>
