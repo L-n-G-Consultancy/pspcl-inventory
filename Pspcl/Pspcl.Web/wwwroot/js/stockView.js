@@ -376,6 +376,26 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
+$(document).on('click', "#addUserForm", function (event) {
+    var $submitButton = $(this);
+    var $form = $submitButton.closest('form');
+
+    // Show the loading indicator
+    $('#loadingIndicator').show();
+
+    $form.submit();
+});
+$(document).on('click', "#IssueStockForm", function (event) {
+    var $submitButton = $(this);
+    var $form = $submitButton.closest('form');
+
+    // Show the loading indicator
+    $('#loadingIndicator').show();
+
+    $form.submit();
+});
+
+
 $('#checkBoxAll').click(function () {
     if ($(this).is(":checked")) {
         $(".eachStockRow").prop("checked", true)
