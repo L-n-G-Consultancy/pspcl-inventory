@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -77,7 +78,8 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult IssueStockView(IFormCollection formCollection, IFormFile Image)
+        [ValidateAntiForgeryToken]
+        public ActionResult IssueStockView(IFormCollection formCollection)
         {
             int materialGroupId = Convert.ToInt32(formCollection["MaterialGroupId"]);
             int materialTypeId = Convert.ToInt32(formCollection["MaterialTypeId"]);
@@ -90,12 +92,8 @@ namespace Pspcl.Web.Controllers
             availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
             var errorResponse = "-1";
-            int x;
-            if (Image== null)
-            {
-                x = 14;
-            }
-            else x = 13;
+
+            int x = 13;
             foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
@@ -159,18 +157,24 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.SubDivisionId = int.Parse(formCollection["SubDivisionId"]);
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
-            string response = UploadImage(Image);
-            stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ?errorResponse:response);
-            if (stockIssueBook.Image == errorResponse)
-            {
-                 return View("Error");
-            }
+
+            //string response = UploadImage(formCollection.Files[0]);
+            
 
             StockBookMaterial stockBookMaterial1 = new StockBookMaterial();
 
             stockBookMaterial1.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
             stockBookMaterial1.MaterialId = int.Parse(formCollection["MaterialId"]);
 
+            if (formCollection.Files[0] != null || formCollection.Files[0].FileName != null)
+            {
+                string response = _stockService.UploadImageToAzure(formCollection.Files[0]);
+                stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
+                if (stockIssueBook.Image == errorResponse)
+                {
+                    return View("Error");
+                }
+            }
 
             StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(stockIssueBook);
             int id = _stockService.IssueStock(stockIssueBookEntity);

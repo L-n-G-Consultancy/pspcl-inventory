@@ -1,10 +1,12 @@
-﻿using Pspcl.Core.Domain;
+﻿using Microsoft.AspNetCore.Http;
+using Pspcl.Core.Domain;
 using Pspcl.Services.Models;
 
 namespace Pspcl.Services.Interfaces
 {
     public interface IStockService
     {
+        string UploadImageToAzure(IFormFile file); 
         List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false);
         List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false);
         List<Tuple<int, string>> GetAllMaterialRatings(int materialTypeId);

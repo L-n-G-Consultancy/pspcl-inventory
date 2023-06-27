@@ -1,21 +1,31 @@
 ﻿
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Options;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
 using Pspcl.Services.Models;
+using Pspcl.Services.Options;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 
 namespace Pspcl.Services
 {
 
     public class StockService : IStockService
     {
+        private readonly AzureOptions _azureOptions;
+        
         private readonly ApplicationDbContext _dbcontext;
-        public StockService(ApplicationDbContext dbContext)
+        public StockService(ApplicationDbContext dbContext, IOptions<AzureOptions> azureOptions)
         {
+            _azureOptions = azureOptions.Value;
             _dbcontext = dbContext;
         }
         public List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false)
@@ -506,8 +516,34 @@ namespace Pspcl.Services
             }
             _dbcontext.SaveChanges();
             
-        }       
+        }
 
+        public string UploadImageToAzure(IFormFile file)
+        {
+            string fileExtension = Path.GetExtension(file.FileName);
+            using MemoryStream fileUploadStream = new MemoryStream();
+            {
+                file.CopyTo(fileUploadStream);
+                fileUploadStream.Position = 0;
+                BlobContainerClient blobContainerClient = new BlobContainerClient(
+                    _azureOptions.ConnectionString,
+                    _azureOptions.Container);
+
+                var uniqueName = Guid.NewGuid().ToString() + fileExtension;
+
+                //azure package is required for below line
+                BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
+                blobClient.Upload(fileUploadStream, new BlobUploadOptions()
+                {
+                    HttpHeaders = new BlobHttpHeaders
+                    {
+                        ContentType = "image/bitmap"
+                    }
+                }, cancellationToken: default);
+                    
+            }
+            return "ImageSaved";
+        }
     }
 
 

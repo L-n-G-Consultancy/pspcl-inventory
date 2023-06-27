@@ -23,6 +23,8 @@
 
         @using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1", enctype = "multipart/form-data" }))
         {
+            @Html.AntiForgeryToken()
+
             <div class="row">
 
                 <div class="form-group col-md-6">
@@ -91,8 +93,13 @@
                         @Html.HiddenFor(m => m.CircleId,new{@id="CircleId"})
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="">Choose Image</label>
-                    @Html.TextBoxFor(model => model.Image, new { @class = "form-control", @type = "file", @accept = "image/*", @id="fileInput" })
+                    <div>
+                        @Html.LabelFor(model => model.FileDetails, new{ @class= "form-label"})
+                    </div>
+
+                    <div>
+                        @Html.EditorFor(model => model.File, new{ @class= "form-control"})
+                    </div>
                 </div>
 
                 <div class="form-group col-md-6">
