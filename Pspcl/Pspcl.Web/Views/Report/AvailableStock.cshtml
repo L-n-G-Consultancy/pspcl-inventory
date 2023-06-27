@@ -7,7 +7,7 @@
     <div class="page-content">
 
             <div id="stock-in-report"><h3>Available Stock Report</h3> <button type="button" class="btn btn-dark blackButton px-5 mb-2 mb-md-2" id="exportButton">Export to Excel</button></div>
-            <table class="table table-responsive custom-table">
+        <table id="availableStockTable" class="table table-responsive custom-table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">GRN No.</th>
@@ -20,27 +20,34 @@
                         <th scope="col">Sr.No To</th>
                         <th scope="col">Qty</th>
                         <th scope="col">Rate/Unit</th>
+                        <th scope="col">Value</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                @foreach (var AvailableStockModel in Model)
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>@AvailableStockModel.grnNo</td>
-                        <td>@AvailableStockModel.grnDate.ToString().Split(' ')[0]</td>
-                        <td>@AvailableStockModel.MaterialGroup</td>                           
-                        <td>@AvailableStockModel.MaterialName</td>
-                        <td>@AvailableStockModel.MaterialCode</td>
-                        <td>@AvailableStockModel.Make</td>
-                        <td>@AvailableStockModel.SrNoFrom</td>
-                        <td>@AvailableStockModel.SrNoTo</td>
-                        <td>@AvailableStockModel.AvailableQuantity</td>
-                        <td>@AvailableStockModel.Rate</td>
-                    </tr>
+                    @foreach (var AvailableStockModel in Model)
+                    {
+                        <tr>
+                            <td>@AvailableStockModel.grnNo</td>
+                            <td>@AvailableStockModel.grnDate.ToString().Split(' ')[0]</td>
+                            <td>@AvailableStockModel.MaterialGroup</td>
+                            <td>@AvailableStockModel.MaterialName</td>
+                            <td>@AvailableStockModel.MaterialCode</td>
+                            <td>@AvailableStockModel.Make</td>
+                            <td>@AvailableStockModel.SrNoFrom</td>
+                            <td>@AvailableStockModel.SrNoTo</td>
+                            <td>@AvailableStockModel.AvailableQuantity</td>
+                            <td>@AvailableStockModel.Rate</td>
+                            <td>@AvailableStockModel.Value</td>
+                        </tr>
+                    }
                 }
+                
                 </tbody>
 
             </table>
+        <div id="paginate"></div>
 
     </div>
 </div>

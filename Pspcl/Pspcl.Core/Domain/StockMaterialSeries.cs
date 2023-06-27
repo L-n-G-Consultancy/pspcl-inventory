@@ -11,5 +11,7 @@ namespace Pspcl.Core.Domain
         public int StockMaterialId { get; set; } // Foreign key
         public int SerialNumber { get; set; }
         public bool IsIssued { get; set; }
+        public bool IsDeleted{ get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

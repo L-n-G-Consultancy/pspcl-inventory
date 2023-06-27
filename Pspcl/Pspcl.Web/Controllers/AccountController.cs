@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Pspcl.Core.Domain;
+using Pspcl.Services.Models;
 
 
 namespace Pspcl.Web.Controllers
@@ -13,12 +15,16 @@ namespace Pspcl.Web.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IMapper _mapper;
 
-        public AccountController(SignInManager<User> signInManager, ILogger<AccountController> logger, UserManager<User> userManager)
+
+        public AccountController(SignInManager<User> signInManager, ILogger<AccountController> logger, UserManager<User> userManager, IMapper mapper)            
         {
             _signInManager = signInManager;
             _logger = logger;
             _userManager = userManager;
+            _mapper = mapper;
+            
         }
 
         [HttpGet]
@@ -65,7 +71,7 @@ namespace Pspcl.Web.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> LogOut()
         {
@@ -74,45 +80,59 @@ namespace Pspcl.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-		public IActionResult AddUser()
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult AddUser(AddUserModel user)
         {
-            return View();
+            
+            return View(user);
         }
 
+
         [HttpPost]
-        [Authorize]
-        public async Task< IActionResult> AddUser(User user, string password, string confirmPassword)
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> AddUser(AddUserModel user, string choosenUserRole)
         {
+            if (choosenUserRole == "Super-Admin") { choosenUserRole = "SuperAdmin"; }
+            else if (choosenUserRole== "Inventory-Manager") { choosenUserRole = "InventoryManager"; }
+            
+
             if (ModelState.IsValid)
             {
                 // Check that password and confirmPassword match
-                if (password != confirmPassword)
+                if (user.Password != user.ConfirmPassword)
                 {
                     ModelState.AddModelError("", "The password and confirm password fields do not match.");
                     ViewBag.PasswordMismatchError = "The password and confirm password fields do not match.";
+                    if (choosenUserRole == "SuperAdmin") { choosenUserRole = "Super-Admin"; }
+                    else if (choosenUserRole == "InventoryManager") { choosenUserRole = "Inventory-Manager"; }
+                    TempData["choosenRole"] = choosenUserRole;
                     return View(user);
                 }
 
 
+
+
                 // Create the new user object
-                var newUser = new User
+                var newUser = new AddUserModel
                 {
                     UserName = user.Email,
                     Email = user.Email,
                     FirstName = user.FirstName,
-                    LastName = user.LastName,                    
+                    LastName = user.LastName,
                     IsActive = true,
-                    EmailConfirmed = true,                    
-                    AccessFailedCount = 0,
+                    EmailConfirmed = true,
                     IsDeleted = false,
-
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    LastLoginTime = DateTime.Now
                 };
+                 var entityUser = _mapper.Map<User>(newUser);
 
                 // Add the user to the database
-                var result = await _userManager.CreateAsync(newUser, password);
+                var result = await _userManager.CreateAsync(entityUser, user.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(entityUser, choosenUserRole);
                     return RedirectToAction("Index", "Home");
                 }
                 else

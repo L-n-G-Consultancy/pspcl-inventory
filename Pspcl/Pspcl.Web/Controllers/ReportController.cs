@@ -67,5 +67,54 @@ namespace Pspcl.Web.Controllers
 			}
 			return View();
 		}
+
+        [HttpGet]
+        public JsonResult FilteredStockInReport(DateTime? fromDate, DateTime? toDate)
+        {
+            try
+            {
+                var filteredstockInModels = _stockService.GetStockInModels();
+
+                if (fromDate.HasValue && toDate.HasValue)
+                {
+                    filteredstockInModels = filteredstockInModels.Where(s => s.Stock.GrnDate >= fromDate.Value && s.Stock.GrnDate <= toDate.Value)
+                        .OrderByDescending(s => s.Stock.GrnDate)
+                        .ToList();
+                }
+
+                return Json(filteredstockInModels);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+            return Json("");
+
+        }
+
+        [HttpGet]
+        public JsonResult FilteredStockOutReport(DateTime? fromDate, DateTime? toDate)
+        {
+            try
+            {
+                var filteredstockOutModels = _stockService.GetStockOutModels();
+
+                if (fromDate.HasValue && toDate.HasValue)
+                {
+                    filteredstockOutModels = filteredstockOutModels.Where(s => s.CurrentDate.Date >= fromDate.Value.Date && s.CurrentDate.Date <= toDate.Value.Date)
+                         .OrderByDescending(s => s.CurrentDate)
+                         .ToList();
+                }
+
+                return Json(filteredstockOutModels);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+            return Json("");
+
+        }
+
     }
 }

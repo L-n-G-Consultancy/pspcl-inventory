@@ -32,11 +32,12 @@ namespace Pspcl.Services.Interfaces
 
         //public int GetCorrespondingRateValue(int materialId);
         public bool isGrnNumberExist(string GrnNumber);
-        public int GetCost(int materialId,int noOfUnits);
+        public float GetCost(int materialId,int noOfUnits);
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId,int materialTypeId, int materialId, string make);
-		public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId);
-
+		public Dictionary<String, int> AllMakesAndQuantities(int materialGroupId, int materialTypeId, int materialId);
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
+        public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete);
+        public void UpdateStockMaterial(List<List<int>> selectedRowsToDelete);
     }
 }

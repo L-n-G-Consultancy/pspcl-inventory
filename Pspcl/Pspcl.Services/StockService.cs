@@ -94,30 +94,7 @@ namespace Pspcl.Services
             }
             return new List<string>();
         }
-        //     public List<List<int>> GetAvailableQuantity(List<int> Ids)
-        //     {
-        //int materialGroupId = Ids[0];
-        //int materialTypeId = Ids[1];
-        //int materialId = Ids[2];
-
-        //List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
-        //List<int> stockIds = stocks.Select(x => x.Id).ToList();
-        //List<StockMaterial> Materials = _dbcontext.StockMaterial.Where(x => stockIds.Contains(x.StockId)).ToList();
-        //List<int> idList = Materials.Select(x => x.Id).ToList();
-        //var query = _dbcontext.StockMaterialSeries.Where(x => idList.Contains(x.StockMaterialId) && !x.IsIssued);
-        //string sqlQuery = query.ToString();
-        //var MaterialSeries = query.ToList();
-        //List<int> quantities = MaterialSeries.Select(x => x.StockMaterialId).ToList();
-        //int totalAvailableQuantity = quantities.Count();
-
-        //var materialRanges = MaterialSeries.GroupBy(ms => ms.StockMaterialId).Select(g => new {StockMaterialId = g.Key,
-        //       SrNoFrom = g.OrderBy(ms => ms.SerialNumber).First().SerialNumber,
-        //       SrNoTo = g.OrderBy(ms => ms.SerialNumber).Last().SerialNumber
-        //}) .ToList();
-
-        //List<List<int>> ranges = materialRanges.Select(x => new List<int> { x.StockMaterialId,x.SrNoFrom, x.SrNoTo, (x.SrNoTo - x.SrNoFrom + 1) }).ToList();
-        //return ranges;
-        //     }
+        
         public int AddStock(Stock stock)
         {
             _dbcontext.Set<Stock>().Add(stock);
@@ -147,15 +124,20 @@ namespace Pspcl.Services
                    Quantity = _dbcontext.StockMaterial.Where(sm => sm.StockId == s.Id).Sum(sm => sm.Quantity)
                })
                .ToList();
+            stockInModels.RemoveAll(s => s.Quantity == 0);
 
             return stockInModels;
         }
         public List<AvailableStockModel> GetAvailableStock()
         {
-            var availableStocks = _dbcontext.StockMaterial               
+            var availableStocks = _dbcontext.StockMaterial
                 .Select(sm => new AvailableStockModel
-                {                    
-                    StockMaterial= sm,                         
+                {
+                    StockMaterial = sm,
+
+
+                    StockMaterialId = sm.Id,
+
 
                     MaterialGroup = _dbcontext.MaterialGroup.Where(mg => mg.Id == _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.MaterialGroupId).FirstOrDefault()).Select(mg => mg.Name)
                     .FirstOrDefault(),
@@ -164,17 +146,23 @@ namespace Pspcl.Services
                     MaterialCode = _dbcontext.Material.Where(mt => mt.Id == _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.MaterialId).FirstOrDefault()).Select(mt => mt.Code)
                     .FirstOrDefault(),
 
-                    grnNo = _dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnNumber).FirstOrDefault(),
-                    grnDate =(DateTime)_dbcontext.Stock.Where(s =>s.Id==sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),                    
+                    grnNo = _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.GrnNumber).FirstOrDefault(),
+                    grnDate = (DateTime)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.GrnDate).FirstOrDefault(),
                     Rate = (float)_dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Rate).FirstOrDefault(),
-                    Make=_dbcontext.Stock.Where(s => s.Id==sm.StockId).Select(s=>s.Make).FirstOrDefault(),
-                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false),
+                    Make = _dbcontext.Stock.Where(s => s.Id == sm.StockId).Select(s => s.Make).FirstOrDefault(),
+                    AvailableQuantity = _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false),
                     SrNoTo = sm.SerialNumberTo,
-                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false) + 1
+                    SrNoFrom = sm.SerialNumberTo - _dbcontext.StockMaterialSeries.Count(sms => sms.StockMaterialId == sm.Id && sms.IsIssued == false && sms.IsDeleted == false) + 1,
 
 
                 })
                 .ToList();
+            availableStocks.RemoveAll(sm => sm.AvailableQuantity == 0);
+            foreach (var stock in availableStocks)
+            {
+                stock.Value = stock.Rate * stock.AvailableQuantity;
+            }
+
 
             return availableStocks;
         }
@@ -188,28 +176,31 @@ namespace Pspcl.Services
                     sbm => sbm.StockIssueBookId,
                     (sib, sbm) => new StockOutModel
                     {
-                       
+
                         TransactionId = sbm.Id,
                         CurrentDate = sib.CurrentDate,
                         SrNoDate = sib.SrNoDate,
                         SerialNumber = sib.SerialNumber,
-                        DivisionName = _dbcontext.Division.Where(d => d.Id==sib.DivisionId).Select(d => d.Name).FirstOrDefault(),
+                        DivisionName = _dbcontext.Division.Where(d => d.Id == sib.DivisionId).Select(d => d.Name).FirstOrDefault(),
                         LocationID = _dbcontext.Division.Where(d => d.Id == sib.DivisionId).Select(d => d.LocationCode).FirstOrDefault(),
-                        SubDivisionName = _dbcontext.SubDivision.Where(sd => sd.Id==sib.SubDivisionId).Select(sd => sd.Name).FirstOrDefault(),
+                        SubDivisionName = _dbcontext.SubDivision.Where(sd => sd.Id == sib.SubDivisionId).Select(sd => sd.Name).FirstOrDefault(),
                         JuniorEngineerName = sib.JuniorEngineerName,
                         MaterialName = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Name).FirstOrDefault(),
                         MaterialCode = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Code).FirstOrDefault(),
+                        MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
                         Make = sbm.Make
                     })
                 .ToList();
 
+            foreach (var stock in stockIssueBookModels)
+            {
+                stock.Cost = GetCost(stock.MaterialId, stock.Quantity);
+            }
+
             return stockIssueBookModels;
         }
-
-
-
         public string GetMaterialGroupById(int? materialGroupId)
         {
             var response = _dbcontext.MaterialGroup.Where(x => x.Id == materialGroupId).Select(x => x.Name).FirstOrDefault();
@@ -234,7 +225,7 @@ namespace Pspcl.Services
         }
         public string GetRatingNameById(int? ratingId)
         {
-            var response=_dbcontext.Rating.Where(x=>x.Id==ratingId).Select(x => x.Name).FirstOrDefault();
+            var response = _dbcontext.Rating.Where(x => x.Id == ratingId).Select(x => x.Name).FirstOrDefault();
             if (response == null)
             {
                 return "None";
@@ -252,6 +243,7 @@ namespace Pspcl.Services
                 // Loop through each record and update the abc column value to 1
                 foreach (var record in recordsToUpdate)
                 {
+                    record.ModifiedOn = DateTime.Now;
                     record.IsIssued = true;
                 }
                 _dbcontext.SaveChanges();
@@ -270,7 +262,7 @@ namespace Pspcl.Services
             _dbcontext.SaveChanges();
             return;
         }
-        public Dictionary<String, int> AllMakesAndQuantitities(int materialGroupId, int materialTypeId, int materialId)
+        public Dictionary<String, int> AllMakesAndQuantities(int materialGroupId, int materialTypeId, int materialId)
         {
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialGroupId == materialGroupId && x.MaterialTypeId == materialTypeId && x.MaterialId == materialId).ToList();
             List<string> distinctMakes = stocks.Select(x => x.Make).Distinct().ToList();
@@ -295,13 +287,13 @@ namespace Pspcl.Services
                 var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id);
                 List<int> stockMaterialIdsList = query.ToList();
 
-                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued).ToList();
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsIssued && !x.IsDeleted).ToList();
                 List<int> idList = Materials.Select(x => x.Id).ToList();
                 int QuantityAgainstMake = idList.Count();
 
                 makesAndQuantities.Add(Make, QuantityAgainstMake);
             }
-            foreach(KeyValuePair<string,int> makeAndQuantity in makesAndQuantities)
+            foreach (KeyValuePair<string, int> makeAndQuantity in makesAndQuantities)
             {
                 if (makeAndQuantity.Value == 0)
                 {
@@ -366,28 +358,71 @@ namespace Pspcl.Services
                 }
 
             }
-          return availableMakesAndRows;
+            return availableMakesAndRows;
         }
         public string GetCorrespondingMakeValue(string invoiceNumber)
         {
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.InvoiceNumber == invoiceNumber).ToList();
-            if (stocks.Count > 0)
+            if (stocks.Count == 0)
+            {
+                return "Enter Make";
+            }
+
+            else 
             {
                 string Make = stocks.Select(x => x.Make).FirstOrDefault().ToString();
-                return Make;
+                List<int> stockIdList = stocks.Select(x => x.Id).Distinct().ToList();
+
+                var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id).Distinct();
+                List<int> stockMaterialIdsList = query.ToList();
+
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsDeleted).ToList();
+                List<int> idList = Materials.Select(x => x.Id).ToList();
+
+                if (idList.Count > 0)
+                {
+                    return Make;
+                }
+
+                else
+                {
+                    return "Enter Make";
+                }
+                
             }
-            else
-                return "Enter Make";
+            
         }
 
         public bool isGrnNumberExist(string GrnNumber)
         {
+            //check if there are any stock records with same GRN number.
             List<Stock> stocks = _dbcontext.Stock.Where(x => x.GrnNumber == GrnNumber).ToList();
-            if (stocks.Count > 0)
+
+
+            if (stocks.Count == 0)
             {
-                return true;
+                return false;
             }
-            return false;
+            else
+            {
+                List<int> stockIdList = stocks.Select(x => x.Id).Distinct().ToList();
+
+                var query = _dbcontext.StockMaterial.Where(x => stockIdList.Contains(x.StockId)).Select(x => x.Id).Distinct();
+                List<int> stockMaterialIdsList = query.ToList();
+
+                // if yes, check if their IsDeleted is 0, if yes, this means there are records, present with same GRN, and those are not deleted.
+
+                List<StockMaterialSeries> Materials = _dbcontext.StockMaterialSeries.Where(x => stockMaterialIdsList.Contains(x.StockMaterialId) && !x.IsDeleted).ToList();
+                List<int> idList = Materials.Select(x => x.Id).ToList();
+
+
+                if (idList.Count > 0)
+                {
+                    return true;
+                }
+                return false;
+
+            }
         }
 
         public bool srNoValidationInDatabase(List<int> serialNumbers, int materialGroupId, int materialTypeId, int materialId, string make)
@@ -413,23 +448,68 @@ namespace Pspcl.Services
             return false;
         }
 
-        public int GetCost(int materialId, int noOfUnits )    
+        public float GetCost(int materialId, int noOfUnits)
         {
             List<Material> material = _dbcontext.Material.Where(x => x.Id == materialId).ToList();
-            int testingCharges = material.Select(x => x.TestingCharges).First();
+            float testingCharges = material.Select(x => x.TestingCharges).First();
 
-            List<Stock> stocks = _dbcontext.Stock.Where(x =>x.MaterialId == materialId).ToList();
-            int rate = Convert.ToInt32(stocks.Select(x => x.Rate).First());
+            List<Stock> stocks = _dbcontext.Stock.Where(x => x.MaterialId == materialId).ToList();
+            float rate = (float)(stocks.Select(x => x.Rate).First());
 
-            int totalCost = (rate + ((3 * rate) / 100) + testingCharges) * noOfUnits;
-
+            float totalCost = (rate + (3 * rate / 100) + testingCharges) * noOfUnits;
+            totalCost = (float)Math.Round(totalCost * 100f) / 100f;
 
             return totalCost;
         }
 
 
 
+
+        public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
+        {
+            foreach (var Item in selectedRowsToDelete)
+            {
+                var recordsToUpdate = _dbcontext.StockMaterialSeries.Where(x => x.StockMaterialId == Item[0] && x.SerialNumber >= Item[1] && x.SerialNumber <= Item[2]);
+                foreach (var record in recordsToUpdate)
+                {
+                    record.IsDeleted = true;
+                    record.ModifiedOn = DateTime.Now;
+                }
+                _dbcontext.SaveChanges();
+
+            }
+            
+        }
+
+        public void UpdateStockMaterial(List<List<int>> selectedRowsToDelete)
+        {
+            foreach (var Item in selectedRowsToDelete)
+            {
+                var recordsToUpdate = _dbcontext.StockMaterial.Where(x => x.Id == Item[0] && x.SerialNumberTo == Item[2]);
+                foreach (var record in recordsToUpdate)
+                {
+                    record.ModifiedOn = DateTime.Now;
+                    if (record.SerialNumberFrom == Item[1])
+                    {
+                        _dbcontext.StockMaterial.Remove(record);
+
+                    }
+                    else
+                    {
+                        record.SerialNumberTo = Item[1] - 1;
+                        record.Quantity = record.SerialNumberTo - record.SerialNumberFrom + 1;
+                    }
+                    record.ModifiedOn = DateTime.Now;
+
+                }
+
+            }
+            _dbcontext.SaveChanges();
+            
+        }       
+
     }
-         
+
+
 }
 

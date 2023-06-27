@@ -103,6 +103,22 @@ img{max-width:100%;}
     box-shadow: 0px 3px 6px #00000029;
 	transition: top 200ms ease-in-out;
 }
+
+.li-item {
+    display: block;
+    padding: .75rem 1.25rem;
+    color:#fff;
+}
+
+.fa-chart-bar {
+    min-width: 1.75rem;
+    margin: 0px 4px;
+}
+
+a:hover,a:focus{
+    color:white;
+}
+
 .main-content {
     margin-left: 250px;
     overflow: hidden;
@@ -413,6 +429,10 @@ img{max-width:100%;}
 .input-border {
     border-color: #babdc6;
 }
+.width-0 {
+    width: 142px !important;
+}
+
 .btn-orange{background:#016c9a;}
 
 
@@ -456,6 +476,7 @@ img{max-width:100%;}
 }
 #stock-in-report h3 {
     display: inline-block;
+    margin-bottom: 20px;
 }
 
 #stock-in-report button {
@@ -467,6 +488,15 @@ img{max-width:100%;}
     line-height: 1.5;
     color: white;
 }
+
+
+.align-items-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    padding-bottom: 2px;
+    padding-top: 5px;
+}
+
 
 .modal-body {
     text-align: center;
@@ -540,3 +570,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         transform: rotate(360deg);
     }
 }
+
