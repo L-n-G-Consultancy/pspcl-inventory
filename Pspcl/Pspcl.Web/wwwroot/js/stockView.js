@@ -377,13 +377,34 @@ $(document).on('click', "#saveStock", function (event) {
 });
 
 $(document).on('click', "#addUserForm", function (event) {
+    event.preventDefault();
     var $submitButton = $(this);
+    var isRoleChoosen = $('#choosenUserRole').val();
     var $form = $submitButton.closest('form');
 
-    // Show the loading indicator
-    $('#loadingIndicator').show();
+    if (isRoleChoosen) {
+        // Show the loading indicator
+        $('#loadingIndicator').show();
+        $form.submit();
+    } else {
+        alert("Please select the User-Role..!");
+    }
 
-    $form.submit();
+
+
+   
+});
+$(document).on('submit', '#UserForm', function (event) {
+    
+    var isRoleChoosen = $('#choosenUserRole').val();
+
+
+    if (isRoleChoosen) {
+        this.submit();
+    } else {
+        alert("Please select the User-Role..!");
+    }
+
 });
 $(document).on('click', "#IssueStockForm", function (event) {
     var $submitButton = $(this);
@@ -408,7 +429,7 @@ $('#checkBoxAll').click(function () {
 $("#deleteStockBtn").on("click", function () {
     var checkedRows = $('.eachStockRow:checked');
     if (checkedRows.length === 0) {
-        $("#mainModalContent").text('No rows selected!');
+        $("#mainModalContent").text('No record selected!');
         $("#mySmallModalLabel").text('ERROR..!');
         $("#stockNotAvailableModal").modal("show");
     } else {
@@ -736,7 +757,7 @@ function FilterRecordsWithGrnDate(reportType) {
     var toDate = $('#toDate').val();
 
     if (fromDate === '' || toDate === '') {
-        displayModal("Please select both the 'From Date' and 'To Date'.", "Missing Date Range");
+        displayModal("Please select 'From' and 'To' date.", "Missing Date Range");
         $('#fromDate').val('');
         $('#toDate').val('');
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Pspcl.Core.Domain;
 using Pspcl.Services.Models;
 
@@ -83,9 +84,10 @@ namespace Pspcl.Web.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult AddUser(AddUserModel user)
         {
-            
+           
             return View(user);
         }
+
 
 
         [HttpPost]
