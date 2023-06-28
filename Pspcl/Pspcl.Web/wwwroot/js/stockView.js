@@ -408,7 +408,7 @@ $('#checkBoxAll').click(function () {
 $("#deleteStockBtn").on("click", function () {
     var checkedRows = $('.eachStockRow:checked');
     if (checkedRows.length === 0) {
-        $("#mainModalContent").text('No rows selected!');
+        $("#mainModalContent").text('No record selected!');
         $("#mySmallModalLabel").text('ERROR..!');
         $("#stockNotAvailableModal").modal("show");
     } else {
@@ -736,7 +736,7 @@ function FilterRecordsWithGrnDate(reportType) {
     var toDate = $('#toDate').val();
 
     if (fromDate === '' || toDate === '') {
-        displayModal("Please select both the 'From Date' and 'To Date'.", "Missing Date Range");
+        displayModal("Please select 'From' and 'To' date.", "Missing Date Range");
         $('#fromDate').val('');
         $('#toDate').val('');
     }
