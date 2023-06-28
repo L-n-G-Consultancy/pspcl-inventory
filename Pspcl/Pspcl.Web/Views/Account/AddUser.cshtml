@@ -41,25 +41,25 @@
             
             <div class="form-group">
                 <label for="email">Email<span class="required-field text-danger">*</span></label>
-                <input type="email" class="form-control col-md-4" id="email" name="email" value="@Model?.Email" required>
+                <input type="email" class="form-control col-md-4" id="email" name="email" placeholder="Please enter email" value="@Model?.Email" required>
             </div>
             <div class="form-group">
                 <label for="firstName">First Name <span class="required-field text-danger">*</span></label>
-                <input type="text" class="form-control col-md-4" id="firstName" name="firstName" value="@Model?.FirstName">
+                <input type="text" class="form-control col-md-4" id="firstName" name="firstName" placeholder="Please enter first name" value="@Model?.FirstName">
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name <span class="required-field text-danger">*</span></label>
-                <input type="text" class="form-control col-md-4" id="lastName" name="lastName" value="@Model?.LastName">
+                <input type="text" class="form-control col-md-4" id="lastName" name="lastName" placeholder="Please enter last name" value="@Model?.LastName">
             </div>
 
 
             <div class="form-group">
                 <label for="password">Password <span class="required-field text-danger">*</span></label>
-                <input type="password" class="form-control col-md-4" id="password" name="password" required>
+                <input type="password" class="form-control col-md-4" id="password" name="password" placeholder="Create new password" required>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password <span class="required-field text-danger">*</span></label>
-                <input type="password" class="form-control col-md-4" id="confirmPassword" name="confirmPassword" required>
+                <input type="password" class="form-control col-md-4" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
                 @if (!string.IsNullOrEmpty(ViewData["PasswordMismatchError"] as string))
                 {
                     <span class="text-danger">@ViewData["PasswordMismatchError"]</span>

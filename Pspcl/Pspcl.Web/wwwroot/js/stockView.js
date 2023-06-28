@@ -376,7 +376,7 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
-$(document).on('click', "#addUserForm", function (event) {
+$(document).on('submit', "#addUserForm", function (event) {
     event.preventDefault();
     var $submitButton = $(this);
     var isRoleChoosen = $('#choosenUserRole').val();
