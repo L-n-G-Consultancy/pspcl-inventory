@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Pspcl.Services.Models
 {
     public class AddUserModel
-    {
-
+    {      
         public bool? IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
@@ -25,9 +25,7 @@ namespace Pspcl.Services.Models
         public string? LastName { get; set; }
 
         public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
-
-
+        public string ConfirmPassword { get; set; }    
 
     }
     

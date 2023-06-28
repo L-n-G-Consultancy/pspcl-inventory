@@ -377,13 +377,34 @@ $(document).on('click', "#saveStock", function (event) {
 });
 
 $(document).on('click', "#addUserForm", function (event) {
+    event.preventDefault();
     var $submitButton = $(this);
+    var isRoleChoosen = $('#choosenUserRole').val();
     var $form = $submitButton.closest('form');
 
-    // Show the loading indicator
-    $('#loadingIndicator').show();
+    if (isRoleChoosen) {
+        // Show the loading indicator
+        $('#loadingIndicator').show();
+        $form.submit();
+    } else {
+        alert("Please select the User-Role..!");
+    }
 
-    $form.submit();
+
+
+   
+});
+$(document).on('submit', '#UserForm', function (event) {
+    
+    var isRoleChoosen = $('#choosenUserRole').val();
+
+
+    if (isRoleChoosen) {
+        this.submit();
+    } else {
+        alert("Please select the User-Role..!");
+    }
+
 });
 $(document).on('click', "#IssueStockForm", function (event) {
     var $submitButton = $(this);
