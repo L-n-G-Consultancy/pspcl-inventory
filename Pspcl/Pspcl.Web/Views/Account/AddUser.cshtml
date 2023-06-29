@@ -14,44 +14,52 @@
 
         <form asp-controller="Account" asp-action="AddUser" id="UserForm" method="post">
             <div class="form-group">
-                
-                <div class="btn-group dropright">
-                    <button type="button" class="btn btn-secondary dropdown-toggle btn-orange" data-toggle="dropdown" aria-expanded="false">
-                        User Role
-                    </button>
-                    <ul class="dropdown-menu" style="">
-                        <li class="dropdown-item user-role-option">Super-Admin</li>
-                        <li class="dropdown-item user-role-option" >Inventory-Manager</li>
-                        
-                    </ul>
-                    <input type="text" class="form-control ml-2" id="choosenUserRole" name="choosenUserRole" placeholder="Please choose user role" value=@TempData["choosenRole"] readonly>
-                    <span class="required-field text-danger">*</span>
-                </div>
-                              
-                
-                
+                <label for="user-role">User role:</label>
+                <select class="form-control col-md-3" id="choosenUserRole" name="choosenUserRole" required>
+                    @if (TempData["choosenRole"] != null)
+                    {
+                        @if (TempData["choosenRole"] == "Super-Admin")
+                        {
+                            <option value="@TempData["choosenRole"]" selected>@TempData["choosenRole"]</option>
+                            <option value="Inventory-Manager">Inventory Manager</option>
+                        }
+                        else
+                        {
+                            <option value="@TempData["choosenRole"]" selected>@TempData["choosenRole"]</option>
+                            <option value="Super-Admin">SuperAdmin</option>
+                        }
+                    }else{
+                        <option value="" disabled selected>Please select User-Role</option>
+                        <option value="Super-Admin">SuperAdmin</option>
+                        <option value="Inventory-Manager">Inventory Manager</option>
+                    }                    
+                   
+                   
+                    
+                </select>
             </div>
+            
             <div class="form-group">
                 <label for="email">Email<span class="required-field text-danger">*</span></label>
-                <input type="email" class="form-control" id="email" name="email" value="@Model?.Email" required>
+                <input type="email" class="form-control col-md-4" id="email" name="email" placeholder="Please enter email" value="@Model?.Email" required>
             </div>
             <div class="form-group">
                 <label for="firstName">First Name <span class="required-field text-danger">*</span></label>
-                <input type="text" class="form-control" id="firstName" name="firstName" value="@Model?.FirstName">
+                <input type="text" class="form-control col-md-4" id="firstName" name="firstName" placeholder="Please enter first name" value="@Model?.FirstName">
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name <span class="required-field text-danger">*</span></label>
-                <input type="text" class="form-control" id="lastName" name="lastName" value="@Model?.LastName">
+                <input type="text" class="form-control col-md-4" id="lastName" name="lastName" placeholder="Please enter last name" value="@Model?.LastName">
             </div>
 
 
             <div class="form-group">
                 <label for="password">Password <span class="required-field text-danger">*</span></label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control col-md-4" id="password" name="password" placeholder="Create new password" required>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password <span class="required-field text-danger">*</span></label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                <input type="password" class="form-control col-md-4" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
                 @if (!string.IsNullOrEmpty(ViewData["PasswordMismatchError"] as string))
                 {
                     <span class="text-danger">@ViewData["PasswordMismatchError"]</span>
