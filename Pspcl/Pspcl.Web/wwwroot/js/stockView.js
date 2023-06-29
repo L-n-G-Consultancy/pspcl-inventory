@@ -394,15 +394,7 @@ $(document).on('submit', "#IssueStockForm1", function (event) {
     $('#loadingIndicator').show();
     issueForm.submit();
 });
-$(document).on('click', "#IssueStockForm", function (event) {
-    var $submitButton = $(this);
-    var $form = $submitButton.closest('form');
 
-    // Show the loading indicator
-    $('#loadingIndicator').show();
-
-    $form.submit();
-});
 
 
 $('#checkBoxAll').click(function () {
