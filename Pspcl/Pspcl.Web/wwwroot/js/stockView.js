@@ -326,6 +326,8 @@ $(function () {
                     else {
                         // Hide the table if the response is empty
                         $('#issueMaterial').hide();
+                        $("#mainModalContent").text("Stock not available!")
+
                         $('#stockNotAvailableModal').modal('show');
 
                     }
