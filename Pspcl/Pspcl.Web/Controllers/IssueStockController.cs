@@ -93,7 +93,12 @@ namespace Pspcl.Web.Controllers
 
             var errorResponse = "-1";
 
-            int x = 13;
+            int x;
+            if (formCollection.Files.Count == 0)
+            {
+                x = 14;
+            }
+            else x = 13;
             foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
@@ -166,7 +171,7 @@ namespace Pspcl.Web.Controllers
             stockBookMaterial1.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
             stockBookMaterial1.MaterialId = int.Parse(formCollection["MaterialId"]);
 
-            if (formCollection.Files[0] != null || formCollection.Files[0].FileName != null)
+            if (formCollection.Files.Count != 0 )
             {
                 string response = _stockService.UploadImageToAzure(formCollection.Files[0]);
                 stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
@@ -174,6 +179,10 @@ namespace Pspcl.Web.Controllers
                 {
                     return View("Error");
                 }
+            }
+            else
+            {
+                stockIssueBook.Image = String.Empty; 
             }
 
             StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(stockIssueBook);

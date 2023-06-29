@@ -549,7 +549,6 @@ namespace Pspcl.Services
                         }
                     }, cancellationToken: default);
                 
-                 Console.WriteLine("File uploaded successfully!");
                 }
                 catch (RequestFailedException ex)
                 {
