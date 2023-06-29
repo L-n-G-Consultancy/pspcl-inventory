@@ -376,35 +376,21 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
-$(document).on('submit', "#addUserForm", function (event) {
+$(document).on('submit', "#UserForm", function (event) {
     event.preventDefault();
-    var $submitButton = $(this);
-    var isRoleChoosen = $('#choosenUserRole').val();
-    var $form = $submitButton.closest('form');
+    var userForm = document.getElementById('UserForm');
 
-    if (isRoleChoosen) {
-        // Show the loading indicator
-        $('#loadingIndicator').show();
-        $form.submit();
-    } else {
-        alert("Please select the User-Role..!");
-    }
-
-
-
-   
+    $('#loadingIndicator').show();
+    userForm.submit();
 });
-$(document).on('submit', '#UserForm', function (event) {
-    
-    var isRoleChoosen = $('#choosenUserRole').val();
 
+$(document).on('submit', "#IssueStockForm1", function (event) {
+    event.preventDefault();
+    var issueForm = document.getElementById('IssueStockForm1');
 
-    if (isRoleChoosen) {
-        this.submit();
-    } else {
-        alert("Please select the User-Role..!");
-    }
-
+    // Show the loading indicator
+    $('#loadingIndicator').show();
+    issueForm.submit();
 });
 $(document).on('click', "#IssueStockForm", function (event) {
     var $submitButton = $(this);
