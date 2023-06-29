@@ -5,9 +5,7 @@
 
 <div class="main-content">
     <div class="page-content">
-
-        <div id="stock-in-report"><h3>Stock-In Report</h3> <button type="button" class="btn btn-dark blackButton px-5 mb-2 mb-md-2" id="exportButton">Export to Excel</button></div>
-        
+        <div id="stock-in-report"><h3>Stock-In Report</h3> </div>
         <div class=" mt-1 d-flex align-items-center">
             <div class="col-md-3 pl-0">
                 <div class="d-flex align-items-center">
@@ -29,6 +27,7 @@
             <button onclick="location.href='@Url.Action("StockInReport", "Report")'" type="button" class="btn btn-primary" id="clearButton" data-toggle="tooltip" data-placement="bottom" title="Refresh">
                 <i class="fas fa-sync-alt"></i>
             </button>
+            <div><button type="button" class="btn btn-dark blackButton px-5 marginleft-lg" id="exportButton">Export to Excel</button></div>
         </div>
 
         <table id="stockInReportTable" class="table table-responsive custom-table">
@@ -36,12 +35,12 @@
                 <tr>
                     <th scope="col">Txn ID</th>
                     <th scope="col">GRN Date</th>
-                    <th scope="col">GRN No.</th>                  
+                    <th scope="col">GRN No.</th>
                     <th scope="col">Invoice Date</th>
                     <th scope="col">Invoice No.</th>
                     <th scope="col">Prefix</th>
                     <th scope="col">Make</th>
-                    <th scope="col">T.R.R</th>                    
+                    <th scope="col">T.R.R</th>
                     <th scope="col">Material Type</th>
                     <th scope="col">Material Code</th>
                     <th scope="col">Rate</th>
@@ -69,14 +68,14 @@
                         </tr>
                     }
                 }
-                
+
             </tbody>
 
         </table>
 
         <div id="paginate"></div>
 
-               
+
 
     </div>
 
