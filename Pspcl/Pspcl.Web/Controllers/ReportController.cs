@@ -115,6 +115,29 @@ namespace Pspcl.Web.Controllers
             return Json("");
 
         }
+        [HttpGet]
+        public JsonResult FilteredAvailableStockReport(DateTime? fromDate, DateTime? toDate)
+        {
+            try
+            {
+                var filteredAvailableStockModels = _stockService.GetAvailableStock();
+
+                if (fromDate.HasValue && toDate.HasValue)
+                {
+                    filteredAvailableStockModels = filteredAvailableStockModels.Where(s => s.grnDate.Date >= fromDate.Value.Date && s.grnDate.Date <= toDate.Value.Date)
+                         .OrderByDescending(s => s.grnDate)
+                         .ToList();
+                }
+
+                return Json(filteredAvailableStockModels);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception");
+            }
+            return Json("");
+
+        }
 
     }
 }

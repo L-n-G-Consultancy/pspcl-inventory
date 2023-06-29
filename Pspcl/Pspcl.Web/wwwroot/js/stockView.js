@@ -376,45 +376,23 @@ $(document).on('click', "#saveStock", function (event) {
     $form.submit();
 });
 
-$(document).on('submit', "#addUserForm", function (event) {
+$(document).on('submit', "#UserForm", function (event) {
     event.preventDefault();
-    var $submitButton = $(this);
-    var isRoleChoosen = $('#choosenUserRole').val();
-    var $form = $submitButton.closest('form');
+    var userForm = document.getElementById('UserForm');
 
-    if (isRoleChoosen) {
-        // Show the loading indicator
-        $('#loadingIndicator').show();
-        $form.submit();
-    } else {
-        alert("Please select the User-Role..!");
-    }
-
-
-
-   
+    $('#loadingIndicator').show();
+    userForm.submit();
 });
-$(document).on('submit', '#UserForm', function (event) {
-    
-    var isRoleChoosen = $('#choosenUserRole').val();
 
-
-    if (isRoleChoosen) {
-        this.submit();
-    } else {
-        alert("Please select the User-Role..!");
-    }
-
-});
-$(document).on('click', "#IssueStockForm", function (event) {
-    var $submitButton = $(this);
-    var $form = $submitButton.closest('form');
+$(document).on('submit', "#IssueStockForm1", function (event) {
+    event.preventDefault();
+    var issueForm = document.getElementById('IssueStockForm1');
 
     // Show the loading indicator
     $('#loadingIndicator').show();
-
-    $form.submit();
+    issueForm.submit();
 });
+
 
 
 $('#checkBoxAll').click(function () {
@@ -468,11 +446,11 @@ $("#retrieveRowsBtn").on("click", function () {
                     $("#mainModalContent").text("Stock deleted successfully.")
                     $('#stockNotAvailableModal').modal('show');
                 });
-                
+
             },
             error: function (xhr, textStatus, errorThrown) {
                 $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
-                $('#stockNotAvailableModal').modal('show'); 
+                $('#stockNotAvailableModal').modal('show');
             }
         });
         $('#confirmationModal').modal('hide');
@@ -769,6 +747,8 @@ function FilterRecordsWithGrnDate(reportType) {
         var url = '';
         if (reportType == 'stockIn') {
             url = "/Report/FilteredStockInReport";
+        } else if (reportType == 'availableStock') {
+            url = "/Report/FilteredAvailableStockReport";
         }
         else {
             url = "/Report/FilteredStockOutReport";
@@ -781,6 +761,8 @@ function FilterRecordsWithGrnDate(reportType) {
                 var tableBody = '';
                 if (reportType == 'stockIn') {
                     tableBody = $('#stockInReportTable tbody');
+                } else if (reportType == 'availableStock') {
+                    tableBody = $('#availableStockTable tbody');
                 }
                 else {
                     tableBody = $('#stockOutReportTable tbody');
@@ -808,6 +790,20 @@ function FilterRecordsWithGrnDate(reportType) {
                                 '<td>' + stockModel.materialCode + '</td>' +
                                 '<td>' + stockModel.stock.rate + '</td>' +
                                 '<td>' + stockModel.quantity + '</td>' +
+                                '</tr>';
+                        } else if (reportType == 'availableStock') {
+                            row = '<tr>' +
+                                '<td>' + stockModel.grnNo + '</td>' +
+                                '<td>' + new Date(stockModel.grnDate).toLocaleDateString() + '</td>' +
+                                '<td>' + stockModel.materialGroup + '</td>' +
+                                '<td>' + stockModel.materialName + '</td>' +
+                                '<td>' + stockModel.materialCode + '</td>' +
+                                '<td>' + stockModel.make + '</td>' +
+                                '<td>' + stockModel.srNoFrom + '</td>' +
+                                '<td>' + stockModel.srNoTo + '</td>' +
+                                '<td>' + stockModel.availableQuantity + '</td>' +
+                                '<td>' + stockModel.rate + '</td>' +
+                                '<td>' + stockModel.value + '</td>' +
                                 '</tr>';
                         }
                         else {
@@ -848,6 +844,10 @@ $('#filterStockInButton').click(function () {
 
 $('#filterStockOutButton').click(function () {
     FilterRecordsWithGrnDate('stockOut');
+});
+
+$('#filterAvailableStockButton').click(function () {
+    FilterRecordsWithGrnDate('availableStock');
 });
 
 
