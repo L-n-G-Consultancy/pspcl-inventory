@@ -1,9 +1,13 @@
 ﻿
+using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
@@ -14,6 +18,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Reflection.Metadata;
+using System.Security.Policy;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Pspcl.Services
 {
@@ -23,10 +29,12 @@ namespace Pspcl.Services
         private readonly AzureOptions _azureOptions;
         
         private readonly ApplicationDbContext _dbcontext;
-        public StockService(ApplicationDbContext dbContext, IOptions<AzureOptions> azureOptions)
+        private readonly IConfiguration _configuration;
+        public StockService(ApplicationDbContext dbContext, IOptions<AzureOptions> azureOptions, IConfiguration configuration)
         {
             _azureOptions = azureOptions.Value;
             _dbcontext = dbContext;
+            _configuration = configuration;
         }
         public List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false)
         {
@@ -200,7 +208,8 @@ namespace Pspcl.Services
                         MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
-                        Make = sbm.Make
+                        Make = sbm.Make,
+                        ImageName = sib.Image
                     })
                 .ToList();
 
@@ -472,9 +481,6 @@ namespace Pspcl.Services
             return totalCost;
         }
 
-
-
-
         public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
         {
             foreach (var Item in selectedRowsToDelete)
@@ -531,18 +537,68 @@ namespace Pspcl.Services
 
                 var uniqueName = Guid.NewGuid().ToString() + fileExtension;
 
-                //azure package is required for below line
-                BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
-                blobClient.Upload(fileUploadStream, new BlobUploadOptions()
+                try
                 {
-                    HttpHeaders = new BlobHttpHeaders
+                    //azure package is required for below line
+                    BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
+                    blobClient.Upload(fileUploadStream, new BlobUploadOptions()
                     {
-                        ContentType = "image/bitmap"
-                    }
-                }, cancellationToken: default);
-                    
+                        HttpHeaders = new BlobHttpHeaders
+                        {
+                            ContentType = "image/bitmap"
+                        }
+                    }, cancellationToken: default);
+                
+                 Console.WriteLine("File uploaded successfully!");
+                }
+                catch (RequestFailedException ex)
+                {
+                    // An exception occurred during the upload
+                    Console.WriteLine("Upload failed. Error message: " + ex.Message);
+                }
+
+                return uniqueName;
             }
-            return "ImageSaved";
+           
+        }
+        public string DownloadFileFromBlob(string fileName)
+        {
+            CloudStorageAccount account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=pspclstorage;AccountKey=b4bgeAkYvbYW1W50h03HzZ5B4HWS71fmLgdCwMCTif1gfOmJ8no9eewFjL2oTONwV0kz+NkG0owT+AStlsTshQ==;EndpointSuffix=core.windows.net");
+            CloudBlobClient blobClient = account.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("pspcl-images");
+            CloudBlob blob = container.GetBlobReference(fileName);
+
+            int counter = 0;
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+            string fileExtension = Path.GetExtension(fileName);
+            string localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+
+            while (File.Exists(localFilePath))
+            {
+                counter++;
+                int copyIndex = fileNameWithoutExtension.LastIndexOf("-Copy");
+                if (copyIndex != -1)
+                {
+                    fileNameWithoutExtension = fileNameWithoutExtension.Substring(0, copyIndex);
+                }
+
+                fileName = $"{fileNameWithoutExtension}-Copy({counter}){fileExtension}";
+                localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+            }
+
+            using (var fileStream = File.OpenWrite(localFilePath))
+            {
+                blob.DownloadToStream(fileStream);
+            }
+
+            if (File.Exists(localFilePath))
+            {
+                return fileName; // File downloaded successfully
+            }
+            else
+            {
+                return "DownloadFailed"; // Failed to download the file
+            }
         }
     }
 

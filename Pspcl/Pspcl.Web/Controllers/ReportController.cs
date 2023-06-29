@@ -116,5 +116,21 @@ namespace Pspcl.Web.Controllers
 
         }
 
+        
+        public JsonResult DownloadImage(string filename)
+        {
+            string downloadStatus = _stockService.DownloadFileFromBlob(filename);
+
+            if (downloadStatus == "DownloadFailed")
+            {
+                return Json("Failed");
+            }
+            else
+            {
+                return Json(downloadStatus + " " + "saved.");
+            }
+
+        }
+
     }
 }

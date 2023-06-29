@@ -828,7 +828,22 @@ $('#filterStockInButton').click(function () {
 $('#filterStockOutButton').click(function () {
     FilterRecordsWithGrnDate('stockOut');
 });
+function downloadImage(fileName) {
+    $.ajax({
+        url: "/Report/DownloadImage",
+        type: "GET",
+        data: { fileName: fileName },
+        success: function (response) {
+            
+                $("#mainModalContent").text(response)
+                $('#stockNotAvailableModal').modal('show');
 
+        },
+        error: function (xhr, status, error) {
+            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.");
+            $('#stockNotAvailableModal').modal('show');
+            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
+        }
+    });
 
-
-
+}
