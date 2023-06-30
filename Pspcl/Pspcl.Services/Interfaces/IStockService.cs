@@ -6,7 +6,7 @@ namespace Pspcl.Services.Interfaces
 {
     public interface IStockService
     {
-        string UploadImageToAzure(IFormFile file); 
+        
         List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false);
         List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false);
         List<Tuple<int, string>> GetAllMaterialRatings(int materialTypeId);
@@ -41,6 +41,6 @@ namespace Pspcl.Services.Interfaces
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
         public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete);
         public void UpdateStockMaterial(List<List<int>> selectedRowsToDelete);
-        public string DownloadFileFromBlob(string fileName);
+        
     }
 }

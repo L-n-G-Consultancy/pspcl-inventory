@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Pspcl.Core.Domain;
+using Pspcl.Services;
 using Pspcl.Services.Interfaces;
 using Pspcl.Web.Models;
 
@@ -14,11 +15,14 @@ namespace Pspcl.Web.Controllers
     public class IssueStockController : Controller
     {
         private readonly IStockService _stockService;
+        private readonly IBlobStorageService _blobStorageService;
+
         private readonly IMapper _mapper;
         private readonly ILogger<StockViewController> _logger;
-        public IssueStockController(IStockService stockService, IMapper mapper, ILogger<StockViewController> logger)
+        public IssueStockController(IStockService stockService, IBlobStorageService blobStorageService, IMapper mapper, ILogger<StockViewController> logger)
         {
             _stockService = stockService;
+            _blobStorageService = blobStorageService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -173,7 +177,7 @@ namespace Pspcl.Web.Controllers
 
             if (formCollection.Files.Count != 0 )
             {
-                string response = _stockService.UploadImageToAzure(formCollection.Files[0]);
+                string response = _blobStorageService.UploadImageToAzure(formCollection.Files[0]);
                 stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
                 if (stockIssueBook.Image == errorResponse)
                 {
@@ -227,9 +231,6 @@ namespace Pspcl.Web.Controllers
             float Result = _stockService.GetCost(materialId, noOfUnits);
             return Json(Result);
          }
-
-
-
 
     }
 }
