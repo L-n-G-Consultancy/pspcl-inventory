@@ -811,6 +811,7 @@ function FilterRecordsWithGrnDate(reportType) {
                                 '<td>' + stockModel.transactionId + '</td>' +
                                 '<td>' + new Date(stockModel.currentDate).toLocaleDateString() + '</td>' +
                                 '<td>' + stockModel.serialNumber + '</td>' +
+                                '<td>' + stockModel.srControlNumber + '</td>' +
                                 '<td>' + new Date(stockModel.srNoDate).toLocaleDateString() + '</td>' +
                                 '<td>' + stockModel.subDivisionName + '</td>' +
                                 '<td>' + stockModel.locationID + '</td>' +

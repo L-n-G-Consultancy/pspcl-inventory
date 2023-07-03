@@ -36,7 +36,8 @@
                 <tr>
                     <th>Txn Out Id</th>
                     <th>IssueDate</th>
-                    <th>Sr. No.</th>
+                    <th>Sr.No.</th>
+                    <th>Sr.Control No.</th>
                     <th>SrNo Date</th>
                     <th>Division</th>
                     <th>Location code</th>
@@ -58,9 +59,10 @@
                         <tr>
 
                             <td>@item.TransactionId</td>
-                            <td>@item.CurrentDate</td>
+                            <td>@item.CurrentDate.ToString().Split(' ')[0]</td>
                             <td>@item.SerialNumber</td>
-                            <td>@item.SrNoDate</td>
+                            <td>@item.SrControlNumber</td>
+                            <td>@item.SrNoDate.ToString().Split(' ')[0]</td>
                             <td>@item.DivisionName</td>
                             <td>@item.LocationID</td>
                             <td>@item.SubDivisionName</td>

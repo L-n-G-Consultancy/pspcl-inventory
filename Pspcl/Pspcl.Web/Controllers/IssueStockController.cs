@@ -93,9 +93,9 @@ namespace Pspcl.Web.Controllers
             int x;
             if (Image== null)
             {
-                x = 14;
+                x = 15;
             }
-            else x = 13;
+            else x = 14;
             foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
 			 {				
 				for (int i = x; i < formCollection.Count - 1;)
@@ -159,6 +159,7 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.SubDivisionId = int.Parse(formCollection["SubDivisionId"]);
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
+            stockIssueBook.SrControlNumber = formCollection["SrControlNumber"];
             string response = UploadImage(Image);
             stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ?errorResponse:response);
             if (stockIssueBook.Image == errorResponse)
