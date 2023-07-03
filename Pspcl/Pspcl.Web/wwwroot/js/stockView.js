@@ -872,3 +872,18 @@ $('#filterAvailableStockButton').click(function () {
     });
 
 }
+
+
+function validateImageFile(input) {
+    var file = input.files[0];
+    var allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+    var fileExtension = file.name.split('.').pop().toLowerCase();
+
+    if (allowedExtensions.indexOf(fileExtension) === -1) {
+        input.value = ""; // Clear the selected file
+        document.getElementById("fileValidationMessage").textContent = "Only image files with extensions: " + allowedExtensions.join(", ") + " are allowed.";
+        document.getElementById("fileValidationMessage").style.color = 'red';
+    } else {
+        document.getElementById("fileValidationMessage").textContent = "";
+    }
+}

@@ -60,9 +60,9 @@
                         <tr>
 
                             <td>@item.TransactionId</td>
-                            <td>@item.CurrentDate</td>
+                            <td>@item.CurrentDate.ToString().Split(' ')[0]</td>
                             <td>@item.SerialNumber</td>
-                            <td>@item.SrNoDate</td>
+                            <td>@item.SrNoDate.ToString().Split(' ')[0]</td>
                             <td>@item.DivisionName</td>
                             <td>@item.LocationID</td>
                             <td>@item.SubDivisionName</td>

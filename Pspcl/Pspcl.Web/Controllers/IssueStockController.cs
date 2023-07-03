@@ -53,38 +53,12 @@ namespace Pspcl.Web.Controllers
             return result;
         }
 
-        public string UploadImage(IFormFile Image)
-        {
-            if (Image != null && Image.Length > 0)
-            {
-                try
-                {
-                    Random r = new Random();
-                    int random = r.Next();
-                    string uniqueFileName = random.ToString() + "_" + Image.FileName;
-                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "App_data", "Images");
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    string response = Path.Combine("App_data\\Images", uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        Image.CopyTo(fileStream);
-                    }
-                    return response;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
-                    return "-1";
-                }
-
-            }
-            return "";
-        }
-
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult IssueStockView(IFormCollection formCollection)
         {
+
             int materialGroupId = Convert.ToInt32(formCollection["MaterialGroupId"]);
             int materialTypeId = Convert.ToInt32(formCollection["MaterialTypeId"]);
             int materialCodeId = Convert.ToInt32(formCollection["MaterialId"]);
@@ -156,7 +130,7 @@ namespace Pspcl.Web.Controllers
 
             TempData["Message"] = "Stock Issued Successfully..!";
 
-            StockIssueBook stockIssueBook = new StockIssueBook();
+            StockIssueBook stockIssueBook = new StockIssueBook();   
 
             stockIssueBook.TransactionId = "transaction";
             stockIssueBook.CurrentDate = DateTime.Now;
@@ -167,8 +141,6 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
 
-            //string response = UploadImage(formCollection.Files[0]);
-            
 
             StockBookMaterial stockBookMaterial1 = new StockBookMaterial();
 
@@ -178,7 +150,17 @@ namespace Pspcl.Web.Controllers
             if (formCollection.Files.Count != 0 )
             {
                 string response = _blobStorageService.UploadImageToAzure(formCollection.Files[0]);
-                stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
+                if(response == "failure")
+                {
+                    TempData["ImageNotUploaded"] = "An error occurred while uploading picture!";
+                }
+                
+                else
+                {
+                    stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
+
+                }
+
                 if (stockIssueBook.Image == errorResponse)
                 {
                     return View("Error");

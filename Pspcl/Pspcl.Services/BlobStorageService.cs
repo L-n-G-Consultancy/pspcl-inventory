@@ -10,69 +10,76 @@ using Pspcl.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Pspcl.DBConnect;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 
 namespace Pspcl.Services
 {
     public class BlobStorageService: IBlobStorageService
     {
         private readonly AzureOptions _azureOptions;
-        private readonly IConfiguration _configuration;
-        private readonly ApplicationDbContext _dbcontext;
-
-
-        public BlobStorageService(ApplicationDbContext dbContext, IOptions<AzureOptions> azureOptions, IConfiguration configuration)
+     
+        public BlobStorageService(IOptions<AzureOptions> azureOptions)
         {
-            _dbcontext = dbContext;
             _azureOptions = azureOptions.Value;
-            _configuration = configuration;
         }
         public string UploadImageToAzure(IFormFile file)
         {
             string fileExtension = Path.GetExtension(file.FileName);
-            using MemoryStream fileUploadStream = new MemoryStream();
+            if(fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".jpeg" || fileExtension.ToLower() == ".png" || fileExtension.ToLower() == ".jfif")
             {
-                file.CopyTo(fileUploadStream);
-                fileUploadStream.Position = 0;
-                BlobContainerClient blobContainerClient = new BlobContainerClient(
-                    _azureOptions.ConnectionString,
-                    _azureOptions.Container);
+                string contentType = GetContentType(fileExtension);
 
-                var uniqueName = Guid.NewGuid().ToString() + fileExtension;
-
-                try
+                using MemoryStream fileUploadStream = new MemoryStream();
                 {
-                    //azure package is required for below line
-                    BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
-                    blobClient.Upload(fileUploadStream, new BlobUploadOptions()
+                    file.CopyTo(fileUploadStream);
+                    fileUploadStream.Position = 0;
+                    BlobContainerClient blobContainerClient = new BlobContainerClient(
+                        _azureOptions.ConnectionString,
+                        _azureOptions.Container);
+
+                    var uniqueName = Guid.NewGuid().ToString() + fileExtension;
+
+                    try
                     {
-                        HttpHeaders = new BlobHttpHeaders
+                        //azure package is required for below line
+                        BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
+                        blobClient.Upload(fileUploadStream, new BlobUploadOptions()
                         {
-                            ContentType = "image/bitmap"
-                        }
-                    }, cancellationToken: default);
-
-                }
-                catch (RequestFailedException ex)
-                {
-                    // An exception occurred during the upload
-                    Console.WriteLine("Upload failed. Error message: " + ex.Message);
-                }
-
-                return uniqueName;
+                            HttpHeaders = new BlobHttpHeaders
+                            {
+                                ContentType = contentType
+                            }
+                        }, cancellationToken: default);
+                        return uniqueName;
+                    }
+                    catch (RequestFailedException ex)
+                    {
+                        // An exception occurred during the upload
+                        Console.WriteLine("Upload failed. Error message: " + ex.Message);
+                        return "failure";
+                    }
+                }        
+                
+            }
+            else
+            {
+                return "WrongFileType"; // Failed to download the file
             }
 
         }
         public string DownloadFileFromBlob(string fileName)
+        
         {
-            CloudStorageAccount account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=pspclstorage;AccountKey=b4bgeAkYvbYW1W50h03HzZ5B4HWS71fmLgdCwMCTif1gfOmJ8no9eewFjL2oTONwV0kz+NkG0owT+AStlsTshQ==;EndpointSuffix=core.windows.net");
+            CloudStorageAccount account = CloudStorageAccount.Parse(_azureOptions.ConnectionString);
             CloudBlobClient blobClient = account.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("pspcl-images");
+            CloudBlobContainer container = blobClient.GetContainerReference(_azureOptions.Container);
             CloudBlob blob = container.GetBlobReference(fileName);
 
             int counter = 0;
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
             string fileExtension = Path.GetExtension(fileName);
-            string localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+            string localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), _azureOptions.downloadsSubdirectory, fileName);
 
             while (File.Exists(localFilePath))
             {
@@ -84,7 +91,7 @@ namespace Pspcl.Services
                 }
 
                 fileName = $"{fileNameWithoutExtension}-Copy({counter}){fileExtension}";
-                localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads", fileName);
+                localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), _azureOptions.downloadsSubdirectory, fileName);
             }
 
             using (var fileStream = File.OpenWrite(localFilePath))
@@ -99,6 +106,22 @@ namespace Pspcl.Services
             else
             {
                 return "DownloadFailed"; // Failed to download the file
+            }
+        }
+
+        public string GetContentType(string fileExtension)
+        {
+            switch (fileExtension.ToLower())
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".gif":
+                    return "image/gif";
+                default:
+                    return "application/octet-stream";
             }
         }
 

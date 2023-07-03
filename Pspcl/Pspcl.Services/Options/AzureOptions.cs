@@ -10,7 +10,8 @@ namespace Pspcl.Services.Options
     {
         public string Container { get; set; }
         public string ConnectionString { get; set; }
+        public string downloadsSubdirectory { get; set; }
 
-        
+
     }
 }
