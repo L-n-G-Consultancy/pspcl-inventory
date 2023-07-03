@@ -26,45 +26,37 @@ namespace Pspcl.Services
         public string UploadImageToAzure(IFormFile file)
         {
             string fileExtension = Path.GetExtension(file.FileName);
-            if(fileExtension.ToLower() == ".jpg" || fileExtension.ToLower() == ".jpeg" || fileExtension.ToLower() == ".png" || fileExtension.ToLower() == ".jfif")
-            {
                 string contentType = GetContentType(fileExtension);
 
                 using MemoryStream fileUploadStream = new MemoryStream();
-                {
-                    file.CopyTo(fileUploadStream);
-                    fileUploadStream.Position = 0;
-                    BlobContainerClient blobContainerClient = new BlobContainerClient(
-                        _azureOptions.ConnectionString,
-                        _azureOptions.Container);
-
-                    var uniqueName = Guid.NewGuid().ToString() + fileExtension;
-
-                    try
-                    {
-                        //azure package is required for below line
-                        BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
-                        blobClient.Upload(fileUploadStream, new BlobUploadOptions()
-                        {
-                            HttpHeaders = new BlobHttpHeaders
-                            {
-                                ContentType = contentType
-                            }
-                        }, cancellationToken: default);
-                        return uniqueName;
-                    }
-                    catch (RequestFailedException ex)
-                    {
-                        // An exception occurred during the upload
-                        Console.WriteLine("Upload failed. Error message: " + ex.Message);
-                        return "failure";
-                    }
-                }        
-                
-            }
-            else
             {
-                return "WrongFileType"; // Failed to download the file
+                file.CopyTo(fileUploadStream);
+                fileUploadStream.Position = 0;
+                BlobContainerClient blobContainerClient = new BlobContainerClient(
+                    _azureOptions.ConnectionString,
+                    _azureOptions.Container);
+
+                var uniqueName = Guid.NewGuid().ToString() + fileExtension;
+
+                try
+                {
+                    //azure package is required for below line
+                    BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueName);
+                    blobClient.Upload(fileUploadStream, new BlobUploadOptions()
+                    {
+                        HttpHeaders = new BlobHttpHeaders
+                        {
+                            ContentType = contentType
+                        }
+                    }, cancellationToken: default);
+                    return uniqueName;
+                }
+                catch (RequestFailedException ex)
+                {
+                    // An exception occurred during the upload
+                    Console.WriteLine("Upload failed. Error message: " + ex.Message);
+                    return "failure";
+                }
             }
 
         }
