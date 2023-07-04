@@ -51,6 +51,11 @@
                 </div>
 
                 <div class="form-group col-md-6">
+                    <label for="">Sr Control No <span class="required-field text-danger">*</span></label>
+                    @Html.TextBoxFor(model => model.SrControlNumber, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter SrControlNo", @pattern="^[0-9@#$%^&*\\/\\-]+$", @title = "Only numeric values and special characters are allowed." })
+                </div>
+
+                <div class="form-group col-md-6">
                     <label for="">JE Name <span class="required-field text-danger">*</span></label>
                     @Html.TextBoxFor(model => model.JuniorEngineerName, new { @class = "form-control", @type = "text", @required = "required", @placeholder = "Enter Je Name" })
                 </div>
@@ -90,14 +95,14 @@
                 <div class="form-group col-md-6">
                     <label for="">Circle</label>
                     @Html.TextBoxFor(model => model.Circle, new { @class = "form-control", @type = "text", @required = "required", @readonly= "readonly"})
-                        @Html.HiddenFor(m => m.CircleId,new{@id="CircleId"})
+                    @Html.HiddenFor(m => m.CircleId,new{@id="CircleId"})
                 </div>
                 <div class="form-group col-md-6">
                     <div>
                         @Html.LabelFor(model => model.FileDetails, new { @class = "form-label" })
                     </div>
                     <div>
-                        @Html.EditorFor(model => model.File, new { htmlAttributes = new { @class = "form-control border-0", accept = "image/*", onchange = "validateImageFile(this)" } })
+                        @Html.EditorFor(model => model.File, new { htmlAttributes = new { @class = "form-control p-1", accept = "image/*", onchange = "validateImageFile(this)" } })
                         <span id="fileValidationMessage"></span>
                     </div>
                 </div>
@@ -129,53 +134,7 @@
             </div>
 
 		}
-		<input type="hidden" id="successMessage" value="@TempData["Message"]" />
-
-        <div class="modal fade" id="staticBackdropLive" data-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-modal="true" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title fs-3" id="staticBackdropLiveLabel"></h3>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="mx-auto font-weight-normal">@TempData["Message"]</p>
-                        <table class="table table-responsive custom-table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Make</th>
-                                    <th scope="col">Sr. No From</th>
-                                    <th scope="col">Sr. No To</th>
-                                    <th scope="col">QTY</th>
-                                </tr>
-                            </thead>
-
-                            <tbody id="issuedRows">
-                                @if (Model.IssuedStockRanges != null)
-                                {
-                                    foreach (var keyValuePair in Model.IssuedStockRanges)
-                                    {
-                                        foreach (var row in keyValuePair.Value)
-                                        {
-                                            <tr>
-                                                <td>@keyValuePair.Key</td>
-                                                <td>@row[1]</td>
-                                                <td>@row[2]</td>
-                                                <td>@row[3]</td>
-                                            </tr>
-                                        }
-                                    }
-                                }
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
 		
-       
-
             <!-- Modal -->
         <div class="modal fade" id="stockNotAvailableModal" tabindex="-1" role="dialog" aria-labelledby="stockNotAvailableModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

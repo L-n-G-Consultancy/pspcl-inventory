@@ -206,6 +206,8 @@ namespace Pspcl.Services
                         MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
+                       
+                        SrControlNumber=sib.SrControlNumber,
                         Make = sbm.Make,
                         ImageName = sib.Image
                     })
@@ -520,9 +522,26 @@ namespace Pspcl.Services
             }
             _dbcontext.SaveChanges();
             
+        }   
+        
+        public string getSubDivisionNameById(int SubDivisionId)
+        {
+            return _dbcontext.SubDivision.Where(sd => sd.Id == SubDivisionId).Select(sd => sd.Name).FirstOrDefault(); 
+        }
+        public string getDivisionNameById(int DivisionId)
+        {
+            return _dbcontext.Division.Where(sd => sd.Id == DivisionId).Select(sd => sd.Name).FirstOrDefault(); 
+        }
+        public string getCircleNameById(int CircleId)
+        {
+            return _dbcontext.Circle.Where(sd => sd.Id == CircleId).Select(sd => sd.Name).FirstOrDefault(); 
+        }
+        public int getLocationCode(int DivisionId)
+        {
+            return _dbcontext.Division.Where(sd => sd.Id == DivisionId).Select(sd => sd.LocationCode).FirstOrDefault(); 
         }
 
-        }
+    }
 
 
 }

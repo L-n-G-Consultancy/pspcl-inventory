@@ -14,6 +14,7 @@ namespace Pspcl.Services.Models
         public DateTime CurrentDate { get; set; }
         public DateTime SrNoDate { get; set; }
         public string SerialNumber { get; set; }
+        public string SrControlNumber { get; set; }
         public string DivisionName { get; set; }
         public int LocationID { get; set; }
         public string SubDivisionName { get; set; }

@@ -36,9 +36,10 @@ namespace Pspcl.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception");
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
             }
-            return View();
+           
         }
 
         public IActionResult AvailableStock()
@@ -51,9 +52,9 @@ namespace Pspcl.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception");
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
             }
-            return View();
         }
 
         public IActionResult StockOutReport()
@@ -63,12 +64,12 @@ namespace Pspcl.Web.Controllers
 				var stockOutModels = _stockService.GetStockOutModels();
 				return View(stockOutModels);
 			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Exception");
-			}
-			return View();
-		}
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
+            }
+        }
 
         [HttpGet]
         public JsonResult FilteredStockInReport(DateTime? fromDate, DateTime? toDate)
@@ -88,9 +89,9 @@ namespace Pspcl.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception");
-            }
-            return Json("");
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return Json("");
+            }            
 
         }
 
@@ -113,8 +114,9 @@ namespace Pspcl.Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception");
+                return Json("");
             }
-            return Json("");
+            
 
         }
         [HttpGet]
@@ -136,8 +138,8 @@ namespace Pspcl.Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception");
-            }
-            return Json("");
+                return Json("");
+            }            
 
         }
 

@@ -31,12 +31,13 @@
 
         </div>
 
-        <table id="stockOutReportTable" class="table table-responsive custom-table">
+        <table id="stockOutReportTable" class="table table-responsive custom-table report">
             <thead class="thead-dark">
                 <tr>
                     <th>Txn Out Id</th>
                     <th>IssueDate</th>
-                    <th>Sr. No.</th>
+                    <th>Sr.No.</th>
+                    <th>Sr.Control No.</th>
                     <th>SrNo Date</th>
                     <th>Division</th>
                     <th>Location code</th>
@@ -48,7 +49,7 @@
                     <th>Rate</th>
                     <th>Make</th>
                     <th>Cost</th>
-                    <th></th>
+                    <th>Image</th>
 
                 </tr>
             </thead>
@@ -62,6 +63,7 @@
                             <td>@item.TransactionId</td>
                             <td>@item.CurrentDate.ToString().Split(' ')[0]</td>
                             <td>@item.SerialNumber</td>
+                            <td>@item.SrControlNumber</td>
                             <td>@item.SrNoDate.ToString().Split(' ')[0]</td>
                             <td>@item.DivisionName</td>
                             <td>@item.LocationID</td>
