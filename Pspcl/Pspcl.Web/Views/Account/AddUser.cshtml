@@ -18,19 +18,19 @@
                 <select class="form-control col-md-3" id="choosenUserRole" name="choosenUserRole" required>
                     @if (TempData["choosenRole"] != null)
                     {
-                        @if (TempData["choosenRole"] == "Super-Admin")
+                        @if (TempData["choosenRole"].ToString() == "Super-Admin")
                         {
-                            <option value="@TempData["choosenRole"]" selected>@TempData["choosenRole"]</option>
+                            <option value="@TempData["choosenRole"]" selected>Super Admin</option>
                             <option value="Inventory-Manager">Inventory Manager</option>
                         }
                         else
                         {
-                            <option value="@TempData["choosenRole"]" selected>@TempData["choosenRole"]</option>
-                            <option value="Super-Admin">SuperAdmin</option>
+                            <option value="@TempData["choosenRole"]" selected>Inventory Manager</option>
+                            <option value="Super-Admin">Super Admin</option>
                         }
                     }else{
                         <option value="" disabled selected>Please select User-Role</option>
-                        <option value="Super-Admin">SuperAdmin</option>
+                        <option value="Super-Admin">Super Admin</option>
                         <option value="Inventory-Manager">Inventory Manager</option>
                     }                    
                    

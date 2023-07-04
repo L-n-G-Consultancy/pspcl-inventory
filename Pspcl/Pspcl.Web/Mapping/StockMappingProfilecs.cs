@@ -12,11 +12,11 @@ namespace Pspcl.Web.Mapping
     {
         public StockMappingProfilecs()
         {
-            CreateMap <StockViewModel, Stock>();
-			CreateMap<IssueStockModel,StockIssueBook>();
-            CreateMap <IssueStockModel, StockBookMaterial>();
-			CreateMap <Stock, StockViewModel>();
+            CreateMap <StockViewModel, Stock>();        
+            CreateMap <StockIssueBook, IssueStockModel>();
+            CreateMap <Stock, StockViewModel>();
             CreateMap <AddUserModel,User>();
         }
     }
 }
+

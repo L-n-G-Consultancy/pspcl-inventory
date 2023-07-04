@@ -506,7 +506,24 @@ namespace Pspcl.Services
             }
             _dbcontext.SaveChanges();
             
-        }       
+        }   
+        
+        public string getSubDivisionNameById(int SubDivisionId)
+        {
+            return _dbcontext.SubDivision.Where(sd => sd.Id == SubDivisionId).Select(sd => sd.Name).FirstOrDefault(); 
+        }
+        public string getDivisionNameById(int DivisionId)
+        {
+            return _dbcontext.Division.Where(sd => sd.Id == DivisionId).Select(sd => sd.Name).FirstOrDefault(); 
+        }
+        public string getCircleNameById(int CircleId)
+        {
+            return _dbcontext.Circle.Where(sd => sd.Id == CircleId).Select(sd => sd.Name).FirstOrDefault(); 
+        }
+        public int getLocationCode(int DivisionId)
+        {
+            return _dbcontext.Division.Where(sd => sd.Id == DivisionId).Select(sd => sd.LocationCode).FirstOrDefault(); 
+        }
 
     }
 

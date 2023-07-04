@@ -10,15 +10,8 @@ namespace Pspcl.Core.Domain
         public int StockIssueBookId { get; set; }  // Foreign key
         public int MaterialId { get; set; }  // Foreign key
         public int Quantity { get; set; }
-
         public string Make { get; set; }
 
-        // public MaterialGroup MaterialGroup { get; set; }
-        /// <summary>
-        //public StockIssueBook StockIssueBook { get; set; }
-        /// </summary>
-        ///         
-        /// //public Material Material { get; set; }
 
     }
 }

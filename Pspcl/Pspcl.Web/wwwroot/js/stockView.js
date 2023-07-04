@@ -704,8 +704,8 @@ function updateCost(localMakesAndUnits, make, units, materialGroupId, materialTy
         type: "GET",
         data: { materialId: materialId, noOfUnits: noOfUnits },
         success: function (response) {
-            $('#Cost').val(response);
-
+            var cost = parseFloat(response); // Parse the response as float
+            $('#Cost').val(cost);
         }
     });
 }
@@ -850,6 +850,16 @@ $('#filterAvailableStockButton').click(function () {
     FilterRecordsWithGrnDate('availableStock');
 });
 
+function printPage() {
+    var printButton = document.getElementsByClassName('btn-dark')[0];
+    printButton.style.display = 'none';
+
+    // Print the page
+    window.print();
+
+    // Show the print button after printing
+    printButton.style.display = 'block';
+}
 
 
 

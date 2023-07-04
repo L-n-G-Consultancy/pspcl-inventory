@@ -20,11 +20,20 @@ namespace Pspcl.Web.Controllers
         //Dashboard View Binding
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
-            ViewBag.FirstName = user.FirstName.ToUpper();
-            _logger.LogInformation($"Logged In Success");
-            ViewBag.Message = TempData["Message"];
-            return View();
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                ViewBag.FirstName = user.FirstName.ToUpper();
+                _logger.LogInformation($"Logged In Success");
+                ViewBag.Message = TempData["Message"];
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
+            }
+           
         }
     }
 }

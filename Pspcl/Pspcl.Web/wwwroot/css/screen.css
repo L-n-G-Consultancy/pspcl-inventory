@@ -579,3 +579,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
+
+
+@media print {
+    .footer {
+        display: none;
+    }
+    .userDrop {
+        display: none;
+    }
+}

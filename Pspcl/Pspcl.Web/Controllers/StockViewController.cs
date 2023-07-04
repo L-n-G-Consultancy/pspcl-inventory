@@ -26,24 +26,32 @@ namespace Pspcl.Web.Controllers
         [HttpGet]
         public IActionResult AddStock()
         {
-            var json = TempData["StockViewModel"] as string;
-            var materialGroup = _stockService.GetAllMaterialGroups();
-
-
-            if (json != null)
+            try
             {
-                var model = JsonConvert.DeserializeObject<StockViewModel>(json);
-                model.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-                model.AvailableMaterialTypes = _stockService.GetAllMaterialTypes((int)model.MaterialGroupId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-                model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Item1.ToString(), Text = x.Item2 }).ToList();
-                model.AvailableMaterialCodes = _stockService.GetAllMaterialCodes((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Code }).ToList();
-                return View(model);
+                var json = TempData["StockViewModel"] as string;
+                var materialGroup = _stockService.GetAllMaterialGroups();
+
+
+                if (json != null)
+                {
+                    var model = JsonConvert.DeserializeObject<StockViewModel>(json);
+                    model.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+                    model.AvailableMaterialTypes = _stockService.GetAllMaterialTypes((int)model.MaterialGroupId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+                    model.AvailableRatings = _stockService.GetAllMaterialRatings((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Item1.ToString(), Text = x.Item2 }).ToList();
+                    model.AvailableMaterialCodes = _stockService.GetAllMaterialCodes((int)model.MaterialTypeId).Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Code }).ToList();
+                    return View(model);
+                }
+                else
+                {
+                    StockViewModel viewModel = new StockViewModel();
+                    viewModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
+                    return View(viewModel);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                StockViewModel viewModel = new StockViewModel();
-                viewModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-                return View(viewModel);
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
             }
 
         }
@@ -77,14 +85,11 @@ namespace Pspcl.Web.Controllers
         {
             try
             {
-
                 var model = new StockViewModel();
 
-                DateTime date = DateTime.Parse(formCollection["GRNDate"]);
-                
                 model.CreatedOn = DateTime.Now;
                 model.ModifiedOn = DateTime.Now;
-                model.GrnDate = date;
+                model.GrnDate = DateTime.Parse(formCollection["GRNDate"]);
                 model.TestReportReference = string.IsNullOrEmpty(formCollection["TestReportReference"]) ? "N/A" : formCollection["TestReportReference"];
                 model.InvoiceDate = DateTime.Parse(formCollection["InvoiceDate"]);
                 model.InvoiceNumber = formCollection["InvoiceNumber"];
@@ -95,49 +100,7 @@ namespace Pspcl.Web.Controllers
                 model.Rating = int.Parse(formCollection["Rating"]);
                 model.GrnNumber = formCollection["GrnNumber"];
                 model.PrefixNumber = string.IsNullOrEmpty(formCollection["PrefixNumber"]) ? "N/A" : formCollection["PrefixNumber"];
-                model.Make = formCollection["Make"];
-
-                //List<int> SerialNumbers = new List<int>();
-
-                //for (int i = 12; i < formCollection.Count - 2; i += 3)
-                //{
-                //    var srno_from = formCollection.ElementAt(i);
-                //    var srno_to = formCollection.ElementAt(i + 1);
-
-                //    int SerialNumberFrom = Convert.ToInt32(srno_from.Value);
-                //    int SerialNumberTo = int.Parse(srno_to.Value);
-
-
-                //    for (int j = SerialNumberFrom; j <= SerialNumberTo; j++)
-                //    {
-                //        SerialNumbers.Add(j);
-                //    }
-
-                //}
-
-
-                //int MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
-                //int MaterialTypeId = int.Parse(formCollection["MaterialTypeId"]);
-                //int MaterialId = int.Parse(formCollection["MaterialIdByCode"]);
-                //string Make = formCollection["Make"];
-
-                //bool isSrNoAlreadyPresent = _stockService.srNoValidationInDatabase(SerialNumbers, MaterialGroupId, MaterialTypeId, MaterialId, Make);
-
-                //bool hasDuplicates = SerialNumbers.Count != SerialNumbers.Distinct().Count();
-
-                //if (hasDuplicates)
-                //{
-                //    Console.WriteLine("The list contains duplicate values.");
-                //    ViewBag.HasDuplicates = true;
-
-                //}
-                //else if(isSrNoAlreadyPresent)
-                //{
-                //    Console.WriteLine("The stock with same serial number has already been added !");
-                //}
-                //else
-                //{
-               // Console.WriteLine("The list does not contain duplicate values.");
+                model.Make = formCollection["Make"];               
 
                 List<StockMaterial> stockMaterialsList = new List<StockMaterial>();
 
@@ -158,12 +121,7 @@ namespace Pspcl.Web.Controllers
                 model.stockMaterialList = stockMaterialsList;
                 TempData["StockViewModel"] = JsonConvert.SerializeObject(model);
 
-                return RedirectToAction("Preview", "Preview");
-                //}
-
-                //return RedirectToAction("Preview", "Preview");
-
-                //return View();
+                return RedirectToAction("Preview", "Preview");               
             }
             catch (Exception ex)
             {
@@ -172,24 +130,15 @@ namespace Pspcl.Web.Controllers
                 return RedirectToAction("Preview", "Preview");
 
             }
-
-            //return RedirectToAction("Preview", "Preview");
-
-
-
         }
 
         public JsonResult GetCorrespondingMakeValue(string invoiceNumber)
         {
-
             string Make = _stockService.GetCorrespondingMakeValue(invoiceNumber);
-
             return Json(Make);
-
         }
         public string isGrnNumberExist(string GrnNumber)
         {
-
             bool result = _stockService.isGrnNumberExist(GrnNumber);
 
             if (result)
@@ -197,14 +146,11 @@ namespace Pspcl.Web.Controllers
                 return "exists";
             }
             return "";
-
         }
 
         public bool serverSideSerialNumberValidation(List<int> listOfSerialNumber, int materialGroupId, int MaterialTypeId, int materialId, string make)
-
         {
-            return _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);
-            
+            return _stockService.srNoValidationInDatabase(listOfSerialNumber, materialGroupId, MaterialTypeId, materialId, make);            
         }
 
 

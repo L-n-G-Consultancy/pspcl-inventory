@@ -39,5 +39,11 @@ namespace Pspcl.Services.Interfaces
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
         public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete);
         public void UpdateStockMaterial(List<List<int>> selectedRowsToDelete);
+        public string getCircleNameById(int CircleId);
+        public string getDivisionNameById(int DivisionId);
+        public string getSubDivisionNameById(int SubDivisionId);
+        public int getLocationCode(int DivisionId);
+
+
     }
 }

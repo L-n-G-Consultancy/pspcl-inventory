@@ -32,21 +32,30 @@ namespace Pspcl.Web.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception");
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
             }
 
-            return View();
         }
 
         [HttpPost]
         public ActionResult StockToDelete([FromBody] List<DeleteStockRow> selectedRows) // Use the same parameter name
         {
-            List<List<int>> selectedRowsToDelete = selectedRows
-           .Select(row => new List<int> { row.StockMaterialId, row.SrNoFrom, row.SrNoTo, row.Quantity })
-           .ToList();
-            _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
-            _stockService.UpdateStockMaterial(selectedRowsToDelete);
-            return Json(1);
+            try
+            {
+                List<List<int>> selectedRowsToDelete = selectedRows
+                   .Select(row => new List<int> { row.StockMaterialId, row.SrNoFrom, row.SrNoTo, row.Quantity })
+                   .ToList();
+                _stockService.UpdateIsDeletedColumn(selectedRowsToDelete);
+                _stockService.UpdateStockMaterial(selectedRowsToDelete);
+                return Json(1);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
+            }
+            
         }
 
     }
