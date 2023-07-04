@@ -22,11 +22,11 @@ namespace Pspcl.Services.Models
         public string MaterialName { get; set; }
         public string MaterialCode { get; set; }
         public int MaterialId { get; set; }
-
         public decimal Rate { get; set; }   
         public int Quantity { get; set; }
         public string Make{ get; set; }
         public float Cost{ get; set; }
         public int TestingCharge { get; set; }
+        public string ImageName { get; set; }
     }
 }

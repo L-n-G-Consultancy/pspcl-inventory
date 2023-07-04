@@ -326,6 +326,8 @@ $(function () {
                     else {
                         // Hide the table if the response is empty
                         $('#issueMaterial').hide();
+                        $("#mainModalContent").text("Stock not available!")
+
                         $('#stockNotAvailableModal').modal('show');
 
                     }
@@ -846,6 +848,15 @@ $('#filterStockInButton').click(function () {
 $('#filterStockOutButton').click(function () {
     FilterRecordsWithGrnDate('stockOut');
 });
+function downloadImage(fileName) {
+    $.ajax({
+        url: "/Report/DownloadImage",
+        type: "GET",
+        data: { fileName: fileName },
+        success: function (response) {
+            
+                $("#mainModalContent").text(response)
+                $('#stockNotAvailableModal').modal('show');
 
 $('#filterAvailableStockButton').click(function () {
     FilterRecordsWithGrnDate('availableStock');
@@ -863,4 +874,27 @@ function printPage() {
 }
 
 
+        },
+        error: function (xhr, status, error) {
+            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.");
+            $('#stockNotAvailableModal').modal('show');
+            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
+        }
+    });
 
+}
+
+
+function validateImageFile(input) {
+    var file = input.files[0];
+    var allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+    var fileExtension = file.name.split('.').pop().toLowerCase();
+
+    if (allowedExtensions.indexOf(fileExtension) === -1) {
+        input.value = ""; // Clear the selected file
+        document.getElementById("fileValidationMessage").textContent = "Only image files with extensions: " + allowedExtensions.join(", ") + " are allowed.";
+        document.getElementById("fileValidationMessage").style.color = 'red';
+    } else {
+        document.getElementById("fileValidationMessage").textContent = "";
+    }
+}

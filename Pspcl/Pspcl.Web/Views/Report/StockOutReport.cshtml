@@ -49,6 +49,8 @@
                     <th>Rate</th>
                     <th>Make</th>
                     <th>Cost</th>
+                    <th>Image</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -73,6 +75,20 @@
                             <td>@item.Rate</td>
                             <td>@item.Make</td>
                             <td>@item.Cost</td>
+
+                            @if (item.ImageName != "")
+                            {
+                                <td>
+                                    <button class="btn btn-link download-button" onclick="downloadImage('@item.ImageName')">
+                                        <i class="fa fa-download "></i> Download
+                                    </button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td align="center">No image uploaded</td>
+                            }
+
                         </tr>
                     }
                 }
@@ -82,5 +98,19 @@
 
     </div>
     @Html.Partial("_ModalPartial")
+    <div class="modal fade" id="stockNotAvailableModal" tabindex="-1" role="dialog" aria-labelledby="stockNotAvailableModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mySmallModalLabel"></h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <p id="mainModalContent" class="mx-auto my-5 pl-5 font-weight-normal">
 
+                </p>
+            </div>
+        </div>
+    </div>
 </div>

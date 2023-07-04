@@ -16,10 +16,12 @@ namespace Pspcl.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IStockService _stockService;
+        private readonly IBlobStorageService _blobStorageService;
         private readonly ILogger<DbInitializer> _logger;
-        public ReportController(ApplicationDbContext _dbContext, IStockService stockService, ILogger<DbInitializer> logger) {
+        public ReportController(ApplicationDbContext _dbContext, IBlobStorageService blobStorageService, IStockService stockService, ILogger<DbInitializer> logger) {
             _context = _dbContext;
             _stockService = stockService;
+            _blobStorageService = blobStorageService;
             _logger = logger;
         }
         
@@ -98,16 +100,16 @@ namespace Pspcl.Web.Controllers
         {
             try
             {
-                var filteredstockOutModels = _stockService.GetStockOutModels();
+                var filteredStockOutModels = _stockService.GetStockOutModels();
 
                 if (fromDate.HasValue && toDate.HasValue)
                 {
-                    filteredstockOutModels = filteredstockOutModels.Where(s => s.CurrentDate.Date >= fromDate.Value.Date && s.CurrentDate.Date <= toDate.Value.Date)
+                    filteredStockOutModels = filteredStockOutModels.Where(s => s.CurrentDate.Date >= fromDate.Value.Date && s.CurrentDate.Date <= toDate.Value.Date)
                          .OrderByDescending(s => s.CurrentDate)
                          .ToList();
                 }
 
-                return Json(filteredstockOutModels);
+                return Json(filteredStockOutModels);
             }
             catch (Exception ex)
             {
@@ -138,6 +140,22 @@ namespace Pspcl.Web.Controllers
                 _logger.LogError(ex, "Exception");
                 return Json("");
             }            
+
+        }
+
+        
+        public JsonResult DownloadImage(string filename)
+        {
+            string downloadStatus = _blobStorageService.DownloadFileFromBlob(filename);
+
+            if (downloadStatus == "DownloadFailed")
+            {
+                return Json("Failed");
+            }
+            else
+            {
+                return Json(downloadStatus + " " + "saved.");
+            }
 
         }
 
