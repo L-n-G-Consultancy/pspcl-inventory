@@ -190,7 +190,8 @@ namespace Pspcl.Services
                         MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
-                        Make = sbm.Make
+                        Make = sbm.Make,
+                        SrControlNumber=sib.SrControlNumber
                     })
                 .ToList();
 

@@ -53,6 +53,7 @@ namespace Pspcl.Web.Models
         public Dictionary<string, List<List<int>>> IssuedStockRanges { get; set; }
         public List<Dictionary<string,string>> StockItems { get; set; }
 		public string Image { get; set; }
+		public string SrControlNumber { get; set; }
 
 
     }

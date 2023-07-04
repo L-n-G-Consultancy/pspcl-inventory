@@ -101,20 +101,20 @@ namespace Pspcl.Web.Controllers
                 Dictionary<string, List<List<int>>> availableMakeAndRows = new Dictionary<string, List<List<int>>>();
                 availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
-                var errorResponse = "-1";
-                int x;
-                if (Image == null)
-                {
-                    x = 14;
-                }
-                else x = 13;
-                foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
-                {
-                    for (int i = x; i < formCollection.Count - 1;)
-                    {
-                        var element_make = formCollection.ElementAt(i).Value;
-                        var element_availableQty = formCollection.ElementAt(i + 1);
-                        var element_requiredQty = formCollection.ElementAt(i + 2);
+            var errorResponse = "-1";
+            int x;
+            if (Image== null)
+            {
+                x = 15;
+            }
+            else x = 14;
+            foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
+			 {				
+				for (int i = x; i < formCollection.Count - 1;)
+				{
+					var element_make = formCollection.ElementAt(i).Value;
+					var element_availableQty = formCollection.ElementAt(i + 1);
+					var element_requiredQty = formCollection.ElementAt(i + 2);
 
                         string make = element_make.ToString();
                         int availableQty = Convert.ToInt32(element_availableQty.Value);
