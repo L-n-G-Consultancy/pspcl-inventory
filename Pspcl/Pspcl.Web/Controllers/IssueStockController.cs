@@ -48,7 +48,6 @@ namespace Pspcl.Web.Controllers
                 return View("Error");
             }
             
-
         }
         public JsonResult GetCircleAndDivisionAndLocationCode(int selectedSubDivId)
         {
@@ -101,20 +100,20 @@ namespace Pspcl.Web.Controllers
                 Dictionary<string, List<List<int>>> availableMakeAndRows = new Dictionary<string, List<List<int>>>();
                 availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
-            var errorResponse = "-1";
-            int x;
-            if (Image== null)
-            {
-                x = 15;
-            }
-            else x = 14;
-            foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
-			 {				
-				for (int i = x; i < formCollection.Count - 1;)
-				{
-					var element_make = formCollection.ElementAt(i).Value;
-					var element_availableQty = formCollection.ElementAt(i + 1);
-					var element_requiredQty = formCollection.ElementAt(i + 2);
+                var errorResponse = "-1";
+                int x;
+                if (Image== null)
+                {
+                    x = 15;
+                }
+                else x = 14;
+                foreach (KeyValuePair<string, List<List<int>>> kvp in availableMakeAndRows)
+			    {				
+				    for (int i = x; i < formCollection.Count - 1;)
+				    {
+					    var element_make = formCollection.ElementAt(i).Value;
+					    var element_availableQty = formCollection.ElementAt(i + 1);
+					    var element_requiredQty = formCollection.ElementAt(i + 2);
 
                         string make = element_make.ToString();
                         int availableQty = Convert.ToInt32(element_availableQty.Value);
@@ -124,7 +123,6 @@ namespace Pspcl.Web.Controllers
 
                         if (requiredQty <= availableQty)
                         {
-
                             List<List<int>> value = kvp.Value;
 
                             for (int j = 0; j <= value.Count - 1; j++)
@@ -149,7 +147,6 @@ namespace Pspcl.Web.Controllers
                             }
                         }
 
-
                         issuedMakesAndRows.Add(make, IssuedDataRows);
                         _stockService.UpdateStockMaterialSeries(IssuedDataRows);
                         x = i + 3;
@@ -171,6 +168,7 @@ namespace Pspcl.Web.Controllers
                 stockIssueBook.SubDivisionId = int.Parse(formCollection["SubDivisionId"]);
                 stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
                 stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
+                stockIssueBook.SrControlNumber = formCollection["SrControlNumber"];
                 string response = UploadImage(Image);
                 stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
                 if (stockIssueBook.Image == errorResponse)
@@ -184,11 +182,11 @@ namespace Pspcl.Web.Controllers
                 stockBookMaterial1.MaterialId = int.Parse(formCollection["MaterialId"]);
                
                 int id = _stockService.IssueStock(stockIssueBook);
+
                 foreach (KeyValuePair<string, List<List<int>>> keyValuePair in issuedMakesAndRows)
                 {
                     if (keyValuePair.Value.Count > 0)
                     {
-
                         stockBookMaterial1.StockIssueBookId = id;
 
                         int quantity = 0;
@@ -201,8 +199,7 @@ namespace Pspcl.Web.Controllers
                         stockBookMaterial1.Make = keyValuePair.Key;
                         stockBookMaterial1.Id = 0;
                        
-                        _stockService.StockBookMaterial(stockBookMaterial1);                       
-
+                        _stockService.StockBookMaterial(stockBookMaterial1);
                     }
                     else
                     {
@@ -210,8 +207,7 @@ namespace Pspcl.Web.Controllers
                     }
                 }
 
-                issueStockModel = _mapper.Map<IssueStockModel>(stockIssueBook);
-                                
+                issueStockModel = _mapper.Map<IssueStockModel>(stockIssueBook);                                
                 
                 issueStockModel.Quantity = stockBookMaterial1.Quantity;
                 issueStockModel.Make = stockBookMaterial1.Make;
@@ -233,17 +229,24 @@ namespace Pspcl.Web.Controllers
                 return View("Error");
             }
             
-        }	
-
+        }
 
         public ActionResult IssueStockPreview(IssueStockModel model)
         {
-            var issuedMakesAndRowsJson = TempData["issuedMakesAndRows"] as string;
-            if (issuedMakesAndRowsJson != null)
+            try
             {
-                model.IssuedStockRanges = JsonConvert.DeserializeObject<Dictionary<string, List<List<int>>>>(issuedMakesAndRowsJson);
+                var issuedMakesAndRowsJson = TempData["issuedMakesAndRows"] as string;
+                if (issuedMakesAndRowsJson != null)
+                {
+                    model.IssuedStockRanges = JsonConvert.DeserializeObject<Dictionary<string, List<List<int>>>>(issuedMakesAndRowsJson);
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
+                return View("Error");
+            }
         }
 		
 		public JsonResult DisplayMakeWithQuantity(int materialGroupId, int materialTypeId, int materialId)

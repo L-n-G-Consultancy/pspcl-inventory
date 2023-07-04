@@ -579,7 +579,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-
+.report {
+    font-size: small;
+}
 
 @media print {
     .footer {

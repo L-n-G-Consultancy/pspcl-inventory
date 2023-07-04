@@ -13,10 +13,7 @@ namespace Pspcl.Web.Models
 			AvailableMaterialGroups = new List<SelectListItem>();
 			AvailableMaterialTypes = new List<SelectListItem>();
 			AvailableMaterialCodes = new List<SelectListItem>();
-			AvailableMakes = new List<string>();
-			TestDic = TestDic is not null  ? TestDic : new Dictionary<string, string>();
-
-
+			AvailableMakes = new List<string>();			
 		}
 		 public string TransactionId { get; set; }
 		public DateTime CurrentDate { get; set; }
