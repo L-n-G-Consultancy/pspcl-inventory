@@ -1,19 +1,35 @@
 ﻿
+using Azure;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.Services.Interfaces;
 using Pspcl.Services.Models;
+using Pspcl.Services.Options;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.Reflection.Metadata;
+using System.Security.Policy;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Pspcl.Services
 {
 
     public class StockService : IStockService
     {
+        
+        
         private readonly ApplicationDbContext _dbcontext;
+  
         public StockService(ApplicationDbContext dbContext)
         {
             _dbcontext = dbContext;
@@ -190,7 +206,8 @@ namespace Pspcl.Services
                         MaterialId = _dbcontext.Material.Where(m => m.Id == sbm.MaterialId).Select(m => m.Id).FirstOrDefault(),
                         Rate = _dbcontext.Stock.Where(s => s.MaterialId == sbm.MaterialId).Select(s => s.Rate).FirstOrDefault(),
                         Quantity = sbm.Quantity,
-                        Make = sbm.Make
+                        Make = sbm.Make,
+                        ImageName = sib.Image
                     })
                 .ToList();
 
@@ -462,9 +479,6 @@ namespace Pspcl.Services
             return totalCost;
         }
 
-
-
-
         public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete)
         {
             foreach (var Item in selectedRowsToDelete)
@@ -506,9 +520,9 @@ namespace Pspcl.Services
             }
             _dbcontext.SaveChanges();
             
-        }       
+        }
 
-    }
+        }
 
 
 }

@@ -1,10 +1,12 @@
-﻿using Pspcl.Core.Domain;
+﻿using Microsoft.AspNetCore.Http;
+using Pspcl.Core.Domain;
 using Pspcl.Services.Models;
 
 namespace Pspcl.Services.Interfaces
 {
     public interface IStockService
     {
+        
         List<MaterialGroup> GetAllMaterialGroups(bool? onlyActive = false);
         List<MaterialType> GetAllMaterialTypes(int materialGroupId, bool? onlyActive = false);
         List<Tuple<int, string>> GetAllMaterialRatings(int materialTypeId);
@@ -39,5 +41,6 @@ namespace Pspcl.Services.Interfaces
         public Dictionary<string, List<List<int>>> GetAvailableMakesAndRows(int materialGroupId, int materialTypeId, int materialId);
         public void UpdateIsDeletedColumn(List<List<int>> selectedRowsToDelete);
         public void UpdateStockMaterial(List<List<int>> selectedRowsToDelete);
+        
     }
 }

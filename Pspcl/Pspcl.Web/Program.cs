@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Pspcl.Core.Domain;
 using Pspcl.DBConnect;
 using Pspcl.DBConnect.Install;
+using Pspcl.Services.Options;
 using Pspcl.Web.Lamar;
 using Pspcl.Web.Mapping;
+
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +36,9 @@ builder.Services.AddMvc(options =>
 {
     options.EnableEndpointRouting = true;
 }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+builder.Services.Configure<AzureOptions>(builder.Configuration.GetSection("Azure"));
+
 
 builder.Host.UseLamar((context, registry) =>
 {

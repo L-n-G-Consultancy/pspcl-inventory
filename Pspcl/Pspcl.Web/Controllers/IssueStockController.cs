@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Pspcl.Core.Domain;
+using Pspcl.Services;
 using Pspcl.Services.Interfaces;
 using Pspcl.Web.Models;
 
@@ -13,11 +15,14 @@ namespace Pspcl.Web.Controllers
     public class IssueStockController : Controller
     {
         private readonly IStockService _stockService;
+        private readonly IBlobStorageService _blobStorageService;
+
         private readonly IMapper _mapper;
         private readonly ILogger<StockViewController> _logger;
-        public IssueStockController(IStockService stockService, IMapper mapper, ILogger<StockViewController> logger)
+        public IssueStockController(IStockService stockService, IBlobStorageService blobStorageService, IMapper mapper, ILogger<StockViewController> logger)
         {
             _stockService = stockService;
+            _blobStorageService = blobStorageService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -48,37 +53,12 @@ namespace Pspcl.Web.Controllers
             return result;
         }
 
-        public string UploadImage(IFormFile Image)
-        {
-            if (Image != null && Image.Length > 0)
-            {
-                try
-                {
-                    Random r = new Random();
-                    int random = r.Next();
-                    string uniqueFileName = random.ToString() + "_" + Image.FileName;
-                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "App_data", "Images");
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    string response = Path.Combine("App_data\\Images", uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        Image.CopyTo(fileStream);
-                    }
-                    return response;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "An error occurred while processing your request: {ErrorMessage}", ex.Message);
-                    return "-1";
-                }
-
-            }
-            return "";
-        }
-
+      
         [HttpPost]
-        public ActionResult IssueStockView(IFormCollection formCollection, IFormFile Image)
+        [ValidateAntiForgeryToken]
+        public ActionResult IssueStockView(IFormCollection formCollection)
         {
+
             int materialGroupId = Convert.ToInt32(formCollection["MaterialGroupId"]);
             int materialTypeId = Convert.ToInt32(formCollection["MaterialTypeId"]);
             int materialCodeId = Convert.ToInt32(formCollection["MaterialId"]);
@@ -90,8 +70,9 @@ namespace Pspcl.Web.Controllers
             availableMakeAndRows = _stockService.GetAvailableMakesAndRows(materialGroupId, materialTypeId, materialCodeId);
 
             var errorResponse = "-1";
+
             int x;
-            if (Image== null)
+            if (formCollection.Files.Count == 0)
             {
                 x = 14;
             }
@@ -149,7 +130,7 @@ namespace Pspcl.Web.Controllers
 
             TempData["Message"] = "Stock Issued Successfully..!";
 
-            StockIssueBook stockIssueBook = new StockIssueBook();
+            StockIssueBook stockIssueBook = new StockIssueBook();   
 
             stockIssueBook.TransactionId = "transaction";
             stockIssueBook.CurrentDate = DateTime.Now;
@@ -159,18 +140,36 @@ namespace Pspcl.Web.Controllers
             stockIssueBook.SubDivisionId = int.Parse(formCollection["SubDivisionId"]);
             stockIssueBook.CircleId = int.Parse(formCollection["CircleId"]);
             stockIssueBook.JuniorEngineerName = formCollection["JuniorEngineerName"];
-            string response = UploadImage(Image);
-            stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ?errorResponse:response);
-            if (stockIssueBook.Image == errorResponse)
-            {
-                 return View("Error");
-            }
+
 
             StockBookMaterial stockBookMaterial1 = new StockBookMaterial();
 
             stockBookMaterial1.MaterialGroupId = int.Parse(formCollection["MaterialGroupId"]);
             stockBookMaterial1.MaterialId = int.Parse(formCollection["MaterialId"]);
 
+            if (formCollection.Files.Count != 0 )
+            {
+                string response = _blobStorageService.UploadImageToAzure(formCollection.Files[0]);
+                if(response == "failure")
+                {
+                    TempData["ImageNotUploaded"] = "An error occurred while uploading picture!";
+                }
+                
+                else
+                {
+                    stockIssueBook.Image = response == String.Empty ? String.Empty : (response == errorResponse ? errorResponse : response);
+
+                }
+
+                if (stockIssueBook.Image == errorResponse)
+                {
+                    return View("Error");
+                }
+            }
+            else
+            {
+                stockIssueBook.Image = String.Empty; 
+            }
 
             StockIssueBook stockIssueBookEntity = _mapper.Map<StockIssueBook>(stockIssueBook);
             int id = _stockService.IssueStock(stockIssueBookEntity);
@@ -214,9 +213,6 @@ namespace Pspcl.Web.Controllers
             float Result = _stockService.GetCost(materialId, noOfUnits);
             return Json(Result);
          }
-
-
-
 
     }
 }

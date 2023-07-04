@@ -1,6 +1,8 @@
 ﻿using MessagePack;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Pspcl.Core.Domain;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pspcl.Web.Models
 {
@@ -52,7 +54,10 @@ namespace Pspcl.Web.Models
         //public List<StockItem> StockItems { get; set; }
 
 		public List<Dictionary<string,string>> StockItems { get; set; }
-		public string Image { get; set; }
+
+		[DisplayName("Upload Image")]
+		public string FileDetails { get; set; }
+		public IFormFile File { get; set; }
 
 
     }
