@@ -38,13 +38,7 @@ namespace Pspcl.Web.Controllers
 
                 issueStockModel.SubDivisionList = subDivisions.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
                 issueStockModel.AvailableMaterialGroups = materialGroup.Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).ToList();
-
-                var issuedMakesAndRowsJson = TempData["issuedMakesAndRows"] as string;
-                if (issuedMakesAndRowsJson != null)
-                {
-                    issueStockModel.IssuedStockRanges = JsonConvert.DeserializeObject<Dictionary<string, List<List<int>>>>(issuedMakesAndRowsJson);
-                }
-
+               
                 return View(issueStockModel);
             }
             catch (Exception ex)
