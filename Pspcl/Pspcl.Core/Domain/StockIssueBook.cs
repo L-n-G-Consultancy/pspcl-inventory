@@ -9,7 +9,6 @@ namespace Pspcl.Core.Domain
         public string TransactionId { get; set; }
         public DateTime CurrentDate { get; set; }
 		public DateTime SrNoDate { get; set; }
-
 		public string SerialNumber { get; set; }
         public int DivisionId { get; set; } // Foreign key
         public int SubDivisionId { get; set; }  // Foreign key

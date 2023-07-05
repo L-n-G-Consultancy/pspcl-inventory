@@ -53,7 +53,6 @@ $(document).ready(() => {
     }
     CustomPagination(pageType);
 });
-
 function CustomPagination(pageType) {
     $('#paginate').pagination({
         items: 100,
@@ -86,7 +85,6 @@ function CustomPagination(pageType) {
         }
     });
 }
-
 
 
 $(function () {
@@ -145,6 +143,7 @@ $(function () {
         }
     });
 });
+
 $(function () {
     $("#materialTypeId").on("change", function () {
         $('#issueMaterial').hide();
@@ -210,16 +209,7 @@ $(function () {
 });
 
 
-
-
-
-
-
-
-
-
 var alertMessage = '';
-
 function validateInputs() {
     var isValidMsg = "";
     var listOfSerialNumber = [];
@@ -250,7 +240,6 @@ function validateInputs() {
     }
     return isValidMsg;
 }
-
 
 function validateSerialNumbers(listOfSerialNumber) {
     var isValid = true;
@@ -347,9 +336,6 @@ $(document).ready(function () {
     $('#stockNotAvailableModal').hide();
 
 });
-
-
-
 function showModal(alertMessage, status) {
     var successMessage = $("#successMessage").val();
     if (successMessage) {
@@ -363,9 +349,6 @@ function showModal(alertMessage, status) {
         $("#staticBackdropLiveLabel").text(status);
         $("#staticBackdropLive").modal("show");
     }
-
-
-
 
 }
 $(document).on('click', "#saveStock", function (event) {
@@ -394,8 +377,6 @@ $(document).on('submit', "#IssueStockForm1", function (event) {
     $('#loadingIndicator').show();
     issueForm.submit();
 });
-
-
 
 $('#checkBoxAll').click(function () {
     if ($(this).is(":checked")) {
@@ -448,7 +429,6 @@ $("#retrieveRowsBtn").on("click", function () {
                     $("#mainModalContent").text("Stock deleted successfully.")
                     $('#stockNotAvailableModal').modal('show');
                 });
-
             },
             error: function (xhr, textStatus, errorThrown) {
                 $("#mainModalContent").text("An error occurred while fetching data. Please try again later.")
@@ -462,7 +442,6 @@ $("#retrieveRowsBtn").on("click", function () {
         $("#stockNotAvailableModal").modal("show");
     }
 });
-
 
 $(document).on('submit', '#StockForm', function (event) {
 
@@ -485,15 +464,10 @@ $(document).on('submit', '#StockForm', function (event) {
         $('.invalidEnteredRate').text('Please enter valid rate..!')
     }
     else {
-
         this.submit();
-
     }
 
 });
-
-
-
 
 document.getElementById("exportButton").addEventListener("click", function () {
     var table = document.querySelector(".table");
@@ -593,45 +567,12 @@ function ClearGrnDate() {
     document.getElementById("grnDate").value = "";
 }
 
-
-
-
-//function serialNumberValidation(SrNoTo) {
-//    var srNoTo = SrNoTo;
-//    var srNoFrom =
-//}
-
-//function validateSerialNumbers() {
-//    $('.to-input').each(function () {
-//        var $this = $(this);
-//        var $row = $this.closest('tr');
-//        var fromVal = $row.find('.from-input').val();
-//        var toVal = $this.val();
-
-//        Console.log(fromVal);
-//        Console.log(toVal);
-
-//        Console.log(" ");
-
-
-//        var ListOfSerialNumbers = [];
-
-//        for (let i = fromVal; i <= toVal; i++) {
-//            ListOfSerialNumbers.append(i);
-//        }
-
-//        //if (ListOfSerialNumbers.length == ListOfSerialNumbers.distinct().length) {
-//        //show modal
-//        //}
-
-//    });
-//}
-
 var makesAndUnits = {};
-$(document).ready(function () {
 
+$(document).ready(function () {
     makesAndUnits = {};
 });
+
 function handleRequiredQuantity(event) {
     var materialGroupId = $("#materialGroupId").val();
     var materialTypeId = $("#materialTypeId").val();
@@ -668,21 +609,15 @@ function handleRequiredQuantity(event) {
         if (!units) {
             units = 0;
         }
-
         else if (parseInt(units) < 0) {
             // $("#Cost").val('');
             $input.val('0');
             units = 0;
-
         }
-
         if (make in localMakesAndUnits) {
-
             delete localMakesAndUnits[make];
             delete makesAndUnits[make];
-
         }
-
         updateCost(localMakesAndUnits, make, units, materialGroupId, materialTypeId, materialId);
     }
 }
@@ -848,6 +783,11 @@ $('#filterStockInButton').click(function () {
 $('#filterStockOutButton').click(function () {
     FilterRecordsWithGrnDate('stockOut');
 });
+
+$('#filterAvailableStockButton').click(function () {
+    FilterRecordsWithGrnDate('availableStock');
+});
+
 function downloadImage(fileName) {
     $.ajax({
         url: "/Report/DownloadImage",
@@ -857,11 +797,15 @@ function downloadImage(fileName) {
             
                 $("#mainModalContent").text(response)
                 $('#stockNotAvailableModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.");
+            $('#stockNotAvailableModal').modal('show');
+            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
+        }
+    });
 
-$('#filterAvailableStockButton').click(function () {
-    FilterRecordsWithGrnDate('availableStock');
-});
-
+}
 function printPage() {
     var printButton = document.getElementsByClassName('btn-dark')[0];
     printButton.style.display = 'none';
@@ -871,17 +815,6 @@ function printPage() {
 
     // Show the print button after printing
     printButton.style.display = 'block';
-}
-
-
-        },
-        error: function (xhr, status, error) {
-            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.");
-            $('#stockNotAvailableModal').modal('show');
-            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
-        }
-    });
-
 }
 
 

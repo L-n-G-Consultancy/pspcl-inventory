@@ -29,7 +29,6 @@ namespace Pspcl.Web.Models
         public int CircleId { get; set; }
 		public string? Circle { get; set; }
 		public string JuniorEngineerName { get; set; }
-
 		public int MaterialGroupId { get; set; }
 		public string? MaterialGroupName { get; set; }
         public int MaterialTypeId { get; set; }
@@ -39,31 +38,20 @@ namespace Pspcl.Web.Models
 		public int Quantity { get; set; }
 		public string Make { get; set; }
         public string? Cost { get; set; }
-
         public IList<SelectListItem> SubDivisionList { get; set; }
-
 		public List<List<int>> QuantityRanges { get; set; }
-
 		public IList<SelectListItem>? AvailableMaterialGroups { get; set; }
 		public IList<SelectListItem>? AvailableMaterialTypes { get; set; }
 		public IList<SelectListItem>? AvailableMaterialCodes { get; set; }
-
 		public List<string> AvailableMakes { get; set; }
-        public Dictionary<string, List<List<int>>> IssuedStockRanges { get; set; }
-   
+        public Dictionary<string, List<List<int>>> IssuedStockRanges { get; set; }   
 		public string Image { get; set; }
-		public string SrControlNumber { get; set; }   
-       
-
+		public string SrControlNumber { get; set; }       
 		public List<Dictionary<string,string>> StockItems { get; set; }
 
 		[DisplayName("Upload Image")]
 		public string FileDetails { get; set; }
 		public IFormFile File { get; set; }
 
-
-
     }
-
-
 }
