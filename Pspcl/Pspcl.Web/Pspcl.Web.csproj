@@ -76,10 +76,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="logs\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\fonts\fontawesome\fa-brands-400.svg" />
     <None Include="wwwroot\fonts\fontawesome\fa-brands-400.woff2" />
     <None Include="wwwroot\fonts\fontawesome\fa-regular-400.svg" />
