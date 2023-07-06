@@ -50,11 +50,11 @@ var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
 
-var path = @"C:\Users\simwg\Downloads\testLog";
+var path = configuration["LogFilePath"];
 var logger = new LoggerConfiguration()
     .ReadFrom
     .Configuration(configuration)
-    .WriteTo.Map("DateTime", DateTime.Now.ToString("ddMMyyyy"), (DateTime, wt) => wt.File($"{path}\\Logs_{DateTime}.txt"))
+    .WriteTo.Map("DateTime", DateTime.Now.ToString("ddMMyyyy"), (DateTime, wt) => wt.File($"{configuration["LogFilePath"]}\\Logs_{DateTime}.txt"))
     .CreateLogger();
 Log.Logger = logger;
 builder.Host.UseSerilog();
