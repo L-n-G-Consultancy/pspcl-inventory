@@ -10,6 +10,7 @@ using Pspcl.Services.Interfaces;
 
 using Azure.Storage.Blobs;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 namespace Pspcl.Web.Controllers
@@ -149,39 +150,24 @@ namespace Pspcl.Web.Controllers
 
         public IActionResult DownloadImage(string filename)
         {
-            // Get the connection string and container name from your configuration
-            string connectionString = "DefaultEndpointsProtocol=https;AccountName=pspclstorage;AccountKey=b4bgeAkYvbYW1W50h03HzZ5B4HWS71fmLgdCwMCTif1gfOmJ8no9eewFjL2oTONwV0kz+NkG0owT+AStlsTshQ==;EndpointSuffix=core.windows.net";
-            string containerName = "pspcl-images";
-            string downloadsSubdirectory = "Downloads";
+            try
+            {
+                MemoryStream memoryStream = _blobStorageService.DownloadImage(filename);
+                string contentType = _blobStorageService.GetContentType(filename);
 
-            // Create a BlobServiceClient using the connection string
-            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+                // Set response headers for file download
+                Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{filename}\"");
+                Response.Headers.Add("Content-Type", contentType);
 
-            // Get a reference to the blob container
-            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
-
-            // Construct the blob name using the downloads subdirectory and the filename
-            string blobName = Path.Combine(downloadsSubdirectory, filename);
-
-            // Get a reference to the blob
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
-
-            // Download the blob contents to a memory stream
-            MemoryStream memoryStream = new MemoryStream();
-            blobClient.DownloadTo(memoryStream);
-            memoryStream.Position = 0;
-
-            // Set the response content type based on the file extension
-            string contentType = GetContentType(filename);
-            if (contentType == null)
-                contentType = "application/octet-stream"; // Default content type if unknown
-
-            // Set response headers for file download
-            Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{filename}\"");
-            Response.Headers.Add("Content-Type", contentType);
-
-            // Write image data to response stream
-            return File(memoryStream, contentType, filename);
+                // Write image data to response stream
+                return File(memoryStream, contentType, filename);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return View("Error");
+            }
+            
         }
 
 

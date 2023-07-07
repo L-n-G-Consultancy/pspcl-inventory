@@ -10,6 +10,7 @@ namespace Pspcl.Services.Interfaces
     public interface IBlobStorageService
     {
         string UploadImageToAzure(IFormFile file);
-        public string DownloadFileFromBlob(string fileName);
+        public MemoryStream DownloadImage(string fileName);
+        public string GetContentType(string fileExtension);
     }
 }

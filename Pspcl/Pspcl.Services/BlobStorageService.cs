@@ -12,6 +12,7 @@ using Pspcl.DBConnect;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Pspcl.Services
 {
@@ -60,45 +61,23 @@ namespace Pspcl.Services
             }
 
         }
-        public string DownloadFileFromBlob(string fileName)
-        
+        public MemoryStream DownloadImage( string fileName)
         {
-            CloudStorageAccount account = CloudStorageAccount.Parse(_azureOptions.ConnectionString);
-            CloudBlobClient blobClient = account.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference(_azureOptions.Container);
-            CloudBlob blob = container.GetBlobReference(fileName);
+            BlobServiceClient blobServiceClient = new BlobServiceClient(_azureOptions.ConnectionString);
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(_azureOptions.Container);
+            BlobClient blobClient = containerClient.GetBlobClient(fileName);
 
-            int counter = 0;
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-            string fileExtension = Path.GetExtension(fileName);
-            string localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), _azureOptions.downloadsSubdirectory, fileName);
+            // Download the blob contents to a memory stream
+            MemoryStream memoryStream = new MemoryStream();
+            blobClient.DownloadTo(memoryStream);
+            memoryStream.Position = 0;
 
-            while (File.Exists(localFilePath))
-            {
-                counter++;
-                int copyIndex = fileNameWithoutExtension.LastIndexOf("-Copy");
-                if (copyIndex != -1)
-                {
-                    fileNameWithoutExtension = fileNameWithoutExtension.Substring(0, copyIndex);
-                }
+            // Set the response content type based on the file extension
+            string contentType = GetContentType(fileName);
+            if (contentType == null)
+                contentType = "application/octet-stream"; // Default content type if unknown
+            return memoryStream;            
 
-                fileName = $"{fileNameWithoutExtension}-Copy({counter}){fileExtension}";
-                localFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), _azureOptions.downloadsSubdirectory, fileName);
-            }
-
-            using (var fileStream = File.OpenWrite(localFilePath))
-            {
-                blob.DownloadToStream(fileStream);
-            }
-
-            if (File.Exists(localFilePath))
-            {
-                return fileName; // File downloaded successfully
-            }
-            else
-            {
-                return "DownloadFailed"; // Failed to download the file
-            }
         }
 
         public string GetContentType(string fileExtension)
