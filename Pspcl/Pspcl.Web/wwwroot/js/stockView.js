@@ -788,23 +788,8 @@ $('#filterAvailableStockButton').click(function () {
     FilterRecordsWithGrnDate('availableStock');
 });
 
-function downloadImage(fileName) {
-    $.ajax({
-        url: "/Report/DownloadImage",
-        type: "GET",
-        data: { fileName: fileName },
-        success: function (response) {
-            
-                $("#mainModalContent").text(response)
-                $('#stockNotAvailableModal').modal('show');
-        },
-        error: function (xhr, status, error) {
-            $("#mainModalContent").text("An error occurred while fetching data. Please try again later.");
-            $('#stockNotAvailableModal').modal('show');
-            console.log("AJAX request failed. Status: " + status + ", Error: " + error);
-        }
-    });
-
+function downloadImage(filename) {
+    window.location.href = "/Report/DownloadImage?filename=" + encodeURIComponent(filename);
 }
 function printPage() {
     var printButton = document.getElementsByClassName('btn-dark')[0];

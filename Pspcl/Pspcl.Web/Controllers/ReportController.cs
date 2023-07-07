@@ -8,6 +8,9 @@ using Pspcl.DBConnect;
 using Pspcl.Services;
 using Pspcl.Services.Interfaces;
 
+using Azure.Storage.Blobs;
+using System.IO;
+
 
 namespace Pspcl.Web.Controllers
 {
@@ -143,20 +146,61 @@ namespace Pspcl.Web.Controllers
 
         }
 
-        
-        public JsonResult DownloadImage(string filename)
+
+        public IActionResult DownloadImage(string filename)
         {
-            string downloadStatus = _blobStorageService.DownloadFileFromBlob(filename);
+            // Get the connection string and container name from your configuration
+            string connectionString = "DefaultEndpointsProtocol=https;AccountName=pspclstorage;AccountKey=b4bgeAkYvbYW1W50h03HzZ5B4HWS71fmLgdCwMCTif1gfOmJ8no9eewFjL2oTONwV0kz+NkG0owT+AStlsTshQ==;EndpointSuffix=core.windows.net";
+            string containerName = "pspcl-images";
+            string downloadsSubdirectory = "Downloads";
 
-            if (downloadStatus == "DownloadFailed")
-            {
-                return Json("Failed");
-            }
-            else
-            {
-                return Json(downloadStatus + " " + "saved.");
-            }
+            // Create a BlobServiceClient using the connection string
+            BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
 
+            // Get a reference to the blob container
+            BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+
+            // Construct the blob name using the downloads subdirectory and the filename
+            string blobName = Path.Combine(downloadsSubdirectory, filename);
+
+            // Get a reference to the blob
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+            // Download the blob contents to a memory stream
+            MemoryStream memoryStream = new MemoryStream();
+            blobClient.DownloadTo(memoryStream);
+            memoryStream.Position = 0;
+
+            // Set the response content type based on the file extension
+            string contentType = GetContentType(filename);
+            if (contentType == null)
+                contentType = "application/octet-stream"; // Default content type if unknown
+
+            // Set response headers for file download
+            Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{filename}\"");
+            Response.Headers.Add("Content-Type", contentType);
+
+            // Write image data to response stream
+            return File(memoryStream, contentType, filename);
+        }
+
+
+        private string GetContentType(string filename)
+        {
+            // Map file extensions to content types
+            switch (Path.GetExtension(filename).ToLower())
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".gif":
+                    return "image/gif";
+                // Add more mappings for other file types as needed
+                default:
+                    return null; // Unknown content type
+            }
         }
 
     }
