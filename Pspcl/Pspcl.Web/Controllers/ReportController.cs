@@ -8,6 +8,10 @@ using Pspcl.DBConnect;
 using Pspcl.Services;
 using Pspcl.Services.Interfaces;
 
+using Azure.Storage.Blobs;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 namespace Pspcl.Web.Controllers
 {
@@ -143,20 +147,46 @@ namespace Pspcl.Web.Controllers
 
         }
 
-        
-        public JsonResult DownloadImage(string filename)
+
+        public IActionResult DownloadImage(string filename)
         {
-            string downloadStatus = _blobStorageService.DownloadFileFromBlob(filename);
-
-            if (downloadStatus == "DownloadFailed")
+            try
             {
-                return Json("Failed");
-            }
-            else
-            {
-                return Json(downloadStatus + " " + "saved.");
-            }
+                MemoryStream memoryStream = _blobStorageService.DownloadImage(filename);
+                string contentType = _blobStorageService.GetContentType(filename);
 
+                // Set response headers for file download
+                Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{filename}\"");
+                Response.Headers.Add("Content-Type", contentType);
+
+                // Write image data to response stream
+                return File(memoryStream, contentType, filename);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return View("Error");
+            }
+            
+        }
+
+
+        private string GetContentType(string filename)
+        {
+            // Map file extensions to content types
+            switch (Path.GetExtension(filename).ToLower())
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".gif":
+                    return "image/gif";
+                // Add more mappings for other file types as needed
+                default:
+                    return null; // Unknown content type
+            }
         }
 
     }
