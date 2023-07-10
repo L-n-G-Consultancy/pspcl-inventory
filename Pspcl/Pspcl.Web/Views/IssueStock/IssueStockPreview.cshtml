@@ -28,11 +28,11 @@
                    
                     <tr>
                         <td scope="col">Issued Date:</td>
-                        <td scope="col">@Model.CurrentDate</td>
+                        <td scope="col">@Model.CurrentDate.ToString().Split(' ')[0]</td>
                     </tr>
                     <tr>
                         <td scope="col">Sr No Date:</td>
-                        <td scope="col">@Model.SrNoDate</td>
+                        <td scope="col">@Model.SrNoDate.ToString().Split(' ')[0]</td>
                     </tr>
                     <tr>
                         <td scope="col">Serial Number:</td>

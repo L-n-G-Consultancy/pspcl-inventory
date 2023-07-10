@@ -14,11 +14,7 @@
         <div class="row mt-3">
             <div class="col-md-6">
                 <h2 class="h2-heading">Issue Stock</h2>
-            </div>
-            <div class="col-md-6 text-md-right text-left">
-                <button type="button" class="btn sr-btn mr-2 border-8">Reject SR</button>
-                <button type="button" class="btn sr-btn">Print/Save SR</button>
-            </div>
+            </div>            
         </div>
 
         @using (Html.BeginForm("IssueStockView", "IssueStock", FormMethod.Post, new { @class = "my-form-class", id = "IssueStockForm1", enctype = "multipart/form-data" }))

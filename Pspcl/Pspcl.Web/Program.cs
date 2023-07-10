@@ -59,6 +59,7 @@ var logger = new LoggerConfiguration()
 Log.Logger = logger;
 builder.Host.UseSerilog();
 
+
 var app = builder.Build();
 
 

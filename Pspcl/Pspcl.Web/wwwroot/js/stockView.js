@@ -759,8 +759,14 @@ function FilterRecordsWithGrnDate(reportType) {
                                 '<td>' + stockModel.quantity + '</td>' +
                                 '<td>' + stockModel.rate + '</td>' +
                                 '<td>' + stockModel.make + '</td>' +
-                                '<td>' + stockModel.cost + '</td>' +
-                                '</tr>';
+                                '<td>' + stockModel.cost + '</td>';
+
+                            if (stockModel.imageName != null) {
+                                row += `<td><button class="btn btn-link download-button" onclick="downloadImage('${stockModel.imageName}')"><i class="fa fa-download "></i> Download</button></td> </tr>`;
+                            }
+                            else {
+                                row += '<td>no image uploaded</td></tr>';
+                            }
                         }
                         tableBody.append(row);
                         CustomPagination(reportType);
